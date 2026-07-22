@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Lilita+One&family=Caveat:wght@500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* Rounded, playful, webtoon-flavored typography */
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fredoka", var(--font-sans);
+  --font-wordmark: "Lilita One", var(--font-display);
+  --font-hand:
+    "Caveat", var(--font-display); /* signatures + polaroid caption ONLY */
+
+  /* Cosy sky-pastel aesthetic — cool light base, sky-sampled accents */
+  --color-ink: #3d3660; /* deep sky-indigo — borders, headings, body text */
+  --color-primary: #cdc4ee; /* cool lilac — pastel fill/accent (not for text) */
+  --color-primary-soft: #eceaf8; /* cool lavender-white — masthead/footer band fill (opaque) */
+  --color-label: #625aa0; /* cool periwinkle — accessible small-caps accent text */
+  --color-on-ink: #f4f2fb; /* cool off-white — primary text on ink fills */
+  --color-on-ink-muted: #b9b2d6; /* muted periwinkle — secondary/inactive text on ink */
+
+  /* Sky-sampled accents — bright fills, borders & underlines (NOT body text).
+     Each section owns one; also used for the wordmark gradient. */
+  --color-rose: #f58fbe; /* pink cloud — Home */
+  --color-violet: #9e8fd0; /* lavender — About */
+  --color-blue: #9dbee6; /* sky blue — Now */
+  --color-orchid: #c56bb8; /* orchid — Creations */
+  --color-rose-soft: #f3c9dc; /* soft tints — for filled chips/backgrounds */
+  --color-violet-soft: #d8cfee;
+  --color-blue-soft: #cbdcf0;
+  --color-orchid-soft: #eccfe8;
+
+  /* Handcrafted-pass additions (see prompts/handcrafted-pass-1.md) —
+     intentional exceptions to the plain bulletin-board grammar. */
+  --color-paper: #fbf3e9; /* warm note-paper (Welcome letter) */
+  --color-live: #e24b4a; /* record/live red — Live Reaction cue + Steam date-stamp border */
+  --color-kraft: #b98a5e; /* Devlog + Steam ruled lines — warm material accent, never text */
+
+  /* Brand-glyph exception (STYLE_GUIDE.md → Color) — a brand's own fixed hex is the one
+     sanctioned non-token color, but it must still be named, never an inline text-[#hex]. */
+  --color-brand-java: #e76f00; /* Java brand orange (TechStack's JavaIcon) */
+
+  /* Banner wordmark gradient stops (Banner.jsx) — same hexes as before,
+     just named so the gradient is token-driven. */
+  --color-wordmark-from: #5b82be;
+  --color-wordmark-via: #8e7dc4;
+  --color-wordmark-to: #d77ba9;
+
+  /* Inline SVG glyph stroke-width scale (STYLE_GUIDE.md → Handcrafted layer). */
+  --stroke-fine: 1.5; /* hairlines, rings, sub-16px detail */
+  --stroke-regular: 2; /* default line-art icons (16–40px) */
+  --stroke-bold: 2.5; /* heavier affordances (chevrons, emphasis) */
+
+  /* Decorative-opacity scale (STYLE_GUIDE.md → Accessibility / Handcrafted layer). */
+  --opacity-watermark: 0.1; /* faint full-bleed image watermark (maple leaf) */
+  --opacity-watermark-strong: 0.3; /* larger, lighter watermark (canada map) */
+  --opacity-accent-line: 0.5; /* decorative corner marks / hairlines */
+  --opacity-groove: 0.3; /* Spotify vinyl groove rings */
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+
+  /* Interactive elements get a pointer cursor.
+     (Tailwind v4 no longer defaults <button> to cursor: pointer.) */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
+  /* Visible keyboard focus. currentColor adapts to light glass (dark ink)
+     or the dark nav bar (light on-ink text). */
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+/* Canonical overline/kicker role (STYLE_GUIDE.md → Type → the scale) — used by
+   the <Eyebrow> primitive in components/ui/. @utility (not @layer utilities)
+   so it stays a proper Tailwind utility. Color is intentionally NOT baked in
+   here — it lives on the <Eyebrow> component's `tone` prop instead, so an
+   element never carries two competing text-color utilities whose winner
+   depends on Tailwind's internal source order rather than the className. */
+@utility eyebrow {
+  @apply text-xs font-semibold uppercase tracking-wide;
+}
+
+/* Hard offset ink shadow, no blur — lifts a paper object off the board.
+   Intentional exception to the "no shadows" rule (handcrafted pass). */
+@utility shadow-sticker {
+  box-shadow: 4px 4px 0 0 var(--color-ink);
+}
+
+@keyframes spin-vinyl {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@utility animate-vinyl {
+  animation: spin-vinyl 3.6s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.2;
+  }
+}
+@utility animate-blink {
+  animation: blink 1.1s steps(1, end) infinite;
+}
+
+@layer utilities {
+  /* Marquee text (MarqueeText.jsx): the row/track is duplicated in markup,
+     so translating by -50% loops seamlessly. Always plays, by design. */
+  @keyframes marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee-scroll var(--marquee-duration, 8s) linear infinite;
+  }
+
+  @keyframes eq-bounce {
+    0%,
+    100% {
+      transform: scaleY(0.3);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  .animate-eq {
+    animation: eq-bounce 0.9s ease-in-out infinite;
+  }
+
+  /* Devlog (Devlog.jsx): a chunky, in-aesthetic scrollbar instead of the
+     default browser one. Chunky square styling is WebKit/Blink only;
+     scrollbar-color is the Firefox fallback (slim lilac-on-ink). */
+  .devlog-scroll {
+    scrollbar-color: var(--color-primary) var(--color-primary-soft);
+  }
+  .devlog-scroll::-webkit-scrollbar {
+    width: 14px;
+  }
+  .devlog-scroll::-webkit-scrollbar-track {
+    background: var(--color-primary-soft);
+    border-left: 2px solid var(--color-ink);
+  }
+  .devlog-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border: 2px solid var(--color-ink);
+  }
+}
