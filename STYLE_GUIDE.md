@@ -171,8 +171,9 @@ border-<section hue>` for the accent underline under a section title.
   though: see intentional panel-color variation below.
 - **Pinned objects on the sky, not a touching grid.** Home's default model:
   each widget is its own opaque object — most wrapped in the `PinnedCard`
-  primitive (`border-2 border-ink`, `shadow-sticker`, a slight `rotate`; see
-  Rotation below), some bare where the widget's own fill already does the
+  primitive (`border-2 border-ink`, `shadow-sticker`, and — on compact objects
+  — a slight `rotate`; wide panels stay level, see Rotation below), some bare
+  where the widget's own fill already does the
   work (see "Text never sits directly on the sky" below). Nothing stretches
   to fill its row — Home is a **bento of rows** (see Layout), so every widget
   keeps its own deliberate width and natural height. The
@@ -192,20 +193,27 @@ border-<section hue>` for the accent underline under a section title.
   big background behind unrelated items; give the _words_ their own small
   object and let everything else float free.
 - **Intentional panel-color variation.** Cards are not required to be uniformly
-  white — Home mixes tints so each `PinnedCard` reads as its own object pinned
-  to the sky: `paper` for the handwritten Welcome note and the Weather
-  postcard, the dark `ink` fill behind the Live Reaction cam, and plain white
-  for Spotify. Not everything on Home is a filled card, though: the photo,
-  the tech stamps, Links' sticky-notes, the Devlog scroll, and Steam's
-  library card all sit bare/unenclosed on the sky (see "Text never sits
-  directly on the sky" above) — their own fills (white polaroid, white
-  stamps, tinted sticky-notes, `paper` scroll, Steam's own bordered card) do
-  the work without an outer `PinnedCard`. Headers
-  stay on the standard `ink` / `label` / `on-ink` roles regardless of a
-  card's tint (switching to `on-ink` only where the fill itself is dark, e.g.
-  the Live Reaction label bar) — the variation is in the fill, not the text.
-  Elsewhere (About/Now/Creations) cells stay plain white; the mixed palette is
-  a Home-specific device, not a site-wide rule to force everywhere.
+  white — Home and About mix tints so each object reads as its own thing pinned
+  to the sky. Two fills are reserved and carry meaning: `paper` for warm
+  stationery (the Welcome note, the Weather postcard, the Devlog scroll) and
+  plain white for objects that are literally white (the polaroid, Steam's
+  library card, About's passport). Everything else that reads as a pinned note
+  or stamp draws its fill from the **four section soft tints** (`rose-soft` /
+  `violet-soft` / `blue-soft` / `orchid-soft`): the tech stamps (each a
+  different hue), the Spotify card (`orchid-soft`), Links' sticky-notes, Now's
+  stickies, and About's work-timeline note cards and diploma card. The Live
+  Reaction cam keeps its dark `ink` fill. Not everything is a filled
+  `PinnedCard`, though — the photo, the tech stamps, Links' sticky-notes, the
+  Devlog scroll, and Steam's library card sit bare/unenclosed on the sky (see
+  "Text never sits directly on the sky" above), their own fills doing the work
+  without an outer card. **Rules for the tint layer:** draw only from the four
+  accents (never `paper`, which is reserved), spread the hues evenly, and never
+  let two of the same touch — a work note never repeats its own acronym badge,
+  and adjacent tech stamps differ. Headers stay on the standard `ink` / `label`
+  / `on-ink` roles regardless of a card's tint (switching to `on-ink` only
+  where the fill itself is dark, e.g. the Live Reaction label bar) — the
+  variation is in the fill, not the text. The touching-cell grids (About's
+  passport, Projects) stay plain white.
 - **Shadows:** `shadow-sticker` (`@utility` in `src/index.css`, a hard
   `4px 4px 0 0` ink offset with no blur) is the **only** shadow on the site,
   but it's no longer a narrow exception — it's the standard depth cue for
@@ -234,15 +242,21 @@ rather than printed on it:
   bands, and now the tech stamps at rest too (not hover-only) — the stamps
   additionally lift (`-translate-y`) on hover/focus as an interaction cue on
   top of their resting shadow.
-- **Slight rotation.** Pinned objects carry a small `rotate-[n deg]` so they
-  read as hand-placed rather than machine-aligned — standard on every Home
-  `PinnedCard`, plus the photo polaroid, Steam's library card, the tech
-  stamps, and the Links post-its. Tilt follows content: **subtle**
-  (≤ ~1.5°) for anything text-heavy you actually read (the Welcome note,
-  Devlog, Links); **a touch more** (~2–3°) for compact/visual objects (the
-  photo, Steam, Weather, tech stamps). Never overdone; vary the direction
-  per object so a row doesn't
-  look mechanically repeated.
+- **Slight rotation.** Compact objects carry a small `rotate-[n deg]` so they
+  read as hand-placed rather than machine-aligned — the photo polaroid, the
+  acronym badges, the tech stamps, the Links post-its, Now's stickies, the
+  small `LabelTag` signs, and card-sized widgets (Spotify, Weather, the
+  diploma, the Live Reaction cam). **Tilt is governed by width and
+  edge-proximity, not by how much text an object holds** — the visible skew of
+  a fixed angle grows with an object's width, and a tilt next to a straight
+  reference line reads as an error rather than character. So **wide or
+  full-width panels, and anything stacked against a straight edge, stay level
+  (0°)**: the Welcome letter, the Now intro card, the Colophon card, and the
+  work-timeline note strips (they line up against the timeline's vertical
+  spine — their acronym badges stay tilted, so the character lives in the small
+  tag pinned to a level note). Keep tilts small (≤ ~3°, and ≤ ~1.5° on anything
+  wider than a compact card), vary the direction per object so a row doesn't
+  look mechanically repeated, and never overdo it.
 - **Tape, pins, and stamps.** `<Pin>`, `<Tape>`, and `<Stamp>` (in
   `src/components/ui/`) are small decorative primitives — a pushpin, a washi-
   tape strip, and the Celeste postage-stamp image — that reinforce the
@@ -377,9 +391,10 @@ scrollbar. All obey the same grammar.
   | `on-ink` on the nav bar                 | ~10:1   |
   | `on-ink-muted` on the nav bar           | ~5.5:1  |
 
-  This also holds on the Home grid's tinted cells (`paper`/`rose-soft`/
-  `blue-soft`/`violet-soft`) — they're all light enough that `ink`/`gray-700`/
-  `gray-600` text keeps AA; never drop a darker accent color in as a fill
+  This also holds on the tinted cells (`paper`/`rose-soft`/`blue-soft`/
+  `violet-soft`/`orchid-soft`) — they're all light enough that `ink`/`gray-700`/
+  `gray-600` text keeps AA (`gray-600` on the darkest of them, `orchid-soft`,
+  measures ~5.3:1); never drop a darker accent color in as a fill
   behind body text without rechecking. When pairing a brand-color icon with a
   tinted fill (the footer badges), pick a tint whose hue reads clearly against
   the icon's own hue — decorative icons are `aria-hidden`, but a muddy pairing
@@ -519,7 +534,8 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   hardcoded value.
 - **Do** keep rectangles square, `ink`-bordered, solid-filled.
 - **Do** pin Home's widgets as individual cards — real gaps, `border-2`,
-  `shadow-sticker`, a slight tilt — so the sky shows between them; keep the
+  `shadow-sticker`, and a slight tilt on compact ones (wide panels stay
+  level) — so the sky shows between them; keep the
   touching-cell mechanic (shared `2px` ink rule, no gutters, no doubled
   seams) for internal folds like About's passport and the Projects grid.
 - **Do** keep bright sky accents in fills/lines only — never as body text.
