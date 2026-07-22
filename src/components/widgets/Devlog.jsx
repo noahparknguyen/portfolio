@@ -36,7 +36,7 @@ function Devlog() {
           className="absolute -top-3 right-6 block h-8 w-5 border-2 border-ink bg-orchid [clip-path:polygon(0_0,50%_25%,100%_0,100%_100%,0_100%)]"
         />
         <div
-          className="devlog-scroll shadow-sticker relative box-border h-32 overflow-y-auto border-2 border-ink bg-paper pl-3"
+          className="devlog-scroll shadow-sticker relative box-border h-30 overflow-y-auto border-2 border-ink bg-paper pl-3"
           style={{
             backgroundImage:
               "repeating-linear-gradient(to bottom, transparent 0, transparent 27px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 27px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 28px)",
