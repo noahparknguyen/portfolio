@@ -25,7 +25,7 @@ function SteamWidget() {
           <Eyebrow>What I&rsquo;ve been playing</Eyebrow>
         </LabelTag>
       </div>
-      <PinnedCard padding="p-0" rotate="rotate-[2deg]" className="mt-2">
+      <PinnedCard padding="p-0" rotate="rotate-[1deg]" className="mt-2">
         {loading ? (
           <div
             className="aspect-460/215 w-full animate-pulse border-b-2 border-ink bg-primary-soft"
