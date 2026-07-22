@@ -7,7 +7,7 @@ function TextLink({
   onClick,
   children,
 }) {
-  const className = `text-ink underline decoration-2 underline-offset-2 ${decorationAccent[accent]}`;
+  const className = `text-ink underline decoration-2 underline-offset-2 ${decorationAccent[accent]} focus-visible:[outline:2px_solid_var(--color-ink)] focus-visible:outline-offset-2`;
 
   if (onClick) {
     return (
