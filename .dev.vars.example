@@ -1,0 +1,17 @@
+# Copy to .dev.vars and fill in real values for local dev (never commit .dev.vars).
+# Same keys must be set as Worker secrets (wrangler secret put, or the dashboard) for production.
+
+# Spotify (Authorization Code flow, refresh token from a one-time OAuth exchange)
+SPOTIFY_CLIENT_ID=
+SPOTIFY_CLIENT_SECRET=
+SPOTIFY_REFRESH_TOKEN=
+
+# Steam Web API
+STEAM_API_KEY=
+STEAM_ID=
+
+# GitHub devlog (worker/index.js)
+# Format: owner/name, e.g. noahparknguyen/portfolio
+GITHUB_REPO=
+# Optional: fine-grained read-only token, only needed to lift the commits rate limit
+GITHUB_TOKEN=
