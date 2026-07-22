@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OG image — Noah Park-Nguyen</title>
+
+    <!--
+      Standalone snapshot of the site banner, for generating the og-image and
+      GitHub preview image. Not part of the Vite app — open this file directly
+      in a browser, then screenshot and crop to whatever dimensions you need
+      (og-image 1200×630, GitHub preview 1280×640, etc.).
+
+      Every value here is copied 1:1 from the real source of truth so it matches
+      the site exactly — tokens from src/index.css (@theme) and markup/structure
+      from src/components/layout/Banner.jsx. It is scaled up uniformly (see
+      --scale) purely so screenshots have enough resolution; the proportions are
+      identical to the live banner.
+    -->
+
+    <!-- Same Google Fonts the site loads (only the two the banner uses). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Lilita+One&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        /* Tokens copied verbatim from src/index.css (@theme). */
+        --color-ink: #3d3660;
+        --color-paper: #fbf3e9;
+        --color-label: #625aa0;
+        --color-rose: #f58fbe;
+        --color-wordmark-from: #5b82be;
+        --color-wordmark-via: #8e7dc4;
+        --color-wordmark-to: #d77ba9;
+
+        /* Uniform upscale of the real banner (masthead wordmark is text-5xl =
+           48px; here 48 × 1.7 ≈ 82px). Change one number to resize the whole
+           card without altering any proportion. */
+        --scale: 1.7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: calc(60px * var(--scale)) 40px;
+        font-family: "Nunito", ui-sans-serif, system-ui, sans-serif;
+        /* The real site backdrop. */
+        background: url("../src/assets/bg-pinksky.jpg") center / cover no-repeat
+          fixed;
+      }
+
+      /* PinnedCard grammar: opaque paper fill, 2px ink border, the hard
+         "shadow-sticker" 4px 4px 0 offset (no blur), a slight hand-placed
+         tilt. All border/shadow sizes scale with --scale. */
+      .card {
+        position: relative;
+        background: var(--color-paper);
+        border: calc(2px * var(--scale)) solid var(--color-ink);
+        box-shadow: calc(4px * var(--scale)) calc(4px * var(--scale)) 0 0
+          var(--color-ink);
+        padding: calc(28px * var(--scale)) calc(40px * var(--scale));
+        transform: rotate(-1.5deg);
+      }
+
+      /* <Pin>: rose disc, 2px ink ring, tiny paper highlight; pinned at the
+         top-center edge of the card (Banner/Welcome place it at -top-2). */
+      .pin {
+        position: absolute;
+        top: calc(-8px * var(--scale));
+        left: 50%;
+        transform: translateX(-50%);
+        display: block;
+        width: calc(16px * var(--scale));
+        height: calc(16px * var(--scale));
+        border-radius: 9999px;
+        border: calc(2px * var(--scale)) solid var(--color-ink);
+        background: var(--color-rose);
+      }
+      .pin-dot {
+        display: block;
+        width: calc(4px * var(--scale));
+        height: calc(4px * var(--scale));
+        margin: calc(2px * var(--scale)) 0 0 calc(2px * var(--scale));
+        border-radius: 9999px;
+        background: var(--color-paper);
+      }
+
+      /* Banner text block: inline, left-aligned, so the reverse eyebrows bracket
+         the wordmark on opposite corners (greeting top-left, tagline
+         bottom-right) — the deliberate diagonal from Banner.jsx. */
+      .text-block {
+        display: inline-block;
+        text-align: left;
+      }
+
+      /* Overline / kicker role (`eyebrow` utility): text-xs, semibold,
+         uppercase, tracking-wide, in the label color. text-xs = 12px → scaled. */
+      .eyebrow {
+        font-family: "Nunito", sans-serif;
+        font-size: calc(12px * var(--scale));
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: var(--color-label);
+      }
+      .eyebrow-right {
+        text-align: right;
+      }
+
+      /* Wordmark (the only <h1>): Lilita One, text-5xl uppercase, sky-gradient
+         fill with a 2px ink outline painted BEHIND it via text-stroke +
+         paint-order. All copied from Banner.jsx. */
+      .wordmark {
+        font-family: "Lilita One", "Fredoka", sans-serif;
+        font-size: calc(48px * var(--scale));
+        line-height: 1;
+        text-transform: uppercase;
+        color: transparent;
+        background-image: linear-gradient(
+          100deg,
+          var(--color-wordmark-from),
+          var(--color-wordmark-via),
+          var(--color-wordmark-to)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-stroke: calc(2px * var(--scale)) var(--color-ink);
+        paint-order: stroke fill;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <span class="pin" aria-hidden="true"><span class="pin-dot"></span></span>
+      <div class="text-block">
+        <p class="eyebrow">Hey there, I'm</p>
+        <h1 class="wordmark">Noah Park-Nguyen</h1>
+        <p class="eyebrow eyebrow-right">A Full-Stack Developer</p>
+      </div>
+    </div>
+  </body>
+</html>
