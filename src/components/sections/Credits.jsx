@@ -41,8 +41,11 @@ const GROUPS = [
         href: "https://nownownow.com",
       },
       {
-        linkText: "The indie web & Neocities",
-        href: "https://indieweb.org",
+        parts: [
+          { linkText: "The indie web", href: "https://indieweb.org" },
+          { text: " & " },
+          { linkText: "Neocities", href: "https://neocities.org" },
+        ],
       },
       {
         text: '"The Rise of the Indie Web Movement" — ',
@@ -71,7 +74,6 @@ const GROUPS = [
         linkText: "brand guidelines",
         href: "https://www.algonquincollege.com/acmarketing/brand-guidelines/",
       },
-      { plain: "The tech it's built on is badged down in the footer." },
     ],
   },
 ];
@@ -79,6 +81,22 @@ const GROUPS = [
 function CreditItem({ item, accent }) {
   if (item.plain) {
     return <li className="text-gray-700">{item.plain}</li>;
+  }
+
+  if (item.parts) {
+    return (
+      <li className="text-gray-700">
+        {item.parts.map((part, i) =>
+          part.href ? (
+            <TextLink key={i} href={part.href} accent={accent} external>
+              {part.linkText}
+            </TextLink>
+          ) : (
+            <span key={i}>{part.text}</span>
+          ),
+        )}
+      </li>
+    );
   }
 
   if (item.href) {
@@ -112,7 +130,12 @@ function CreditGroup({ group }) {
       <ul className="mt-2 flex flex-col gap-1">
         {group.items.map((item) => (
           <CreditItem
-            key={item.plain ?? item.linkText ?? item.boldText}
+            key={
+              item.plain ??
+              item.linkText ??
+              item.boldText ??
+              item.parts?.[0]?.linkText
+            }
             item={item}
             accent={group.accent}
           />
@@ -128,12 +151,7 @@ function Credits() {
       aria-labelledby="credits-heading"
       className="flex justify-center py-8"
     >
-      <PinnedCard
-        bg="bg-paper"
-        padding="p-6"
-        rotate="-rotate-[0.6deg]"
-        className="relative max-w-xl"
-      >
+      <PinnedCard bg="bg-paper" padding="p-6" className="relative max-w-xl">
         <Tape className="absolute -top-3 left-1/2 -translate-x-1/2" />
 
         {/* Credits has no single owned hue (STYLE_GUIDE.md → Color → Sky
@@ -147,7 +165,7 @@ function Credits() {
           Colophon
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          The people and work behind this little site.
+          A heartfelt thank-you to everyone who inspired this little site.
         </p>
 
         <div className="mt-4 border-t-2 border-ink" />
@@ -162,8 +180,8 @@ function Credits() {
 
         <div className="mt-4 flex items-end justify-between gap-4">
           <p className="text-sm text-gray-600 w-[60%]">
-            Designed &amp; built by Noah in Ottawa, 2026. Thanks for scrolling
-            all the way down here.
+            Planned, designed, and built by Noah. Thanks for scrolling all the
+            way down here.
           </p>
           <span aria-hidden="true" className="font-hand text-2xl text-ink">
             Noah :)
