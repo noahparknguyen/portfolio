@@ -4,7 +4,11 @@ import Eyebrow from "../ui/Eyebrow";
 function LiveReaction() {
   return (
     <div className="flex h-full flex-col justify-around">
-      <Eyebrow as="p" tone="on-ink" className="bg-ink py-1 text-center">
+      <Eyebrow
+        as="p"
+        tone="on-ink"
+        className="bg-ink py-1 text-center font-bold tracking-widest"
+      >
         Live 🍓 Reaction
       </Eyebrow>
       <div className="relative">
@@ -40,7 +44,7 @@ function LiveReaction() {
           aria-hidden="true"
           className="pointer-events-none absolute left-2 top-2 flex items-center gap-1"
         >
-          <span className="animate-blink h-2 w-2 rounded-full bg-live" />
+          <span className="animate-blink h-2 w-2 -translate-y-px rounded-full bg-live" />
           <span className="font-mono text-xs font-bold leading-none text-on-ink">
             REC
           </span>
