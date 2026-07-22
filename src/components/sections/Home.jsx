@@ -32,12 +32,7 @@ function Home() {
       {/* Row 1 — Welcome ←→ Photo */}
       <div className={ROW}>
         <div className="min-w-0 sm:w-[65%]">
-          <PinnedCard
-            bg="bg-paper"
-            padding="p-6"
-            rotate="-rotate-[1deg]"
-            className="relative"
-          >
+          <PinnedCard bg="bg-paper" padding="p-6" className="relative">
             <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
             <Eyebrow as="p" className="absolute right-6 top-6 text-right">
               Ottawa · {monthYear}
@@ -124,7 +119,12 @@ function Home() {
                 <Eyebrow>What I&rsquo;m listening to</Eyebrow>
               </LabelTag>
             </div>
-            <PinnedCard padding="p-3" rotate="rotate-[1deg]" className="mt-2">
+            <PinnedCard
+              bg="bg-orchid-soft"
+              padding="p-3"
+              rotate="-rotate-[1deg]"
+              className="mt-2"
+            >
               <SpotifyWidget />
             </PinnedCard>
           </div>

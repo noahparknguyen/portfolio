@@ -101,7 +101,6 @@ function Now() {
         <PinnedCard
           bg="bg-primary-soft"
           padding="p-6"
-          rotate="-rotate-[1deg]"
           className="relative sm:col-span-2 md:col-span-2 md:row-span-2"
         >
           <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
