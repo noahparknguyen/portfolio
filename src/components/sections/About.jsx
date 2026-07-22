@@ -12,8 +12,8 @@ const WORK = [
     summary:
       "My first professional experience — completed simple tickets and tasks, fixing issues in the codebase.",
     rotate: "rotate-[2deg]",
-    noteRotate: "-rotate-[1deg]",
     tint: "bg-rose-soft",
+    cardTint: "bg-violet-soft",
   },
   {
     acronym: "ALG",
@@ -22,8 +22,8 @@ const WORK = [
     summary:
       "Helped make and execute test cases for Algonquin's new student information system, the R3 project.",
     rotate: "-rotate-[1.5deg]",
-    noteRotate: "rotate-[1deg]",
     tint: "bg-blue-soft",
+    cardTint: "bg-rose-soft",
   },
   {
     acronym: "DND",
@@ -32,8 +32,8 @@ const WORK = [
     summary:
       "Worked on a number of projects and delivered a handful of tools for various teams within DND.",
     rotate: "rotate-[1.5deg]",
-    noteRotate: "-rotate-[1deg]",
     tint: "bg-orchid-soft",
+    cardTint: "bg-blue-soft",
   },
 ];
 
@@ -47,6 +47,7 @@ const ACHIEVEMENTS = [
     logo: algonquinLogo,
     logoAlt: "Algonquin College logo",
     rotate: "-rotate-[1deg]",
+    tint: "bg-orchid-soft",
   },
 ];
 
@@ -97,7 +98,7 @@ function WorkTimeline() {
               >
                 {job.acronym}
               </span>
-              <PinnedCard padding="p-3" rotate={job.noteRotate}>
+              <PinnedCard bg={job.cardTint} padding="p-3">
                 <p className="font-display font-semibold text-ink">{job.org}</p>
                 <p className="text-xs text-label">{job.role}</p>
                 <p className="mt-0.5 text-sm text-gray-600">{job.summary}</p>
@@ -111,7 +112,7 @@ function WorkTimeline() {
             >
               ???
             </span>
-            <div className="shadow-sticker rotate-1 border-2 border-dashed border-ink bg-paper p-3">
+            <div className="shadow-sticker border-2 border-dashed border-ink bg-paper p-3">
               <p className="font-display font-semibold text-ink">Pending</p>
               <p className="text-xs text-label">New role incoming</p>
               <p className="mt-0.5 text-sm text-gray-600">
@@ -138,6 +139,7 @@ function Achievements() {
         {ACHIEVEMENTS.map((a) => (
           <PinnedCard
             key={a.title}
+            bg={a.tint}
             padding="p-4"
             rotate={a.rotate}
             className="flex flex-col gap-3"

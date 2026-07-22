@@ -24,6 +24,7 @@ const TECH_ITEMS = [
     icon: siReact,
     href: "https://react.dev",
     rotate: "rotate-[-3deg]",
+    tint: "bg-rose-soft",
     note: "How I made the site",
   },
   {
@@ -32,6 +33,7 @@ const TECH_ITEMS = [
     icon: siTailwindcss,
     href: "https://tailwindcss.com",
     rotate: "rotate-[2deg]",
+    tint: "bg-violet-soft",
     note: "How I styled the site",
   },
   {
@@ -40,6 +42,7 @@ const TECH_ITEMS = [
     Glyph: JavaIcon,
     href: "https://www.java.com",
     rotate: "rotate-[-2deg]",
+    tint: "bg-blue-soft",
     note: "My first and main language",
   },
   {
@@ -48,6 +51,7 @@ const TECH_ITEMS = [
     icon: siPython,
     href: "https://www.python.org",
     rotate: "rotate-[3deg]",
+    tint: "bg-orchid-soft",
     note: "Learning",
   },
   {
@@ -56,6 +60,7 @@ const TECH_ITEMS = [
     icon: siFigma,
     href: "https://www.figma.com",
     rotate: "rotate-[-3deg]",
+    tint: "bg-rose-soft",
     note: "Also learning",
   },
   {
@@ -64,6 +69,7 @@ const TECH_ITEMS = [
     icon: siObsidian,
     href: "https://obsidian.md",
     rotate: "rotate-[2deg]",
+    tint: "bg-blue-soft",
     note: "My primary notes app",
   },
   {
@@ -72,6 +78,7 @@ const TECH_ITEMS = [
     icon: siSpring,
     href: "https://spring.io",
     rotate: "rotate-[-2deg]",
+    tint: "bg-violet-soft",
     note: "My go-to backend tool",
   },
 ];
@@ -88,7 +95,7 @@ function TechBadge({ item }) {
         target="_blank"
         rel="noreferrer"
         aria-describedby={noteId}
-        className={`shadow-sticker block w-20 border-2 border-ink bg-white p-2 text-center transition-transform hover:-translate-y-1 focus-visible:-translate-y-1 ${item.rotate}`}
+        className={`shadow-sticker block w-20 border-2 border-ink ${item.tint} p-2 text-center transition-transform hover:-translate-y-1 focus-visible:-translate-y-1 ${item.rotate}`}
       >
         {Glyph ? (
           <Glyph />
