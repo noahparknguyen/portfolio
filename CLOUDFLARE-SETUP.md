@@ -33,12 +33,27 @@ domain is configured, plus a couple of dated reminders at the bottom.
 
 ### Cloudflare dashboard
 
-- **Account:** 2FA on. Production Worker secrets confirmed present.
-- **TLS:** Always Use HTTPS + Automatic HTTPS Rewrites on. HSTS enabled at 6-month max-age.
-- **DNS:** DNSSEC enabled. Anti-spoofing records added (SPF / null-DKIM / DMARC `p=reject`).
-- **Security:** Bot Fight Mode on. Rate-limit rule `api-throttle-per-ip` on `/api/*`
-  (20 req / 10s per IP → block).
-- **Registrar:** auto-renew on, registrar lock on.
+Paths below use the classic navigation. Cloudflare is rolling out a **new security dashboard**
+that consolidates the security items under **Security → Settings** (grouped by category —
+Web application exploits, Bot traffic, etc.). If your sidebar looks different, that's why; the
+new path is noted where it differs.
+
+- **Account:** 2FA on (My Profile → Authentication). Worker secrets present
+  (Workers & Pages → `portfolio` → Settings → Variables and Secrets).
+- **TLS:** Always Use HTTPS + Automatic HTTPS Rewrites on, HSTS at 6-month max-age — all under
+  **SSL/TLS → Edge Certificates**. HSTS is the "HTTP Strict Transport Security (HSTS)" card;
+  the duration field is labelled **Max Age Header** (max 12 months).
+- **DNS:** DNSSEC on (**DNS → Settings** → DNSSEC → Enable DNSSEC). Anti-spoofing TXT records
+  (SPF / null-DKIM / DMARC `p=reject`) under **DNS → Records**.
+- **Bot Fight Mode:** on — classic **Security → Bots**; new **Security → Settings → Bot
+  traffic**. On the free plan this force-enables JavaScript Detections (no separate toggle),
+  which injects a `/cdn-cgi/challenge-platform/…` inline script that the strict
+  `script-src 'self'` blocks — the resulting console error is expected (see "Known console
+  noise" below).
+- **Rate limiting:** rule `api-throttle-per-ip` on `/api/*` (20 req / 10s per IP → block) —
+  classic **Security → WAF → Rate limiting rules**; new **Security → Security rules**.
+- **Registrar:** auto-renew on, registrar lock on (**Domain Registration → Manage Domains →
+  `noahpn.dev` → Configuration**).
 
 ### Verified live
 
@@ -92,6 +107,19 @@ domain is configured, plus a couple of dated reminders at the bottom.
 > cache-buster avoids it.
 
 ---
+
+## Known console noise (expected, not bugs)
+
+- **Bot Fight Mode inline script** — `script-src-elem` CSP error for an inline
+  `/cdn-cgi/challenge-platform/…` script (`window.__CF$cv$params`). It's Bot Fight Mode's
+  JavaScript Detections, which can't be disabled separately on the free plan. The script
+  embeds a per-request token, so it can't be allowlisted with a static hash; the CSP blocks it
+  and it simply doesn't run (no loss — Bot Fight Mode's server-side checks are unaffected).
+  Leaving Bot Fight Mode on and accepting the error. Removing it entirely is the only way to
+  silence it.
+- **Firefox fingerprinting notice** — a warning that `screen.availWidth/availHeight` were
+  altered. That's Firefox's anti-fingerprinting spoofing those values; it's a browser feature,
+  not something the site does. Only visible to users with that setting on. Nothing to fix.
 
 ## Scan insights — 2026-07-23 review
 
