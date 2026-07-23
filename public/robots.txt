@@ -1,0 +1,3 @@
+# https://noahpn.dev — personal site, everything is public.
+User-agent: *
+Allow: /
