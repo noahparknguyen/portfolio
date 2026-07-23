@@ -181,23 +181,88 @@ async function handleCommits(env) {
   });
 }
 
+// Content Security Policy. script-src stays 'self' because Vite emits external,
+// hashed module scripts (no inline JS). style-src allows 'unsafe-inline' for
+// React's inline style attributes and Tailwind's injected styles. img-src is
+// broad because the live widgets pull album/game art from third-party CDNs.
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: https:",
+  "font-src 'self' data:",
+  "connect-src 'self'",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  "upgrade-insecure-requests",
+].join("; ");
+
+// Applied to every response. HSTS is intentionally NOT set here — it is managed
+// in the Cloudflare dashboard (SSL/TLS -> Edge Certificates -> HSTS) so it can be
+// ramped up safely and isn't duplicated at the edge.
+function withSecurityHeaders(response) {
+  const res = new Response(response.body, response);
+  res.headers.set("Content-Security-Policy", CSP);
+  res.headers.set("X-Content-Type-Options", "nosniff");
+  res.headers.set("X-Frame-Options", "DENY");
+  res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+  );
+  res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  res.headers.set("X-DNS-Prefetch-Control", "off");
+  return res;
+}
+
+// RFC 9116 vulnerability-disclosure contact. Served from the Worker so it works
+// regardless of how static-asset dotfile (.well-known) handling behaves. Bump the
+// Expires date within a year to keep it valid.
+const SECURITY_TXT = [
+  "Contact: mailto:noahparknguyen@gmail.com",
+  "Expires: 2027-07-23T00:00:00.000Z",
+  "Preferred-Languages: en",
+  "Canonical: https://noahpn.dev/.well-known/security.txt",
+  "",
+].join("\n");
+
+async function route(request, env) {
+  const { pathname } = new URL(request.url);
+  switch (pathname) {
+    case "/.well-known/security.txt":
+      return new Response(SECURITY_TXT, {
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Cache-Control": "public, max-age=86400",
+        },
+      });
+    case "/api/spotify":
+      return handleSpotify(env);
+    case "/api/steam":
+      return handleSteam(env);
+    case "/api/commits":
+      return handleCommits(env);
+    case "/api/weather":
+      return handleWeather();
+    default:
+      if (pathname.startsWith("/api/")) {
+        return json({ error: "Not found" }, 404);
+      }
+      return env.ASSETS.fetch(request);
+  }
+}
+
 export default {
   async fetch(request, env) {
-    const { pathname } = new URL(request.url);
-    switch (pathname) {
-      case "/api/spotify":
-        return handleSpotify(env);
-      case "/api/steam":
-        return handleSteam(env);
-      case "/api/commits":
-        return handleCommits(env);
-      case "/api/weather":
-        return handleWeather();
-      default:
-        if (pathname.startsWith("/api/")) {
-          return json({ error: "Not found" }, 404);
-        }
-        return env.ASSETS.fetch(request);
+    // Only GET/HEAD are ever needed; reject the rest before doing any work.
+    if (request.method !== "GET" && request.method !== "HEAD") {
+      return withSecurityHeaders(
+        json({ error: "Method not allowed" }, 405, { Allow: "GET, HEAD" }),
+      );
     }
+    const response = await route(request, env);
+    return withSecurityHeaders(response);
   },
 };
