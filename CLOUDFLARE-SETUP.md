@@ -17,10 +17,19 @@ domain is configured, plus a couple of dated reminders at the bottom.
   Split by response type because static assets bypass the Worker:
   - `public/_headers` → static assets (HTML/CSS/JS), applied at Cloudflare's edge.
   - `worker/index.js` (`withSecurityHeaders`) → dynamic routes (`/api/*`, `/.well-known/security.txt`).
+  - The two CSP strings must stay identical. `script-src` stays `'self'` (no inline JS,
+    no third-party scripts). `style-src` allows `https://fonts.googleapis.com` and
+    `font-src` allows `https://fonts.gstatic.com` for the Google Fonts stylesheet
+    imported in `src/index.css` — the only third-party origins in the policy besides
+    the broad `img-src https:` for widget artwork.
 - **Method guard** — non-GET/HEAD requests rejected with 405.
 - **security.txt** — served by the Worker at `/.well-known/security.txt` (RFC 9116).
 - **workers.dev disabled** — `workers_dev: false` + `preview_urls: false` in `wrangler.jsonc`,
   so the site serves only from the custom domains.
+- **Observability on** — `observability.enabled` in `wrangler.jsonc` for Worker logs/metrics
+  (Workers & Pages → this Worker → Observability); useful for debugging the `/api/*` routes.
+- **robots.txt** — `public/robots.txt`, permissive (whole site is public). Add a `Sitemap:`
+  line here if a `sitemap.xml` is ever generated.
 
 ### Cloudflare dashboard
 
@@ -53,6 +62,17 @@ domain is configured, plus a couple of dated reminders at the bottom.
 
 ## Deliberately skipped
 
+- **Web Analytics** (account) — the automatic-setup mode injects an inline bootstrap plus
+  `static.cloudflareinsights.com/beacon.min.js` into every HTML response at the edge, both of
+  which the strict `script-src 'self'` blocks. Rather than weaken `script-src` with
+  `'unsafe-inline'` or a brittle script hash, Web Analytics is kept **off**; Cloudflare's
+  edge/HTTP analytics still works without any injected client script. **Disable it at**
+  Analytics & Logs → Web Analytics → the site's ⋯ menu → remove the automatic setup (it was
+  briefly on, which is what was injecting the beacon). If an inline-script CSP error lingers
+  after that, also check Scrape Shield → Email Address Obfuscation and Speed → Optimization →
+  Rocket Loader, which likewise inject inline JS. If ever re-enabled deliberately, allow
+  `https://static.cloudflareinsights.com` in `script-src`, `https://cloudflareinsights.com` in
+  `connect-src`, and handle the injected inline script (hash or nonce).
 - **Turnstile** (account) — a CAPTCHA for forms; the site has none. Add only with a contact form.
 - **AI Labyrinth / Block AI bots** — optional anti-scraper tools. Enable only if crawler traffic
   becomes a nuisance. Not a security gap.
@@ -72,6 +92,22 @@ domain is configured, plus a couple of dated reminders at the bottom.
 > cache-buster avoids it.
 
 ---
+
+## Scan insights — 2026-07-23 review
+
+Latest Security Insights export reviewed. Verdicts:
+
+| Insight (severity)                | Host        | Verdict                                                                                                                                                                                                                                                             |
+| --------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Block AI bots (Moderate)          | workers.dev | Moot — subdomain disabled, 404s. Cloudflare still scans the name.                                                                                                                                                                                                   |
+| AI Labyrinth (Low)                | workers.dev | Moot — same reason.                                                                                                                                                                                                                                                 |
+| Security.txt not configured (Low) | workers.dev | Moot — same reason.                                                                                                                                                                                                                                                 |
+| Bot Fight Mode not enabled (Mod.) | workers.dev | Moot — Bot Fight Mode is already on for noahpn.dev.                                                                                                                                                                                                                 |
+| AI Labyrinth (Low)                | noahpn.dev  | Skipped by choice — optional anti-scraper, not a security gap.                                                                                                                                                                                                      |
+| Security.txt not configured (Low) | noahpn.dev  | **False positive.** File is served live by the Worker (verified). The insight only checks whether Cloudflare's _native_ Security.txt toggle is on, not whether a file is actually served. Keeping the Worker route (in version control) over the dashboard feature. |
+| No Turnstile (Low)                | account     | Skipped by choice — no forms on the site.                                                                                                                                                                                                                           |
+
+The workers.dev rows persist because the subdomain name still exists in Cloudflare's registry even with `workers_dev: false`; they carry no real exposure (the host returns 404). Dismiss them in Security Center if the list bothers you.
 
 ## Reference — original Cloudflare scan warnings
 

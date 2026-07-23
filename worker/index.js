@@ -182,15 +182,18 @@ async function handleCommits(env) {
 }
 
 // Content Security Policy. script-src stays 'self' because Vite emits external,
-// hashed module scripts (no inline JS). style-src allows 'unsafe-inline' for
-// React's inline style attributes and Tailwind's injected styles. img-src is
+// hashed module scripts (no inline JS) and Cloudflare Web Analytics is disabled
+// (no injected beacon/inline script). style-src allows 'unsafe-inline' for
+// React's inline style attributes and Tailwind's injected styles, plus
+// fonts.googleapis.com for the Google Fonts stylesheet imported in index.css;
+// the font files themselves load from fonts.gstatic.com (font-src). img-src is
 // broad because the live widgets pull album/game art from third-party CDNs.
 const CSP = [
   "default-src 'self'",
   "script-src 'self'",
-  "style-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: https:",
-  "font-src 'self' data:",
+  "font-src 'self' data: https://fonts.gstatic.com",
   "connect-src 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
