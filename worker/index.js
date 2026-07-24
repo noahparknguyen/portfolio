@@ -116,6 +116,7 @@ async function handleSteam(env) {
         image: `https://cdn.cloudflare.steamstatic.com/steam/apps/${g.appid}/header.jpg`,
         iconFallback: `https://media.steampowered.com/steamcommunity/public/images/apps/${g.appid}/${g.img_icon_url}.jpg`,
         hoursTotal: g.playtime_forever / 60,
+        playtime2Weeks: g.playtime_2weeks ?? 0,
       },
     },
     200,
@@ -209,11 +210,26 @@ const CSP = [
   "upgrade-insecure-requests",
 ].join("; ");
 
+// True only under `vite dev` (the @cloudflare/vite-plugin dev worker); replaced
+// with `false` at build time for the deployed worker.
+const DEV = import.meta.env.DEV;
+
 // Applied to every response. HSTS is intentionally NOT set here — it is managed
 // in the Cloudflare dashboard (SSL/TLS -> Edge Certificates -> HSTS) so it can be
 // ramped up safely and isn't duplicated at the edge.
 function withSecurityHeaders(response) {
   const res = new Response(response.body, response);
+  // In dev, Vite serves HTML with INLINE scripts (React Fast Refresh preamble,
+  // HMR client) and talks to an HMR WebSocket — all of which this production CSP
+  // ('script-src self', 'connect-src self') blocks, breaking the dev page. The
+  // strict headers are a production concern only (the prod build emits external,
+  // hashed scripts and no inline JS). Strip the CSP when running under Vite dev,
+  // covering both this worker and any policy the dev assets layer adds via
+  // public/_headers.
+  if (DEV) {
+    res.headers.delete("Content-Security-Policy");
+    return res;
+  }
   res.headers.set("Content-Security-Policy", CSP);
   res.headers.set("X-Content-Type-Options", "nosniff");
   res.headers.set("X-Frame-Options", "DENY");

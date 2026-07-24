@@ -35,11 +35,11 @@ const BIG_CLOUD_TAIL =
   "a6.5 6.5 0 0 1 0-13 8.5 8.5 0 0 1 16 2 5.5 5.5 0 0 1 1 11H13Z";
 const SMALL_CLOUD = "M12 33a6 6 0 0 1 0-12 8 8 0 0 1 15 2 5 5 0 0 1 1 10H13Z";
 
-function WeatherGlyph({ name, isDay = true }) {
+function WeatherGlyph({ name, muted = false }) {
   return (
     <svg
       viewBox="0 0 40 40"
-      className={`h-10 w-10 ${isDay ? "text-ink" : "text-on-ink"}`}
+      className={`h-10 w-10 ${muted ? "text-gray-600" : "text-ink"}`}
       fill="none"
       stroke="currentColor"
       style={{ strokeWidth: "var(--stroke-regular)" }}
@@ -230,6 +230,7 @@ function WeatherTime() {
   const dayPeriod = (
     timeParts.find((p) => p.type === "dayPeriod")?.value ?? ""
   ).toUpperCase();
+  const empty = !loading && (error || !weather);
 
   return (
     <div>
@@ -237,8 +238,11 @@ function WeatherTime() {
         <img src={mapleLeaf} alt="" aria-hidden="true" className="h-6 w-auto" />
         <div className="flex shrink-0 items-center">
           <div className="border-2 border-dashed border-ink bg-white p-2 text-center">
-            {weather && (
-              <WeatherGlyph name={glyphFor(weather.code, weather.isDay)} />
+            {(weather || empty) && (
+              <WeatherGlyph
+                name={weather ? glyphFor(weather.code, weather.isDay) : "cloud"}
+                muted={empty}
+              />
             )}
             <span className="mt-1 block font-mono text-xs tracking-wide text-ink">
               OTTAWA, ON
@@ -253,8 +257,11 @@ function WeatherTime() {
             <div className="h-9 w-20 animate-pulse bg-primary-soft" />
             <div className="h-4 w-24 animate-pulse bg-primary-soft" />
           </div>
-        ) : error || !weather ? (
-          <p className="text-sm text-gray-600">Weather unavailable</p>
+        ) : empty ? (
+          <>
+            <p className="font-display text-3xl font-bold text-ink">—°C</p>
+            <p className="text-sm text-gray-600">no reading today</p>
+          </>
         ) : (
           <>
             <p className="font-display text-3xl font-bold text-ink">

@@ -57,7 +57,28 @@ function Devlog() {
               </ul>
             </div>
           ) : error || commits.length === 0 ? (
-            <p className="py-3 text-sm text-gray-600">No recent updates.</p>
+            <div className="relative py-3 pr-5">
+              <div
+                aria-hidden="true"
+                className="absolute inset-y-0 left-1.75 w-0.5 bg-ink"
+              />
+              <ul>
+                <li className="relative flex">
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0.5 top-1.25 h-3 w-3 border-2 border-ink bg-rose"
+                  />
+                  <div className="block pb-3.5 pl-6">
+                    <span className="block text-sm text-gray-700">
+                      No signal from the repo
+                    </span>
+                    <span className="mt-0.5 block text-xs italic text-gray-600">
+                      nothing to report
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           ) : (
             <div className="relative py-3 pr-5">
               <div
