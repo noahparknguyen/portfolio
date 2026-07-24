@@ -214,18 +214,21 @@ const CSP = [
 // with `false` at build time for the deployed worker.
 const DEV = import.meta.env.DEV;
 
-// Applied to every response. HSTS is intentionally NOT set here — it is managed
-// in the Cloudflare dashboard (SSL/TLS -> Edge Certificates -> HSTS) so it can be
-// ramped up safely and isn't duplicated at the edge.
+// Applied to every response. Because assets.run_worker_first (wrangler.jsonc) runs
+// the Worker ahead of static-asset serving, this is the SINGLE source of the
+// site's security headers — static assets and dynamic /api/* routes alike. (There
+// is deliberately no public/_headers file; anything it set would be overwritten
+// here anyway.) HSTS is intentionally NOT set here — it is managed in the
+// Cloudflare dashboard (SSL/TLS -> Edge Certificates -> HSTS) so it can be ramped
+// up safely.
 function withSecurityHeaders(response) {
   const res = new Response(response.body, response);
   // In dev, Vite serves HTML with INLINE scripts (React Fast Refresh preamble,
   // HMR client) and talks to an HMR WebSocket — all of which this production CSP
-  // ('script-src self', 'connect-src self') blocks, breaking the dev page. The
-  // strict headers are a production concern only (the prod build emits external,
-  // hashed scripts and no inline JS). Strip the CSP when running under Vite dev,
-  // covering both this worker and any policy the dev assets layer adds via
-  // public/_headers.
+  // ('script-src self', 'connect-src self') would block, breaking the dev page.
+  // The strict headers are a production concern only (the prod build emits
+  // external, hashed scripts and no inline JS), so skip them entirely under dev.
+  // The delete is a defensive no-op in case any upstream layer set a CSP.
   if (DEV) {
     res.headers.delete("Content-Security-Policy");
     return res;
@@ -282,23 +285,34 @@ async function route(request, env) {
 
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
+    try {
+      const url = new URL(request.url);
 
-    // Canonical host: 301 www.* -> apex, preserving path + query. Avoids
-    // duplicate content (both custom domains otherwise serve identical pages)
-    // and consolidates SEO signal on the bare apex used in security.txt.
-    if (url.hostname.startsWith("www.")) {
-      url.hostname = url.hostname.slice(4);
-      return withSecurityHeaders(Response.redirect(url.toString(), 301));
-    }
+      // Canonical host: 301 www.* -> apex, preserving path + query. Avoids
+      // duplicate content (both custom domains otherwise serve identical pages)
+      // and consolidates SEO signal on the bare apex used in security.txt.
+      if (url.hostname.startsWith("www.")) {
+        url.hostname = url.hostname.slice(4);
+        return withSecurityHeaders(Response.redirect(url.toString(), 301));
+      }
 
-    // Only GET/HEAD are ever needed; reject the rest before doing any work.
-    if (request.method !== "GET" && request.method !== "HEAD") {
-      return withSecurityHeaders(
-        json({ error: "Method not allowed" }, 405, { Allow: "GET, HEAD" }),
-      );
+      // Only GET/HEAD are ever needed; reject the rest before doing any work.
+      if (request.method !== "GET" && request.method !== "HEAD") {
+        return withSecurityHeaders(
+          json({ error: "Method not allowed" }, 405, { Allow: "GET, HEAD" }),
+        );
+      }
+      const response = await route(request, env);
+      return withSecurityHeaders(response);
+    } catch (err) {
+      // Last-resort boundary: the individual handlers already catch their own
+      // upstream failures, so reaching here means an unexpected runtime/logic
+      // error. Log it (surfaced via observability) and return a 500 that still
+      // carries the full security-header set — an error path must never serve a
+      // response without the CSP/framing protections. json() defaults to
+      // no-store, so this response is never cached.
+      console.error("Unhandled worker error:", err);
+      return withSecurityHeaders(json({ error: "Internal error" }, 500));
     }
-    const response = await route(request, env);
-    return withSecurityHeaders(response);
   },
 };

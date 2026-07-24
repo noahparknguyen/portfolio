@@ -14,20 +14,24 @@ domain is configured, plus a couple of dated reminders at the bottom.
 
 - **Security headers** — CSP, X-Frame-Options `DENY`, X-Content-Type-Options `nosniff`,
   Referrer-Policy, Permissions-Policy, Cross-Origin-Opener-Policy, X-DNS-Prefetch-Control.
-  Set in two places that must stay in sync:
-  - `worker/index.js` (`withSecurityHeaders`) → applied to **every** response. Since
-    `assets.run_worker_first: true` (`wrangler.jsonc`), the Worker runs ahead of asset
-    serving, so it sets these headers on static assets (`/`, hashed JS/CSS) as well as
-    the dynamic routes (`/api/*`, `/.well-known/security.txt`).
-  - `public/_headers` → the same headers declared at Cloudflare's edge for static
-    assets, kept as a belt-and-suspenders fallback (and the original source from before
-    the Worker ran on every request).
-  - The two CSP strings must stay identical. `script-src` stays `'self'` (no inline JS,
-    no third-party scripts); `style-src` adds `'unsafe-inline'` (for React's inline
-    style attributes and Tailwind's injected styles) plus `https://fonts.googleapis.com`,
-    and `font-src` allows `https://fonts.gstatic.com`, for the Google Fonts stylesheet
-    imported in `src/index.css` — the only third-party origins in the policy besides
-    the broad `img-src https:` for widget artwork.
+  Set in **one place**: `worker/index.js` (`withSecurityHeaders`), applied to **every**
+  response. Since `assets.run_worker_first: true` (`wrangler.jsonc`), the Worker runs
+  ahead of asset serving, so it sets these headers on static assets (`/`, hashed JS/CSS)
+  as well as the dynamic routes (`/api/*`, `/.well-known/security.txt`). There is
+  deliberately **no `public/_headers` file** — it was removed (2026-07-24) because the
+  Worker overrode it on every response, so it only added a second CSP string to keep in
+  sync by hand. The Worker is the single source of truth for these headers.
+  - CSP specifics: `script-src` stays `'self'` (no inline JS, no third-party scripts);
+    `style-src` adds `'unsafe-inline'` (for React's inline style attributes and Tailwind's
+    injected styles) plus `https://fonts.googleapis.com`, and `font-src` allows
+    `https://fonts.gstatic.com`, for the Google Fonts stylesheet imported in
+    `src/index.css` — the only third-party origins in the policy besides the broad
+    `img-src https:` for widget artwork.
+  - A top-level `try/catch` in the Worker's `fetch()` wraps all routing: any unexpected
+    error is logged (via observability) and returns a 500 that **still** carries the full
+    header set through `withSecurityHeaders`, so no response — even an error — is ever
+    served without CSP/framing protections. `json()` defaults to `no-store`, so error
+    responses aren't cached.
 - **Method guard** — non-GET/HEAD requests rejected with 405.
 - **security.txt** — served by the Worker at `/.well-known/security.txt` (RFC 9116).
 - **workers.dev disabled** — `workers_dev: false` + `preview_urls: false` in `wrangler.jsonc`,
@@ -367,7 +371,7 @@ All empty, should stay empty — routing/headers/caching all live in code (corre
 | --------------------------------------- | ------ | ------------------------------------------------------------------- |
 | Page Rules                              | none   | Legacy; superseded by Worker/modern rules.                          |
 | Redirect Rules                          | none   | www→apex handled in Worker instead (alt: one Single Redirect here). |
-| Transform Rules                         | none   | Headers set in `_headers` + Worker.                                 |
+| Transform Rules                         | none   | Headers set in the Worker (`withSecurityHeaders`), single source.   |
 | Configuration / Origin Rules / Snippets | none   | No origin; nothing to override.                                     |
 
 ### Network
@@ -393,6 +397,7 @@ code-managed or default-correct.
 
 Reviewed `public/_headers`, `public/robots.txt`, `worker/index.js`, `wrangler.jsonc`. Already strong
 (CSP identical across `_headers` and Worker, full error handling, method guard, RFC 9116 security.txt).
+_(`public/_headers` was later removed in the 2026-07-24 cleanup pass — see below.)_
 
 **Changes applied (need deploy):**
 
@@ -406,13 +411,15 @@ Reviewed `public/_headers`, `public/robots.txt`, `worker/index.js`, `wrangler.js
 
 **Optional / not applied (noted for consideration):**
 
-- **CSP sync risk** — the CSP string is duplicated in `_headers` and `worker/index.js` and must be kept
-  identical by hand. Inherent to the static/dynamic split; acceptable, just remember when editing either.
-- **Cross-Origin-Resource-Policy: `same-origin`** — could add to both header sets as defense-in-depth
+- ~~**CSP sync risk** — the CSP string is duplicated in `_headers` and `worker/index.js` and must be kept
+  identical by hand.~~ **Resolved 2026-07-24:** `public/_headers` removed; the Worker is the single
+  source, so there is no second string to sync.
+- **Cross-Origin-Resource-Policy: `same-origin`** — could add to the Worker header set as defense-in-depth
   (limits other origins embedding your resources). Marginal for a portfolio; COEP is intentionally _not_
-  added (it would break the broad `img-src https:` widget artwork). Skipped to keep changes focused.
-- **`wrangler.jsonc` `$schema`** — could add `"$schema": "node_modules/wrangler/config-schema.json"`
-  for editor validation/autocomplete. Cosmetic.
+  added (it would break the broad `img-src https:` widget artwork). Still skipped — low value, and it
+  didn't earn a place in the 2026-07-24 pass.
+- ~~**`wrangler.jsonc` `$schema`** — could add `"$schema": "node_modules/wrangler/config-schema.json"`
+  for editor validation/autocomplete.~~ **Applied 2026-07-24.**
 - **security.txt `Expires`** — still `2027-07-23`; bump before then (existing dated reminder).
 
 **Re-verify after deploy:** `curl -sI https://www.noahpn.dev/` returns `301` → `https://noahpn.dev/`;
@@ -430,6 +437,35 @@ unifies the previously dual-sourced CSP). Overhead: one Worker invocation per re
 this traffic. **Needs redeploy.** After deploy, purge once (`https://www.noahpn.dev/`) to clear the old
 cached 200, then verify `curl -sI https://www.noahpn.dev/` → 301. Caveat: `?cb=` can't bust the HTML
 root (Assets normalizes the query string in the cache key) — verify via an uncached path or a real purge.
+
+## Cleanup pass — 2026-07-24
+
+Focused pass to make the Cloudflare files single-source and best-practice. All changes are in the repo
+and take effect on next deploy.
+
+**Changes applied (need deploy):**
+
+- **`public/_headers` deleted.** With `assets.run_worker_first: true` the Worker already sets every
+  security header on every response (static assets included), and `withSecurityHeaders` uses `.set()`,
+  which overrode whatever `_headers` emitted. The file's values never actually shipped — it was dead
+  weight that only re-introduced the CSP-sync burden. `worker/index.js` is now the sole source of truth
+  for security headers. No shipped-header change: the site serves identical headers before and after.
+- **`worker/index.js` — top-level error boundary.** `fetch()` now wraps routing in a `try/catch`:
+  unexpected errors are logged (`console.error`, surfaced via observability) and return a 500 through
+  `withSecurityHeaders`, guaranteeing the full header set even on the error path. Individual handlers
+  keep their own upstream `try/catch`; this is the last-resort guard. `json()`'s `no-store` default
+  keeps the error response uncached.
+- **`wrangler.jsonc` — `$schema` added** (`node_modules/wrangler/config-schema.json`) for editor
+  validation/autocomplete. No runtime effect.
+
+**Re-verify after deploy** (in addition to the standard checks): security headers still present on `/`,
+`/api/*`, and the 301 from `www`; `_headers` no longer emitted; all four widgets render under the CSP.
+
+**Deploy note:** the shell/build sandbox couldn't reach the WSL-mounted repo this session, so `rm
+public/_headers`, `npm run lint`, and `npm run build` were not run here — run them locally as part of
+`npm run deploy`. Deleting `_headers` is cosmetic (the Worker overrides it, so the site behaves
+identically whether or not the file lingers), but removing it is what makes the Worker the clean single
+source.
 
 ## Reference — original Cloudflare scan warnings
 
