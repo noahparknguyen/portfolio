@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaSteam } from "react-icons/fa6";
 import useSteam from "../../hooks/useSteam";
 import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
@@ -9,14 +10,9 @@ function formatHours(hours) {
   return `${Math.round(hours)}h`;
 }
 
-const DATE_STAMPS = [
-  { label: "CHECKED OUT", rotate: "-rotate-2" },
-  { label: "RENEWED", rotate: "rotate-1" },
-  { label: "RENEWED AGAIN", rotate: "-rotate-1" },
-];
-
 function SteamWidget() {
   const { game, loading, error } = useSteam();
+  const empty = !loading && (error || !game);
 
   return (
     <div>
@@ -31,15 +27,24 @@ function SteamWidget() {
             className="aspect-460/215 w-full animate-pulse border-b-2 border-ink bg-primary-soft"
             aria-hidden="true"
           />
-        ) : error ? (
-          <p className="p-3 text-sm text-gray-600">Offline / Steam</p>
-        ) : !game ? (
-          <p className="p-3 text-sm text-gray-600">No recent games / Steam</p>
         ) : (
-          <GameCard game={game} />
+          <GameCard game={empty ? null : game} />
         )}
       </PinnedCard>
     </div>
+  );
+}
+
+// The Steam brand mark rendered as a faded library due-date stamp — a
+// monochrome impression (currentColor + reduced opacity), not the full-color
+// brand glyph. The emblem's own ring gives it the postmark feel.
+function SteamStamp() {
+  return (
+    <FaSteam
+      aria-hidden="true"
+      style={{ opacity: "var(--opacity-accent-line)" }}
+      className="pointer-events-none absolute right-2 top-2 h-14 w-14 -rotate-12 text-ink"
+    />
   );
 }
 
@@ -49,52 +54,80 @@ function GameCard({ game }) {
   return (
     <div>
       <div className="relative aspect-460/215 w-full border-b-2 border-ink bg-primary-soft">
-        {useFallback ? (
-          <img
-            src={game.iconFallback}
-            alt={game.name}
-            className="h-full w-full object-contain p-4"
-          />
-        ) : (
-          <img
-            src={game.image}
-            alt={`${game.name} header art`}
-            className="h-full w-full object-cover"
-            onError={() => setUseFallback(true)}
-          />
-        )}
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1 top-1 block max-w-[85%] truncate bg-ink px-2 py-1 text-xs font-bold tracking-wide text-on-ink"
-        >
-          {game.name}
-        </span>
+        {game &&
+          (useFallback ? (
+            <img
+              src={game.iconFallback}
+              alt={game.name}
+              className="h-full w-full object-contain p-4"
+            />
+          ) : (
+            <img
+              src={game.image}
+              alt={`${game.name} header art`}
+              className="h-full w-full object-cover"
+              onError={() => setUseFallback(true)}
+            />
+          ))}
+        {!game && <SteamStamp />}
       </div>
 
       <div className="p-3">
-        <div className="flex items-center justify-between gap-2">
-          <Eyebrow as="p">Date Due</Eyebrow>
-          <span
-            aria-label={`${formatHours(game.hoursTotal)} logged`}
-            className="shadow-sticker rotate-2 border-2 border-ink bg-white px-2 py-0.5 font-display text-xs font-bold text-ink"
-          >
-            {formatHours(game.hoursTotal)} LOGGED
-          </span>
+        <div className="flex items-start justify-between gap-2">
+          <p className="min-w-0 wrap-break-word font-display text-lg font-semibold text-ink">
+            {game ? game.name : "Shelf empty"}
+          </p>
+          {game?.iconFallback && (
+            <img
+              src={game.iconFallback}
+              alt=""
+              aria-hidden="true"
+              width="32"
+              height="32"
+              onError={(e) => {
+                e.currentTarget.style.visibility = "hidden";
+              }}
+              className="pointer-events-none h-8 w-8 shrink-0 -rotate-2 border-2 border-ink"
+            />
+          )}
         </div>
-        <div className="mt-5 space-y-2.5">
-          {DATE_STAMPS.map((stamp) => (
-            <div
-              key={stamp.label}
-              className="flex items-center justify-end border-b border-kraft pb-2.5"
+        <div className="mt-2 flex items-center justify-between gap-2">
+          <Eyebrow as="p">All-time</Eyebrow>
+          {game ? (
+            <span
+              aria-label={`${formatHours(game.hoursTotal)} logged all-time`}
+              className="shadow-sticker rotate-1 border-2 border-ink bg-white px-2 py-0.5 font-display text-xs font-bold text-ink"
             >
-              <span
-                aria-hidden="true"
-                className={`border-2 border-live px-2 py-0.5 font-display text-xs font-bold text-ink ${stamp.rotate}`}
-              >
-                {stamp.label}
-              </span>
-            </div>
-          ))}
+              {formatHours(game.hoursTotal)} LOGGED
+            </span>
+          ) : (
+            <span
+              aria-hidden="true"
+              className="rotate-2 border-2 border-dashed border-kraft px-2 py-0.5 font-display text-xs font-bold text-gray-600"
+            >
+              — LOGGED
+            </span>
+          )}
+        </div>
+        <div className="mt-5 flex items-center justify-between border-b border-kraft pb-2.5">
+          <Eyebrow as="p">This Week</Eyebrow>
+          {game ? (
+            <span
+              aria-label={`${formatHours(
+                game.playtime2Weeks / 60,
+              )} logged in the last two weeks`}
+              className="-rotate-1 border-2 border-live px-2 py-0.5 font-display text-xs font-bold text-ink"
+            >
+              {formatHours(game.playtime2Weeks / 60)} RECENT
+            </span>
+          ) : (
+            <span
+              aria-hidden="true"
+              className="-rotate-1 border-2 border-dashed border-kraft px-2 py-0.5 font-display text-xs font-bold text-gray-600"
+            >
+              — RECENT
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import MarqueeText from "../ui/MarqueeText";
 import Eyebrow from "../ui/Eyebrow";
 
 function SpotifyWidget() {
-  const { track, loading, error } = useSpotify();
+  const { track, loading } = useSpotify();
   const heading = track
     ? track.isPlaying
       ? "Now Playing"
@@ -25,11 +25,6 @@ function SpotifyWidget() {
       <div className="mt-2">
         {loading ? (
           <SkeletonBody />
-        ) : error ? (
-          <IdlePlaceholder
-            title="Offline"
-            message="Can’t reach Spotify right now."
-          />
         ) : !track ? (
           <IdlePlaceholder />
         ) : (
@@ -143,15 +138,13 @@ function TrackBody({ track }) {
   );
 }
 
-function IdlePlaceholder({ title = "Nothing playing", message }) {
+function IdlePlaceholder() {
   return (
     <div className="grid grid-cols-5 items-center gap-3">
       <Record spinning={false} />
       <div className="col-span-3 min-w-0">
-        <p className="text-sm font-bold text-ink">{title}</p>
-        <p className="text-xs text-gray-600">
-          {message ?? "404 music not found."}
-        </p>
+        <p className="text-sm font-bold text-ink">Nothing playing</p>
+        <p className="text-xs text-gray-600">404 music not found.</p>
       </div>
     </div>
   );
