@@ -1,7 +1,14 @@
 function json(body, status = 200, extraHeaders = {}) {
+  // Default to no-store so transient error responses (502/500/405) are never
+  // cached. Success handlers pass their own Cache-Control in extraHeaders,
+  // which overrides this default.
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json", ...extraHeaders },
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+      ...extraHeaders,
+    },
   });
 }
 
@@ -259,6 +266,16 @@ async function route(request, env) {
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+
+    // Canonical host: 301 www.* -> apex, preserving path + query. Avoids
+    // duplicate content (both custom domains otherwise serve identical pages)
+    // and consolidates SEO signal on the bare apex used in security.txt.
+    if (url.hostname.startsWith("www.")) {
+      url.hostname = url.hostname.slice(4);
+      return withSecurityHeaders(Response.redirect(url.toString(), 301));
+    }
+
     // Only GET/HEAD are ever needed; reject the rest before doing any work.
     if (request.method !== "GET" && request.method !== "HEAD") {
       return withSecurityHeaders(
