@@ -1,3 +1,38 @@
-# https://noahpn.dev — personal site, everything is public.
+# https://noahpn.dev — personal site, content is public.
+#
+# AI stance: discoverable by search engines and AI answer/agent engines,
+# but opted out of model training. Expressed two ways for coverage:
+#   1. Content signals (machine-readable intent) on the wildcard group.
+#   2. Explicit Disallow for training-only crawlers below. Their search/agent
+#      siblings (e.g. OAI-SearchBot, ChatGPT-User, Googlebot, Applebot) are not
+#      listed, so they fall through to the permissive wildcard group and stay
+#      allowed. Compliance is voluntary — well-behaved crawlers honor this.
+
 User-agent: *
+Content-signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
+
+# Training-only crawlers — blocked.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
