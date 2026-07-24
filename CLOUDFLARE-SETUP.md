@@ -395,6 +395,8 @@ Reviewed `public/_headers`, `public/robots.txt`, `worker/index.js`, `wrangler.js
 - `worker/index.js` — **`json()` now defaults to `Cache-Control: no-store`** so transient error
   responses (502/500/405) aren't cached; success handlers still override with their tuned values.
 - `public/robots.txt` — rewritten for the AI training opt-out (see AI Crawl Control audit).
+- `wrangler.jsonc` — `assets.run_worker_first: true` so the Worker runs before asset serving
+  (required for the www→apex redirect to fire on the root; see "www redirect" note below).
 
 **Optional / not applied (noted for consideration):**
 
@@ -409,6 +411,19 @@ Reviewed `public/_headers`, `public/robots.txt`, `worker/index.js`, `wrangler.js
 
 **Re-verify after deploy:** `curl -sI https://www.noahpn.dev/` returns `301` → `https://noahpn.dev/`;
 widgets still render; error responses carry `Cache-Control: no-store`.
+
+**www redirect — root cause + real fix (2026-07-23):** after first deploy, `www.noahpn.dev/` still
+returned `200`, not the 301, while `/verify-redirect-<ts>` correctly returned 301. **Not a cache problem.**
+Root cause: Workers Static Assets use **asset-first routing** by default — a request matching a real
+asset (like `/` → `index.html`) is served directly and the Worker is _skipped_, so the redirect never
+ran for the root or other asset paths. Verified against CF docs (static-assets/routing/worker-script).
+**Fix applied:** `wrangler.jsonc` `assets.run_worker_first: true` — Worker now runs on every request
+before asset serving, so the redirect fires for `/` too. The default route still delegates to
+`env.ASSETS.fetch()`, so assets serve as before (now also carrying the Worker's security headers, which
+unifies the previously dual-sourced CSP). Overhead: one Worker invocation per request — negligible at
+this traffic. **Needs redeploy.** After deploy, purge once (`https://www.noahpn.dev/`) to clear the old
+cached 200, then verify `curl -sI https://www.noahpn.dev/` → 301. Caveat: `?cb=` can't bust the HTML
+root (Assets normalizes the query string in the cache key) — verify via an uncached path or a real purge.
 
 ## Reference — original Cloudflare scan warnings
 

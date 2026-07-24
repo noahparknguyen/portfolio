@@ -14,6 +14,13 @@
     "directory": "./dist/client",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
+    // Run the Worker before static-asset serving so the fetch() handler runs on
+    // EVERY request (including the root and other real assets). Required for the
+    // www->apex redirect to fire on `/` — by default assets are served first and
+    // the Worker is skipped for asset-matching paths. The Worker's default route
+    // still delegates to env.ASSETS.fetch(), so assets serve as before, now also
+    // carrying the Worker's security headers (unifying the header source).
+    "run_worker_first": true,
   },
   "routes": [
     { "pattern": "noahpn.dev", "custom_domain": true },
