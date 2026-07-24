@@ -144,8 +144,8 @@ The page outline is fixed:
 - `h3` — subsections and card titles inside a section.
 
 Never add a second `h1`. Keep levels in order (no skipping). Not every
-`<Eyebrow>` is a heading — a genuine card title (Devlog's "Dev Journal", Links'
-"Get in Touch") stays the default `<h3>`, but a decorative status label sitting
+`<Eyebrow>` is a heading — a genuine card title (Devlog's "Most recent
+updates", Links' "Get in Touch") stays the default `<h3>`, but a decorative status label sitting
 next to a value (Weather's "Ottawa", Spotify's "Now Playing"/"Paused", Steam's
 "What I've been playing") should pass `as="p"` / `as="span"` so it doesn't
 register as a heading. About's `h2` lives **inside the passport** — on the
@@ -185,7 +185,7 @@ border-<section hue>` for the accent underline under a section title.
   surface that is itself a discrete pinned object sized to the text — a title
   **sign** (`SectionTitle`, on the passport's opaque page), a label **tag**
   (`LabelTag`, wrapping a heading/`<Eyebrow>` — "My personal stack", "Get in
-  Touch", "Dev Journal", "Where I've Worked", "What I've Achieved"), or a
+  Touch", "Most recent updates", "Where I've Worked", "What I've Achieved"), or a
   **note** (the work-timeline entries, each on its own small bordered
   `shadow-sticker` card beside its stamp). **Non-text decorative objects**
   (tech stamps, Links' sticky-notes, the taped photo) stay bare on the sky —
@@ -315,8 +315,11 @@ bg-white shadow-sticker` tag so it reads over the sky), and handwritten
 - **Documented exceptions.** A few widget-internal values sit off this scale
   on purpose, kept as-is because changing them would shift pixels on an
   already-approved Home/About layout rather than just tidying notation:
-  Steam's date-due block (`mt-5`, `space-y-2.5`, `pb-2.5` — its own tighter
-  due-slip rhythm); and a recurring **tight caption-under-label** micro-pattern
+  Steam's date-due block (`mt-5`, `pb-2.5` — its own tighter due-slip rhythm)
+  and its rubber-stamp chips (`px-2 py-0.5` — a compact stamp padding, the same
+  off-scale chip class as `LabelTag`'s `px-3 py-1`, not a cell-scale value, so
+  the "no one-off `px`/`py` pairs" rule above doesn't apply to it); and a
+  recurring **tight caption-under-label** micro-pattern
   at `mt-1` (2px tighter than the canonical `mt-2`) — TechStack's badge label
   and hover-note offset, the About passport's "TYPE P · CAN" chip and its Bio
   signature rule, and Weather's "OTTAWA, ON" caption and Postmark clock line.
@@ -448,10 +451,10 @@ a `min-w-0 sm:w-[N%]` wrapper — a fixed percentage gives it a **deliberate
 width**, not a flex ratio. The four rows: Welcome (65%) + the photo (30%);
 Live Reaction (15%) + the Weather postcard (45%) + Links (30%) — three
 widgets, not a pair; a full-width TechStack strip; then a stacked
-[Spotify + Dev Journal] column (55%) beside Steam (40%). Widget headings that
+[Spotify + Devlog] column (55%) beside Steam (40%). Widget headings that
 aren't already on an opaque card float as `LabelTag` strips above their
 object (Steam's "What I've been playing" matches Links' "Get in Touch",
-TechStack's "My personal stack", and Devlog's "Dev Journal").
+TechStack's "My personal stack", and Devlog's "Most recent updates").
 
 **Compact masthead.** The banner and nav share a tight vertical rhythm so they
 don't dominate the fold: the nav is `py-2.5` (not `py-4`) and the banner's top
