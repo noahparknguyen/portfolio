@@ -110,7 +110,7 @@ function Home() {
       {/* Row 3 — My Personal Stack (full-width strip) */}
       <TechStack />
 
-      {/* Row 4 — bento: [Spotify / Dev Journal] ←→ Steam */}
+      {/* Row 4 — bento: [Spotify / Devlog] ←→ Steam */}
       <div className={ROW}>
         <div className="flex w-full flex-col gap-5 sm:w-[55%] sm:items-center">
           <div className="min-w-0 w-full sm:w-[70%]">
@@ -120,7 +120,7 @@ function Home() {
               </LabelTag>
             </div>
             <PinnedCard
-              bg="bg-orchid-soft"
+              bg="bg-blue-soft"
               padding="p-3"
               rotate="-rotate-[1deg]"
               className="mt-2"

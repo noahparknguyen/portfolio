@@ -14,12 +14,18 @@ domain is configured, plus a couple of dated reminders at the bottom.
 
 - **Security headers** — CSP, X-Frame-Options `DENY`, X-Content-Type-Options `nosniff`,
   Referrer-Policy, Permissions-Policy, Cross-Origin-Opener-Policy, X-DNS-Prefetch-Control.
-  Split by response type because static assets bypass the Worker:
-  - `public/_headers` → static assets (HTML/CSS/JS), applied at Cloudflare's edge.
-  - `worker/index.js` (`withSecurityHeaders`) → dynamic routes (`/api/*`, `/.well-known/security.txt`).
+  Set in two places that must stay in sync:
+  - `worker/index.js` (`withSecurityHeaders`) → applied to **every** response. Since
+    `assets.run_worker_first: true` (`wrangler.jsonc`), the Worker runs ahead of asset
+    serving, so it sets these headers on static assets (`/`, hashed JS/CSS) as well as
+    the dynamic routes (`/api/*`, `/.well-known/security.txt`).
+  - `public/_headers` → the same headers declared at Cloudflare's edge for static
+    assets, kept as a belt-and-suspenders fallback (and the original source from before
+    the Worker ran on every request).
   - The two CSP strings must stay identical. `script-src` stays `'self'` (no inline JS,
-    no third-party scripts). `style-src` allows `https://fonts.googleapis.com` and
-    `font-src` allows `https://fonts.gstatic.com` for the Google Fonts stylesheet
+    no third-party scripts); `style-src` adds `'unsafe-inline'` (for React's inline
+    style attributes and Tailwind's injected styles) plus `https://fonts.googleapis.com`,
+    and `font-src` allows `https://fonts.gstatic.com`, for the Google Fonts stylesheet
     imported in `src/index.css` — the only third-party origins in the policy besides
     the broad `img-src https:` for widget artwork.
 - **Method guard** — non-GET/HEAD requests rejected with 405.

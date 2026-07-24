@@ -12,7 +12,7 @@ const WORK = [
     summary:
       "My first professional experience — completed simple tickets and tasks, fixing issues in the codebase.",
     rotate: "rotate-[2deg]",
-    tint: "bg-rose-soft",
+    tint: "bg-violet-soft",
     cardTint: "bg-violet-soft",
   },
   {
@@ -23,7 +23,7 @@ const WORK = [
       "Helped make and execute test cases for Algonquin's new student information system, the R3 project.",
     rotate: "-rotate-[1.5deg]",
     tint: "bg-blue-soft",
-    cardTint: "bg-rose-soft",
+    cardTint: "bg-blue-soft",
   },
   {
     acronym: "DND",
@@ -33,7 +33,7 @@ const WORK = [
       "Worked on a number of projects and delivered a handful of tools for various teams within DND.",
     rotate: "rotate-[1.5deg]",
     tint: "bg-orchid-soft",
-    cardTint: "bg-blue-soft",
+    cardTint: "bg-orchid-soft",
   },
 ];
 
@@ -47,7 +47,7 @@ const ACHIEVEMENTS = [
     logo: algonquinLogo,
     logoAlt: "Algonquin College logo",
     rotate: "-rotate-[1deg]",
-    tint: "bg-orchid-soft",
+    tint: "bg-blue-soft",
   },
 ];
 
