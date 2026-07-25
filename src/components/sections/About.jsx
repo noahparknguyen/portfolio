@@ -10,7 +10,7 @@ const WORK = [
     org: "FINTRAC",
     role: "Application Developer · Jan – Apr 2024",
     summary:
-      "My first professional experience — completed simple tickets and tasks, fixing issues in the codebase.",
+      "My first professional experience ever. I was given basic tasks and tickets to handle — fairly simple, but an awesome way to get my foot in the door.",
     rotate: "rotate-[2deg]",
     tint: "bg-violet-soft",
     cardTint: "bg-violet-soft",
@@ -20,7 +20,7 @@ const WORK = [
     org: "Algonquin College",
     role: "Software Tester · Sep – Dec 2024",
     summary:
-      "Helped make and execute test cases for Algonquin's new student information system, the R3 project.",
+      "Spent my time creating test cases, writing up bug reports, and making sure the new student information system we were working on was sound and stable.",
     rotate: "-rotate-[1.5deg]",
     tint: "bg-blue-soft",
     cardTint: "bg-blue-soft",
@@ -30,7 +30,7 @@ const WORK = [
     org: "Department of National Defence",
     role: "Application Developer · Feb – Dec 2025",
     summary:
-      "Worked on a number of projects and delivered a handful of tools for various teams within DND.",
+      "A true professional position. Worked on professional projects, developing internal tools for clients across various teams within DND. My first time owning my features end-to-end.",
     rotate: "rotate-[1.5deg]",
     tint: "bg-orchid-soft",
     cardTint: "bg-orchid-soft",

@@ -81,17 +81,17 @@ function Bio({ onNavigate }) {
   return (
     <div className="flex h-full flex-col">
       <p>
-        What's up? I'm Noah — a full-stack developer, CS graduate, and Java
-        defender from Canada. You can read up on my personal journey by
-        navigating through the tabs. If you want to see what I'm currently up
-        to, check out the{" "}
+        What's up? I'm Noah — a full-stack developer, CS graduate, and
+        competitive nap taker from Canada. You can read up on my personal
+        journey by navigating through the tabs. If you want to see what I'm
+        currently up to, check out the{" "}
         <span className="whitespace-nowrap">
           <TextLink accent="violet" onClick={() => onNavigate("now")}>
             Now page
           </TextLink>
           .
         </span>{" "}
-        And if you'd like to check out some of my other work, take a look at the{" "}
+        And if you'd like to peek at some of my other work, take a look at the{" "}
         <span className="whitespace-nowrap">
           <TextLink accent="violet" onClick={() => onNavigate("creations")}>
             Creations page
