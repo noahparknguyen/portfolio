@@ -41,8 +41,8 @@ function Home() {
               Welcome!
             </SectionTitle>
             <p className="mt-2 max-w-prose text-gray-700">
-              This little site right here is a personal space where I can
-              display more than just my work. Inspired by the{" "}
+              This little site right here is a personal space where I can show
+              off more than just my work. Inspired by the{" "}
               <TextLink href="https://indieweb.org" accent="rose" external>
                 indie web
               </TextLink>{" "}
@@ -51,8 +51,8 @@ function Home() {
                 Neocities
               </TextLink>
               , I wanted to make something that really reflected me more
-              earnestly, showing off my hobbies and interests outside of coding.
-              I hope you like it, and thanks for stopping by!
+              earnestly, sharing my hobbies and interests outside of coding. I
+              hope you like it, and thanks for stopping by!
             </p>
             <p className="mt-4 self-end text-right leading-tight">
               <span className="italic text-label">Best,</span>
