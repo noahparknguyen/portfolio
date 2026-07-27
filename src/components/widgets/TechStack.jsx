@@ -7,14 +7,13 @@ import {
   siSpring,
 } from "simple-icons";
 import { FaJava } from "react-icons/fa6";
+import tboiThumbsUpGif from "../../assets/tboi-thumbs-up.gif";
 import Eyebrow from "../ui/Eyebrow";
 import SimpleIcon from "../ui/SimpleIcon";
 import LabelTag from "../ui/LabelTag";
 
 function JavaIcon() {
-  return (
-    <FaJava aria-hidden="true" className="mx-auto h-7 w-7 text-brand-java" />
-  );
+  return <FaJava aria-hidden="true" className="mx-auto h-7 w-7 text-ink" />;
 }
 
 const TECH_ITEMS = [
@@ -100,7 +99,7 @@ function TechBadge({ item }) {
         {Glyph ? (
           <Glyph />
         ) : (
-          <SimpleIcon icon={item.icon} className="mx-auto h-7 w-7" />
+          <SimpleIcon icon={item.icon} className="mx-auto h-7 w-7 text-ink" />
         )}
         <span className="mt-1 block text-xs font-bold text-ink">
           {item.label}
@@ -111,6 +110,25 @@ function TechBadge({ item }) {
         className="sr-only md:not-sr-only md:pointer-events-none md:absolute md:left-1/2 md:top-full md:z-10 md:mt-1 md:-translate-x-1/2 md:whitespace-nowrap md:border-2 md:border-ink md:bg-white md:px-2 md:py-0.5 md:font-hand md:text-base md:text-ink md:opacity-100 md:shadow-sticker md:[@media(hover:hover)]:opacity-0 md:group-hover:opacity-100 md:group-[:has(:focus-visible)]:opacity-100"
       >
         {item.note}
+      </span>
+    </div>
+  );
+}
+
+// Decorative easter-egg cameo, not a tool — kept out of TECH_ITEMS/TECH_NAMES
+// and fully aria-hidden, so it never reaches the accessibility tree.
+function IsaacStamp() {
+  return (
+    <div className="group relative" aria-hidden="true">
+      <div className="shadow-sticker block w-20 rotate-3 border-2 border-ink bg-orchid-soft p-2 text-center transition-transform hover:-translate-y-1">
+        <img
+          src={tboiThumbsUpGif}
+          alt=""
+          className="block h-12 w-full object-cover"
+        />
+      </div>
+      <span className="hidden md:pointer-events-none md:absolute md:left-1/2 md:top-full md:z-10 md:mt-1 md:block md:-translate-x-1/2 md:whitespace-nowrap md:border-2 md:border-ink md:bg-white md:px-2 md:py-0.5 md:font-hand md:text-base md:text-ink md:opacity-100 md:shadow-sticker md:[@media(hover:hover)]:opacity-0 md:group-hover:opacity-100">
+        We love you Isaac
       </span>
     </div>
   );
@@ -128,6 +146,7 @@ function TechStack() {
         {TECH_ITEMS.map((item) => (
           <TechBadge key={item.key} item={item} />
         ))}
+        <IsaacStamp />
       </div>
       <span className="sr-only">My current toolset: {TECH_NAMES}.</span>
     </div>
