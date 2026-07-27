@@ -25,6 +25,17 @@ const MRZ = [
   "HK<CELESTE<BALATRO<<<<<<<<<<<<<<<<<<<<<<<<<<",
 ];
 
+// Shorter variant for below `md` — the full 44-char strip needs ~317px at
+// text-xs against a 244px cell (STYLE_GUIDE.md → Mobile composition). Same
+// spirit, same prefixes, just padded to a shorter shared length so the
+// per-character columns still line up. Padded rather than hand-counted so the
+// two lines can never drift out of sync.
+const MRZ_SHORT_LEN = 28;
+const MRZ_SHORT = [
+  "P<CANPARK<NGUYEN<<".padEnd(MRZ_SHORT_LEN, "<"),
+  "HK<CELESTE<BALATRO<".padEnd(MRZ_SHORT_LEN, "<"),
+];
+
 const TABS = [
   { key: "bio", label: "Bio", tint: "bg-rose-soft" },
   { key: "journey", label: "Journey", tint: "bg-violet-soft" },
@@ -153,7 +164,7 @@ function PassportBio({ active, i, go, onNavigate }) {
         role="tabpanel"
         id="about-passport-panel"
         aria-labelledby={`tab-${active}`}
-        className="devlog-scroll relative mt-4 flex-1 space-y-2 overflow-y-auto pr-1 text-gray-700"
+        className="devlog-scroll relative mt-4 space-y-2 pr-1 text-gray-700 md:flex-1 md:overflow-y-auto"
       >
         {active === "bio" ? (
           <Bio onNavigate={onNavigate} />
@@ -186,9 +197,9 @@ function Passport({ onNavigate }) {
   };
 
   return (
-    <div className="rotate-[-0.4deg]">
-      <Panel as="div" className="shadow-sticker h-168 grid-rows-2">
-        <Cell padding="p-6" bg="bg-paper">
+    <div className="md:rotate-[-0.4deg]">
+      <Panel as="div" className="shadow-sticker md:h-168 md:grid-rows-2">
+        <Cell padding="p-4 md:p-6" bg="bg-paper">
           <div className="relative flex h-full flex-col">
             <img
               src={mapleLeaf}
@@ -197,13 +208,13 @@ function Passport({ onNavigate }) {
               className="pointer-events-none absolute inset-0 m-auto h-40 w-40"
               style={{ opacity: "var(--opacity-watermark)" }}
             />
-            <div className="relative flex items-start justify-between gap-3">
+            <div className="relative flex flex-wrap items-start justify-between gap-3">
               <SectionTitle accent="violet">About Me!</SectionTitle>
               <span className="mt-1 shrink-0 font-mono text-xs text-label">
                 TYPE P · CAN
               </span>
             </div>
-            <div className="relative mt-2 flex items-center gap-1.5 font-display font-bold tracking-wide text-ink">
+            <div className="relative mt-2 flex flex-wrap items-center gap-1.5 font-display font-bold tracking-wide text-ink">
               <img
                 src={flagCanada}
                 alt=""
@@ -218,18 +229,35 @@ function Passport({ onNavigate }) {
               />
               PASSPORT · PASSEPORT
             </div>
-            <div className="relative mt-4 flex gap-4">
+            <div className="relative mt-4 md:flex md:gap-4">
               <img
                 src={headshot}
                 alt="Noah, headshot"
                 width="240"
                 height="240"
                 decoding="async"
-                className="h-28 w-28 shrink-0 border-2 border-ink object-cover"
+                className="float-left mb-2 mr-4 h-28 w-28 shrink-0 border-2 border-ink object-cover md:float-none md:mb-0 md:mr-0"
               />
-              <dl className="grid flex-1 grid-cols-2 gap-x-4 gap-y-2">
-                {ID_FIELDS.map((f) => (
-                  <div key={f.label}>
+              {/* Below `md` this must stay `display: block`, not a one-column
+                  grid — a grid container doesn't flow around a float, it just
+                  narrows and stays rectangular, which recreates the same
+                  14-character column this is meant to fix (STYLE_GUIDE.md →
+                  Mobile composition). Block flow's line boxes are what let
+                  text wrap around the floated photo. */}
+              <dl className="block md:flex-1 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-2">
+                {ID_FIELDS.map((f, n) => (
+                  <div
+                    key={f.label}
+                    /* Only the first two fields ride beside the floated photo.
+                       Everything from index 2 (Date of birth) clears it, so a
+                       field can never straddle the float — half its label
+                       beside the photo and half wrapped underneath, which is
+                       what unconstrained flow produced at some widths. Two is
+                       the count that fits the photo's 112px band at 320px;
+                       clearing makes the boundary deterministic instead of
+                       letting it drift with the viewport. */
+                    className={`mb-2 md:mb-0 ${n >= 2 ? "clear-left md:clear-none" : ""}`}
+                  >
                     <Eyebrow as="dt">{f.label}</Eyebrow>
                     <dd className="mt-0.5 font-bold text-ink">{f.value}</dd>
                   </div>
@@ -238,12 +266,22 @@ function Passport({ onNavigate }) {
             </div>
             <div
               aria-hidden="true"
-              className="relative mt-auto border-t-2 border-ink pt-2"
+              className="relative clear-both mt-auto border-t-2 border-ink pt-2"
             >
               {MRZ.map((line) => (
                 <div
                   key={line}
-                  className="flex justify-between font-mono text-xs text-ink"
+                  className="hidden justify-between font-mono text-xs text-ink md:flex"
+                >
+                  {[...line].map((ch, idx) => (
+                    <span key={idx}>{ch}</span>
+                  ))}
+                </div>
+              ))}
+              {MRZ_SHORT.map((line) => (
+                <div
+                  key={line}
+                  className="flex justify-between font-mono text-xs text-ink md:hidden"
                 >
                   {[...line].map((ch, idx) => (
                     <span key={idx}>{ch}</span>
@@ -279,11 +317,15 @@ function Passport({ onNavigate }) {
               aria-label={t.label}
               tabIndex={on ? 0 : -1}
               onClick={() => setI(n)}
-              className={`flex flex-1 items-end justify-center border-2 border-t-0 border-ink ${t.tint} font-display text-sm font-semibold text-ink transition-all ${
-                on ? "h-8 pb-1" : "h-4"
-              }`}
+              className="flex h-8 flex-1 items-start justify-center"
             >
-              {on ? t.label : ""}
+              <span
+                className={`flex w-full items-end justify-center border-2 border-t-0 border-ink ${t.tint} font-display text-sm font-semibold text-ink transition-all ${
+                  on ? "h-8 pb-1" : "h-4"
+                }`}
+              >
+                {on ? t.label : ""}
+              </span>
             </button>
           );
         })}

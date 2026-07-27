@@ -151,7 +151,11 @@ function Credits() {
       aria-labelledby="credits-heading"
       className="flex justify-center py-8"
     >
-      <PinnedCard bg="bg-paper" padding="p-6" className="relative max-w-xl">
+      <PinnedCard
+        bg="bg-paper"
+        padding="p-4 md:p-6"
+        className="relative max-w-xl"
+      >
         <Tape className="absolute -top-3 left-1/2 -translate-x-1/2" />
 
         {/* Credits has no single owned hue (STYLE_GUIDE.md → Color → Sky
@@ -170,7 +174,7 @@ function Credits() {
 
         <div className="mt-4 border-t-2 border-ink" />
 
-        <div className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+        <div className="mt-4 grid gap-x-6 gap-y-4 md:grid-cols-2">
           {GROUPS.map((group) => (
             <CreditGroup key={group.id} group={group} />
           ))}
@@ -178,12 +182,19 @@ function Credits() {
 
         <div className="mt-6 border-t-2 border-ink" />
 
-        <div className="mt-4 flex items-end justify-between gap-4">
-          <p className="text-sm text-gray-600 w-[60%]">
+        {/* The `w-[60%]` sign-off split is a desktop layout width. Below md it
+            would leave the sentence ~19 characters a line beside the ~85px
+            signature, so the row stacks instead and the paragraph takes the
+            full column. */}
+        <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-4">
+          <p className="text-sm text-gray-600 md:w-[60%]">
             Planned, designed, and built by Noah. Thanks for scrolling all the
             way down here.
           </p>
-          <span aria-hidden="true" className="font-hand text-2xl text-ink">
+          <span
+            aria-hidden="true"
+            className="self-end font-hand text-2xl text-ink md:self-auto"
+          >
             Noah :)
           </span>
         </div>

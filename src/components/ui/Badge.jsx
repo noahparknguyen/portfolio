@@ -13,7 +13,7 @@ function Badge({ href, icon, top, bottom, tint = "bg-rose-soft" }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className={`shadow-sticker flex h-10 w-36 items-center justify-center gap-2 border-2 border-ink px-2 transition-colors ${tint} ${HOVER_TINT[tint] ?? ""}`}
+      className={`shadow-sticker flex h-11 w-full max-w-36 items-center justify-center gap-2 border-2 border-ink px-2 transition-colors md:h-10 ${tint} ${HOVER_TINT[tint] ?? ""}`}
     >
       <SimpleIcon icon={icon} className="h-6 w-6 shrink-0" />
       <span className="text-center leading-none">

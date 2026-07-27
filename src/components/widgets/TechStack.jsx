@@ -108,7 +108,7 @@ function TechBadge({ item }) {
       </a>
       <span
         id={noteId}
-        className="shadow-sticker pointer-events-none absolute left-1/2 top-full z-10 mt-1 -translate-x-1/2 whitespace-nowrap border-2 border-ink bg-white px-2 py-0.5 font-hand text-base text-ink opacity-100 [@media(hover:hover)]:opacity-0 group-hover:opacity-100 group-[:has(:focus-visible)]:opacity-100"
+        className="sr-only md:not-sr-only md:pointer-events-none md:absolute md:left-1/2 md:top-full md:z-10 md:mt-1 md:-translate-x-1/2 md:whitespace-nowrap md:border-2 md:border-ink md:bg-white md:px-2 md:py-0.5 md:font-hand md:text-base md:text-ink md:opacity-100 md:shadow-sticker md:[@media(hover:hover)]:opacity-0 md:group-hover:opacity-100 md:group-[:has(:focus-visible)]:opacity-100"
       >
         {item.note}
       </span>
@@ -124,7 +124,7 @@ function TechStack() {
           <Eyebrow>My current toolset</Eyebrow>
         </LabelTag>
       </div>
-      <div className="mt-2 flex flex-wrap justify-center gap-2 pb-7">
+      <div className="mt-2 flex flex-wrap justify-center gap-2 pb-0 md:pb-7">
         {TECH_ITEMS.map((item) => (
           <TechBadge key={item.key} item={item} />
         ))}

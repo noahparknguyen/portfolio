@@ -28,8 +28,8 @@
   --color-blue-soft: #cbdcf0;
   --color-orchid-soft: #eccfe8;
 
-  /* Handcrafted-pass additions (see prompts/handcrafted-pass-1.md) —
-     intentional exceptions to the plain bulletin-board grammar. */
+  /* Handcrafted-pass additions — intentional exceptions to the plain
+     bulletin-board grammar. */
   --color-paper: #fbf3e9; /* warm note-paper (Welcome letter) */
   --color-live: #e24b4a; /* record/live red — Live Reaction cue + Steam date-stamp border */
   --color-kraft: #b98a5e; /* Devlog + Steam ruled lines — warm material accent, never text */
@@ -44,6 +44,20 @@
   --color-wordmark-via: #8e7dc4;
   --color-wordmark-to: #d77ba9;
 
+  /* Sky-photo edge fallback (STYLE_GUIDE.md → Mobile deviation 5). Sampled by
+     eye from bg-pinksky.jpg's dominant lower field and softened a touch so it
+     reads as backdrop, not as an accent. Deliberately NOT --color-rose: that
+     hue is Home's owned section identity, and site-wide chrome must not be
+     painted in one section's colour. Nudge freely — it's only ever glimpsed
+     behind an overscroll bounce. */
+  --color-sky-edge: #f5a3c7;
+
+  /* Fluid wordmark size (STYLE_GUIDE.md → Mobile deviation 1). Named -fluid
+     so it doesn't read as a sibling of the --font-wordmark family token.
+     Caps at 3rem (text-5xl) so it's a drop-in replacement — desktop is
+     unaffected since the clamp saturates at its max well under 768px. */
+  --text-wordmark-fluid: clamp(1.875rem, 9vw, 3rem);
+
   /* Inline SVG glyph stroke-width scale (STYLE_GUIDE.md → Handcrafted layer). */
   --stroke-fine: 1.5; /* hairlines, rings, sub-16px detail */
   --stroke-regular: 2; /* default line-art icons (16–40px) */
@@ -57,6 +71,12 @@
 }
 
 @layer base {
+  /* Sky-sampled fallback so iOS overscroll bounce reveals this instead of
+     white past the fixed sky layer (App.jsx) at the top/bottom edges. */
+  html {
+    background-color: var(--color-sky-edge);
+  }
+
   body {
     font-family: var(--font-sans);
     color: var(--color-ink);
@@ -82,6 +102,19 @@
   :focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 2px;
+  }
+}
+
+/* Wordmark stroke width — thinner below md (STYLE_GUIDE.md → Mobile
+   deviation 2). An inline style can't hold a media query, so Banner's
+   -webkit-text-stroke reads this custom property instead. The 768px query
+   below is the md breakpoint; keep the two in step. */
+.wordmark {
+  --wordmark-stroke: 1.5px;
+}
+@media (min-width: 768px) {
+  .wordmark {
+    --wordmark-stroke: 2px;
   }
 }
 
@@ -152,21 +185,28 @@
     animation: eq-bounce 0.9s ease-in-out infinite;
   }
 
-  /* Devlog (Devlog.jsx): a chunky, in-aesthetic scrollbar instead of the
-     default browser one. Chunky square styling is WebKit/Blink only;
-     scrollbar-color is the Firefox fallback (slim lilac-on-ink). */
-  .devlog-scroll {
-    scrollbar-color: var(--color-primary) var(--color-primary-soft);
-  }
-  .devlog-scroll::-webkit-scrollbar {
-    width: 14px;
-  }
-  .devlog-scroll::-webkit-scrollbar-track {
-    background: var(--color-primary-soft);
-    border-left: 2px solid var(--color-ink);
-  }
-  .devlog-scroll::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border: 2px solid var(--color-ink);
+  /* Devlog (Devlog.jsx) + the passport bio panel: a chunky, in-aesthetic
+     scrollbar instead of the default browser one, restored at md: only
+     (STYLE_GUIDE.md → Mobile deviation 7). Below md this permanently
+     occupied 14px — 6% of a 244px panel — to draw an affordance the OS
+     already provides as a zero-width overlay on touch, so the custom
+     styling steps aside there and the native scrollbar takes over. Chunky
+     square styling is WebKit/Blink only; scrollbar-color is the Firefox
+     fallback (slim lilac-on-ink). */
+  @media (min-width: 768px) {
+    .devlog-scroll {
+      scrollbar-color: var(--color-primary) var(--color-primary-soft);
+    }
+    .devlog-scroll::-webkit-scrollbar {
+      width: 14px;
+    }
+    .devlog-scroll::-webkit-scrollbar-track {
+      background: var(--color-primary-soft);
+      border-left: 2px solid var(--color-ink);
+    }
+    .devlog-scroll::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border: 2px solid var(--color-ink);
+    }
   }
 }

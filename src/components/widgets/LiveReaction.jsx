@@ -15,8 +15,8 @@ function LiveReaction() {
         <img
           src={celeste}
           alt="Madeline from Celeste, mid-reaction"
-          width="498"
-          height="498"
+          width="300"
+          height="300"
           decoding="async"
           className="block h-auto w-full border-2 border-ink"
         />

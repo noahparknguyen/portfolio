@@ -38,21 +38,38 @@ function App() {
   }, []);
 
   return (
-    <div
-      className="min-h-screen w-full bg-cover bg-center bg-fixed bg-no-repeat"
-      style={{ backgroundImage: `url(${pinksky})` }}
-    >
-      <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-4 px-4 py-6">
-        <div className="shadow-sticker border-4 border-ink bg-primary-soft">
+    <div className="w-full">
+      {/* Fixed viewport-covering layer instead of a background-attachment
+          wrapper — see CLAUDE.md → Mechanics for why that's disallowed
+          (repaints incorrectly under the sticky nav's moving compositing
+          layer). */}
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${pinksky})` }}
+      />
+
+      <Header
+        active={active}
+        onNavigate={setActive}
+        sticky
+        className="md:hidden"
+      />
+      <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-4 px-3 py-6 md:px-4">
+        <div className="-mx-3 border-x-0 border-y-4 border-ink bg-primary-soft shadow-none md:mx-0 md:border-4 md:shadow-sticker">
           <Banner />
-          <Header active={active} onNavigate={setActive} />
+          <Header
+            active={active}
+            onNavigate={setActive}
+            className="hidden md:block"
+          />
         </div>
 
-        <main className="flex-1">
+        <main className="mx-auto max-w-md flex-1 md:mx-0 md:max-w-none">
           <ActiveSection onNavigate={setActive} />
         </main>
 
-        <div className="shadow-sticker border-4 border-ink bg-primary-soft">
+        <div className="-mx-3 border-x-0 border-y-4 border-ink bg-primary-soft shadow-none md:mx-0 md:border-4 md:shadow-sticker">
           <Footer active={active} onNavigate={setActive} />
         </div>
       </div>
