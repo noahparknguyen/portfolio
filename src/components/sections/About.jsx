@@ -132,7 +132,7 @@ function WorkTimeline() {
             >
               ???
             </span>
-            <div className="shadow-sticker rotate-[1deg] border-2 border-dashed border-ink bg-paper p-3 md:rotate-none">
+            <div className="shadow-sticker rotate-1 border-2 border-dashed border-ink bg-paper p-3 md:rotate-none">
               <p className="font-display font-semibold text-ink">Pending</p>
               <p className="text-xs text-label">New role incoming</p>
               <p className="mt-0.5 text-sm text-gray-600">
