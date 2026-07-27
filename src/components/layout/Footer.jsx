@@ -37,9 +37,9 @@ const BADGES = [
 const FOOTER_NOTE = {
   home: "bapanada",
   about: "whoami",
-  now: "she mime on my baron till i naneinf",
-  creations: "funny how we get attached to the struggle",
-  credits: "the receipts",
+  now: "hey now",
+  creations: "WIP",
+  credits: "looks inside",
 };
 
 function Footer({ active, onNavigate }) {

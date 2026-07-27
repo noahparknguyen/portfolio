@@ -26,7 +26,7 @@ function Devlog() {
   return (
     <div>
       <div className="text-center">
-        <LabelTag rotate="-rotate-[1deg]">
+        <LabelTag rotate="rotate-[1deg]">
           <Eyebrow>Most recent updates</Eyebrow>
         </LabelTag>
       </div>
