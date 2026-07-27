@@ -184,8 +184,9 @@ border-<section hue>` for the accent underline under a section title.
 - **Text never sits directly on the sky.** Every run of text rides an opaque
   surface that is itself a discrete pinned object sized to the text — a title
   **sign** (`SectionTitle`, on the passport's opaque page), a label **tag**
-  (`LabelTag`, wrapping a heading/`<Eyebrow>` — "My personal stack", "Get in
-  Touch", "Most recent updates", "Where I've Worked", "What I've Achieved"), or a
+  (`LabelTag`, wrapping a heading/`<Eyebrow>` — "My current toolset", "What
+  I'm listening to", "Get in touch", "Most recent updates", "Where I've
+  Worked", "What I've Achieved"), or a
   **note** (the work-timeline entries, each on its own small bordered
   `shadow-sticker` card beside its stamp). **Non-text decorative objects**
   (tech stamps, Links' sticky-notes, the taped photo) stay bare on the sky —
@@ -212,16 +213,16 @@ border-<section hue>` for the accent underline under a section title.
   and adjacent tech stamps differ. Headers stay on the standard `ink` / `label`
   / `on-ink` roles regardless of a card's tint (switching to `on-ink` only
   where the fill itself is dark, e.g. the Live Reaction label bar) — the
-  variation is in the fill, not the text. The touching-cell grids (About's
-  passport, Projects) stay plain white.
+  variation is in the fill, not the text. The touching-cell grid (About's
+  passport) stays plain white.
 - **Shadows:** `shadow-sticker` (`@utility` in `src/index.css`, a hard
   `4px 4px 0 0` ink offset with no blur) is the **only** shadow on the site,
   but it's no longer a narrow exception — it's the standard depth cue for
   every pinned object: all of Home's `PinnedCard`s carry it by default, the
   masthead and footer bands carry it too (so the stable frame matches the
   pinned-object depth used everywhere else), plus the rest of the handcrafted
-  layer (see below for exactly where). Touching-cell groups (About's
-  passport, Projects) stay flat with no shadow — the ink seam is their depth
+  layer (see below for exactly where). The touching-cell group (About's
+  passport) stays flat with no shadow — the ink seam is their depth
   cue instead.
 - **Gradients:** one exception — the banner wordmark uses a soft sky gradient
   (blue → violet → pink) via background-clip text, with a `2px` ink outline
@@ -289,15 +290,17 @@ bg-white shadow-sticker` tag so it reads over the sky), and handwritten
   `--color-*`, so a class like `opacity-watermark` is silently inert.
 - **Round, non-rectangular shapes** are allowed here even though rectangles
   stay square-cornered everywhere (see Corners above) — the pushpin, the
-  Spotify record disc, the Weather postcard's postmark ring, and small round
-  accent dots (the REC indicator, the banner's flanking dots).
+  Spotify record disc, the Weather postcard's postmark ring, small round
+  accent dots (the REC indicator, the banner's flanking dots), and the
+  achievement cards' circular logo bezel (and its matching "Locked"
+  placeholder circle).
 
 ---
 
 ## Spacing scale
 
-- **Grid gap:** `gap-0.5` (2px) for touching-cell grids (About's passport,
-  Projects) — never `gap-[2px]`. Pinned-object grids (Home) use a real gap
+- **Grid gap:** `gap-0.5` (2px) for the touching-cell grid (About's passport)
+  — never `gap-[2px]`. Pinned-object grids (Home) use a real gap
   instead — `gap-5` — so the sky shows between cards. Within a widget:
   `gap-4` for sub-groups (a badge grid, a stack of link cards), `gap-3` for an
   icon beside its text, `gap-2` for tight inline groups. **Section gap:**
@@ -329,7 +332,7 @@ bg-white shadow-sticker` tag so it reads over the sky), and handwritten
   Separately, `max-w-[..]` / `w-[..]` fractions (Steam's `max-w-[85%]` title
   truncation, Credits' sign-off `w-[60%]`) aren't spacing-scale values at all —
   they're the same class of intentional per-widget **layout width** as Home's
-  `sm:w-[65%]` row splits, not something this scale governs.
+  `md:w-[65%]` row splits, not something this scale governs.
 
 ---
 
@@ -443,13 +446,13 @@ pinned directly to that sky; About/Now/Creations render their own bordered
 panels on top of it.
 
 **Home is a bento of rows, not a rigid grid** — a `flex flex-col gap-5`
-stack. Each row is `flex flex-col gap-5 sm:flex-row sm:items-center
-sm:justify-between` (stacked on mobile; side-by-side, vertically centered,
-and hugging the row's edges on `sm+`, so a shorter widget sits centered
+stack. Each row is `flex flex-col gap-5 md:flex-row md:items-center
+md:justify-between` (stacked on mobile; side-by-side, vertically centered,
+and hugging the row's edges on `md+`, so a shorter widget sits centered
 against a taller neighbour instead of pinned to its top). Each widget sits in
-a `min-w-0 sm:w-[N%]` wrapper — a fixed percentage gives it a **deliberate
+a `min-w-0 md:w-[N%]` wrapper — a fixed percentage gives it a **deliberate
 width**, not a flex ratio. The four rows: Welcome (65%) + the photo (30%);
-Live Reaction (15%) + the Weather postcard (45%) + Links (30%) — three
+Live Reaction (20%) + the Weather postcard (45%) + Links (30%) — three
 widgets, not a pair; a full-width TechStack strip; then a stacked
 [Spotify + Devlog] column (55%) beside Steam (40%). Widget headings that
 aren't already on an opaque card float as `LabelTag` strips above their
@@ -463,10 +466,230 @@ gives the horizontal inset, `gap-4` gives the vertical breathing room from the
 bands, and each section supplies its own framing (Home's card gaps, About/Now/
 Creations' own bordered panels).
 
-Cells (in the touching-cell groups that remain — About's passport, Projects)
+Cells (in the touching-cell grid that remains — About's passport)
 center their content vertically (`flex flex-col justify-center`) so a cell
 that's shorter than its row distributes the slack evenly instead of pinning
 content to the top.
+
+---
+
+## Mobile (≤ 767px)
+
+Everything above describes the site at its design width of **768px**. This
+section is the complete, auditable list of how the spec behaves below that —
+and, separately, the short list of places where it is genuinely _broken_ on
+purpose.
+
+The governing principle is the one already stated in **Composition may vary —
+the grammar doesn't**: stacking a row, dropping a widget to full width, or
+reordering a footer is **composition**, and needs no permission from this
+section. Only a change to the grammar itself — a size off the type scale, a
+missing `shadow-sticker`, a new motion rule — is a deviation, and every one of
+them is listed below.
+
+`CLAUDE.md` holds the _process_ contract (the 320px floor, the two-tier
+breakpoint rule, the verification widths). This section holds the _visual_
+consequences. Neither repeats the other.
+
+### Tiers
+
+Two, and only two. Base (unprefixed) styles are the mobile composition and
+cover **320–767px**; **`md:` (768px)** restores the desktop composition
+described everywhere else in this guide.
+
+The boundary is `md` because **`md` is the design width**. Every composition in
+this guide was drawn at 768px, so 768px is the first width at which it is
+correct. Gating on `sm:` (640px) would switch the desktop layout on in a
+viewport 128px narrower than it was designed for and force it to compress —
+percentage row splits, the four-across nav, and the footer's side-by-side
+arrangement all lose their intended proportions there. No `sm:`, no `lg:`,
+no `xl:`.
+
+**`main` is capped at `max-w-md` (448px) and centered below `md`.** Because the
+mobile tier now runs to 767px, an uncapped stack would stretch a
+single-column phone layout across a ~743px column: cards holding one short line
+of text go sparse, and Home's polaroid — 440px native — would upscale past its
+own resolution, breaking the no-upscaling rule under **Accessibility**. The cap
+keeps the cards phone-sized and floating on the sky, which is the
+bulletin-board reading anyway, and 448px sits just above the polaroid's native
+width so that rule holds without a per-image exception. The bands are
+unaffected — they stay full-bleed (see deviation 3).
+
+### Deviations from the grammar
+
+| #   | Rule broken                                         | Where                    | Why                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| --- | --------------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Type scale** — the wordmark is a fixed `text-5xl` | Banner                   | The name is 16 glyphs of Lilita One and cannot fit 320px at 48px. It becomes a single fluid value, `--text-wordmark-fluid` in `@theme`, so it stays one line at every width and reaches the full `text-5xl` once there's room. Fluid, not a breakpoint step — a step would leave a dead zone where the name is either cramped or wrapped. It is still the one outlier size; it is now a _range_ rather than a value.                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 2   | **Wordmark stroke** — a fixed `2px` ink outline     | Banner                   | A `2px` stroke at 48px is a hairline; the same `2px` at ~29px chokes the counters and the gradient stops reading. Thins to `1.5px` below `md` — the same value as `--stroke-fine`, and for the same reason.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 3   | **`shadow-sticker` on the bands**                   | Masthead + footer bands  | The bands run edge-to-edge below `md`, and a `4px 4px` offset on a full-bleed element has its right-hand arm clipped by the viewport while the bottom arm still paints — the shadow reads as half-missing rather than as depth. (It does **not** cause horizontal scroll: `box-shadow` is a paint effect and never contributes to scrollable overflow. **Transforms do** — see the tilt note under Composition — so a rotation is an overflow risk where a shadow is not. Don't conflate the two.) Below `md` the bands carry `border-y-4` with no side border and no shadow; the heavy top/bottom rule is the depth cue instead. **This applies to the two bands only** — every pinned object inside `main` keeps its `shadow-sticker` at every width, since `main` retains a `px-3` inset and its cards are never flush to the viewport edge. |
+| 4   | **Motion ignores `prefers-reduced-motion`**         | Sticky nav bar           | The blanket exception under **Accessibility → Motion** is scoped to _decorative_ motion — the vinyl spin, the REC blink, the marquee, the Celeste GIFs. The sticky bar's show/hide is **navigation chrome**, not decoration: it moves a control the user is reaching for. It honors `prefers-reduced-motion` and snaps instead of sliding. Decorative motion keeps its exception unchanged.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 5   | **A bright fill sits behind the whole document**    | `html` background        | Mobile overscroll bounce drags the viewport past the fixed sky layer, and whatever is behind it flashes — white, by default. `html` carries `--color-sky-edge`, a pink sampled from the backdrop photo, so the bounce reveals more sky instead. It is a **new token, deliberately not `--color-rose`**: rose is Home's owned section identity (see **Color → Sky accents**), and site-wide chrome painted in one section's hue would read wrong behind About, Now, or Creations. Nothing sits on this fill and nothing is read against it, so the accents-never-behind-text rule is untouched.                                                                                                                                                                                                                                                  |
+| 6   | **A hover affordance is withheld from touch**       | TechStack notes          | Each tech stamp's handwritten note is an absolute, `whitespace-nowrap` tooltip revealed on hover. On a touch device (`hover: none`) it is instead permanently visible — which works on desktop only because the seven stamps sit on one row with `pb-7` reserved beneath them. Once they wrap to three rows the open notes overlap the stamps below and the widest one overflows the column from the leftmost stamp. Below `md` the note goes **`sr-only`, not `hidden`**: `aria-describedby` pointing at a `display:none` element is honoured inconsistently across screen readers, whereas `sr-only` keeps it reliably in the accessibility tree. So the annotation is withheld from _sighted_ touch users only; nothing is removed from the document.                                                                                        |
+| 7   | **The custom scrollbar steps aside**                | `.devlog-scroll` regions | The chunky square scrollbar is named an intentional styled element under **Composition may vary**, but `::-webkit-scrollbar { width: 14px }` forces a _classic_ scrollbar even on touch, where the platform would otherwise draw a zero-width overlay one. It permanently occupies 14px — 6% of a 244px panel — to draw an affordance the OS already provides better. Below `md` the custom styling is dropped and the native overlay scrollbar takes over. The scrollbar is **not hidden**: `scrollbar-width: none` would remove a real affordance from a region that genuinely scrolls. Only the site's own styling steps aside.                                                                                                                                                                                                              |
+
+That is the whole list. Anything not on it holds at every width.
+
+### Composition (not deviations — recorded so the intent is legible)
+
+- **The column.** `px-4` → `px-3` below `md`. 12px is the smallest inset that
+  still absorbs a pinned card's `4px` sticker shadow _and_ the horizontal
+  spread of a 3° tilt (a 320px-wide card at 3° has a bounding box ~10px wider
+  than itself). Going to zero would force clipping tilted corners — see
+  deviation 3 for why the bands can do this and the cards can't.
+- **Below `md`, tilt is governed by text density — not by width.** This is a
+  deliberate inversion of the Handcrafted layer's desktop rule ("tilt is
+  governed by width and edge-proximity, **not** by how much text an object
+  holds"). That rule works at 768px because width and text density correlate
+  there: the panels holding long copy are the wide ones. At 320px every panel
+  is full width, so width stops telling the two apart and only density is left.
+
+  The reason to care is a reading cost that scales with line count. On a
+  tilted block, each successive line starts at a slightly different x, so the
+  eye's return sweep has to re-find the left edge every line. Over twenty
+  lines of body copy that accumulates into something that reads as broken;
+  over a two-line widget it is invisible, and reads as charm.
+
+  **Level below `md`** — only the three tallest, densest objects: Home's
+  Welcome letter and Devlog, and the passport. These are the ones where a tilt
+  is read across enough lines to become a cost.
+
+  **Tilted at every width** — everything else: Weather, Spotify, Steam, the
+  Links post-its, Now's note cards, the polaroid, the Live Reaction cam, the
+  tech stamps, the acronym badges, and every `LabelTag`.
+
+  **Tilted below `md` only** — the work-timeline notes. This is the one case
+  that inverts, and for a reason the desktop rule already gives: on desktop a
+  note is a long horizontal strip lined up against the timeline's spine, and
+  the guide says anything stacked against a straight edge stays level. Below
+  `md` there is no spine and the note is nearly square, so the objection is
+  gone and it takes a small tilt. Each entry's `rotate` (the badge, desktop
+  only) and `cardRotate` (the note, mobile only) are mirror images that never
+  apply at the same width.
+
+  **Tilt caps still apply.** The `≤ ~1.5°` limit on anything wider than a
+  compact card governs every mobile tilt, since at 320px every panel is wide.
+
+  **No section carries containment padding.** A rotated card's bounding box is
+  `w·cos θ + h·sin θ`, but the number that matters is measured against the
+  **viewport, not the section** — and `main` already sits inside the column's
+  `px-3` gutter. At 320px the worst overhang on the site (Weather, 1.5° over a
+  ~250px height) extends ~3.2px past `main`'s edge into a 12px gutter, so it
+  never reaches the viewport. Adding `px-2` to a section to "contain" this was
+  a mistake born of measuring against the section instead: it cost 16px of
+  content width to solve a problem that wasn't there. Where a compact object's
+  height is driven by its width (an image card), it still takes a **fixed
+  `max-w` below `md`**, which makes its overhang constant rather than
+  proportional — that one is real.
+
+- **Small objects stay small.** A widget drawn at 20–30% of the desktop row is
+  not faithfully translated by letting it fill a phone column. Home's polaroid
+  and Live Reaction cam carry fixed caps below `md` and centre on the column,
+  so they keep reading as small pinned objects — and, in the polaroid's case,
+  stay clear of the raster's 440px native width at every viewport.
+- **Nav placement.** Below `md` the primary nav lives **only** in the sticky
+  bar; the masthead band holds the `Banner` alone. At `md`+ it returns to the
+  band and the sticky bar is not rendered. Exactly one
+  `<nav aria-label="Primary">` is ever displayed, so the landmark and the
+  `aria-current="page"` marker are never duplicated.
+- **The sticky bar is a separate composition, not a shrunken masthead.** The
+  full `Banner` stays in the document and scrolls away normally. The bar is
+  condensed chrome that takes its place, and it holds **the four nav links and
+  nothing else** — spread across the full bar width. It carries no logo mark,
+  no `h1`, and no heading of any kind; the document's single `h1` remains the
+  Banner wordmark. A logo mark was tried and removed: at 320px the four labels
+  fit beside it only barely, and the ~32px it consumed is worth more as
+  breathing room between tap targets than as decoration the Banner already
+  provides one line below.
+- **Footer order** below `md`, centered and stacked: mascot GIF, footer note,
+  copyright + Credits link, then the badge grid 2×2. The badges go fluid
+  (`w-full max-w-36`) instead of the fixed `w-36`; a fixed width is what
+  overflows first at 320px.
+
+- **Text-dense cards drop to `p-4 md:p-6`.** `p-6` is 48px of a 296px column —
+  16% of the width — so every card carrying running text takes the compact
+  `p-4` below `md` and returns to `p-6` at the design width: Home's Welcome
+  letter, the passport's ID cell, Now's intro card, and the Colophon. Cards
+  holding a glyph and a line or two (the Creations placeholder) keep `p-6` at
+  every width — the point of the reduction is reclaiming space for text, and
+  there is none there to reclaim it for. Both values are on the cell-padding
+  scale, so this is a role change, not a new size.
+
+- **Every `<section>` carries an accessible name**, via `aria-labelledby`
+  pointing at its own `SectionTitle`/`h2`. An unnamed `<section>` is not
+  exposed as a region at all, so naming some and not others yields an
+  inconsistent landmark list for no reason.
+
+- **Only one column of text fits at 320px.** Body copy at `text-base` averages
+  ~8px a character, so the full 296px column yields **~37 characters a line** —
+  already under the comfortable 45–75. Every horizontal split spends width the
+  page does not have: a two-up field list inside the passport lands at ~14
+  characters a line. Below `md`, anything bearing running text spans the whole
+  column. This is the constraint the passport, the timeline, and the ID block
+  entries below all follow from.
+
+- **The passport gives up equal halves below `md`, to give up nested scroll.**
+  The two-up fold and its seam survive; the symmetry does not. Rows go **auto**
+  rather than `grid-rows-2` on a fixed height, so each page is its natural
+  height and no chapter needs an inner scroll region. That trade is deliberate:
+  Journey, Hobbies and Workflow all overflow any sane fixed height, and nested
+  scrolling on a phone — an inner panel inside a scrolling page — leaves the
+  reader unable to predict which will move. Equal halves sized to the taller
+  page were considered and rejected: Hobbies needs ~800px, which would leave
+  the ID page carrying ~350px of dead space and resize the whole passport on
+  every tab change.
+
+- **The ID page floats its headshot, and clears from the third field.** Below
+  `md` the photo is `float-left` and the field list runs as plain block flow
+  around it. The list **must be `display: block` on mobile, not a one-column
+  grid**: a grid container does not flow around a float, it merely narrows and
+  stays rectangular, which reproduces the 14-character column this was meant to
+  fix. Line boxes are what avoid floats, so block flow is load-bearing here.
+
+  Flow alone is not enough, though. Left to itself a field can **straddle** the
+  float — part of its label beside the photo, the rest wrapped underneath —
+  and which field does so drifts with the viewport. So the first two fields
+  (Name, Pronouns) ride beside the photo and **everything from Date of birth
+  onward carries `clear-left`**, putting a deterministic boundary at the
+  photo's bottom edge. Two is the count that fits the photo's 112px band at
+  320px.
+
+- **The MRZ strip renders a shorter string below `md`.** At `text-xs` its 44
+  characters need ~317px against 244px of cell. It is `aria-hidden` decoration,
+  so a shorter variant costs nothing and preserves both the type size and the
+  edge-to-edge fill a real machine-readable zone has — where clipping would
+  read as a rendering fault and shrinking the type would break the mono floor.
+  Both variants stay in the DOM, toggled with CSS; duplicating hidden
+  decoration is harmless.
+
+- **The work timeline drops its spine below `md` and folds each badge into its
+  card.** Side by side, the spine, indent, and badge consume 44% of a 296px
+  column and starve the note to 166px — and stacking the badge above the note
+  still leaves the indent in place. Removing the rail gives the note the full
+  column; **the acronym badge is dropped entirely below `md`**. Folding it into
+  the card's header row was tried first and looked wrong — with no rail to sit
+  on, a 48px tinted square beside the org name reads as clutter rather than as
+  a marker, because the badge's whole meaning came from its position on the
+  spine. It is `aria-hidden`, so hiding it costs nothing semantically, and the
+  chronological reading survives in the `<ol>`. The rail and the hanging badges
+  both return at `md`+.
+
+### Touch targets
+
+WCAG 2.5.8 (AA) sets the floor at **24×24 CSS px** and nothing on the site may
+sit below it. Primary navigation and the footer badges — the controls a thumb
+actually hunts for — are raised to **44×44** below `md`, matching the platform
+guidance and a measured drop in touch error rate. The nav's accent underline
+must stay hugging its label while the hit area grows: the target is on the
+`<button>`, the `border-b-2` is on an inner `<span>`.
+
+The passport's tab strip uses the same split for the same reason. An inactive
+tab is drawn 16px tall — deliberately, so the active tab stands proud of its
+neighbours — which is below the 24px floor. The `<button>` is therefore a
+full-height target at all widths and the 16px/32px tab shape lives on an inner
+span, so the affordance is unchanged and only the hit area grows. **This is a
+fix at every width, not a mobile concession** — the 16px target failed on
+desktop too. Desktop metrics are
+untouched — the masthead stays compact, as specified under **Layout**.
 
 ---
 
@@ -510,8 +733,8 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   reads over the sky (`bg` / `rotate` props). A visual wrapper only — the real
   heading/`<Eyebrow>` element stays inside it, so semantics and heading levels
   are unaffected.
-- **`Panel`** / **`Cell`** — the touching-cell grid, now scoped to internal
-  folds (About's passport, Projects): `Panel` is the `bg-ink` + `gap-0.5`
+- **`Panel`** / **`Cell`** — the touching-cell grid, now scoped to About's
+  passport, its one remaining internal fold: `Panel` is the `bg-ink` + `gap-0.5`
   wrapper, `Cell` is a grid cell (`padding` prop: `p-6` / `p-4` / `p-0`; `bg`
   prop for the intentional panel-color variation, default `bg-white`).
 - **`Badge`** — the two-line footer badge (`top` / `bottom` props).
@@ -540,7 +763,7 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   `shadow-sticker`, and a slight tilt on compact ones (wide panels stay
   level) — so the sky shows between them; keep the
   touching-cell mechanic (shared `2px` ink rule, no gutters, no doubled
-  seams) for internal folds like About's passport and the Projects grid.
+  seams) for About's passport, its one remaining internal fold.
 - **Do** keep bright sky accents in fills/lines only — never as body text.
 - **Do** let panel composition and color vary within the shared grammar —
   framed or full-bleed, flat or handcrafted, stats placed to suit the content —
