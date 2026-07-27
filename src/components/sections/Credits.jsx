@@ -29,6 +29,8 @@ const GROUPS = [
     items: [
       { text: "Celeste — ", boldText: "Extremely OK Games" },
       { text: "Hollow Knight — ", boldText: "Team Cherry" },
+      { text: "Super Monkey Ball — ", boldText: "SEGA" },
+      { text: "The Binding of Isaac — ", boldText: "Edmund McMillen" },
     ],
   },
   {
