@@ -65,13 +65,13 @@ below) — not tied to a section, used for material and mood instead:
 | `--color-kraft` | `#B98A5E` | kraft           | Devlog's/Steam's ruled lines — never text                                          |
 | `--color-live`  | `#E24B4A` | record/live red | Live Reaction REC cue; Steam's date-stamp borders (never text — see Accessibility) |
 
-### Brand-glyph exception
+### Icon glyphs
 
-A brand's own fixed hex is the one sanctioned non-token color, because it's a fixed
-external identity, not a design accent — but it must still be named, never an inline
-`text-[#hex]`. In practice that's `--color-brand-java` (`#E76F00`, `TechStack`'s Java glyph)
-and the `simple-icons` hexes `SimpleIcon` renders via `fill={#${icon.hex}}` (shared by
-`TechStack` and the footer `Badge`s).
+Brand hexes are not used anywhere on the site. `SimpleIcon` (shared by `TechStack` and the
+footer `Badge`s) renders every `simple-icons` glyph with `fill="currentColor"`, and
+`TechStack`'s Java glyph (`FaJava`, since simple-icons has no Java mark) is `text-ink` too —
+both inherit the ordinary `ink` text color like any other icon, so they read cleanly against
+the varied soft-tint fills instead of going muddy against them.
 
 ---
 
@@ -240,13 +240,16 @@ rather than printed on it:
 - **`shadow-sticker`** (see Shadows above) — applied by default on every Home
   `PinnedCard`, plus the photo polaroid, Steam's library card, the Devlog
   scroll box, the footer badges, the Links post-its, the masthead/footer
-  bands, and now the tech stamps at rest too (not hover-only) — the stamps
-  additionally lift (`-translate-y`) on hover/focus as an interaction cue on
-  top of their resting shadow.
+  bands, Row 3's AiAi GIF cameo, and the tech stamps at rest too (not
+  hover-only, and including TechStack's decorative, non-interactive Isaac
+  stamp) — the interactive stamps additionally lift (`-translate-y`) on
+  hover/focus as an interaction cue on top of their resting shadow; Isaac's
+  stamp lifts on hover only, having no focus state to cue.
 - **Slight rotation.** Compact objects carry a small `rotate-[n deg]` so they
   read as hand-placed rather than machine-aligned — the photo polaroid, the
-  acronym badges, the tech stamps, the Links post-its, Now's stickies, the
-  small `LabelTag` signs, and card-sized widgets (Spotify, Weather, the
+  acronym badges, the tech stamps (including TechStack's decorative Isaac
+  stamp), the Links post-its, Now's stickies, the small `LabelTag` signs,
+  Row 3's AiAi GIF cameo, and card-sized widgets (Spotify, Weather, the
   diploma, the Live Reaction cam). **Tilt is governed by width and
   edge-proximity, not by how much text an object holds** — the visible skew of
   a fixed angle grows with an object's width, and a tilt next to a straight
@@ -401,10 +404,9 @@ scrollbar. All obey the same grammar.
   `violet-soft`/`orchid-soft`) — they're all light enough that `ink`/`gray-700`/
   `gray-600` text keeps AA (`gray-600` on the darkest of them, `orchid-soft`,
   measures ~5.3:1); never drop a darker accent color in as a fill
-  behind body text without rechecking. When pairing a brand-color icon with a
-  tinted fill (the footer badges), pick a tint whose hue reads clearly against
-  the icon's own hue — decorative icons are `aria-hidden`, but a muddy pairing
-  still reads as broken.
+  behind body text without rechecking. Icon glyphs (`SimpleIcon`, the footer
+  `Badge`s, `TechStack`'s Java glyph) render in plain `ink`, not brand color, so
+  they're already AA-safe against every tint with no per-icon hue check needed.
 
 - **Landmarks:** `<header>` (banner), `<nav aria-label="Primary">`, `<main>`,
   `<footer>`. One `<main>` per page.
@@ -419,9 +421,10 @@ scrollbar. All obey the same grammar.
   a track is playing), `animate-blink` (the Live Reaction REC dot),
   `animate-marquee`, and `animate-eq` — always play, by design; small and
   decorative, this intentionally does not honor `prefers-reduced-motion`, the
-  same deliberate choice as the small decorative Celeste **GIFs** (Live
-  Reaction cam, footer mascot), which are likewise a deliberate exception and
-  keep playing; keep any GIFs small and non-essential. The marquee's soft
+  same deliberate choice as the site's small decorative GIF cameos (the Live
+  Reaction cam and footer mascot, both Celeste; Row 3's AiAi GIF; and
+  TechStack's closing Isaac stamp), which are likewise a deliberate exception
+  and keep playing; keep any GIFs small and non-essential. The marquee's soft
   horizontal edge fade (a mask-image, fading into the white panel — not the
   sky — applied only while scrolling) is an allowed exception to the
   opaque-panel / hard-linework grammar, alongside the wordmark gradient.
@@ -453,11 +456,14 @@ against a taller neighbour instead of pinned to its top). Each widget sits in
 a `min-w-0 md:w-[N%]` wrapper — a fixed percentage gives it a **deliberate
 width**, not a flex ratio. The four rows: Welcome (65%) + the photo (30%);
 Live Reaction (20%) + the Weather postcard (45%) + Links (30%) — three
-widgets, not a pair; a full-width TechStack strip; then a stacked
-[Spotify + Devlog] column (55%) beside Steam (40%). Widget headings that
-aren't already on an opaque card float as `LabelTag` strips above their
+widgets, not a pair; then Steam (40%) beside a grouped column (55%) — the
+Spotify card, with the AiAi GIF cameo framed beside it, over Devlog
+full-width below; and finally a full-width TechStack strip closing the page,
+ending with a decorative, `aria-hidden` Isaac GIF stamp (an easter-egg cameo,
+not a fifth tool). Widget headings
+that aren't already on an opaque card float as `LabelTag` strips above their
 object (Steam's "What I've been playing" matches Links' "Get in Touch",
-TechStack's "My personal stack", and Devlog's "Most recent updates").
+TechStack's "My current toolset", and Devlog's "Most recent updates").
 
 **Compact masthead.** The banner and nav share a tight vertical rhythm so they
 don't dominate the fold: the nav is `py-2.5` (not `py-4`) and the banner's top
