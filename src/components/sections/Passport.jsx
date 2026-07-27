@@ -46,7 +46,7 @@ const TABS = [
 const CHAPTERS = {
   journey: [
     "I started coding at around 17. I took an intro programming class and was hooked immediately. After graduating, I picked up a handful of summer and online courses to meet the math prerequisites I needed for post-secondary.",
-    "I worked a handful of jobs over the next year and a half to save up, then moved out to Ottawa to study Computer Science at Algonquin College. During the last four years, I earned my advanced diploma with honours, picked up about a year's worth of professional experience through my co-ops, and (after plenty of failed interviews and applications) somehow landed a developer role with the government.",
+    "I worked a couple of jobs over the next year and a half to save up, then moved out to Ottawa to study Computer Science at Algonquin College. During the last four years, I earned my advanced diploma with honours, picked up about a year's worth of professional experience through my co-ops, and (after plenty of failed interviews and applications) somehow landed a developer role with the government.",
   ],
   hobbies: [
     "I'm a huge gaming fan (obviously), especially indie titles like Celeste, Hollow Knight, and Balatro. Lately I've been on a big nostalgia trip, replaying all my favourite childhood games like Pikmin, Pokémon Black and White, and Super Monkey Ball.",
@@ -180,7 +180,27 @@ function Passport({ onNavigate }) {
   const [i, setI] = useState(0);
   const active = TABS[i].key;
   const tabRefs = useRef([]);
+  const touchStart = useRef(null);
   const go = (n) => setI(Math.max(0, Math.min(TABS.length - 1, n)));
+
+  // Touch-swipe over the passport card. Only start/end deltas are used (no
+  // touchmove, no preventDefault), so native vertical scroll is never
+  // intercepted — a swipe that's more vertical than horizontal is simply
+  // ignored rather than special-cased away from scrolling.
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+
+  const onTouchEnd = (e) => {
+    if (!touchStart.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.current.x;
+    const dy = t.clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) return;
+    go(dx < 0 ? i + 1 : i - 1);
+  };
 
   // Roving tabindex (WAI-ARIA tablist pattern): arrow keys inside the tablist
   // must move DOM focus to the newly-active tab, not just update state. Kept
@@ -198,104 +218,111 @@ function Passport({ onNavigate }) {
 
   return (
     <div className="md:rotate-[-0.4deg]">
-      <Panel as="div" className="shadow-sticker md:h-168 md:grid-rows-2">
-        <Cell padding="p-4 md:p-6" bg="bg-paper">
-          <div className="relative flex h-full flex-col">
-            <img
-              src={mapleLeaf}
-              alt=""
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 m-auto h-40 w-40"
-              style={{ opacity: "var(--opacity-watermark)" }}
-            />
-            <div className="relative flex flex-wrap items-start justify-between gap-3">
-              <SectionTitle accent="violet">About Me!</SectionTitle>
-              <span className="mt-1 shrink-0 font-mono text-xs text-label">
-                TYPE P · CAN
-              </span>
-            </div>
-            <div className="relative mt-2 flex flex-wrap items-center gap-1.5 font-display font-bold tracking-wide text-ink">
+      <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <Panel as="div" className="shadow-sticker md:h-168 md:grid-rows-2">
+          <Cell padding="p-4 md:p-6" bg="bg-paper">
+            <div className="relative flex h-full flex-col">
               <img
-                src={flagCanada}
+                src={mapleLeaf}
                 alt=""
                 aria-hidden="true"
-                className="h-4 w-auto shrink-0 border border-ink"
+                className="pointer-events-none absolute inset-0 m-auto h-40 w-40"
+                style={{ opacity: "var(--opacity-watermark)" }}
               />
-              <img
-                src={flagBc}
-                alt=""
+              <div className="relative flex flex-wrap items-start justify-between gap-3">
+                <SectionTitle accent="violet">About Me!</SectionTitle>
+                <span className="mt-1 shrink-0 font-mono text-xs text-label">
+                  TYPE P · CAN
+                </span>
+              </div>
+              <div className="relative mt-2 flex flex-wrap items-center gap-1.5 font-display font-bold tracking-wide text-ink">
+                <img
+                  src={flagCanada}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-4 w-auto shrink-0 border border-ink"
+                />
+                <img
+                  src={flagBc}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-4 w-auto shrink-0 border border-ink"
+                />
+                PASSPORT · PASSEPORT
+              </div>
+              <div className="relative mt-4 md:flex md:gap-4">
+                <img
+                  src={headshot}
+                  alt="Noah, headshot"
+                  width="240"
+                  height="240"
+                  decoding="async"
+                  className="float-left mb-2 mr-4 h-28 w-28 shrink-0 border-2 border-ink object-cover md:float-none md:mb-0 md:mr-0"
+                />
+                {/* Below `md` this must stay `display: block`, not a one-column
+                    grid — a grid container doesn't flow around a float, it just
+                    narrows and stays rectangular, which recreates the same
+                    14-character column this is meant to fix (STYLE_GUIDE.md →
+                    Mobile composition). Block flow's line boxes are what let
+                    text wrap around the floated photo. */}
+                <dl className="block md:flex-1 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-2">
+                  {ID_FIELDS.map((f, n) => (
+                    <div
+                      key={f.label}
+                      /* Only the first two fields ride beside the floated photo.
+                         Everything from index 2 (Date of birth) clears it, so a
+                         field can never straddle the float — half its label
+                         beside the photo and half wrapped underneath, which is
+                         what unconstrained flow produced at some widths. Two is
+                         the count that fits the photo's 112px band at 320px;
+                         clearing makes the boundary deterministic instead of
+                         letting it drift with the viewport. */
+                      className={`mb-2 md:mb-0 ${n >= 2 ? "clear-left md:clear-none" : ""}`}
+                    >
+                      <Eyebrow as="dt">{f.label}</Eyebrow>
+                      <dd className="mt-0.5 font-bold text-ink">{f.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+              <div
                 aria-hidden="true"
-                className="h-4 w-auto shrink-0 border border-ink"
-              />
-              PASSPORT · PASSEPORT
-            </div>
-            <div className="relative mt-4 md:flex md:gap-4">
-              <img
-                src={headshot}
-                alt="Noah, headshot"
-                width="240"
-                height="240"
-                decoding="async"
-                className="float-left mb-2 mr-4 h-28 w-28 shrink-0 border-2 border-ink object-cover md:float-none md:mb-0 md:mr-0"
-              />
-              {/* Below `md` this must stay `display: block`, not a one-column
-                  grid — a grid container doesn't flow around a float, it just
-                  narrows and stays rectangular, which recreates the same
-                  14-character column this is meant to fix (STYLE_GUIDE.md →
-                  Mobile composition). Block flow's line boxes are what let
-                  text wrap around the floated photo. */}
-              <dl className="block md:flex-1 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-2">
-                {ID_FIELDS.map((f, n) => (
+                className="relative clear-both mt-auto border-t-2 border-ink pt-2"
+              >
+                {MRZ.map((line) => (
                   <div
-                    key={f.label}
-                    /* Only the first two fields ride beside the floated photo.
-                       Everything from index 2 (Date of birth) clears it, so a
-                       field can never straddle the float — half its label
-                       beside the photo and half wrapped underneath, which is
-                       what unconstrained flow produced at some widths. Two is
-                       the count that fits the photo's 112px band at 320px;
-                       clearing makes the boundary deterministic instead of
-                       letting it drift with the viewport. */
-                    className={`mb-2 md:mb-0 ${n >= 2 ? "clear-left md:clear-none" : ""}`}
+                    key={line}
+                    className="hidden justify-between font-mono text-xs text-ink md:flex"
                   >
-                    <Eyebrow as="dt">{f.label}</Eyebrow>
-                    <dd className="mt-0.5 font-bold text-ink">{f.value}</dd>
+                    {[...line].map((ch, idx) => (
+                      <span key={idx}>{ch}</span>
+                    ))}
                   </div>
                 ))}
-              </dl>
+                {MRZ_SHORT.map((line) => (
+                  <div
+                    key={line}
+                    className="flex justify-between font-mono text-xs text-ink md:hidden"
+                  >
+                    {[...line].map((ch, idx) => (
+                      <span key={idx}>{ch}</span>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div
-              aria-hidden="true"
-              className="relative clear-both mt-auto border-t-2 border-ink pt-2"
-            >
-              {MRZ.map((line) => (
-                <div
-                  key={line}
-                  className="hidden justify-between font-mono text-xs text-ink md:flex"
-                >
-                  {[...line].map((ch, idx) => (
-                    <span key={idx}>{ch}</span>
-                  ))}
-                </div>
-              ))}
-              {MRZ_SHORT.map((line) => (
-                <div
-                  key={line}
-                  className="flex justify-between font-mono text-xs text-ink md:hidden"
-                >
-                  {[...line].map((ch, idx) => (
-                    <span key={idx}>{ch}</span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </Cell>
+          </Cell>
 
-        <Cell padding="p-0" bg="bg-white">
-          <PassportBio active={active} i={i} go={go} onNavigate={onNavigate} />
-        </Cell>
-      </Panel>
+          <Cell padding="p-0" bg="bg-white">
+            <PassportBio
+              active={active}
+              i={i}
+              go={go}
+              onNavigate={onNavigate}
+            />
+          </Cell>
+        </Panel>
+      </div>
 
       <div
         role="tablist"
