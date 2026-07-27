@@ -45,9 +45,9 @@ const FOOTER_NOTE = {
 function Footer({ active, onNavigate }) {
   const year = new Date().getFullYear();
   return (
-    <footer className="px-6 py-4">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-        <div className="flex items-center gap-3">
+    <footer className="px-4 py-4 md:px-6">
+      <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <div className="flex flex-col items-center gap-3 md:flex-row">
           <img
             src={madelineGif}
             alt="Madeline from Celeste, walking"
@@ -56,7 +56,7 @@ function Footer({ active, onNavigate }) {
             decoding="async"
             className="h-14 w-auto shrink-0 [image-rendering:pixelated]"
           />
-          <div className="text-center sm:text-left">
+          <div className="text-center md:text-left">
             <p className="text-xs text-gray-600">{FOOTER_NOTE[active] ?? ""}</p>
             <p className="text-xs text-gray-600">
               © {year} Noah Park-Nguyen ·{" "}

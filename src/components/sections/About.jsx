@@ -4,6 +4,14 @@ import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import Passport from "./Passport";
 
+// `rotate` is the acronym badge's tilt (desktop only — the badge is hidden
+// below md). `cardRotate` is the note card's tilt, and is the mirror image:
+// mobile only, because on desktop the note is a long horizontal strip lined up
+// against the timeline's spine, where a tilt reads as a misalignment. Below md
+// there is no spine and the card is nearly square, so it can carry one. The
+// two never apply at the same width, which is why they can differ freely —
+// and why `cardRotate` stays ≤ 1.5°, the guide's cap for anything wider than a
+// compact card.
 const WORK = [
   {
     acronym: "FIN",
@@ -12,6 +20,7 @@ const WORK = [
     summary:
       "My first professional experience ever. I was given basic tasks and tickets to handle — fairly simple, but an awesome way to get my foot in the door.",
     rotate: "rotate-[2deg]",
+    cardRotate: "-rotate-[1deg] md:rotate-none",
     tint: "bg-violet-soft",
     cardTint: "bg-violet-soft",
   },
@@ -22,6 +31,7 @@ const WORK = [
     summary:
       "Spent my time creating test cases, writing up bug reports, and making sure the new student information system we were working on was sound and stable.",
     rotate: "-rotate-[1.5deg]",
+    cardRotate: "rotate-[1.5deg] md:rotate-none",
     tint: "bg-blue-soft",
     cardTint: "bg-blue-soft",
   },
@@ -32,6 +42,7 @@ const WORK = [
     summary:
       "A true professional position. Worked on professional projects, developing internal tools for clients across various teams within DND. My first time owning my features end-to-end.",
     rotate: "rotate-[1.5deg]",
+    cardRotate: "-rotate-[1.5deg] md:rotate-none",
     tint: "bg-orchid-soft",
     cardTint: "bg-orchid-soft",
   },
@@ -85,34 +96,43 @@ function WorkTimeline() {
           Where I've Worked
         </h3>
       </LabelTag>
-      <div className="mt-4 ml-8">
+      <div className="mt-4 md:ml-8">
         <ol className="flex flex-col">
           {WORK.map((job) => (
             <li
               key={job.acronym}
-              className="flex items-start gap-4 border-l-2 border-ink pb-6 pl-8"
+              className="flex flex-col gap-2 pb-6 md:flex-row md:items-start md:gap-4 md:border-l-2 md:border-ink md:pl-8"
             >
+              {/* Desktop-only: the badge hangs off the spine. Below md there
+                  is neither spine nor badge — with no rail to sit on it read as
+                  clutter beside the org name rather than as a marker. It's
+                  aria-hidden, so hiding it costs nothing semantically, and the
+                  card takes the full column. */}
               <span
                 aria-hidden="true"
-                className={`shadow-sticker -ml-14 flex h-12 w-12 shrink-0 items-center justify-center border-2 border-ink ${job.tint} font-display font-bold text-ink ${job.rotate}`}
+                className={`shadow-sticker hidden h-12 w-12 shrink-0 items-center justify-center border-2 border-ink ${job.tint} font-display font-bold text-ink ${job.rotate} md:-ml-14 md:flex`}
               >
                 {job.acronym}
               </span>
-              <PinnedCard bg={job.cardTint} padding="p-3">
+              <PinnedCard
+                bg={job.cardTint}
+                padding="p-3"
+                rotate={job.cardRotate}
+              >
                 <p className="font-display font-semibold text-ink">{job.org}</p>
                 <p className="text-xs text-label">{job.role}</p>
                 <p className="mt-0.5 text-sm text-gray-600">{job.summary}</p>
               </PinnedCard>
             </li>
           ))}
-          <li className="flex items-start gap-4 pl-8">
+          <li className="flex flex-col gap-2 md:flex-row md:items-start md:gap-4 md:pl-8">
             <span
               aria-hidden="true"
-              className="-ml-14 flex h-12 w-12 shrink-0 items-center justify-center border-2 border-dashed border-ink bg-paper font-display text-lg font-bold text-ink"
+              className="hidden h-12 w-12 shrink-0 items-center justify-center border-2 border-dashed border-ink bg-paper font-display text-lg font-bold text-ink md:-ml-14 md:flex"
             >
               ???
             </span>
-            <div className="shadow-sticker border-2 border-dashed border-ink bg-paper p-3">
+            <div className="shadow-sticker rotate-[1deg] border-2 border-dashed border-ink bg-paper p-3 md:rotate-none">
               <p className="font-display font-semibold text-ink">Pending</p>
               <p className="text-xs text-label">New role incoming</p>
               <p className="mt-0.5 text-sm text-gray-600">
@@ -135,7 +155,7 @@ function Achievements() {
           What I've Achieved
         </h3>
       </LabelTag>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
         {ACHIEVEMENTS.map((a) => (
           <PinnedCard
             key={a.title}

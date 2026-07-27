@@ -97,11 +97,11 @@ const NOW_NOTES = [
 function Now() {
   return (
     <section aria-labelledby="now-heading">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         <PinnedCard
           bg="bg-primary-soft"
-          padding="p-6"
-          className="relative sm:col-span-2 md:col-span-2 md:row-span-2"
+          padding="p-4 md:p-6"
+          className="relative md:col-span-2 md:row-span-2"
         >
           <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
           <SectionTitle accent="blue" id="now-heading">

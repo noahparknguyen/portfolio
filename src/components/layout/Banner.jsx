@@ -3,7 +3,7 @@ import Eyebrow from "../ui/Eyebrow";
 
 function Banner() {
   return (
-    <header className="relative px-8 pb-1 pt-4 text-center">
+    <header className="relative px-4 pb-1 pt-4 text-center md:px-8">
       <span
         aria-hidden="true"
         className="absolute left-2 top-2 h-3 w-3 border-l-2 border-t-2 border-ink"
@@ -17,13 +17,13 @@ function Banner() {
       <div className="inline-block text-left">
         <Eyebrow as="p">Hey there, I'm</Eyebrow>
         <h1
-          className="font-wordmark text-5xl uppercase leading-none text-transparent"
+          className="wordmark font-wordmark text-wordmark-fluid uppercase leading-none text-transparent"
           style={{
             backgroundImage:
               "linear-gradient(100deg, var(--color-wordmark-from), var(--color-wordmark-via), var(--color-wordmark-to))",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
-            WebkitTextStroke: "2px var(--color-ink)",
+            WebkitTextStroke: "var(--wordmark-stroke) var(--color-ink)",
             paintOrder: "stroke fill",
           }}
         >

@@ -55,14 +55,19 @@ function BarricadeGlyph() {
 
 function Projects() {
   return (
-    <section className="flex justify-center py-8">
+    <section
+      aria-labelledby="creations-heading"
+      className="flex justify-center py-8"
+    >
       <PinnedCard
         padding="p-6"
         rotate="-rotate-[1.5deg]"
         className="relative max-w-md text-center"
       >
         <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
-        <SectionTitle accent="orchid">Creations</SectionTitle>
+        <SectionTitle accent="orchid" id="creations-heading">
+          Creations
+        </SectionTitle>
         <BarricadeGlyph />
         <LabelTag bg="bg-orchid-soft" className="mt-4">
           <Eyebrow as="p">Under construction</Eyebrow>

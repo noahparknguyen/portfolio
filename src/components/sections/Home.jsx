@@ -15,11 +15,11 @@ import TechStack from "../widgets/TechStack";
 import Links from "../widgets/Links";
 import Devlog from "../widgets/Devlog";
 
-// Each row hugs the left/right edges (`sm:justify-between`, slack centered) and
-// centers its widgets vertically (`sm:items-center`) so short widgets sit in the
-// middle of taller neighbours. Widths are per-widget knobs (`sm:w-[..]`).
+// Each row hugs the left/right edges (`md:justify-between`, slack centered) and
+// centers its widgets vertically (`md:items-center`) so short widgets sit in the
+// middle of taller neighbours. Widths are per-widget knobs (`md:w-[..]`).
 const ROW =
-  "flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between";
+  "flex flex-col gap-5 md:flex-row md:items-center md:justify-between";
 
 function Home() {
   const monthYear = new Date().toLocaleDateString("en-US", {
@@ -31,15 +31,16 @@ function Home() {
     <div className="flex flex-col gap-5 py-3">
       {/* Row 1 — Welcome ←→ Photo */}
       <div className={ROW}>
-        <div className="min-w-0 sm:w-[65%]">
-          <PinnedCard bg="bg-paper" padding="p-6" className="relative">
+        <div className="min-w-0 md:w-[65%]">
+          <PinnedCard bg="bg-paper" padding="p-4 md:p-6" className="relative">
             <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
-            <Eyebrow as="p" className="absolute right-6 top-6 text-right">
+            <Eyebrow
+              as="p"
+              className="text-right md:absolute md:right-6 md:top-6"
+            >
               Ottawa · {monthYear}
             </Eyebrow>
-            <SectionTitle accent="rose" className="self-start">
-              Welcome!
-            </SectionTitle>
+            <SectionTitle accent="rose">Welcome!</SectionTitle>
             <p className="mt-2 max-w-prose text-gray-700">
               This little site right here is a personal space where I can show
               off more than just my work. Inspired by the{" "}
@@ -54,7 +55,7 @@ function Home() {
               earnestly, sharing my hobbies and interests outside of coding. I
               hope you like it, and thanks for stopping by!
             </p>
-            <p className="mt-4 self-end text-right leading-tight">
+            <p className="mt-4 text-right leading-tight">
               <span className="italic text-label">Best,</span>
               <br />
               <span className="font-hand text-2xl text-ink" aria-hidden="true">
@@ -65,7 +66,7 @@ function Home() {
           </PinnedCard>
         </div>
 
-        <div className="min-w-0 sm:w-[30%]">
+        <div className="mx-auto min-w-0 max-w-60 md:mx-0 md:w-[30%] md:max-w-none">
           <PinnedCard
             as="figure"
             padding="p-2"
@@ -90,19 +91,19 @@ function Home() {
 
       {/* Row 2 — Live Reaction · Weather · Links */}
       <div className={ROW}>
-        <div className="min-w-0 sm:w-[20%]">
+        <div className="mx-auto min-w-0 max-w-40 md:mx-0 md:w-[20%] md:max-w-none">
           <PinnedCard bg="bg-ink" padding="p-0" rotate="-rotate-[2deg]">
             <LiveReaction />
           </PinnedCard>
         </div>
 
-        <div className="min-w-0 sm:w-[45%]">
+        <div className="min-w-0 md:w-[45%]">
           <PinnedCard bg="bg-paper" padding="p-4" rotate="rotate-[1.5deg]">
             <WeatherTime />
           </PinnedCard>
         </div>
 
-        <div className="min-w-0 sm:w-[30%]">
+        <div className="min-w-0 md:w-[30%]">
           <Links />
         </div>
       </div>
@@ -112,8 +113,8 @@ function Home() {
 
       {/* Row 4 — bento: [Spotify / Devlog] ←→ Steam */}
       <div className={ROW}>
-        <div className="flex w-full flex-col gap-5 sm:w-[55%] sm:items-center">
-          <div className="min-w-0 w-full sm:w-[70%]">
+        <div className="flex w-full flex-col gap-5 md:w-[55%] md:items-center">
+          <div className="min-w-0 w-full md:w-[70%]">
             <div className="text-center">
               <LabelTag rotate="-rotate-[1deg]">
                 <Eyebrow>What I&rsquo;m listening to</Eyebrow>
@@ -133,7 +134,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="min-w-0 w-full sm:w-[40%]">
+        <div className="min-w-0 w-full md:w-[40%]">
           <SteamWidget />
         </div>
       </div>
