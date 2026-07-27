@@ -34,10 +34,6 @@
   --color-live: #e24b4a; /* record/live red — Live Reaction cue + Steam date-stamp border */
   --color-kraft: #b98a5e; /* Devlog + Steam ruled lines — warm material accent, never text */
 
-  /* Brand-glyph exception (STYLE_GUIDE.md → Color) — a brand's own fixed hex is the one
-     sanctioned non-token color, but it must still be named, never an inline text-[#hex]. */
-  --color-brand-java: #e76f00; /* Java brand orange (TechStack's JavaIcon) */
-
   /* Banner wordmark gradient stops (Banner.jsx) — same hexes as before,
      just named so the gradient is token-driven. */
   --color-wordmark-from: #5b82be;
