@@ -1,4 +1,5 @@
 import noahCandid from "../../assets/noah-candid.webp";
+import aiaiGif from "../../assets/monkey-ball-aiai.gif";
 import PinnedCard from "../ui/PinnedCard";
 import SectionTitle from "../ui/SectionTitle";
 import Eyebrow from "../ui/Eyebrow";
@@ -108,36 +109,50 @@ function Home() {
         </div>
       </div>
 
-      {/* Row 3 — My Personal Stack (full-width strip) */}
-      <TechStack />
-
-      {/* Row 4 — bento: [Spotify / Devlog] ←→ Steam */}
+      {/* Row 3 — bento: Steam ←→ [Spotify + AiAi / Devlog] */}
       <div className={ROW}>
-        <div className="flex w-full flex-col gap-5 md:w-[55%] md:items-center">
-          <div className="min-w-0 w-full md:w-[70%]">
-            <div className="text-center">
+        <div className="min-w-0 w-full md:w-[40%]">
+          <SteamWidget />
+        </div>
+
+        <div className="min-w-0 w-full md:w-[55%]">
+          <div className="flex flex-col items-center md:grid md:grid-cols-[auto_1fr] md:gap-x-4 md:gap-y-2">
+            {/* AiAi is placed in the card's grid row (row 2), not spanning the
+                label's row, so it centres vertically on the Spotify card itself
+                rather than on the taller label+card stack. */}
+            <div className="mb-3 flex justify-center md:col-start-1 md:row-start-2 md:mb-0 md:self-center">
+              <img
+                src={aiaiGif}
+                alt=""
+                aria-hidden="true"
+                width="126"
+                height="151"
+                decoding="async"
+                className="h-auto w-20 rotate-1 border-2 border-ink shadow-sticker"
+              />
+            </div>
+            <div className="text-center md:col-start-2 md:row-start-1">
               <LabelTag rotate="-rotate-[1deg]">
                 <Eyebrow>What I&rsquo;m listening to</Eyebrow>
               </LabelTag>
             </div>
-            <PinnedCard
-              bg="bg-blue-soft"
-              padding="p-3"
-              rotate="-rotate-[1deg]"
-              className="mt-2"
-            >
-              <SpotifyWidget />
-            </PinnedCard>
+            <div className="mt-2 min-w-0 w-full md:col-start-2 md:row-start-2 md:mt-0">
+              <PinnedCard
+                bg="bg-blue-soft"
+                padding="p-3"
+                rotate="-rotate-[1deg]"
+              >
+                <SpotifyWidget />
+              </PinnedCard>
+            </div>
           </div>
-          <div className="min-w-0 w-full">
+          <div className="mt-5 min-w-0 w-full">
             <Devlog />
           </div>
         </div>
-
-        <div className="min-w-0 w-full md:w-[40%]">
-          <SteamWidget />
-        </div>
       </div>
+      {/* Row 4 — My Personal Stack (full-width strip) */}
+      <TechStack />
     </div>
   );
 }
