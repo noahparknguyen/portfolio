@@ -1,7 +1,33 @@
+import { siGithub } from "simple-icons";
+import { FaLinkedinIn } from "react-icons/fa6";
 import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
+import SimpleIcon from "../ui/SimpleIcon";
 
-function LineGlyph({ children }) {
+// Real brand marks where one exists, a drawn glyph where none does — the same
+// rule TechStack and the footer Badges already follow. GitHub comes from
+// simple-icons; LinkedIn is NOT in simple-icons (removed at the rights holder's
+// request), so it falls back to react-icons, exactly as Java and Steam already
+// do elsewhere on the site.
+//
+// `FaLinkedinIn` (the bare "in" letterform), not `FaLinkedin` (the filled
+// rounded-square badge) — a rounded rectangle would break the square-corners
+// rule in STYLE_GUIDE.md → Shape & surface. Both marks are boxless silhouettes,
+// so they sit together cleanly.
+function GithubGlyph() {
+  return <SimpleIcon icon={siGithub} className="h-4 w-4 shrink-0 text-ink" />;
+}
+
+function LinkedinGlyph() {
+  return (
+    <FaLinkedinIn aria-hidden="true" className="h-4 w-4 shrink-0 text-ink" />
+  );
+}
+
+// Email has no brand mark to borrow, so it keeps a drawn glyph. At 16px it sits
+// in the guide's 16-40px bracket, so it takes --stroke-regular, not the
+// sub-16px --stroke-fine it used to carry.
+function EnvelopeGlyph() {
   return (
     <svg
       viewBox="0 0 16 16"
@@ -9,45 +35,15 @@ function LineGlyph({ children }) {
       className="h-4 w-4 shrink-0"
       fill="none"
       stroke="var(--color-ink)"
-      style={{ strokeWidth: "var(--stroke-fine)" }}
+      style={{ strokeWidth: "var(--stroke-regular)" }}
     >
-      {children}
-    </svg>
-  );
-}
-
-function CodeGlyph() {
-  return (
-    <LineGlyph>
-      <path
-        d="M5 3 L1 8 L5 13 M11 3 L15 8 L11 13"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </LineGlyph>
-  );
-}
-
-function BriefcaseGlyph() {
-  return (
-    <LineGlyph>
-      <rect x="1.5" y="5" width="13" height="8.5" />
-      <path d="M5.5 5 V3.5 a1 1 0 0 1 1-1 h3 a1 1 0 0 1 1 1 V5" />
-      <line x1="1.5" y1="9" x2="14.5" y2="9" />
-    </LineGlyph>
-  );
-}
-
-function EnvelopeGlyph() {
-  return (
-    <LineGlyph>
       <rect x="1.5" y="3.5" width="13" height="9" />
       <path
         d="M1.5 4 L8 9 L14.5 4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </LineGlyph>
+    </svg>
   );
 }
 
@@ -58,7 +54,7 @@ const LINKS = [
     handle: "@noahparknguyen",
     rotate: "-rotate-2",
     tint: "bg-blue-soft",
-    Glyph: CodeGlyph,
+    Glyph: GithubGlyph,
   },
   {
     label: "LinkedIn",
@@ -66,7 +62,7 @@ const LINKS = [
     handle: "in/noahparknguyen",
     rotate: "rotate-1",
     tint: "bg-rose-soft",
-    Glyph: BriefcaseGlyph,
+    Glyph: LinkedinGlyph,
   },
   {
     label: "Email",
@@ -95,7 +91,7 @@ function Links() {
               href={href}
               target={external ? "_blank" : undefined}
               rel={external ? "noreferrer" : undefined}
-              className={`shadow-sticker block ${rotate} border-2 border-ink ${tint} px-3 py-2 transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5`}
+              className={`shadow-sticker block ${rotate} border-2 border-ink ${tint} p-3 transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5`}
             >
               <div className="flex items-center gap-2">
                 <Glyph />
