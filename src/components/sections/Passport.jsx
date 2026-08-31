@@ -66,8 +66,8 @@ const CHAPTERS = {
     "My favourite hobby in the world is volleyball — both playing and watching. I may not be the best (shanking passes is my specialty), but I've made a ton of great memories, from playing competitively for a club as a teenager to recreational drop-ins now.",
   ],
   workflow: [
-    "For my front-ends, when I boot up a new project, I stick with my bread and butter: React and Tailwind. My main and most proficient language is Java. It was the first language I learned at college, and I've grown quite fond of its utility. It's my go-to language when doing challenges or setting up back-ends. I've also been dabbling in Python. My goal is to make it my main scripting language.",
-    "I love web development, but I'm honestly pretty bad at design. I've been learning a ton about UX/UI in order to get better — and I'm trying to work Figma into my planning phases. Other tech in my toolkit includes Obsidian for notes, VS Code as my main editor, and IntelliJ IDEA for Java.",
+    "For my front-ends, when I boot up a new project, I stick with my bread and butter: React and Tailwind. My main and most proficient language is Java. It was the first language I learned at college, and I've grown quite fond of its utility. It's my go-to language when doing challenges or setting up back-ends — usually with Spring. I've also been dabbling in Python. My goal is to make it my main scripting language.",
+    "I love web development, but I'm not the best at design. I've been learning a ton about UX/UI in order to get better — and I'm trying to work Figma into my planning phases. Other tech in my toolkit includes Obsidian for notes, VS Code as my main editor, and IntelliJ IDEA for Java.",
   ],
 };
 
@@ -128,7 +128,7 @@ function Bio({ onNavigate }) {
 
 function PassportBio({ active, i, go, onNavigate }) {
   return (
-    <div className="relative flex h-full flex-col p-4">
+    <div className="relative flex h-full flex-col p-4 md:p-6">
       <img
         src={canadaMap}
         alt=""
@@ -162,6 +162,7 @@ function PassportBio({ active, i, go, onNavigate }) {
 
       <div
         role="tabpanel"
+        tabIndex={0}
         id="about-passport-panel"
         aria-labelledby={`tab-${active}`}
         className="devlog-scroll relative mt-4 space-y-2 pr-1 text-gray-700 md:flex-1 md:overflow-y-auto"
@@ -328,30 +329,31 @@ function Passport({ onNavigate }) {
         role="tablist"
         aria-label="About Noah"
         onKeyDown={onKeyDown}
-        className="flex h-8 items-start gap-2 px-3"
+        className="flex h-11 items-start gap-1 px-2 md:gap-2 md:px-3"
       >
         {TABS.map((t, n) => {
           const on = n === i;
           return (
             <button
               key={t.key}
-              ref={(el) => (tabRefs.current[n] = el)}
+              ref={(el) => {
+                tabRefs.current[n] = el;
+              }}
               type="button"
               role="tab"
               id={`tab-${t.key}`}
               aria-selected={on}
               aria-controls="about-passport-panel"
-              aria-label={t.label}
               tabIndex={on ? 0 : -1}
               onClick={() => setI(n)}
-              className="flex h-8 flex-1 items-start justify-center"
+              className="flex h-11 flex-1 items-start justify-center"
             >
               <span
                 className={`flex w-full items-end justify-center border-2 border-t-0 border-ink ${t.tint} font-display text-sm font-semibold text-ink transition-all ${
-                  on ? "h-8 pb-1" : "h-4"
+                  on ? "h-11 pb-1.5" : "h-7 pb-1"
                 }`}
               >
-                {on ? t.label : ""}
+                {t.label}
               </span>
             </button>
           );
