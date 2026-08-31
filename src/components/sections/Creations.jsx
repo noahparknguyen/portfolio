@@ -53,13 +53,14 @@ function BarricadeGlyph() {
   );
 }
 
-function Projects() {
+function Creations() {
   return (
     <section
       aria-labelledby="creations-heading"
       className="flex justify-center py-8"
     >
       <PinnedCard
+        bg="bg-orchid-soft"
         padding="p-6"
         rotate="-rotate-[1.5deg]"
         className="relative max-w-md text-center"
@@ -69,7 +70,7 @@ function Projects() {
           Creations
         </SectionTitle>
         <BarricadeGlyph />
-        <LabelTag bg="bg-orchid-soft" className="mt-4">
+        <LabelTag className="mt-4">
           <Eyebrow as="p">Under construction</Eyebrow>
         </LabelTag>
         <p className="mx-auto mt-4 max-w-[32ch] text-sm text-gray-700">
@@ -80,4 +81,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default Creations;

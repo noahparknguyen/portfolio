@@ -6,21 +6,21 @@ import Footer from "./components/layout/Footer";
 import Home from "./components/sections/Home";
 import About from "./components/sections/About";
 import Now from "./components/sections/Now";
-import Projects from "./components/sections/Projects";
+import Creations from "./components/sections/Creations";
 import Credits from "./components/sections/Credits";
 
 const SECTIONS = {
   home: Home,
   about: About,
   now: Now,
-  creations: Projects,
+  creations: Creations,
   credits: Credits,
 };
 
 // Section images are ESM-imported and only fetched when their section first
 // mounts, which flashes alt text on first visit. Warm the browser cache for
 // every asset on mount so later section switches paint instantly.
-const ASSET_URLS = import.meta.glob("./assets/*.{png,jpg,jpeg,gif,svg}", {
+const ASSET_URLS = import.meta.glob("./assets/*.{png,jpg,jpeg,gif,webp,svg}", {
   eager: true,
   query: "?url",
   import: "default",
