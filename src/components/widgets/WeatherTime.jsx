@@ -213,9 +213,22 @@ function WeatherTime() {
   const [now, setNow] = useState(() => new Date());
   const { weather, loading, error } = useWeather();
 
+  // The clock only renders h:mm, so ticking every second re-rendered this whole
+  // widget (weather SVG included) 59 extra times a minute for a byte-identical
+  // DOM. Align to the minute boundary first, then tick once a minute.
   useEffect(() => {
-    const intervalId = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(intervalId);
+    let intervalId;
+    const timeoutId = setTimeout(
+      () => {
+        setNow(new Date());
+        intervalId = setInterval(() => setNow(new Date()), 60000);
+      },
+      60000 - (Date.now() % 60000),
+    );
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
   }, []);
 
   const timeParts = new Intl.DateTimeFormat("en-CA", {
@@ -234,8 +247,35 @@ function WeatherTime() {
 
   return (
     <div>
-      <div className="flex items-start justify-between gap-2">
-        <img src={mapleLeaf} alt="" aria-hidden="true" className="h-6 w-auto" />
+      {/* Real postcard anatomy: message on the LEFT, postage in the TOP-RIGHT
+          corner, and the postmark cancelling the stamp by overlapping it. The
+          stamp carries country + design (never the mailing city — that belongs
+          to the postmark), which is why the maple leaf lives inside it and the
+          caption reads CANADA. */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          {loading ? (
+            <div className="flex flex-col gap-1" aria-hidden="true">
+              <div className="h-9 w-20 animate-pulse bg-primary-soft" />
+              <div className="h-4 w-24 animate-pulse bg-primary-soft" />
+            </div>
+          ) : empty ? (
+            <>
+              <p className="font-display text-3xl font-bold text-ink">—°C</p>
+              <p className="text-sm text-gray-600">no reading today</p>
+            </>
+          ) : (
+            <>
+              <p className="font-display text-3xl font-bold text-ink">
+                {weather.temperature}°C
+              </p>
+              <p className="text-sm text-gray-600">
+                {weatherLabel(weather.code)}
+              </p>
+            </>
+          )}
+        </div>
+
         <div className="flex shrink-0 items-center">
           <div className="border-2 border-dashed border-ink bg-white p-2 text-center">
             {(weather || empty) && (
@@ -244,35 +284,23 @@ function WeatherTime() {
                 muted={empty}
               />
             )}
-            <span className="mt-1 block font-mono text-xs tracking-wide text-ink">
-              OTTAWA, ON
+            <span className="mt-1 flex items-center justify-center gap-1 font-mono text-xs tracking-wide text-ink">
+              <img
+                src={mapleLeaf}
+                alt=""
+                aria-hidden="true"
+                className="h-3 w-auto"
+              />
+              CANADA
             </span>
           </div>
           <Postmark clock={clock} dayPeriod={dayPeriod} />
         </div>
       </div>
-      <div className="mt-2 text-center">
-        {loading ? (
-          <div className="flex flex-col items-center gap-1" aria-hidden="true">
-            <div className="h-9 w-20 animate-pulse bg-primary-soft" />
-            <div className="h-4 w-24 animate-pulse bg-primary-soft" />
-          </div>
-        ) : empty ? (
-          <>
-            <p className="font-display text-3xl font-bold text-ink">—°C</p>
-            <p className="text-sm text-gray-600">no reading today</p>
-          </>
-        ) : (
-          <>
-            <p className="font-display text-3xl font-bold text-ink">
-              {weather.temperature}°C
-            </p>
-            <p className="text-sm text-gray-600">
-              {weatherLabel(weather.code)}
-            </p>
-          </>
-        )}
-      </div>
+      {/* Full-bleed skyline. The negative margins are tied to the wrapper's
+          `p-4` in Home.jsx — Weather is deliberately exempt from the
+          `p-4 md:p-6` text-density rule, so this stays correct at every width.
+          If that padding ever changes, these values must change with it. */}
       <img
         src={ottawaSkyline}
         alt=""
