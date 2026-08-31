@@ -1,5 +1,4 @@
 import noahCandid from "../../assets/noah-candid.webp";
-import aiaiGif from "../../assets/monkey-ball-aiai.gif";
 import PinnedCard from "../ui/PinnedCard";
 import SectionTitle from "../ui/SectionTitle";
 import Eyebrow from "../ui/Eyebrow";
@@ -42,7 +41,7 @@ function Home() {
               Ottawa · {monthYear}
             </Eyebrow>
             <SectionTitle accent="rose">Welcome!</SectionTitle>
-            <p className="mt-2 max-w-prose text-gray-700">
+            <p className="mt-2 text-gray-700">
               This little site right here is a personal space where I can show
               off more than just my work. Inspired by the{" "}
               <TextLink href="https://indieweb.org" accent="rose" external>
@@ -52,17 +51,19 @@ function Home() {
               <TextLink href="https://neocities.org" accent="rose" external>
                 Neocities
               </TextLink>
-              , I wanted to make something that really reflected me more
-              earnestly, sharing my hobbies and interests outside of coding. I
+              , I wanted to make something that reflected me a little more
+              honestly — sharing my hobbies and interests outside of coding. I
               hope you like it, and thanks for stopping by!
             </p>
-            <p className="mt-4 text-right leading-tight">
+            {/* The whole sign-off is aria-hidden and mirrored by the sr-only
+                line below: ":)" reads badly aloud, but hiding only the
+                signature left a screen reader hearing "Best," with no name. */}
+            <p className="mt-4 text-right leading-tight" aria-hidden="true">
               <span className="italic text-label">Best,</span>
               <br />
-              <span className="font-hand text-2xl text-ink" aria-hidden="true">
-                Noah :)
-              </span>
+              <span className="font-hand text-2xl text-ink">Noah :)</span>
             </p>
+            <span className="sr-only">Best, Noah</span>
             <Stamp className="absolute bottom-2 left-2" />
           </PinnedCard>
         </div>
@@ -74,7 +75,10 @@ function Home() {
             rotate="rotate-3"
             className="relative"
           >
-            <Tape className="absolute -top-3 left-1/2 -translate-x-1/2" />
+            {/* Counter-rotated against the card's +3°: tape applied at the
+                photo's exact angle reads as printed-on, not taped-on. The
+                mismatch is what sells the hand-placed look. */}
+            <Tape className="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-6" />
             <img
               src={noahCandid}
               alt="Noah, outdoors at golden hour"
@@ -84,7 +88,7 @@ function Home() {
               className="h-auto w-full border-2 border-ink"
             />
             <figcaption className="mt-2 text-center font-hand text-2xl text-ink">
-              That's me!
+              That&rsquo;s me!
             </figcaption>
           </PinnedCard>
         </div>
@@ -109,49 +113,33 @@ function Home() {
         </div>
       </div>
 
-      {/* Row 3 — bento: Steam ←→ [Spotify + AiAi / Devlog] */}
+      {/* Row 3 — bento: Steam ←→ [Spotify / Devlog] */}
       <div className={ROW}>
         <div className="min-w-0 w-full md:w-[40%]">
           <SteamWidget />
         </div>
 
         <div className="min-w-0 w-full md:w-[55%]">
-          <div className="flex flex-col items-center md:grid md:grid-cols-[auto_1fr] md:gap-x-4 md:gap-y-2">
-            {/* AiAi is placed in the card's grid row (row 2), not spanning the
-                label's row, so it centres vertically on the Spotify card itself
-                rather than on the taller label+card stack. */}
-            <div className="mb-3 flex justify-center md:col-start-1 md:row-start-2 md:mb-0 md:self-center">
-              <img
-                src={aiaiGif}
-                alt=""
-                aria-hidden="true"
-                width="126"
-                height="151"
-                decoding="async"
-                className="h-auto w-20 rotate-1 border-2 border-ink shadow-sticker"
-              />
-            </div>
-            <div className="text-center md:col-start-2 md:row-start-1">
-              <LabelTag rotate="-rotate-[1deg]">
-                <Eyebrow>What I&rsquo;m listening to</Eyebrow>
-              </LabelTag>
-            </div>
-            <div className="mt-2 min-w-0 w-full md:col-start-2 md:row-start-2 md:mt-0">
-              <PinnedCard
-                bg="bg-blue-soft"
-                padding="p-3"
-                rotate="-rotate-[1deg]"
-              >
-                <SpotifyWidget />
-              </PinnedCard>
-            </div>
+          {/* The AiAi cameo now lives inside the Spotify card as the record's
+              sleeve (SpotifyWidget.jsx), which frees this whole column for the
+              card — it is wider here than it was when the sleeve sat beside it,
+              so both the record and the track text gained room. */}
+          <div className="text-center">
+            <LabelTag rotate="rotate-[1deg]">
+              <Eyebrow>What I&rsquo;m listening to</Eyebrow>
+            </LabelTag>
+          </div>
+          <div className="mt-2 min-w-0 w-full">
+            <PinnedCard bg="bg-blue-soft" padding="p-3" rotate="-rotate-[1deg]">
+              <SpotifyWidget />
+            </PinnedCard>
           </div>
           <div className="mt-5 min-w-0 w-full">
             <Devlog />
           </div>
         </div>
       </div>
-      {/* Row 4 — My Personal Stack (full-width strip) */}
+      {/* Row 4 — My current toolset (full-width strip) */}
       <TechStack />
     </div>
   );
