@@ -8,7 +8,7 @@ one-off size; add or reuse a token instead.
 
 A cosy **sky-pastel bulletin board**: hard-bordered solid panels pinned over
 the pink sky, like notices pinned to a comic-panel board — some panels flat
-and printed, others handcrafted objects (a taped-up photo, a wax-stamped
+and printed, others handcrafted objects (a taped-up photo, a sticker-sealed
 letter, rotated paper stamps) pinned on top of them. Deep sky-indigo linework,
 square corners, rounded playful type, and a few bright accents pulled straight
 from the sky photo. Opaque and chunky — a modern take on the old web, light
@@ -67,11 +67,21 @@ below) — not tied to a section, used for material and mood instead:
 
 ### Icon glyphs
 
-Brand hexes are not used anywhere on the site. `SimpleIcon` (shared by `TechStack` and the
-footer `Badge`s) renders every `simple-icons` glyph with `fill="currentColor"`, and
-`TechStack`'s Java glyph (`FaJava`, since simple-icons has no Java mark) is `text-ink` too —
-both inherit the ordinary `ink` text color like any other icon, so they read cleanly against
-the varied soft-tint fills instead of going muddy against them.
+Brand hexes are not used anywhere on the site. `SimpleIcon` (shared by `TechStack`, `Links`
+and the footer `Badge`s) renders every `simple-icons` glyph with `fill="currentColor"`, so it
+inherits the ordinary `ink` text color like any other icon and reads cleanly against the
+varied soft-tint fills instead of going muddy against them.
+
+**Use a real brand mark wherever one exists; fall back to a drawn or
+`react-icons` glyph only where it does not.** `simple-icons` is the default
+source. Three documented fallbacks, all for marks it does not ship: Java and
+Steam (`FaJava`, `FaSteam`) and **LinkedIn** — `simple-icons` removed LinkedIn at
+the rights holder's request, so it comes from `react-icons` as **`FaLinkedinIn`**,
+the bare "in" letterform. Not `FaLinkedin`, which is a filled rounded-square
+badge and would drop a rounded rectangle onto a board whose rule is square
+corners (see Shape & surface). Hand-drawing a mark the library deliberately
+dropped is not an option either. Email keeps a drawn glyph because no brand mark
+applies to it.
 
 ---
 
@@ -100,7 +110,7 @@ Pick the size from the **role**, not the heading tag (see the semantics note).
 | Title             | `text-3xl`  | Fredoka | bold     | Section titles                  |
 | Heading           | `text-xl`   | Fredoka | semibold | Subsections (e.g. "Journey")    |
 | Subheading / card | `text-lg`   | Fredoka | semibold | Card titles                     |
-| Nav link          | `text-lg`   | Fredoka | bold     | Nav bar                         |
+| Nav link          | `text-lg`   | Fredoka | semibold | Nav bar                         |
 | Body              | `text-base` | Nunito  | normal   | Paragraphs                      |
 | Small / meta      | `text-sm`   | Nunito  | normal   | Secondary text, captions        |
 | Overline / kicker | `text-xs`   | Nunito  | semibold | Eyebrows, tiny uppercase labels |
@@ -128,10 +138,19 @@ section heading), so reusing that size here is intentional, not drift.
 
 ### Weight rule
 
-Only three weights are on-scale: `normal`, `semibold`, `bold`. Overlines and
-headings/cards (Heading, Subheading/card roles) are `semibold`; Title and Nav
-link are `bold`; Body and Small/meta are `normal`. `font-medium` is off-scale —
-don't use it.
+Only three weights are on-scale: `normal`, `semibold`, `bold`. Overlines,
+headings/cards (Heading, Subheading/card roles) **and the Nav link** are
+`semibold`; Title is `bold`; Body and Small/meta are `normal`. `font-medium` is
+off-scale — don't use it. The nav label is `semibold` in **every** state,
+including active — the active link is marked by its underline and
+`aria-current`, not by a weight change, so its width never shifts when the
+section changes (see Interaction, and Accessibility → State not by color alone).
+
+One documented tracking exception: the Live Reaction label carries
+`tracking-widest` rather than the Overline role's `tracking-wide`. Wide-
+letterspaced uppercase micro-type is the broadcast-chyron convention that widget
+imitates, and it is the only place on the site that deviates. Its **weight**
+still follows the role.
 
 ### Heading semantics vs. size (important)
 
@@ -145,7 +164,7 @@ The page outline is fixed:
 
 Never add a second `h1`. Keep levels in order (no skipping). Not every
 `<Eyebrow>` is a heading — a genuine card title (Devlog's "Most recent
-updates", Links' "Get in Touch") stays the default `<h3>`, but a decorative status label sitting
+updates", Links' "Get in touch") stays the default `<h3>`, but a decorative status label sitting
 next to a value (Weather's "Ottawa", Spotify's "Now Playing"/"Paused", Steam's
 "What I've been playing") should pass `as="p"` / `as="span"` so it doesn't
 register as a heading. About's `h2` lives **inside the passport** — on the
@@ -201,16 +220,33 @@ border-<section hue>` for the accent underline under a section title.
   library card, About's passport). Everything else that reads as a pinned note
   or stamp draws its fill from the **four section soft tints** (`rose-soft` /
   `violet-soft` / `blue-soft` / `orchid-soft`): the tech stamps (each a
-  different hue), the Spotify card (`orchid-soft`), Links' sticky-notes, Now's
+  different hue), the Spotify card (`blue-soft`), Links' sticky-notes, Now's
   stickies, and About's work-timeline note cards and diploma card. The Live
   Reaction cam keeps its dark `ink` fill. Not everything is a filled
   `PinnedCard`, though — the photo, the tech stamps, Links' sticky-notes, the
   Devlog scroll, and Steam's library card sit bare/unenclosed on the sky (see
   "Text never sits directly on the sky" above), their own fills doing the work
   without an outer card. **Rules for the tint layer:** draw only from the four
-  accents (never `paper`, which is reserved), spread the hues evenly, and never
-  let two of the same touch — a work note never repeats its own acronym badge,
-  and adjacent tech stamps differ. Headers stay on the standard `ink` / `label`
+  accents (never `paper`, which is reserved except for the dashed "blank form"
+  placeholders noted under Handcrafted layer), spread the hues evenly, and never
+  let two of the same touch — **a work note never repeats its own acronym
+  badge** (they sit flush across a 16px gap, so sharing a hue makes the pair read
+  as one block of colour rather than a marker pinned beside a note), and adjacent
+  tech stamps differ. Now's eleven stickies are checked for this at **both**
+  tiers — the `md` three-column grid and the single-column mobile stack — since a
+  pair that is diagonal on desktop becomes vertically adjacent on a phone.
+
+- **A section's intro panel wears its own section hue.** Section identity already
+  lives in the `SectionTitle` underline and the active nav underline; the panel
+  fill is the third place it belongs. Now is `blue-soft`, Creations is
+  `orchid-soft`. **Credits is the principled exception and keeps `paper`:** it is
+  the one section with no owned hue (its four group headers carry all four
+  instead) and it is taped up rather than pinned, so warm stationery is right
+  there. This is also why `primary-soft` means _masthead/footer band_ and
+  nothing else, and why plain white means "literally white". Watch for a knock-on
+  when a panel takes a hue: Creations' inner `LabelTag` had to revert to white,
+  or orchid-soft would have touched orchid-soft.
+- **Headers ignore the tint.** They stay on the standard `ink` / `label`
   / `on-ink` roles regardless of a card's tint (switching to `on-ink` only
   where the fill itself is dark, e.g. the Live Reaction label bar) — the
   variation is in the fill, not the text. The touching-cell grid (About's
@@ -240,7 +276,7 @@ rather than printed on it:
 - **`shadow-sticker`** (see Shadows above) — applied by default on every Home
   `PinnedCard`, plus the photo polaroid, Steam's library card, the Devlog
   scroll box, the footer badges, the Links post-its, the masthead/footer
-  bands, Row 3's AiAi GIF cameo, and the tech stamps at rest too (not
+  bands, and the tech stamps at rest too (not
   hover-only, and including TechStack's decorative, non-interactive Isaac
   stamp) — the interactive stamps additionally lift (`-translate-y`) on
   hover/focus as an interaction cue on top of their resting shadow; Isaac's
@@ -249,7 +285,7 @@ rather than printed on it:
   read as hand-placed rather than machine-aligned — the photo polaroid, the
   acronym badges, the tech stamps (including TechStack's decorative Isaac
   stamp), the Links post-its, Now's stickies, the small `LabelTag` signs,
-  Row 3's AiAi GIF cameo, and card-sized widgets (Spotify, Weather, the
+  the AiAi record sleeve inside the Spotify card, and card-sized widgets (Spotify, Weather, the
   diploma, the Live Reaction cam). **Tilt is governed by width and
   edge-proximity, not by how much text an object holds** — the visible skew of
   a fixed angle grows with an object's width, and a tilt next to a straight
@@ -265,15 +301,46 @@ rather than printed on it:
   `src/components/ui/`) are small decorative primitives — a pushpin, a washi-
   tape strip, and the Celeste postage-stamp image — that reinforce the
   pinned-to-a-board metaphor. All are `aria-hidden`, purely decorative.
-- **`--color-paper`** — warm note-paper stationery, used for the Welcome cell
-  and the Devlog scroll box.
-- **`--color-kraft`** — a warm material accent used for the Devlog's and
-  Steam's ruled lines — never used as text.
+  **`<Tape>` must be counter-rotated against whatever it is taping.** A strip
+  sitting inside a rotated card inherits that card's exact angle, and two
+  objects moving as one rigid unit read as printed together rather than placed
+  by hand — the mismatch between the tape's angle and the object's is most of
+  what sells the gesture. The polaroid tilts `+3°` and its tape `-6°`. This
+  applies to `<Tape>` only: `<Pin>` is radially symmetric, so it has no angle to
+  mismatch, and `<Stamp>` carries its own fixed tilt.
+- **The record sleeve.** The AiAi cameo lives inside the Spotify card as the
+  sleeve the vinyl is being drawn out of: a square panel flush left, the disc
+  flush right, in a `1.58 : 1` wrapper so both are `h-full` squares and 58% of
+  the disc shows past the sleeve's edge. The sleeve paints **in front** (it is
+  later in the DOM), which is the direction that reads as "being pulled out"
+  rather than "resting on top", and an inset hairline near its top edge stands
+  in for the sleeve's opening. The point is the adjacency: every other object on
+  Home _is_ something, and before this the cameo was a GIF in a box — the only
+  object on the board described by its file format.
+- **`--color-paper`** — warm note-paper stationery, used for the Welcome letter
+  and the Devlog scroll box, and — paired with a **dashed** ink border — for the
+  site's two "not yet" placeholders: the work timeline's Pending entry (with its
+  `???` badge) and Achievements' Locked card. Dashed border plus warm paper reads
+  as a blank form waiting to be filled in, which is exactly what those entries
+  mean, so this is a legitimate stationery use rather than tint drift. The Locked
+  card's fill is **not optional**: without it, that card's text sat directly on
+  the sky photograph, where contrast cannot be measured at all.
+- **`--color-kraft`** — a warm material accent used for Devlog's and Steam's
+  ruled lines — never used as text. Steam carries a rule under **both** stat
+  rows, not only the last: one rule reads as an underline, and it is the
+  repetition that reads as a due-date slip. Devlog's ruling repeats every 20px
+  to match its line grid (see Spacing scale) and **must** carry
+  `background-attachment: local` — the default pins the background to the
+  element, so the rules would hold alignment only at scroll position 0 and drift
+  off the text as soon as you scrolled.
 - **`--font-hand` (Caveat)** — signatures, photo captions, the tech-stamp
   hover notes (the note itself rides a small opaque `border-2 border-ink
-bg-white shadow-sticker` tag so it reads over the sky), and handwritten
-  date-stamp captions (an achievement card's "Unlocked · …" line); never body
-  copy (see Type).
+bg-white shadow-sticker` tag so it reads over the sky), handwritten date-stamp
+  captions (an achievement card's "Unlocked · …" line), and the footer's
+  per-page aside; never body copy (see Type). The footer aside is handwritten so
+  it reads as a scribble in the margin rather than as a second line of
+  fine print — it and the copyright line sat at identical `text-xs text-gray-600`
+  before, which classified the joke as boilerplate and got it skipped.
 - **`--color-live`** — the Live Reaction cam's REC cue, and the border (never
   the text — see Accessibility) of Steam's decorative library-card date
   stamps.
@@ -328,14 +395,31 @@ bg-white shadow-sticker` tag so it reads over the sky), and handwritten
   recurring **tight caption-under-label** micro-pattern
   at `mt-1` (2px tighter than the canonical `mt-2`) — TechStack's badge label
   and hover-note offset, the About passport's "TYPE P · CAN" chip and its Bio
-  signature rule, and Weather's "OTTAWA, ON" caption and Postmark clock line.
-  Devlog's git-graph spine is a further exception: `left-1.75` / `top-1.25` /
-  `pb-3.5` are exact pixel math tying each commit node to the vertical spine
-  line and to its neighbor's rhythm — load-bearing, not a rounding error.
-  Separately, `max-w-[..]` / `w-[..]` fractions (Steam's `max-w-[85%]` title
-  truncation, Credits' sign-off `w-[60%]`) aren't spacing-scale values at all —
-  they're the same class of intentional per-widget **layout width** as Home's
-  `md:w-[65%]` row splits, not something this scale governs.
+  signature rule, and Weather's "CANADA" stamp caption and Postmark clock line.
+  Devlog is a further exception, and it is now a **grid** rather than a set of
+  one-off values: every line in the scroll region is exactly 20px tall
+  (`text-sm` at its natural 20px leading, the timestamp forced to `leading-5`,
+  and `pb-5` closing each entry), so the kraft ruling can repeat every 20px and
+  land under **every** line — including the second and third lines of a wrapped
+  commit message. `left-1.75` / `top-1.25` remain exact pixel math tying each
+  commit node to the vertical spine; they are measured from the entry's top-left
+  and so are unaffected by the entry's height. Verified after the change: node
+  centre and spine centre both land on the same subpixel.
+
+  **Devlog's height is constrained twice over.** It must be `24 + 20k` px so the
+  paper never ends mid-rule (the 24 is the container's `py-3` top and bottom), and
+  it was originally chosen so the Spotify + Devlog stack roughly matches the
+  height of the Steam card beside it — a deliberate Row 3 balance, not an
+  arbitrary number. `h-36` (144px, `k = 6`) satisfies the grid and shows exactly
+  two full commits; it leaves the right column ~45px taller than Steam, which
+  reads fine because the row is `md:items-center` and the two centre against each
+  other. The next legal step down is 124px. Don't change this to a value off the
+  `24 + 20k` grid.
+  Separately, `w-[..]` fractions (Credits' sign-off `w-[60%]`) aren't
+  spacing-scale values at all — they're the same class of intentional
+  per-widget **layout width** as Home's `md:w-[65%]` row splits, not something
+  this scale governs. (Steam's title no longer uses a `max-w` fraction; it wraps
+  via `min-w-0 wrap-break-word`.)
 
 ---
 
@@ -355,14 +439,21 @@ tilted `PinnedCard` but stays full-bleed _inside_ it — an edge-to-edge ink
 label bar over a square image, no inner padding; Steam is a library checkout
 card — a full-bleed header-art banner on top (its title label overlaid in
 ink), a date-due slip below with an hours-logged rubber stamp and decorative
-red date stamps on kraft-ruled lines; Weather is an Ottawa postcard — a
-full-width skyline silhouette, a dashed-border postage stamp holding the
-condition glyph, and a line-art postmark ring carrying the live clock. The
-Devlog panel is a fixed-height scroll region — a git-graph timeline with a
-full-height ink spine and rose square nodes per commit, scrolled with a
-custom chunky scrollbar (`.devlog-scroll`, built from the `ink` / `primary` /
-`primary-soft` tokens) — an intentional styled element, not the default UI
-scrollbar. All obey the same grammar.
+red date stamps, both stat rows sitting on kraft rules; **Weather is an Ottawa
+postcard, and it obeys real postcard anatomy** — the message (temperature and
+condition) on the left, postage in the top-right corner, the postmark ring
+cancelling the stamp by overlapping it, and a full-width skyline silhouette
+across the bottom. The stamp carries country and design (a maple leaf and
+`CANADA`), never the mailing city — the city belongs to the postmark, which is
+also what carries the live clock. **The Welcome card is a letter, not a second
+postcard**; that distinction is what keeps Weather's stamp-and-postmark gag
+distinctive, so don't give Welcome postage. The Devlog panel is a fixed-height
+scroll region — a git-graph timeline with a full-height ink spine and rose
+square nodes per commit, written on kraft-ruled note paper whose rules land
+under every line of text (see Spacing scale), scrolled with a custom chunky
+scrollbar (`.devlog-scroll`, built from the `ink` / `primary` / `primary-soft`
+tokens) — an intentional styled element, not the default UI scrollbar. All obey
+the same grammar.
 
 ---
 
@@ -377,10 +468,25 @@ scrollbar. All obey the same grammar.
   same lift on `:focus-visible`, so keyboard users get the same feedback as a
   mouse hover.
 - **Hover:** links/nav brighten toward `ink` / `on-ink`; linked cards shift their
-  fill from white to a faint cool tint (`hover:bg-primary-soft`). Use
-  `transition-colors`, nothing flashy.
+  fill toward a faint cool tint (`hover:bg-primary-soft` — from white on most
+  cards, and from `blue-soft` on the Spotify card, which is not white to begin
+  with). Use `transition-colors`, nothing flashy. **Never hover a card onto a
+  full accent while `ink` text sits on it** — `violet` and `orchid` measure
+  ~3.8:1 and ~3.3:1 against `ink`, both below AA. The footer badges used to do
+  this and now lift instead (see below).
+- **Hover lift, not fill, on the handcrafted layer.** Objects that already carry
+  `shadow-sticker` — the tech stamps, Links' post-its, the footer badges —
+  signal hover with a small `-translate-y`, mirrored on `:focus-visible`. This
+  is the site's standard hover cue for pinned objects, and it sidesteps the
+  contrast trap above entirely.
+- **Nav underline is two-stage.** An inactive link has no underline at rest;
+  on hover it takes an `on-ink` (off-white) underline while its label brightens
+  to `on-ink` in the same motion; the **active** link wears its section hue.
+  Neutral on preview, identity on commit — the hue only ever appears on the page
+  you are actually on.
 - **Active nav:** the current link is `on-ink` (off-white) with its section-hue
-  underline and `aria-current="page"`; inactive links are `on-ink-muted`.
+  underline and `aria-current="page"`; inactive links are `on-ink-muted`. The
+  weight does **not** change (see Type → Weight rule).
 
 ---
 
@@ -413,8 +519,19 @@ scrollbar. All obey the same grammar.
 - **Headings:** single `h1`, ordered levels (see semantics note).
 - **Images:** every `<img>` has meaningful `alt` (decorative-only images get
   `alt=""`).
-- **State not by color alone:** the active nav link also carries `aria-current`
-  and bold weight; section identity is also in the title text.
+- **State not by color alone:** the active nav link is signalled by the
+  **presence** of an underline (a shape difference, not a hue one) plus
+  `aria-current="page"`; section identity is also in the title text. Bold weight
+  used to be a third signal and no longer is — the label is `semibold` in every
+  state so its width cannot shift (Type → Weight rule).
+
+  One bounded exception: while an inactive link is **hovered**, it and the
+  active link differ only by underline hue (`on-ink` vs the section colour).
+  That is accepted — hover is transient, pointer-only, and applies to exactly
+  the one link under the cursor, whose identity the user already knows; at rest
+  the distinction is underline presence, and `aria-current` carries it
+  programmatically at all times.
+
 - **Images stay crisp:** never render a raster above native size (`max-w` caps
   only; no upscaling).
 - **Motion:** CSS animations — `animate-vinyl` (the Spotify record spins while
@@ -422,9 +539,19 @@ scrollbar. All obey the same grammar.
   `animate-marquee`, and `animate-eq` — always play, by design; small and
   decorative, this intentionally does not honor `prefers-reduced-motion`, the
   same deliberate choice as the site's small decorative GIF cameos (the Live
-  Reaction cam and footer mascot, both Celeste; Row 3's AiAi GIF; and
-  TechStack's closing Isaac stamp), which are likewise a deliberate exception
-  and keep playing; keep any GIFs small and non-essential. The marquee's soft
+  Reaction cam and footer mascot, both Celeste; the AiAi sleeve inside the
+  Spotify card; and TechStack's closing Isaac stamp), which are likewise a
+  deliberate exception and keep playing; keep any GIFs small and non-essential.
+
+  **This is a stated position, not an oversight.** Home can run roughly ten
+  always-playing animations at once, and the aggregate was reviewed as a whole
+  rather than one animation at a time. The site exists to emulate the old
+  personal web, where that restlessness is the point; the owner has accepted
+  that this is not fully compliant, knowingly and for that reason. Do not
+  "fix" it by gating the cameos on `prefers-reduced-motion` — reopen the
+  decision with him instead.
+
+  The marquee's soft
   horizontal edge fade (a mask-image, fading into the white panel — not the
   sky — applied only while scrolling) is an allowed exception to the
   opaque-panel / hard-linework grammar, alongside the wordmark gradient.
@@ -457,12 +584,15 @@ a `min-w-0 md:w-[N%]` wrapper — a fixed percentage gives it a **deliberate
 width**, not a flex ratio. The four rows: Welcome (65%) + the photo (30%);
 Live Reaction (20%) + the Weather postcard (45%) + Links (30%) — three
 widgets, not a pair; then Steam (40%) beside a grouped column (55%) — the
-Spotify card, with the AiAi GIF cameo framed beside it, over Devlog
-full-width below; and finally a full-width TechStack strip closing the page,
-ending with a decorative, `aria-hidden` Isaac GIF stamp (an easter-egg cameo,
-not a fifth tool). Widget headings
+Spotify card over Devlog, both full-width in that column; and finally a
+full-width TechStack strip closing the page, ending with a decorative,
+`aria-hidden` Isaac GIF stamp (an easter-egg cameo, not an eighth tool). The
+AiAi cameo is **inside** the Spotify card, not beside it — it is the record's
+sleeve (see Handcrafted layer), which is what frees this column for the card and
+is why the record is larger here than when the sleeve sat alongside.
+Widget headings
 that aren't already on an opaque card float as `LabelTag` strips above their
-object (Steam's "What I've been playing" matches Links' "Get in Touch",
+object (Steam's "What I've been playing" matches Links' "Get in touch",
 TechStack's "My current toolset", and Devlog's "Most recent updates").
 
 **Compact masthead.** The banner and nav share a tight vertical rhythm so they
@@ -493,9 +623,18 @@ section. Only a change to the grammar itself — a size off the type scale, a
 missing `shadow-sticker`, a new motion rule — is a deviation, and every one of
 them is listed below.
 
-`CLAUDE.md` holds the _process_ contract (the 320px floor, the two-tier
-breakpoint rule, the verification widths). This section holds the _visual_
-consequences. Neither repeats the other.
+**The process contract lives here too.** An earlier draft deferred it to a
+`CLAUDE.md` that has never existed in this repo, which left the rules below
+written down nowhere. They are:
+
+- **The floor is 320px.** Nothing may overflow horizontally at that width.
+- **Two tiers only** — base (320–767px) and `md:` (768px). No `sm:`, `lg:`,
+  or `xl:`. See **Tiers** below for why the boundary is `md`.
+- **Verify at 320 / 375 / 768 / 1024** before calling a layout change done, and
+  measure rather than eyeball anything that claims to line up — the passport's
+  tab widths and Devlog's rule alignment were both settled by reading
+  `getBoundingClientRect()` in the browser, and in both cases the arithmetic
+  done on paper first had been wrong.
 
 ### Tiers
 
@@ -688,13 +827,25 @@ guidance and a measured drop in touch error rate. The nav's accent underline
 must stay hugging its label while the hit area grows: the target is on the
 `<button>`, the `border-b-2` is on an inner `<span>`.
 
-The passport's tab strip uses the same split for the same reason. An inactive
-tab is drawn 16px tall — deliberately, so the active tab stands proud of its
-neighbours — which is below the 24px floor. The `<button>` is therefore a
-full-height target at all widths and the 16px/32px tab shape lives on an inner
-span, so the affordance is unchanged and only the hit area grows. **This is a
-fix at every width, not a mobile concession** — the 16px target failed on
-desktop too. Desktop metrics are
+**The passport tab strip.** Every tab is labelled, including the inactive ones —
+they used to render blank, so a visitor could not tell what was on a chapter
+without opening it. Labelling them set the heights: `text-sm` needs about 28px,
+and the active tab must still stand proud of its neighbours, so the pair is
+**28px inactive / 44px active** in an `h-11` strip. The **16px pop is unchanged**
+from the original 16/32, so the transition feels identical; the strip simply
+costs 12px more vertical space. 44px also lands on the touch-target size above.
+The `<button>` is a full-height target at all widths and the tab shape lives on
+an inner `<span>`, so the affordance is unchanged and only the hit area grows.
+Since each button now has real text content, the `aria-label` that used to name
+the blank tabs is gone as redundant, and the active state rests on **height plus
+`aria-selected`** — both non-color signals, so the rule under Accessibility
+still holds.
+
+At 320px the strip is ~272px, so the four tabs get ~62px each and `Workflow` —
+the longest label — needs ~60px. It fits, but only because the strip tightens to
+`gap-1 px-2` below `md`. **Verified by measurement, not by eye:** 67px per
+button, no overflow and no wrapping. If a longer chapter name is ever added,
+that is the constraint it has to clear. Desktop metrics are
 untouched — the masthead stays compact, as specified under **Layout**.
 
 ---
@@ -726,8 +877,14 @@ patterns above — reach for these instead of re-typing their class strings:
   color of its own — see Accessibility), with a configurable element (`as`
   prop; a genuine card title defaults to `<h3>`, a decorative status label
   should pass `as="p"` / `as="span"` / `as="dt"`) and a `tone` prop
-  (`"label"` default, `"on-ink"` opt-in for a dark fill like Live Reaction's
-  label bar) that supplies the one text-color class the element gets.
+  (`"label"` default, `"ink"` for an overline that must read as primary text on
+  a light fill, `"on-ink"` for a dark fill like Live Reaction's label bar) that
+  supplies the one text-color class the element gets. **Never re-type the
+  Overline class string inline and never pass a competing text-color through
+  `className`** — add a `tone` instead, so an element never carries two color
+  utilities whose winner depends on Tailwind's source order. The `ink` tone
+  exists because the footer `Badge` needed exactly that and the alternative was
+  a second color class.
 - **`SectionTitle`** — the `<h2>` section title with its accent underline
   (`accent` prop: `"rose" | "violet" | "blue" | "orchid"`).
 - **`PinnedCard`** — the pinned-object card: opaque fill + `border-2
@@ -760,6 +917,53 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
 
 ---
 
+## Assets
+
+Every image is served at or below its native size (see **Accessibility → Images
+stay crisp**), and the whole `src/assets/` directory is preloaded on mount by
+`App.jsx` — its glob covers `png,jpg,jpeg,gif,webp,svg`, and **anything not on
+that list is silently skipped**, so a new format has to be added there or the
+preload quietly stops covering it.
+
+Because everything preloads, total weight is a real budget rather than a
+per-image concern. It currently sits near **1.1 MB**, of which the two animated
+cameos are the bulk.
+
+### Do not re-encode the animated GIFs
+
+Both cameos were once "optimized" and came back visibly corrupted. Three
+separate causes, all measured, all worth avoiding by name:
+
+1. **`-layers optimize` corrupts frames.** Its transparency pass does not
+   round-trip the disposal method — a single frame measured **8,218 differing
+   pixels out of 19,026** against its source. Use `-layers optimizeframe` if you
+   need frame optimization; it is the safe half.
+2. **ImageMagick's WebP writer silently drops frames.** Isaac's 35 frames came
+   out as 24 (lossless) and 19 (lossy). The animation itself changes, quite
+   apart from any quantization.
+3. **Lossy WebP is the wrong codec for this artwork.** Both cameos are flat-
+   colour game art; lossy quantization puts visible noise into exactly the areas
+   that should be flat.
+
+If a GIF must be re-processed, **`-dither None` is required** — without it,
+palette remapping alone introduced ~4,300 differing pixels across 32 frames.
+With it, the trim was provably **pixel-identical to the source**, verified frame
+by frame with `magick compare -metric AE`. Verify that way rather than trusting
+the file to look right at 80px.
+
+### What was already done
+
+- **`monkey-ball-aiai.gif`** — 1.87 MB → **416 KB**. The file stored the same
+  2.24-second, 32-frame loop **five times over**; it is trimmed to one cycle and
+  is pixel-identical to the original. Detected by comparing frame 0 against every
+  other frame: matches recurred exactly every 32 frames, well below the
+  adjacent-frame difference. There is nothing left to trim here.
+- **`tboi-thumbs-up.gif`** — 1.21 MB → **166 KB**, by downscaling 498px → 128px
+  (it renders at ~64px). All 35 frames intact. It has no repeating cycle — it
+  opens on a static hold — so frame-trimming would cost real animation.
+
+---
+
 ## Do / Don't
 
 - **Do** drive everything from tokens and the type scale; add a token before a
@@ -783,3 +987,19 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   status label into a heading just because `<Eyebrow>` defaults to `<h3>`.
 - **Don't** use transparency or `backdrop-blur`; every panel is opaque.
 - **Don't** remove focus outlines or rely on color as the only signal.
+- **Do** give each object a reason to be the thing it is. Every widget on the
+  board depicts something — a letter, a polaroid, a facecam, a postcard,
+  post-its, a library card, a record, a scroll, rubber stamps. If a new object
+  can only be described by its file format, it isn't finished.
+- **Do** counter-rotate tape against what it tapes, and vary a `LabelTag`'s tilt
+  against the card beneath it — two objects at the same angle read as printed
+  together, not placed by hand.
+- **Don't** hover a card onto a full accent with `ink` text on it; `violet` and
+  `orchid` fail AA that way. Lift instead.
+- **Don't** re-encode the animated GIFs through `-layers optimize` or
+  ImageMagick's WebP writer — both corrupt them in ways that are invisible until
+  they aren't. See **Assets**.
+- **Don't** let a label and its value disagree. Steam once showed a two-week
+  playtime figure under a "This Week" heading, with the correct span only in its
+  `aria-label` — sighted users got the wrong reading and screen-reader users got
+  the right one.

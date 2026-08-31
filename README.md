@@ -24,7 +24,7 @@ I took a ton of inspiration from the [indie web](https://indieweb.org) and
 [Neocities](https://neocities.org) — that old, handmade, personal web from back
 before every site started looking the same. The Now page is borrowed from
 [Derek Sivers' /now movement](https://nownownow.com). For full credits, check
-out the site's Colophon in the footer.
+out the site's Colophon — the Credits link in the footer.
 
 Thanks!
 
