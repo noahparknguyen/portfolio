@@ -1,5 +1,6 @@
 const TONE = {
   label: "text-label",
+  ink: "text-ink",
   "on-ink": "text-on-ink",
 };
 
