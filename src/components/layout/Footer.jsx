@@ -34,6 +34,10 @@ const BADGES = [
   },
 ];
 
+// A small aside per page, in the site's handwriting rather than the fine-print
+// treatment the copyright line uses — it is a scribble in the margin, not a
+// second line of boilerplate. "bapanada" is a Hollow Knight community in-joke,
+// which is why it sits on Home: the Banner carries the Hollow Knight duo.
 const FOOTER_NOTE = {
   home: "bapanada",
   about: "whoami",
@@ -57,7 +61,9 @@ function Footer({ active, onNavigate }) {
             className="h-14 w-auto shrink-0 [image-rendering:pixelated]"
           />
           <div className="text-center md:text-left">
-            <p className="text-xs text-gray-600">{FOOTER_NOTE[active] ?? ""}</p>
+            <p className="font-hand text-lg leading-tight text-ink">
+              {FOOTER_NOTE[active] ?? ""}
+            </p>
             <p className="text-xs text-gray-600">
               © {year} Noah Park-Nguyen ·{" "}
               <TextLink accent="label" onClick={() => onNavigate("credits")}>
