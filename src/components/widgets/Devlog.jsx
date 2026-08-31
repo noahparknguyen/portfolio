@@ -36,12 +36,18 @@ function Devlog() {
           className="absolute -top-3 right-6 block h-8 w-5 border-2 border-ink bg-orchid [clip-path:polygon(0_0,50%_25%,100%_0,100%_100%,0_100%)]"
         />
         <div
-          className="devlog-scroll shadow-sticker relative box-border h-30 overflow-y-auto border-2 border-ink bg-paper pl-3"
+          className="devlog-scroll shadow-sticker relative box-border h-36 overflow-y-auto border-2 border-ink bg-paper pl-3"
           style={{
+            // Rules scroll WITH the content. The default (`scroll`) pins the
+            // background to the element, so alignment could only ever hold at
+            // scroll position 0 — the rules drifted off the text as soon as you
+            // moved.
+            backgroundAttachment: "local",
             backgroundImage:
-              "repeating-linear-gradient(to bottom, transparent 0, transparent 27px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 27px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 28px)",
+              "repeating-linear-gradient(to bottom, transparent 0, transparent 11px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 11px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 12px, transparent 12px, transparent 20px)",
           }}
           tabIndex={0}
+          role="region"
           aria-label="Recent commits"
         >
           {loading ? (
@@ -49,7 +55,7 @@ function Devlog() {
               <div className="absolute inset-y-0 left-1.75 w-0.5 bg-ink" />
               <ul>
                 {[0, 1, 2, 3].map((i) => (
-                  <li key={i} className="relative flex pb-3.5 pl-6">
+                  <li key={i} className="relative flex pb-5 pl-6">
                     <span className="absolute left-0.5 top-1.25 h-3 w-3 border-2 border-ink bg-rose" />
                     <span className="h-3 w-full animate-pulse bg-primary-soft" />
                   </li>
@@ -68,11 +74,11 @@ function Devlog() {
                     aria-hidden="true"
                     className="absolute left-0.5 top-1.25 h-3 w-3 border-2 border-ink bg-rose"
                   />
-                  <div className="block pb-3.5 pl-6">
-                    <span className="block text-sm text-gray-700">
+                  <div className="block pb-5 pl-6">
+                    <span className="block text-sm leading-5 text-gray-700">
                       No signal from the repo
                     </span>
-                    <span className="mt-0.5 block text-xs italic text-gray-600">
+                    <span className="block text-xs italic leading-5 text-gray-600">
                       nothing to report
                     </span>
                   </div>
@@ -99,13 +105,13 @@ function Devlog() {
                       href={commit.url ?? "#"}
                       target="_blank"
                       rel="noreferrer"
-                      className="group block pb-3.5 pl-6"
+                      className="group block pb-5 pl-6"
                     >
-                      <span className="block text-sm text-gray-700 transition-colors group-hover:text-ink">
+                      <span className="block text-sm leading-5 text-gray-700 transition-colors group-hover:text-ink">
                         {commit.message}
                       </span>
                       {commit.date && (
-                        <span className="mt-0.5 block text-xs italic text-gray-600 transition-colors group-hover:text-ink">
+                        <span className="block text-xs italic leading-5 text-gray-600 transition-colors group-hover:text-ink">
                           {relativeTime(commit.date)}
                         </span>
                       )}
