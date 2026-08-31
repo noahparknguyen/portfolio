@@ -7,7 +7,7 @@ import {
   siSpring,
 } from "simple-icons";
 import { FaJava } from "react-icons/fa6";
-import tboiThumbsUpGif from "../../assets/tboi-thumbs-up.gif";
+import tboiThumbsUp from "../../assets/tboi-thumbs-up.gif";
 import Eyebrow from "../ui/Eyebrow";
 import SimpleIcon from "../ui/SimpleIcon";
 import LabelTag from "../ui/LabelTag";
@@ -16,6 +16,10 @@ function JavaIcon() {
   return <FaJava aria-hidden="true" className="mx-auto h-7 w-7 text-ink" />;
 }
 
+// The strip is things I BUILD WITH. Editors and IDEs (VS Code, IntelliJ) are not
+// stack — they're where I sit — so they deliberately have no stamp here and live
+// in the passport's Workflow prose instead (Passport.jsx → CHAPTERS.workflow).
+// Don't add a VS Code or IntelliJ stamp later; that prose is the right home.
 const TECH_ITEMS = [
   {
     key: "react",
@@ -82,7 +86,14 @@ const TECH_ITEMS = [
   },
 ];
 
-const TECH_NAMES = TECH_ITEMS.map((tech) => tech.label).join(", ");
+// The handwritten note tag shared by the interactive stamps and Isaac's cameo.
+// Below md the note is withheld from sighted touch users (STYLE_GUIDE.md →
+// Mobile deviation 6); at md+ it's an absolute tag revealed on hover. Kept as one
+// constant so the two call sites can't drift — they carried near-identical
+// 20-utility copies of this before. Written out in full so Tailwind's scanner
+// still sees every class name.
+const NOTE_TAG =
+  "md:pointer-events-none md:absolute md:left-1/2 md:top-full md:z-10 md:mt-1 md:-translate-x-1/2 md:whitespace-nowrap md:border-2 md:border-ink md:bg-white md:px-2 md:py-0.5 md:font-hand md:text-base md:text-ink md:opacity-100 md:shadow-sticker md:[@media(hover:hover)]:opacity-0 md:group-hover:opacity-100";
 
 function TechBadge({ item }) {
   const noteId = `tech-note-${item.key}`;
@@ -107,7 +118,7 @@ function TechBadge({ item }) {
       </a>
       <span
         id={noteId}
-        className="sr-only md:not-sr-only md:pointer-events-none md:absolute md:left-1/2 md:top-full md:z-10 md:mt-1 md:-translate-x-1/2 md:whitespace-nowrap md:border-2 md:border-ink md:bg-white md:px-2 md:py-0.5 md:font-hand md:text-base md:text-ink md:opacity-100 md:shadow-sticker md:[@media(hover:hover)]:opacity-0 md:group-hover:opacity-100 md:group-[:has(:focus-visible)]:opacity-100"
+        className={`sr-only md:not-sr-only md:group-[:has(:focus-visible)]:opacity-100 ${NOTE_TAG}`}
       >
         {item.note}
       </span>
@@ -115,21 +126,19 @@ function TechBadge({ item }) {
   );
 }
 
-// Decorative easter-egg cameo, not a tool — kept out of TECH_ITEMS/TECH_NAMES
-// and fully aria-hidden, so it never reaches the accessibility tree.
+// Decorative easter-egg cameo, not a tool — kept out of TECH_ITEMS and fully
+// aria-hidden, so it never reaches the accessibility tree.
 function IsaacStamp() {
   return (
     <div className="group relative" aria-hidden="true">
       <div className="shadow-sticker block w-20 rotate-3 border-2 border-ink bg-orchid-soft p-2 text-center transition-transform hover:-translate-y-1">
         <img
-          src={tboiThumbsUpGif}
+          src={tboiThumbsUp}
           alt=""
           className="block h-12 w-full object-cover"
         />
       </div>
-      <span className="hidden md:pointer-events-none md:absolute md:left-1/2 md:top-full md:z-10 md:mt-1 md:block md:-translate-x-1/2 md:whitespace-nowrap md:border-2 md:border-ink md:bg-white md:px-2 md:py-0.5 md:font-hand md:text-base md:text-ink md:opacity-100 md:shadow-sticker md:[@media(hover:hover)]:opacity-0 md:group-hover:opacity-100">
-        We love you Isaac
-      </span>
+      <span className={`hidden md:block ${NOTE_TAG}`}>We love you Isaac</span>
     </div>
   );
 }
@@ -148,7 +157,6 @@ function TechStack() {
         ))}
         <IsaacStamp />
       </div>
-      <span className="sr-only">My current toolset: {TECH_NAMES}.</span>
     </div>
   );
 }

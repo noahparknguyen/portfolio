@@ -3,22 +3,31 @@ import Eyebrow from "../ui/Eyebrow";
 
 function LiveReaction() {
   return (
-    <div className="flex h-full flex-col justify-around">
+    <div>
+      {/* `tracking-widest` overrides the Overline role's `tracking-wide` on
+          purpose: wide-letterspaced uppercase micro-type is the broadcast-chyron
+          convention this widget imitates (STYLE_GUIDE.md → Type). The weight
+          stays the role's `semibold`. */}
       <Eyebrow
         as="p"
         tone="on-ink"
-        className="bg-ink py-1 text-center font-bold tracking-widest"
+        className="bg-ink py-1 text-center tracking-widest"
       >
-        Live 🍓 Reaction
+        {/* The strawberry is a Celeste reference and purely decorative, so it's
+            aria-hidden — the label announces "Live Reaction", not "Live
+            strawberry Reaction". */}
+        Live <span aria-hidden="true">🍓</span> Reaction
       </Eyebrow>
       <div className="relative">
+        {/* No border here: this sits in a `bg-ink` card, so an ink border on an
+            ink fill is invisible — the frame you see is the card's own fill. */}
         <img
           src={celeste}
           alt="Madeline from Celeste, mid-reaction"
           width="300"
           height="300"
           decoding="async"
-          className="block h-auto w-full border-2 border-ink"
+          className="block h-auto w-full"
         />
 
         {/* camera-frame corner markers */}
