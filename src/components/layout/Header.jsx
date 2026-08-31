@@ -34,10 +34,10 @@ function Header({ active, onNavigate, className = "", sticky = false }) {
                 className="group flex min-h-11 items-center md:min-h-0"
               >
                 <span
-                  className={`border-b-2 pt-1 pb-0.5 font-display text-lg leading-none transition-colors ${
+                  className={`border-b-2 pt-1 pb-0.5 font-display text-lg font-semibold leading-none transition-colors ${
                     isActive
-                      ? `${borderAccent[link.accent]} font-bold text-on-ink`
-                      : "border-transparent font-semibold text-on-ink-muted group-hover:text-on-ink"
+                      ? `${borderAccent[link.accent]} text-on-ink`
+                      : "border-transparent text-on-ink-muted group-hover:border-on-ink group-hover:text-on-ink"
                   }`}
                 >
                   {link.label}
