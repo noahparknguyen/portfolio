@@ -17,7 +17,7 @@ function SteamWidget() {
   return (
     <div>
       <div className="text-center">
-        <LabelTag rotate="rotate-[1deg]">
+        <LabelTag rotate="-rotate-[1deg]">
           <Eyebrow>What I&rsquo;ve been playing</Eyebrow>
         </LabelTag>
       </div>
@@ -77,7 +77,7 @@ function GameCard({ game }) {
           <p className="min-w-0 wrap-break-word font-display text-lg font-semibold text-ink">
             {game ? game.name : "Shelf empty"}
           </p>
-          {game?.iconFallback && (
+          {game?.iconFallback && !useFallback && (
             <img
               src={game.iconFallback}
               alt=""
@@ -91,7 +91,7 @@ function GameCard({ game }) {
             />
           )}
         </div>
-        <div className="mt-2 flex items-center justify-between gap-2">
+        <div className="mt-2 flex items-center justify-between gap-2 border-b border-kraft pb-2.5">
           <Eyebrow as="p">All-time</Eyebrow>
           {game ? (
             <span
@@ -110,7 +110,7 @@ function GameCard({ game }) {
           )}
         </div>
         <div className="mt-5 flex items-center justify-between border-b border-kraft pb-2.5">
-          <Eyebrow as="p">This Week</Eyebrow>
+          <Eyebrow as="p">Last 2 Weeks</Eyebrow>
           {game ? (
             <span
               aria-label={`${formatHours(
