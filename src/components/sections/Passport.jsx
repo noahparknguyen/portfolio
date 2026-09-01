@@ -9,6 +9,7 @@ import Cell from "../ui/Cell";
 import SectionTitle from "../ui/SectionTitle";
 import Eyebrow from "../ui/Eyebrow";
 import TextLink from "../ui/TextLink";
+import Chevron from "../ui/Chevron";
 
 const ID_FIELDS = [
   { label: "Name / Nom", value: "Noah Park-Nguyen" },
@@ -71,23 +72,6 @@ const CHAPTERS = {
   ],
 };
 
-function Chevron({ dir }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d={dir === "left" ? "M15 5 L8 12 L15 19" : "M9 5 L16 12 L9 19"} />
-    </svg>
-  );
-}
-
 function Bio({ onNavigate }) {
   return (
     <div className="flex h-full flex-col">
@@ -144,7 +128,7 @@ function PassportBio({ active, i, go, onNavigate }) {
           aria-label="Previous page"
           className="flex h-8 w-8 shrink-0 items-center justify-center border-2 border-ink bg-white text-ink disabled:opacity-40"
         >
-          <Chevron dir="left" />
+          <Chevron dir="left" strokeWidth="3" />
         </button>
         <h3 className="flex-1 text-center font-display text-xl font-semibold text-ink">
           {TABS[i].label}
@@ -156,7 +140,7 @@ function PassportBio({ active, i, go, onNavigate }) {
           aria-label="Next page"
           className="flex h-8 w-8 shrink-0 items-center justify-center border-2 border-ink bg-white text-ink disabled:opacity-40"
         >
-          <Chevron dir="right" />
+          <Chevron dir="right" strokeWidth="3" />
         </button>
       </div>
 
@@ -218,7 +202,12 @@ function Passport({ onNavigate }) {
   };
 
   return (
-    <div className="md:rotate-[-0.4deg]">
+    // Level at every width. It was `md:rotate-[-0.4deg]`, but the passport is
+    // the most text-dense object on the site and it already straightened below
+    // md for that reason — a tilt makes the eye re-find the left edge on every
+    // line, which costs nothing over two lines and compounds over twenty
+    // (STYLE_GUIDE.md → Handcrafted layer → Slight rotation).
+    <div>
       <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <Panel as="div" className="shadow-sticker md:h-168 md:grid-rows-2">
           <Cell padding="p-4 md:p-6" bg="bg-paper">
