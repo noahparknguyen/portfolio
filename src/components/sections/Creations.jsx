@@ -48,7 +48,10 @@ function Creations() {
   };
 
   return (
-    <section aria-labelledby="creations-heading" className="flex flex-col gap-5">
+    <section
+      aria-labelledby="creations-heading"
+      className="flex flex-col gap-5"
+    >
       <PinnedCard bg="bg-orchid-soft" padding="p-4 md:p-6" className="relative">
         <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
         <SectionTitle accent="orchid" id="creations-heading">
@@ -56,10 +59,10 @@ function Creations() {
         </SectionTitle>
         <p className="mt-2 max-w-prose text-gray-700">
           This is where I keep my passion projects — the ones I still actively
-          maintain, and the finished ones I&rsquo;m proud enough to show off. The
-          links will take you straight there if you just want to try them. Open a
-          book up and you&rsquo;ll get the full deep dive into why and how I made
-          it.
+          maintain, and the finished ones I&rsquo;m proud enough to show off.
+          The links will take you straight there if you just want to try them.
+          Open a book up and you&rsquo;ll get the full deep dive into why and
+          how I made it.
         </p>
       </PinnedCard>
 

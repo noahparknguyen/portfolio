@@ -322,6 +322,7 @@ rather than printed on it:
   Keep the tilts that remain small (≤ ~3°, and ≤ ~1.5° on anything wider than a
   compact card), vary the direction per object so a row doesn't look
   mechanically repeated, and never overdo it.
+
 - **Tape, pins, and stamps.** `<Pin>`, `<Tape>`, and `<Stamp>` (in
   `src/components/ui/`) are small decorative primitives — a pushpin, a washi-
   tape strip, and the Celeste postage-stamp image — that reinforce the
@@ -422,7 +423,7 @@ on the column and **level at every width** — see the tilt rule above.
 - **A blind-stamped rule frame** inset from the cover edge, at
   `--opacity-accent-line` — the plain ruled rectangle an old cloth binding
   carries.
-- **The device** — the project's own mark, *redrawn* in ink linework rather than
+- **The device** — the project's own mark, _redrawn_ in ink linework rather than
   imported. Statmon's favicon is a gradient on a rounded tile, and neither
   crosses over; its Poké Ball is a circle, which the round-accent rule above
   already allows, so the tile and gradient are dropped and the ball is kept.
@@ -675,8 +676,8 @@ the same grammar.
   which clears 4.5:1 on **every** opaque fill on the site and leaves the
   label/`ink` two-tone relationship intact. No component changed.
 
-  The lesson for this table: a pairing is only certified if the *specific*
-  foreground and the *specific* background were both measured together. Certify
+  The lesson for this table: a pairing is only certified if the _specific_
+  foreground and the _specific_ background were both measured together. Certify
   the roles against the fills as a grid, not as two separate sentences. Icon glyphs (`SimpleIcon`, the footer
   `Badge`s, `TechStack`'s Java glyph) render in plain `ink`, not brand color, so
   they're already AA-safe against every tint with no per-icon hue check needed.
@@ -852,7 +853,7 @@ That is the whole list. Anything not on it holds at every width.
   text-density rule under **Handcrafted layer → Slight rotation** applies at
   every width, so the objects that stay level do so everywhere: Home's Welcome
   letter and Devlog, About's passport, and the Creations book. What changes below
-  `md` is only that *more* objects meet the "wide" half of the rule — at 320px
+  `md` is only that _more_ objects meet the "wide" half of the rule — at 320px
   every panel is full width — which is why the caps below still matter.
 
   **Tilted at every width** — everything else: Weather, Spotify, Steam, the
