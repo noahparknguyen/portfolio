@@ -42,7 +42,7 @@ const FOOTER_NOTE = {
   home: "bapanada",
   about: "whoami",
   now: "hey now",
-  creations: "WIP",
+  creations: "dog-eared",
   credits: "looks inside",
 };
 

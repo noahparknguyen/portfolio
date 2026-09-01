@@ -161,6 +161,12 @@ The page outline is fixed:
 - `h1` — the banner name (one per page).
 - `h2` — the active section's title.
 - `h3` — subsections and card titles inside a section.
+- `h4` — **only inside a Creations book**, for a chapter title under the book's
+  own `h3`. This is the one place the outline goes four deep, because it is the
+  one place a named object nests inside a section: `h2` Creations → `h3` the
+  book's title → `h4` the chapter. Every spread renders exactly one of each, so
+  the level is never skipped. Don't reach for `h4` anywhere else — outside a
+  book there is nothing for it to sit under.
 
 Never add a second `h1`. Keep levels in order (no skipping). Not every
 `<Eyebrow>` is a heading — a genuine card title (Devlog's "Most recent
@@ -244,8 +250,10 @@ border-<section hue>` for the accent underline under a section title.
   instead) and it is taped up rather than pinned, so warm stationery is right
   there. This is also why `primary-soft` means _masthead/footer band_ and
   nothing else, and why plain white means "literally white". Watch for a knock-on
-  when a panel takes a hue: Creations' inner `LabelTag` had to revert to white,
-  or orchid-soft would have touched orchid-soft.
+  when a panel takes a hue: a Creations book sits directly under the orchid-soft
+  intro panel, so its cover draws from a different tint (Statmon's is
+  `violet-soft`) — two orchid-soft objects touching would read as one block of
+  colour rather than a book pinned below a note.
 - **Headers ignore the tint.** They stay on the standard `ink` / `label`
   / `on-ink` roles regardless of a card's tint (switching to `on-ink` only
   where the fill itself is dark, e.g. the Live Reaction label bar) — the
@@ -286,17 +294,34 @@ rather than printed on it:
   acronym badges, the tech stamps (including TechStack's decorative Isaac
   stamp), the Links post-its, Now's stickies, the small `LabelTag` signs,
   the AiAi record sleeve inside the Spotify card, and card-sized widgets (Spotify, Weather, the
-  diploma, the Live Reaction cam). **Tilt is governed by width and
-  edge-proximity, not by how much text an object holds** — the visible skew of
-  a fixed angle grows with an object's width, and a tilt next to a straight
-  reference line reads as an error rather than character. So **wide or
-  full-width panels, and anything stacked against a straight edge, stay level
-  (0°)**: the Welcome letter, the Now intro card, the Colophon card, and the
-  work-timeline note strips (they line up against the timeline's vertical
-  spine — their acronym badges stay tilted, so the character lives in the small
-  tag pinned to a level note). Keep tilts small (≤ ~3°, and ≤ ~1.5° on anything
-  wider than a compact card), vary the direction per object so a row doesn't
-  look mechanically repeated, and never overdo it.
+  diploma, the Live Reaction cam). **Three things govern tilt: how much running
+  text an object holds, its width, and whether it sits against a straight edge.**
+
+  **Text density comes first, and it applies at every width.** On a tilted
+  block each line starts at a slightly different x, so the eye has to re-find
+  the left edge on every return sweep. Over two lines that is invisible and
+  reads as charm; over twenty it accumulates into something that reads as
+  broken. So **anything carrying sustained running text stays level (0°) at
+  every width**: Home's Welcome letter, Devlog, About's passport, and the
+  Creations book — closed cover and open spread alike.
+
+  This rule used to apply below `md` only, with the desktop tier governed by
+  width alone ("not by how much text an object holds"). That split was the
+  inconsistent half: the reading cost does not switch off at 768px, it is just
+  easier to notice on a phone. The passport was the only object the two tiers
+  actually disagreed about, and it now reads calmer level.
+
+  **Width and edge-proximity still govern everything else** — the visible skew
+  of a fixed angle grows with an object's width, and a tilt next to a straight
+  reference line reads as an error rather than character. So wide or full-width
+  panels and anything stacked against a straight edge stay level too: the Now
+  intro card, the Colophon card, and the work-timeline note strips (they line up
+  against the timeline's vertical spine — their acronym badges stay tilted, so
+  the character lives in the small tag pinned to a level note).
+
+  Keep the tilts that remain small (≤ ~3°, and ≤ ~1.5° on anything wider than a
+  compact card), vary the direction per object so a row doesn't look
+  mechanically repeated, and never overdo it.
 - **Tape, pins, and stamps.** `<Pin>`, `<Tape>`, and `<Stamp>` (in
   `src/components/ui/`) are small decorative primitives — a pushpin, a washi-
   tape strip, and the Celeste postage-stamp image — that reinforce the
@@ -348,9 +373,12 @@ bg-white shadow-sticker` tag so it reads over the sky), handwritten date-stamp
   hairlines/rings/sub-16px detail), `--stroke-regular` (`2`, default line-art
   icons 16–40px), `--stroke-bold` (`2.5`, heavier affordances). Applied via
   `style={{ strokeWidth: "var(--stroke-…)" }}` so glyphs share one source of
-  truth. About's passport-nav `Chevron` is the sole exception, at `3` — thinning
-  it to `--stroke-bold` visibly weakens the arrows, so it stays a literal,
-  documented one-off.
+  truth. `Chevron` (`src/components/ui/`) takes it as a **prop**, defaulting to
+  `--stroke-bold`. About's passport pager is the sole exception on the site and
+  passes `strokeWidth="3"` explicitly — thinning those arrows to the token
+  visibly weakens them, so it stays a literal, documented one-off, and making it
+  a per-call-site prop is what stops a second copy of the exception drifting in.
+  Creations' book pager takes the default.
 - **Decorative-opacity scale.** `--opacity-watermark` (`0.1`, the About maple-leaf
   watermark), `--opacity-watermark-strong` (`0.3`, the About canada-map
   watermark), `--opacity-accent-line` (`0.5`, the banner's corner hairlines),
@@ -364,6 +392,128 @@ bg-white shadow-sticker` tag so it reads over the sky), handwritten date-stamp
   accent dots (the REC indicator, the banner's flanking dots), and the
   achievement cards' circular logo bezel (and its matching "Locked"
   placeholder circle).
+
+### The Creations book
+
+Creations is a stack of **books lying face-up on the board** — one per project,
+closed by default, opening into a two-page spread. The section deliberately has
+no shelf, case, or rack: nothing else on the site is stored in furniture, every
+object simply sits on the board, and a shelf would also collide with Steam's
+library-card widget.
+
+**The proportions are the whole illusion.** A closed book is ONE page wide and
+exactly as tall as the pages inside it, so the cover is `md:w-1/2` against the
+open spread's full width and both are `md:h-[30rem]`. Opening therefore unfolds
+the object rightward at a constant height, instead of changing width and height
+at once — which is what made an earlier full-width, short cover read as a card
+that swapped for a book. Below `md` the spread is already a single column, so the
+cover matches it at full width and takes its natural height. It is **centred**
+on the column and **level at every width** — see the tilt rule above.
+
+**Closed** (`Book.jsx`) — flat, square-cornered linework throughout:
+
+- **The page block.** A `paper` rectangle offset **4px** down-right behind the
+  cover, carrying the `shadow-sticker` for the whole book since it is the lowest
+  layer. This is what makes the object read as thick rather than flat, and it is
+  the drawn convention for book depth, not a literal top-down view. Keep the
+  offset small: at 7px the cover visibly floated off its own pages.
+- **The spine**, a full-accent fill down the left edge (no text on it, so a
+  bright accent is legal), with **head and tail bands** capping its ends.
+- **A blind-stamped rule frame** inset from the cover edge, at
+  `--opacity-accent-line` — the plain ruled rectangle an old cloth binding
+  carries.
+- **The device** — the project's own mark, *redrawn* in ink linework rather than
+  imported. Statmon's favicon is a gradient on a rounded tile, and neither
+  crosses over; its Poké Ball is a circle, which the round-accent rule above
+  already allows, so the tile and gradient are dropped and the ball is kept.
+  **Translate a project's mark into this grammar; never paste it in.**
+- **A cue that it opens.** Nothing about a cover says "this one is a button",
+  and the hover lift only appears once you are already on it. A short line in the
+  site's handwriting (`font-hand`, "open me up" with a drawn arrow) sits inside
+  the clickable region and does the job — handwriting reads as a note pointing at
+  the object rather than as a third control competing with the two links.
+- **Nothing else.** The cover is the mark, the title, a blurb, the cue, the two
+  links, and the imprint at the foot — one centred cluster, not a content block
+  pushed up with links pinned down, which leaves a void through the middle. It
+  carries **no screenshot**: Statmon's social image is a centred Poké Ball above the wordmark
+  above the tagline, which is the same three things in the same order as the
+  cover itself, so pasting it in would have printed the cover's contents twice.
+  The cover **is** that image, redrawn in paper. Check for that overlap before
+  putting art on any future cover.
+
+**Both cover links are plain white**, not a soft tint each. The site's usual
+move is a different tint per item (the footer badges, Links' post-its), but those
+sit on the sky; on a violet cover a rose and a blue chip made three hues fight.
+White reads as a pair of controls belonging to the cover.
+
+**Links live on the cover, and the overlay button stops short of them.** The
+cover is click-to-open, but a `<button>` may only contain phrasing content, so
+neither the title `<h3>` nor the two `<a>`s can sit inside one. The mark, title
+and blurb are wrapped in a transparent overlay button; the links are a **sibling
+below it**, so the markup stays valid and both are independently reachable. Any
+future click-the-whole-card object should copy this arrangement rather than nest.
+
+**Open** (`BookSpread.jsx`) — `Panel` + two `Cell`s with `md:grid-cols-2`, so the
+primitive's 2px ink seam becomes the **gutter**. The passport uses the same
+primitive with `md:grid-rows-2`, a horizontal fold; a book's is a vertical spine,
+which is what keeps the two objects from reading as the same thing. Then:
+**running heads** (verso the book's title, recto its chapter — the print
+convention, and never both on one spread) and **folios** that are real page
+numbers, incrementing across turns.
+
+**The first spread is pages 1–2, which puts odd numbers on the left.** That
+inverts the print convention deliberately. This book's title page already sits on
+the verso rather than the recto, so it was never a faithful opening, and
+numbering from the inside-front-cover meant the book opened on page 2 — a worse
+thing to explain to a reader than a broken pedantry is to a typographer.
+
+**The book's own furniture carries the controls; nothing floats beneath it.**
+Page-turn chevrons sit in the **outer bottom corners** beside the folios, where a
+thumb turns a page, with no border or fill of their own so they stay quieter than
+the page. The **bookmark ribbon closes the book** — the thing you reach for when
+you put one down — using Devlog's notched tab shape widened to carry its label.
+It sits **behind the pages and pokes out of the top**, the way a bookmark
+actually sits in a book, which is why the open article carries `mt-6` to clear
+the intro card above it. Being behind has a real cost worth knowing: a
+`clip-path` clips hit testing and the covered part is unreachable, so **the
+visible 32px is the entire target**. That clears the 24px floor under
+Accessibility → Touch targets but not the 44px the nav and footer badges take,
+which is accepted here. It takes `orchid-soft`, not the full `orchid` of the
+decorative version, because it now has text on it and `ink` on full orchid
+measures ~3.3:1. A row of white
+buttons under the book was tried first and read as site chrome parked beneath a
+paper object rather than as part of it.
+
+**Both pages turn together.** A spread where only one page moved would give the
+whole thing away. Interaction is lifted from `Passport.jsx`: clamped `go(n)`,
+bounds-disabled arrows, and the start/end-delta swipe that ignores a mostly
+vertical drag rather than stealing it from the page scroll.
+
+**A plate gets a printed caption**, set in the Small/meta role rather than the
+site's handwriting: `font-hand` covers photo captions, but a book sets a figure
+caption in type, and this one describes the image rather than joking about it. It
+also stops a plate page from ending in dead space.
+
+**A book doesn't resize when you turn a page**, so the spread is a fixed height at
+`md` and auto below it (the passport's call, for the passport's reason — nested
+scroll on a phone leaves the reader unable to predict which thing moves).
+**The consequence is editorial: chapter copy is written to a page budget.** A
+page that overruns scrolls rather than breaking, but a scrolling book page reads
+as an overflow bug, so trim to fit instead. Roughly three short paragraphs per
+prose page at the design width; the budget note lives with the copy in
+`src/lib/projects.js`.
+
+**The copy is the site's voice, not a portfolio's.** The books carry the longest
+prose on the site, which makes them the easiest place to drift into sounding like
+a CV. They follow Home's Welcome letter and Now's notes instead: contractions
+throughout, asides in brackets, the odd exclamation mark, and a real willingness
+to say what went wrong. Concrete beats impressive — "that's how I found out
+Dragon was too dark to read" earns more than "a rigorous contrast audit" does.
+
+**`--color-paper` extends to book pages and the page block.** The token is
+otherwise reserved for stationery, but a book's pages are the most literal paper
+on the site, and it puts the book in the same material family as the Welcome
+letter and the Devlog scroll.
 
 ---
 
@@ -502,7 +652,8 @@ the same grammar.
   | `ink` text on panels                    | ~9.3:1  |
   | `gray-700` body on white note           | ~10.3:1 |
   | `gray-600` meta on masthead/footer band | ~6.4:1  |
-  | `label` on masthead/footer band         | ~5.1:1  |
+  | `label` on masthead/footer band         | ~5.7:1  |
+  | `label` on the darkest soft tint        | ~4.6:1  |
   | `on-ink` on the nav bar                 | ~10:1   |
   | `on-ink-muted` on the nav bar           | ~5.5:1  |
 
@@ -510,7 +661,23 @@ the same grammar.
   `violet-soft`/`orchid-soft`) — they're all light enough that `ink`/`gray-700`/
   `gray-600` text keeps AA (`gray-600` on the darkest of them, `orchid-soft`,
   measures ~5.3:1); never drop a darker accent color in as a fill
-  behind body text without rechecking. Icon glyphs (`SimpleIcon`, the footer
+  behind body text without rechecking.
+
+  **`label` on a soft tint used to fail, and this table is why it went
+  unnoticed.** The row above only ever certified `label` against the
+  masthead/footer band, and the paragraph only ever certified `ink`/`gray-700`/
+  `gray-600` against the tints — so the one pairing nobody had measured was the
+  `<Eyebrow>` default (`label`) sitting on a tinted card, which is a pattern the
+  site uses constantly: Now's eleven stickies, About's timeline and achievement
+  cards, Home's Spotify card, and every book cover. Measured across the rendered
+  page it came to **4.03–4.31:1 against the four tints — 21 failing elements**.
+  Fixed at the token: `--color-label` was darkened 8% (`#625AA0` → `#5A5393`),
+  which clears 4.5:1 on **every** opaque fill on the site and leaves the
+  label/`ink` two-tone relationship intact. No component changed.
+
+  The lesson for this table: a pairing is only certified if the *specific*
+  foreground and the *specific* background were both measured together. Certify
+  the roles against the fills as a grid, not as two separate sentences. Icon glyphs (`SimpleIcon`, the footer
   `Badge`s, `TechStack`'s Java glyph) render in plain `ink`, not brand color, so
   they're already AA-safe against every tint with no per-icon hue check needed.
 
@@ -681,22 +848,12 @@ That is the whole list. Anything not on it holds at every width.
   spread of a 3° tilt (a 320px-wide card at 3° has a bounding box ~10px wider
   than itself). Going to zero would force clipping tilted corners — see
   deviation 3 for why the bands can do this and the cards can't.
-- **Below `md`, tilt is governed by text density — not by width.** This is a
-  deliberate inversion of the Handcrafted layer's desktop rule ("tilt is
-  governed by width and edge-proximity, **not** by how much text an object
-  holds"). That rule works at 768px because width and text density correlate
-  there: the panels holding long copy are the wide ones. At 320px every panel
-  is full width, so width stops telling the two apart and only density is left.
-
-  The reason to care is a reading cost that scales with line count. On a
-  tilted block, each successive line starts at a slightly different x, so the
-  eye's return sweep has to re-find the left edge every line. Over twenty
-  lines of body copy that accumulates into something that reads as broken;
-  over a two-line widget it is invisible, and reads as charm.
-
-  **Level below `md`** — only the three tallest, densest objects: Home's
-  Welcome letter and Devlog, and the passport. These are the ones where a tilt
-  is read across enough lines to become a cost.
+- **Tilt no longer changes between the tiers, with one exception.** The
+  text-density rule under **Handcrafted layer → Slight rotation** applies at
+  every width, so the objects that stay level do so everywhere: Home's Welcome
+  letter and Devlog, About's passport, and the Creations book. What changes below
+  `md` is only that *more* objects meet the "wide" half of the rule — at 320px
+  every panel is full width — which is why the caps below still matter.
 
   **Tilted at every width** — everything else: Weather, Spotify, Steam, the
   Links post-its, Now's note cards, the polaroid, the Live Reaction cam, the
@@ -725,6 +882,16 @@ That is the whole list. Anything not on it holds at every width.
   height is driven by its width (an image card), it still takes a **fixed
   `max-w` below `md`**, which makes its overhang constant rather than
   proportional — that one is real.
+
+  **The Creations book was briefly an exception and no longer is** — worth
+  recording, because the reasoning nearly added a permanent margin for nothing.
+  Its page block is a real second layer offset 4px down-right, so its overhang
+  is that 4px plus the 4px shadow, where a plain card only pays the shadow. At a
+  1° tilt the book was tall enough to add ~4px a side on top of that, which
+  crossed the 12px gutter and earned it an `mx-1`. Straightening the book (see
+  the tilt rule above) removed the tilt's share, and 8px fits the gutter with
+  room to spare, so the margin came back out. Measured at 320px: no horizontal
+  overflow without it.
 
 - **Small objects stay small.** A widget drawn at 20–30% of the desktop row is
   not faithfully translated by letting it fill a phone column. Home's polaroid
@@ -912,6 +1079,10 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
 - **`SimpleIcon`** — renders a `simple-icons` brand glyph (`icon` object +
   sizing `className`); shared by `TechStack` and `Badge` so the icon markup
   lives in one place.
+- **`Chevron`** — the nav arrow shared by About's passport pager and Creations'
+  book pager (`dir` / `className` / `strokeWidth` props). It was a local copy in
+  each before, which is how the passport's documented `3` nearly became an
+  undocumented second one; the stroke is a prop so that exception stays explicit.
 - **`Pin`** / **`Tape`** / **`Stamp`** — the handcrafted-layer decorative
   accents (see Handcrafted layer above). All `aria-hidden`.
 
@@ -928,6 +1099,16 @@ preload quietly stops covering it.
 Because everything preloads, total weight is a real budget rather than a
 per-image concern. It currently sits near **1.1 MB**, of which the two animated
 cameos are the bulk.
+
+**`src/assets/books/` is deliberately a subdirectory, and that is load-bearing.**
+`App.jsx`'s glob is `./assets/*.{…}` — a single `*`, which does not match across
+a `/` — so nothing nested inside `assets/` is preloaded. Creations' book art
+therefore costs a visitor who never opens that section nothing, which is the
+right trade for art behind a click. The alt-text flash the site-wide preload
+exists to prevent is handled instead by `Creations.jsx`, which warms its own glob
+once on mount. **Any future art that belongs to one section should go in its own
+subdirectory for the same reason** — but it then has to bring its own warming, or
+it will flash. Art that belongs to the whole site stays at the top level.
 
 ### Do not re-encode the animated GIFs
 
@@ -989,8 +1170,16 @@ the file to look right at 80px.
 - **Don't** remove focus outlines or rely on color as the only signal.
 - **Do** give each object a reason to be the thing it is. Every widget on the
   board depicts something — a letter, a polaroid, a facecam, a postcard,
-  post-its, a library card, a record, a scroll, rubber stamps. If a new object
-  can only be described by its file format, it isn't finished.
+  post-its, a library card, a record, a scroll, rubber stamps, a book. If a new
+  object can only be described by its file format, it isn't finished.
+- **Do** translate an outside mark into this grammar rather than pasting it in.
+  Statmon's favicon arrived as a gradient on a rounded tile and was redrawn as a
+  flat ink Poké Ball; a screenshot that does earn a place gets an ink frame, and
+  the clash between the dark art and this board is the thing to design with
+  rather than sand off. **And check first whether the import would just repeat
+  what the page already says** — Statmon's social image lost its place on the
+  book cover because it is the same mark, title and tagline the cover itself
+  carries.
 - **Do** counter-rotate tape against what it tapes, and vary a `LabelTag`'s tilt
   against the card beneath it — two objects at the same angle read as printed
   together, not placed by hand.
