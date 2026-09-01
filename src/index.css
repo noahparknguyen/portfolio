@@ -13,7 +13,11 @@
   --color-ink: #3d3660; /* deep sky-indigo — borders, headings, body text */
   --color-primary: #cdc4ee; /* cool lilac — pastel fill/accent (not for text) */
   --color-primary-soft: #eceaf8; /* cool lavender-white — masthead/footer band fill (opaque) */
-  --color-label: #625aa0; /* cool periwinkle — accessible small-caps accent text */
+  --color-label: #5a5393; /* cool periwinkle — small-caps accent text. Darkened
+     8% from #625AA0, which measured 4.03–4.31:1 against the four soft tints and
+     failed AA on every <Eyebrow> sitting on one (Now's stickies, About's
+     timeline and achievements, Home's Spotify card). This value clears 4.5:1 on
+     every opaque fill on the site — see the contrast table in STYLE_GUIDE.md. */
   --color-on-ink: #f4f2fb; /* cool off-white — primary text on ink fills */
   --color-on-ink-muted: #b9b2d6; /* muted periwinkle — secondary/inactive text on ink */
 
