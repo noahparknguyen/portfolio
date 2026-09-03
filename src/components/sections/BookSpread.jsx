@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Panel from "../ui/Panel";
 import Cell from "../ui/Cell";
 import Eyebrow from "../ui/Eyebrow";
+import ProjectLinks from "../ui/ProjectLinks";
 import Chevron from "../ui/Chevron";
 
 // Page-turn controls live in the outer bottom corners — where a thumb turns a
@@ -119,6 +120,22 @@ function PageBody({ page, project, titleId }) {
             </li>
           ))}
         </ul>
+
+        {/* The links repeat here from the cover on purpose. A reader who has
+            just finished the book is the one most likely to want them, and by
+            then the cover is no longer in front of them — without this they
+            would have to close the book to reach a link. The back of a book is
+            where production details belong anyway. */}
+        <Eyebrow as="p" className="mt-6">
+          Where to find it
+        </Eyebrow>
+        <div className="mt-2">
+          <ProjectLinks
+            liveUrl={project.liveUrl}
+            repoUrl={project.repoUrl}
+            title={project.title}
+          />
+        </div>
       </div>
     );
   }
@@ -290,9 +307,15 @@ function BookSpread({ project, onClose }) {
               Fixed height at md because a book doesn't resize when you turn a
               page, and the closed cover matches it; auto below md, where a fixed
               height would force a scroll region inside a scrolling page and
-              leave the reader unable to predict which one moves. */}
+              leave the reader unable to predict which one moves.
+
+              The cells carry `min-h-0` because a grid item defaults to
+              `min-height: auto` and so refuses to shrink below its content.
+              Without it an over-long page did not scroll — it grew the cell
+              past the panel's fixed height and spilled outside the book's
+              border. This is the guard; copy is still written to fit. */}
           <Panel as="div" className="md:h-[30rem] md:grid-cols-2">
-            <Cell bg="bg-paper" padding="p-0">
+            <Cell bg="bg-paper" padding="p-0" className="min-h-0">
               <Page
                 page={spread.verso}
                 project={project}
@@ -309,7 +332,7 @@ function BookSpread({ project, onClose }) {
                 }
               />
             </Cell>
-            <Cell bg="bg-paper" padding="p-0">
+            <Cell bg="bg-paper" padding="p-0" className="min-h-0">
               <Page
                 page={spread.recto}
                 project={project}
