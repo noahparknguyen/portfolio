@@ -1,4 +1,5 @@
 import Eyebrow from "../ui/Eyebrow";
+import ProjectLinks from "../ui/ProjectLinks";
 
 // Statmon's own favicon is a Poké Ball on a rounded dark tile with a purple
 // flame gradient — both a rounded rectangle and a gradient, so neither can come
@@ -7,17 +8,16 @@ import Eyebrow from "../ui/Eyebrow";
 // in the handcrafted layer. So the mark is redrawn here in flat ink linework
 // rather than imported: tile dropped, gradient dropped, ball kept.
 //
-// It is also why the cover carries no screenshot. Statmon's social image is a
+// It is also why Statmon's cover carries no screenshot: its social image is a
 // centred Poké Ball above the wordmark above the tagline — the same three things
-// in the same order as this cover, so pasting it in would have printed the
-// cover's own contents twice. The cover IS that image, redrawn in paper.
+// in the same order as the cover itself, so pasting it in would have printed the
+// cover's own contents twice. That cover IS the image, redrawn in paper.
+// One size for every mark, so a new book can't quietly draw its device larger.
+const DEVICE = "h-16 w-16 shrink-0 md:h-20 md:w-20";
+
 function PokeballDevice() {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      aria-hidden="true"
-      className="h-16 w-16 shrink-0 md:h-20 md:w-20"
-    >
+    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
       <circle cx="24" cy="24" r="18" fill="var(--color-paper)" />
       <path d="M6 24 A18 18 0 0 1 42 24 Z" fill="var(--color-violet)" />
       <g
@@ -41,6 +41,32 @@ function PokeballDevice() {
   );
 }
 
+// Inbox's mark, redrawn on the same terms as the Poké Ball above: their favicon
+// is three rectangles on a rounded brand-dark tile, so the tile goes (rounded
+// rectangles are out) and the brand orange becomes a palette accent, but the
+// composition — including both columns ending on the same line — is preserved.
+function InboxDevice() {
+  return (
+    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
+      <g
+        stroke="var(--color-ink)"
+        style={{ strokeWidth: "var(--stroke-bold)" }}
+      >
+        <rect x="10" y="10" width="11" height="11" fill="var(--color-blue)" />
+        <rect x="10" y="25" width="11" height="13" fill="var(--color-paper)" />
+        <rect x="26" y="10" width="11" height="28" fill="var(--color-paper)" />
+      </g>
+    </svg>
+  );
+}
+
+// Each book names its mark in the data; the drawing lives here, because
+// `src/lib/projects.js` stays data and holds no JSX.
+const DEVICES = {
+  pokeball: PokeballDevice,
+  inbox: InboxDevice,
+};
+
 function ArrowRight() {
   return (
     <svg
@@ -59,24 +85,6 @@ function ArrowRight() {
   );
 }
 
-function ArrowOut() {
-  return (
-    <svg
-      viewBox="0 0 16 16"
-      aria-hidden="true"
-      className="h-3.5 w-3.5 shrink-0"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      style={{ strokeWidth: "var(--stroke-regular)" }}
-    >
-      <path d="M6 3 h7 v7" />
-      <path d="M13 3 L4 12" />
-    </svg>
-  );
-}
-
 // A closed book is ONE page wide and the same height as the pages inside it, so
 // the cover is `md:w-1/2` against the open spread's full width, and both are
 // `md:h-[30rem]`. Opening therefore unfolds the object rightward at a constant
@@ -84,13 +92,7 @@ function ArrowOut() {
 // already a single column, so the cover matches it at full width and takes its
 // natural height (the passport's reason: no fixed heights on a phone).
 function Book({ project, onOpen, openRef }) {
-  // Both links take plain white rather than a tint each. The site's usual move
-  // is a different soft tint per item (the footer badges, Links' post-its), but
-  // those sit on the sky; here a rose and a blue chip sat on a violet cover and
-  // the three hues fought. White reads as a pair of controls on the cover
-  // instead of two unrelated coloured things.
-  const link =
-    "flex min-h-11 flex-1 items-center justify-center gap-2 border-2 border-ink bg-white px-2 font-display text-sm font-bold text-ink transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 md:min-h-10";
+  const Device = DEVICES[project.mark];
 
   return (
     // Level at every width and centred on the column. No tilt: this is the most
@@ -143,7 +145,7 @@ function Book({ project, onOpen, openRef }) {
               cover. Only the imprint sits apart, at the foot. */}
           <div className="relative flex flex-1 flex-col items-center justify-center gap-4 p-4 md:p-6">
             <div className="relative flex flex-col items-center gap-3 text-center">
-              <PokeballDevice />
+              <Device />
               <div>
                 <h3 className="font-display text-xl font-semibold leading-tight text-ink">
                   {project.title}
@@ -175,35 +177,14 @@ function Book({ project, onOpen, openRef }) {
               />
             </div>
 
-            <div className="flex w-full gap-2">
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className={link}
-              >
-                Live site
-                {/* The arrow is the sighted cue for "leaves the site" and is
-                    aria-hidden; this is its spoken equivalent. It also names the
-                    project, since "Live site" alone doesn't say whose. */}
-                <span className="sr-only">
-                  {` for ${project.title} — opens in a new tab`}
-                </span>
-                <ArrowOut />
-              </a>
-              <a
-                href={project.repoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className={link}
-              >
-                Source
-                <span className="sr-only">
-                  {` code for ${project.title} on GitHub — opens in a new tab`}
-                </span>
-                <ArrowOut />
-              </a>
-            </div>
+            {/* Sibling of the overlay button, never inside it: a <button> may
+                only contain phrasing content, and an overlay covering these
+                would swallow their clicks. */}
+            <ProjectLinks
+              liveUrl={project.liveUrl}
+              repoUrl={project.repoUrl}
+              title={project.title}
+            />
           </div>
 
           <Eyebrow

@@ -1,4 +1,5 @@
 import statmonHome from "../assets/books/statmon-home.webp";
+import hubspotReport from "../assets/books/hubspot-report.webp";
 
 // The Creations book stack. One entry per project; each renders as a book lying
 // on the board (Book.jsx) that opens into a two-page spread (BookSpread.jsx).
@@ -20,8 +21,9 @@ import statmonHome from "../assets/books/statmon-home.webp";
 
 const statmon = {
   id: "statmon",
+  mark: "pokeball",
   title: "Statmon",
-  imprint: "Volume One · 2026",
+  imprint: "A personal project · 2026",
   summary:
     "A little set of Pokémon tools. Compare two of them head to head, or sort the entire dex by whatever stat you care about.",
   liveUrl: "https://statmon.noahparknguyen.workers.dev/",
@@ -132,6 +134,113 @@ const statmon = {
   ],
 };
 
-const PROJECTS = [statmon];
+const hubspot = {
+  id: "hubspot",
+  mark: "inbox",
+  title: "HubSpot Recommendation Tool",
+  imprint: "Capstone for Inbox · 2026",
+  summary:
+    "A discovery tool for a HubSpot partner. Paste in a website and it works out what that site runs, then lines each tool up against the HubSpot product that could replace it.",
+  liveUrl: "https://hubspot-recommendation-tool.onrender.com/",
+  repoUrl: "https://github.com/noahparknguyen/hubspot-recommendation-tool",
+
+  // Blue-soft against Statmon's violet-soft: adjacent covers must not share a
+  // tint (STYLE_GUIDE.md → Shape & surface).
+  coverTint: "bg-blue-soft",
+  spineTint: "bg-blue",
+
+  spreads: [
+    {
+      chapter: "Why it exists",
+      verso: { kind: "title" },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "In my second-to-last term at college I got put on a team of five and handed a real client — an actual company my professor had lined up. Eight months with them: four to plan, four to build.",
+          "Inbox is a HubSpot partner. It took us a while to pin down what they actually wanted, but it came down to this: a client comes to them with an existing site, and Inbox has to figure out what it’s running and what could be consolidated into HubSpot instead.",
+          "That part was all manual. So we built them a shortcut. It doesn’t do the discovery for them — it just gets them to the interesting part faster.",
+        ],
+      },
+    },
+    {
+      chapter: "What it does",
+      verso: {
+        kind: "plate",
+        src: hubspotReport,
+        alt: "A row of the generated report: a detected technology and its category, a description, and the HubSpot product that could replace it",
+        width: 760,
+        height: 322,
+        caption:
+          "Every detected technology, lined up against the HubSpot product that could replace it.",
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "Paste in a URL and it fetches the page, fingerprints everything it can find, and matches each detection against a HubSpot product.",
+          "Ten separate matchers read the page — headers, cookies, script sources, meta tags, inline scripts, CSS, the DOM — and their guesses get combined into one confidence score. Then it resolves the relationships between technologies, because knowing a site runs WordPress tells you a lot about what else is probably on it.",
+          "The mapping from a detected tool to a HubSpot product is a JSON file rather than code. That was deliberate: Inbox can add or reword a recommendation themselves, without needing a developer.",
+        ],
+      },
+    },
+    {
+      chapter: "How it’s built",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "Node on the back-end with no framework at all — just the built-in http module. React and Vite on the front. The whole thing ships as one Docker container.",
+          "Everything the detector knows comes from an open dataset of technology fingerprints: about three megabytes of patterns, loaded into memory once and kept there. The site being analyzed is fetched live, but the knowledge is all local.",
+          "The part I spent longest on after it already worked was making it safe to point at a stranger’s URL.",
+        ],
+      },
+      recto: {
+        kind: "stats",
+        items: [
+          { value: "10", label: "matchers read every page" },
+          { value: "5", label: "phases in the pipeline" },
+          { value: "110", label: "tests behind it" },
+          { value: "0", label: "back-end frameworks" },
+        ],
+        note: "It refuses to fetch anything on a private network and re-checks on every redirect hop, caps how much it will download, and rate-limits the whole thing. The security doc is honest about the one hole I couldn’t close on my own, which felt more useful than pretending.",
+      },
+    },
+    {
+      chapter: "Working with a client",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "I’d worked with clients before at my DND co-op, but there our team lead always ran the meetings. This time there was nobody above me to do it, so I took it on — ran the calls, demoed every couple of weeks, asked whether the design was right and whether the output was what they needed.",
+          "Honestly it was a personal test. I wanted to know if I could do the thing I’d only ever watched someone else do, so I copied my team lead’s approach as closely as I could.",
+          "Every week: great work, no complaints. That did a lot for my confidence.",
+        ],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "The detection engine was the hard part. I’d never done pattern matching before, and the fingerprint dataset took a long time to wrap my head around.",
+          "There’s more AI in this than anything else I’ve made — most of the documentation and comments started that way, and I leaned on it hard to get detection working at all.",
+          "So I went back through it all myself: polishing, fixing errors, adding the security and deployment work. It’s the first time I’ve led development instead of picking up tickets, and the closest thing I can compare it to is moving out — suddenly it’s all yours, and nobody’s coming to remind you.",
+        ],
+        marginNote: "first time it was all mine",
+      },
+    },
+    {
+      chapter: "Colophon",
+      verso: {
+        kind: "colophon",
+        stack: ["React", "Vite", "Node", "Cheerio", "Jest", "Docker"],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "The detection data comes from WebAppAnalyzer, an open dataset of technology fingerprints. It’s GPL-3.0, so this project is too — the one licensing decision that got made for me.",
+          "Five of us worked on it, and I ran the code side: the whole back-end is mine, and a teammate designed and built the first frontend that I revised heavily from there.",
+          "Inbox has its own copy running now. The one you can click through to is mine.",
+        ],
+      },
+    },
+  ],
+};
+
+const PROJECTS = [statmon, hubspot];
 
 export default PROJECTS;

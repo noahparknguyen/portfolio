@@ -427,12 +427,22 @@ on the column and **level at every width** — see the tilt rule above.
   imported. Statmon's favicon is a gradient on a rounded tile, and neither
   crosses over; its Poké Ball is a circle, which the round-accent rule above
   already allows, so the tile and gradient are dropped and the ball is kept.
-  **Translate a project's mark into this grammar; never paste it in.**
+  **Translate a project's mark into this grammar; never paste it in.** Statmon's
+  Poké Ball keeps its circle and loses its tile and gradient; Inbox's mark keeps
+  its three rectangles and loses its rounded tile, with the brand orange becoming
+  a palette accent. Each book names its mark as a string in `src/lib/projects.js`
+  and `Book.jsx` maps that to the drawing, because the data file holds no JSX.
 - **A cue that it opens.** Nothing about a cover says "this one is a button",
   and the hover lift only appears once you are already on it. A short line in the
   site's handwriting (`font-hand`, "open me up" with a drawn arrow) sits inside
   the clickable region and does the job — handwriting reads as a note pointing at
   the object rather than as a third control competing with the two links.
+- **The imprint says what the project IS**, not where it sits in a sequence —
+  `A personal project · 2026`, `Capstone for Inbox · 2026`. Volume numbers were
+  tried and dropped: the books are ordered by what should lead, not by date, so
+  numbering them read backwards the moment an older project sat below a newer
+  one. Naming the kind of work also puts the most useful fact about a project on
+  the outside of it, where someone who never opens the book still sees it.
 - **Nothing else.** The cover is the mark, the title, a blurb, the cue, the two
   links, and the imprint at the foot — one centred cluster, not a content block
   pushed up with links pinned down, which leaves a void through the middle. It
@@ -446,6 +456,14 @@ on the column and **level at every width** — see the tilt rule above.
 move is a different tint per item (the footer badges, Links' post-its), but those
 sit on the sky; on a violet cover a rose and a blue chip made three hues fight.
 White reads as a pair of controls belonging to the cover.
+
+**The links appear twice per project, and that is deliberate** — on the cover and
+again in the colophon at the back, which is how a real book works: the essentials
+on the jacket, the production details inside. The reader most likely to want a
+link is the one who has just finished reading, and by then the cover is no longer
+in front of them; without the colophon pair they would have to close the book to
+reach one. Both placements render the same `ProjectLinks` primitive so they
+cannot drift.
 
 **Links live on the cover, and the overlay button stops short of them.** The
 cover is click-to-open, but a `<button>` may only contain phrasing content, so
@@ -494,6 +512,15 @@ vertical drag rather than stealing it from the page scroll.
 site's handwriting: `font-hand` covers photo captions, but a book sets a figure
 caption in type, and this one describes the image rather than joking about it. It
 also stops a plate page from ending in dead space.
+
+**The cells must carry `min-h-0`, and this is not optional.** A grid item
+defaults to `min-height: auto` and so refuses to shrink below its own content.
+Without it an over-long page did not scroll — the cell grew past the panel's
+fixed height and the text spilled outside the book's border, 55px past it in the
+case that found this. The inner `overflow-y-auto` never engaged, so a check that
+only asked "did the page scroll?" reported success while the book was visibly
+broken. **Verify the geometry, not the scrollbar:** the panel must measure its
+fixed height and every cell must sit inside it.
 
 **A book doesn't resize when you turn a page**, so the spread is a fixed height at
 `md` and auto below it (the passport's call, for the passport's reason — nested
@@ -1080,6 +1107,9 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
 - **`SimpleIcon`** — renders a `simple-icons` brand glyph (`icon` object +
   sizing `className`); shared by `TechStack` and `Badge` so the icon markup
   lives in one place.
+- **`ProjectLinks`** — a project's live/source pair, rendered on both the book's
+  cover and its colophon so the two can't drift. On the cover it must stay a
+  SIBLING of the overlay open-button, never a child of it.
 - **`Chevron`** — the nav arrow shared by About's passport pager and Creations'
   book pager (`dir` / `className` / `strokeWidth` props). It was a local copy in
   each before, which is how the passport's documented `3` nearly became an
