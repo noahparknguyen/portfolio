@@ -7,7 +7,7 @@ import Pin from "../ui/Pin";
 // Keep this next to NOW_NOTES and move it whenever the notes move — the two are
 // one edit, not two. It can't be derived: the last commit date would report a
 // CSS tweak as a content update, which is worse than being stale.
-const LAST_UPDATED = "August 2026";
+const LAST_UPDATED = "September 2026";
 
 // Tints are a solved layout, not a free choice. The intro card carries Now's own
 // section hue (blue), and it touches four notes, so none of those can be blue.
@@ -19,14 +19,15 @@ const NOW_NOTES = [
     prompt: "What am I figuring out?",
     answer: "A sleep schedule",
     explanation:
-      "I keep drifting later every week until I'm waking up at noon. Resetting it properly this time, no more 3am.",
+      "Sleeping has always been a struggle for me. I keep drifting later every week until I’m waking up at noon, and I’m resetting it properly this time.",
     tint: "bg-violet-soft",
     rotate: "-rotate-[1deg]",
   },
   {
     prompt: "What am I watching?",
     answer: "Haikyuu, again",
-    explanation: "Rewatching Haikyuu. I've seen it like ten times.",
+    explanation:
+      "Haikyuu is probably my favourite thing ever made. It’s what got me into volleyball in the first place, and I’ve rewatched it more times than I can count.",
     tint: "bg-rose-soft",
     rotate: "rotate-[1.5deg]",
   },
@@ -34,23 +35,23 @@ const NOW_NOTES = [
     prompt: "What am I focused on?",
     answer: "Sharpening my Java",
     explanation:
-      "Keeping my skills sharp before the new job starts. I've started Java over from the basics because I want to properly master it.",
+      "I’m going back through Java from the basics. I want to stay sharp and not lose anything before the new job starts.",
     tint: "bg-orchid-soft",
     rotate: "-rotate-[1.5deg]",
   },
   {
-    prompt: "What's happening with work?",
+    prompt: "What’s happening with work?",
     answer: "Security clearance",
     explanation:
-      "Getting my security clearance sorted out for a role with the government.",
+      "The clearance can take up to a year, so most of this is out of my hands. I check my email more than I should.",
     tint: "bg-rose-soft",
     rotate: "rotate-[1deg]",
   },
   {
-    prompt: "What am I building?",
+    prompt: "What am I maintaining?",
     answer: "Statmon",
     explanation:
-      "A Pokémon stats site that compares two Pokémon head-to-head and shows their type matchups, plus a few extra games and tools.",
+      "My Pokémon tools site is finished now, so all that’s left is keeping it running.",
     tint: "bg-blue-soft",
     rotate: "-rotate-[2deg]",
   },
@@ -58,7 +59,7 @@ const NOW_NOTES = [
     prompt: "What am I learning?",
     answer: "Python",
     explanation:
-      "Learning basic Python for now. Eventually I want to build a full API and back-end with it.",
+      "Python is so common in the industry that picking it up was a no-brainer. Eventually I want to build a full backend with it.",
     tint: "bg-violet-soft",
     rotate: "rotate-[2deg]",
   },
@@ -66,15 +67,15 @@ const NOW_NOTES = [
     prompt: "What am I saying no to?",
     answer: "Social media",
     explanation:
-      "Staying off my phone and social media — being online too much was giving me headaches.",
+      "Social media gives me headaches, and it’s the reason my sleep is bad. I’m trying to filter out the slop and keep YouTube as the only thing I sit down for.",
     tint: "bg-blue-soft",
     rotate: "-rotate-[1deg]",
   },
   {
-    prompt: "What's on my mind?",
+    prompt: "What’s on my mind?",
     answer: "Being complacent",
     explanation:
-      "How do I keep from succumbing to the AI boom when it's so tempting to let AI do everything for me?",
+      "AI has been in my workflow for a while now, and it’s tempting to let it do everything. But I need to keep making my own decisions. It’s a tool, not a miracle worker.",
     tint: "bg-rose-soft",
     rotate: "rotate-[1.5deg]",
   },
@@ -82,7 +83,7 @@ const NOW_NOTES = [
     prompt: "What did I just start?",
     answer: "Back in the gym",
     explanation:
-      "I used to be a huge gym rat but fell off when I got too busy. Back to basic weightlifting now, aiming for a routine with no missed days.",
+      "I’m back to basic weightlifting, a couple of sessions a week. The goal is a routine I actually stick to, with no missed days.",
     tint: "bg-blue-soft",
     rotate: "-rotate-[2deg]",
   },
@@ -90,7 +91,7 @@ const NOW_NOTES = [
     prompt: "What am I playing?",
     answer: "Pikmin & GameCube",
     explanation:
-      "Replaying the Pikmin games and a bunch of GameCube classics on the Dolphin emulator.",
+      "I’m pretty addicted to Pikmin right now, enough that I’m thinking about picking speedrunning back up.",
     tint: "bg-orchid-soft",
     rotate: "rotate-[1deg]",
   },
@@ -98,7 +99,7 @@ const NOW_NOTES = [
     prompt: "Who am I watching?",
     answer: "Sarah Z & SnapCube",
     explanation:
-      "My favourite online creators these days are Sarah Z on YouTube and SnapCube on Twitch.",
+      "Sarah Z on YouTube and SnapCube on Twitch are pretty much the only creators I keep up with these days.",
     tint: "bg-violet-soft",
     rotate: "-rotate-[1deg]",
   },
@@ -122,13 +123,16 @@ function Now() {
             <TextLink href="https://nownownow.com" accent="blue" external>
               now page
             </TextLink>{" "}
-            is pretty much exactly what it sounds like — a snapshot of what I'm
-            up to at this very moment, the stuff I'd tell a friend I haven't
-            seen in a while. Every couple of months, I get really into one
-            particular hobby. Right now it's old GameCube games; last month it
-            was Balatro. When I burn out on whatever I'm fixated on, I always
-            forget I've got an entire catalogue of other interests I can fall
-            back on. This page is a way for me to keep track of everything.
+            is exactly what it sounds like. It&rsquo;s a snapshot
+            of what I&rsquo;m up to at the moment, the sort of thing I&rsquo;d
+            tell a friend I haven&rsquo;t seen in a while.
+          </p>
+          <p className="mt-3 max-w-prose text-gray-700">
+            Every couple of months I get really into one particular hobby.
+            Right now it&rsquo;s old GameCube games, and last month it was
+            Balatro. When I burn out on whatever I&rsquo;m fixated on, I always
+            forget that I have a whole catalogue of other interests to fall back
+            on. This page is how I keep track of all of it.
           </p>
           <div className="mt-4 flex justify-end">
             <div className="rotate-2 border-2 border-dashed border-label px-3 py-1 text-center">
