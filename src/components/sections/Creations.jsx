@@ -52,17 +52,22 @@ function Creations() {
       aria-labelledby="creations-heading"
       className="flex flex-col gap-5"
     >
-      <PinnedCard bg="bg-orchid-soft" padding="p-4 md:p-6" className="relative">
+      {/* Matches the closed books' `md:w-1/2` (Book.jsx) so the whole column
+          rests at one width. At full width this note ran ~5.6:1 and read as a
+          banner rather than as another pinned object on the board. */}
+      <PinnedCard
+        bg="bg-orchid-soft"
+        padding="p-4 md:p-6"
+        className="relative md:mx-auto md:w-1/2"
+      >
         <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
         <SectionTitle accent="orchid" id="creations-heading">
           Creations
         </SectionTitle>
         <p className="mt-2 max-w-prose text-gray-700">
-          This is where I keep my passion projects — the ones I still actively
-          maintain, and the finished ones I&rsquo;m proud enough to show off.
-          The links will take you straight there if you just want to try them.
-          Open a book up and you&rsquo;ll get the full deep dive into why and
-          how I made it.
+          This is where I keep my projects. The links will take you straight
+          there if you want to try them out. But if you open a book up,
+          you&rsquo;ll get the whole story on why I built that one and how it works.
         </p>
       </PinnedCard>
 
