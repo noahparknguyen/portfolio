@@ -76,10 +76,10 @@ function Devlog() {
                   />
                   <div className="block pb-5 pl-6">
                     <span className="block text-sm leading-5 text-gray-700">
-                      No signal from the repo
+                      Couldn&rsquo;t reach the repo
                     </span>
                     <span className="block text-xs italic leading-5 text-gray-600">
-                      nothing to report
+                      try again in a bit
                     </span>
                   </div>
                 </li>

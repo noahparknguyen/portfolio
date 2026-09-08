@@ -9,7 +9,7 @@ function SpotifyWidget() {
     ? track.isPlaying
       ? "Now Playing"
       : "Paused"
-    : "Radio silence";
+    : "Nothing playing";
 
   return (
     <div>

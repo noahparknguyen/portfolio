@@ -15,7 +15,7 @@ function Banner() {
         style={{ opacity: "var(--opacity-accent-line)" }}
       />
       <div className="inline-block text-left">
-        <Eyebrow as="p">Hey there, I'm</Eyebrow>
+        <Eyebrow as="p">Hey there, I’m</Eyebrow>
         <h1
           className="wordmark font-wordmark text-wordmark-fluid uppercase leading-none text-transparent"
           style={{

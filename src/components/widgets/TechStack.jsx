@@ -28,7 +28,7 @@ const TECH_ITEMS = [
     href: "https://react.dev",
     rotate: "rotate-[-3deg]",
     tint: "bg-rose-soft",
-    note: "How I made the site",
+    note: "My bread and butter",
   },
   {
     key: "tailwind",
@@ -37,7 +37,7 @@ const TECH_ITEMS = [
     href: "https://tailwindcss.com",
     rotate: "rotate-[2deg]",
     tint: "bg-violet-soft",
-    note: "How I styled the site",
+    note: "The other half of that",
   },
   {
     key: "java",
@@ -46,7 +46,7 @@ const TECH_ITEMS = [
     href: "https://www.java.com",
     rotate: "rotate-[-2deg]",
     tint: "bg-blue-soft",
-    note: "My first and main language",
+    note: "My first language",
   },
   {
     key: "python",
@@ -55,7 +55,7 @@ const TECH_ITEMS = [
     href: "https://www.python.org",
     rotate: "rotate-[3deg]",
     tint: "bg-orchid-soft",
-    note: "Learning",
+    note: "Learning this one now",
   },
   {
     key: "figma",
@@ -64,7 +64,7 @@ const TECH_ITEMS = [
     href: "https://www.figma.com",
     rotate: "rotate-[-3deg]",
     tint: "bg-rose-soft",
-    note: "Also learning",
+    note: "Because I can’t design",
   },
   {
     key: "obsidian",
@@ -73,7 +73,7 @@ const TECH_ITEMS = [
     href: "https://obsidian.md",
     rotate: "rotate-[2deg]",
     tint: "bg-blue-soft",
-    note: "My primary notes app",
+    note: "Where my notes go",
   },
   {
     key: "spring",
@@ -82,7 +82,7 @@ const TECH_ITEMS = [
     href: "https://spring.io",
     rotate: "rotate-[-2deg]",
     tint: "bg-violet-soft",
-    note: "My go-to backend tool",
+    note: "My go-to for backends",
   },
 ];
 

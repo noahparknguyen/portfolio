@@ -38,13 +38,13 @@ function ProjectLinks({ liveUrl, repoUrl, title }) {
             aria-hidden; this is its spoken equivalent. It also names the
             project, since "Live site" alone doesn't say whose — and with one
             book open the other book's cover still shows its own pair. */}
-        <span className="sr-only">{` for ${title} — opens in a new tab`}</span>
+        <span className="sr-only">{` for ${title}, opens in a new tab`}</span>
         <ArrowOut />
       </a>
       <a href={repoUrl} target="_blank" rel="noreferrer" className={chip}>
         Source
         <span className="sr-only">
-          {` code for ${title} on GitHub — opens in a new tab`}
+          {` code for ${title} on GitHub, opens in a new tab`}
         </span>
         <ArrowOut />
       </a>
