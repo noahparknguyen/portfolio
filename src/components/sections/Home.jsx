@@ -22,7 +22,7 @@ const ROW =
   "flex flex-col gap-5 md:flex-row md:items-center md:justify-between";
 
 function Home() {
-  const monthYear = new Date().toLocaleDateString("en-US", {
+  const monthYear = new Date().toLocaleDateString("en-CA", {
     month: "long",
     year: "numeric",
   });
@@ -42,8 +42,13 @@ function Home() {
             </Eyebrow>
             <SectionTitle accent="rose">Welcome!</SectionTitle>
             <p className="mt-2 text-gray-700">
-              This little site right here is a personal space where I can show
-              off more than just my work. Inspired by the{" "}
+              Thanks for stopping by! This little site right here is my personal
+              take on a portfolio website.
+            </p>
+            <p className="mt-3 text-gray-700">
+              I&rsquo;ve built many portfolios in the past, but none of them
+              were really able to capture the exact tone I was looking for. That
+              was until I found out about the{" "}
               <TextLink href="https://indieweb.org" accent="rose" external>
                 indie web
               </TextLink>{" "}
@@ -51,9 +56,11 @@ function Home() {
               <TextLink href="https://neocities.org" accent="rose" external>
                 Neocities
               </TextLink>
-              , I wanted to make something that reflected me a little more
-              honestly — sharing my hobbies and interests outside of coding. I
-              hope you like it, and thanks for stopping by!
+              . I decided to ditch all of the jargon, and replace it with things
+              that actually represented who I am as a person.
+            </p>
+            <p className="mt-3 text-gray-700">
+              Hope you enjoy it as much as I enjoyed making it.
             </p>
             {/* The whole sign-off is aria-hidden and mirrored by the sr-only
                 line below: ":)" reads badly aloud, but hiding only the
