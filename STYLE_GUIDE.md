@@ -16,6 +16,313 @@ and cool, never childish.
 
 ---
 
+## Voice
+
+The locked verbal spec, and it is as binding as the colour tokens. Derived from a
+~4,000-word transcript of Noah answering questions out loud about himself and
+these projects, measured rather than guessed. **When a line is in doubt, read it
+aloud. If he wouldn't say it that way, it's wrong, however well it reads.**
+
+The failure mode this section exists to prevent is not bad writing. It is *good*
+writing in the wrong voice — polished, aphoristic marketing prose that reads as
+though the site were written about him rather than by him.
+
+### Written register vs spoken register (read this first)
+
+**The measurements below were taken from a voice memo. His writing is a
+different register, and the site is writing.** Applying the spoken tics to prose
+is what made an earlier pass feel wrong sentence by sentence — every line
+carried a marker he would never type.
+
+Measured against a home-page draft he wrote himself, per 1,000 words:
+
+| | Speech | **Writing** | What that means |
+| --- | --- | --- | --- |
+| `So` opening a sentence | 3.0 | **0.0** | Never open a written sentence with "So" |
+| `so` anywhere | 10.3 | **0.0** | Join with "but", "and", "that was until" |
+| `a ton of` | 1.3 | **0.0** | In writing the quantifier is **"many"** (7.6/1k) |
+| `I think` | 5.0 | **0.0** | The written voice states things; it doesn't hedge |
+| sentence fragments | 69 | **0** | Every written sentence is a complete clause |
+| median sentence | 14 | **14** | **Rhythm is the one thing that carries over** |
+
+**Measured across both drafts he wrote himself (181 words), every spoken tic is
+at exactly zero:** `I love` 2.3 → **0** · `super` 3.5 → **0** · `a ton of`
+1.3 → **0** · `so` 10.3 → **0** · `I think` 5.0 → **0** · `just` 7.0 → **0**.
+
+Markers that appear only when he writes: `really` (5.5/1k), `many` (5.5/1k),
+the parallel `If you want to…` opener (16.6/1k), and sentence-initial `But`
+(5.5/1k). Median sentence length is 14 words in both registers and is the only
+figure that transfers.
+
+**Writing understates where speech enthuses.** This is the trap that survived
+longest. He said, out loud:
+
+> "I love making websites so I'd say I have a stronger attachment to frontend
+> and web development. But I do love making backends as well. It's always so
+> satisfying when you get an API up and running."
+
+He wrote:
+
+> "I mainly focus on web development and frontends, but know my way around the
+> backend as well."
+
+The enthusiasm is gone, the second sentence is gone, and "I love" became "I
+mainly focus on". **Do not port transcript enthusiasm into prose** — the written
+voice is level and slightly understated, and reaches for an idiom ("know my way
+around", "taken a back seat") where the spoken voice reaches for an intensifier.
+
+**Parallel construction is a written-only device.** He builds a run of clauses
+on the same stem rather than varying them:
+
+> "**If you want to know** more about my journey… **If you want to know** what
+> I'm up to at this very moment… **For a look into** my personal projects…"
+
+**Two more confirmed in his own edits:**
+
+- **Comma splices join independent clauses** — "Hey, my name is Noah, I'm a
+  full-stack developer…". He deleted an "and" to get there. Leave them.
+- **The appended beat gets its own sentence, opening with "But".** Not a
+  trailing clause after a comma: "…check out the Creations page. **But only if
+  you want to, no pressure.**" Full stop, then the beat, exactly as the Humour
+  section requires.
+
+**Written form is fuller than spoken form.** He expands what he clips aloud:
+
+| Says | Writes |
+| --- | --- |
+| "comp sci" | "computer science grad" |
+| "I'm Noah" | "My name is Noah" |
+| "Ottawa" | "Ottawa, Ontario" |
+| "a ton of" | "many" |
+| "living in Ottawa" | "living and working in Ottawa, Ontario" |
+| "from Canada" | "born in BC, living in Ottawa, Ontario" |
+
+Other things his own draft establishes:
+
+- **The greeting comes first, not last.** "Thanks for stopping by!" is sentence
+  one. An earlier pass moved it to the end; that was wrong.
+- **"This little site right here" is his phrase, not a formula.** An earlier
+  rule capped it at two uses across the site. He put it back unprompted. Keep it.
+- **He claims the genre rather than rejecting it** — "my personal take on a
+  portfolio website", not "it's not really a portfolio". No arguing with a
+  premise the reader never held.
+- **Mild formality is correct in prose**: "professional experience", "typically
+  aimed at", "represented who I am as a person". This is not résumé-speak, and
+  it is not the same thing as the banned words list.
+- **A comma splice is rhythm, not an error** — "it's all here, it's just taken a
+  back seat". Leave them.
+- **The front door carries no jokes at all.** Humour stays sparse and appended
+  (see Humour above), and it is not required in every block.
+
+Everything below this section still holds for **structure** — architecture,
+placement of humour, no em-dashes, sentence rhythm. The tic *rates* are
+spoken-register reference only.
+
+---
+
+### The measurements
+
+Per 1,000 words of natural speech, and the site should land near these:
+
+| Tic | Rate | Examples from the transcript |
+| --- | --- | --- |
+| `just` | 7.0 | "it's just easy to get moving", "just bad" |
+| `I think` | 5.0 | "I think what I'm most proud of…" |
+| `super` (the intensifier) | 3.8 | "super proud", "super easy", "super calming" |
+| `So` opening a sentence | 3.0 | "So it started off simple." |
+| Honesty hedges | 2.8 | "If I'm being honest", "If I remember correctly" |
+| `pretty` (the softener) | 2.5 | "pretty rough", "pretty much", "pretty simple stuff" |
+| Wrap-up words | 2.5 | "Overall", "Ultimately" |
+| Flat self-deprecation | 2.5 | "I'm not the best designer in the world" |
+| `actually` | 2.2 | "my actual current skill set" |
+| `that's why` (causal) | 2.0 | "That's why the Dex table came to be." |
+| Back-references | 2.0 | "Like I said before", "I mentioned before" |
+
+### Punctuation (the biggest single tell)
+
+In 4,000 words of speech he produced **zero** em-dashes, **zero** semicolons,
+**zero** parentheses and **zero** exclamation marks. The site had **57 em-dashes**
+in displayed copy.
+
+- **Don't use em-dashes.** The `thing — restatement of the thing` appositive is
+  the site's old default and it is a written device he does not have. Use a
+  comma, a full stop, or `so` / `but` / `and` / `which is`.
+- **The one exception is a credit-list separator** (`Ottawa skyline — Meli
+  Julianti`). There the dash is a label separator doing the job of a colon, not
+  a prose appositive, so the Colophon's list keeps it.
+- **Don't use semicolons or parentheses in body copy.** Brackets survive only in
+  the handwriting layer and short asides.
+- Exclamation marks are rationed to greetings and the odd genuine one
+  (`Welcome!`, `About Me!`). Never inside a paragraph.
+
+### Rhythm
+
+| | Him | The old site copy |
+| --- | --- | --- |
+| under 8 words | **10%** | 29% |
+| 8–19 words | **62%** | 43% |
+| 20–34 words | 24% | 23% |
+| median | **14 words** | — |
+
+He is a steady mid-length talker, not a punchy one. **Kill the fragment
+punchline** — "So we built them a shortcut.", "first time it was all mine",
+"The one you can click through to is mine." Those are ad-copy cadence. He
+explains, then keeps going, then wraps up with "Overall" or "Ultimately".
+
+### How he builds a thought
+
+Not filler — **scaffolding**. He is verbose because he shows his work, and that
+is the texture to reproduce:
+
+1. **Reason before conclusion.** He sets up the problem, then names the thing
+   that solved it. "I wanted Jolteon, and then I realised Zapdos was sitting
+   right there and was just better. That's why I built the dex table."
+2. **Hedge the claim about himself.** "I think", "I'd say", "probably",
+   "pretty much". He rarely asserts flatly about his own work.
+3. **Back-reference.** "Like I said before…" He threads earlier points back in
+   rather than treating each paragraph as standalone.
+4. **State the flaw flatly, then move past it.** "the code was just bad", "I'm
+   honestly a pretty bad passer", "not the most interesting". No wallowing and
+   no spin. One clause, then onward.
+5. **Concede, then pivot.** "Of course X, but Y."
+6. **Enumerate, then wave.** "Power Apps, Power Automate, Power Bi" · "menus
+   worked, links worked, pretty simple stuff" · lists trailing into "etc."
+7. **Close with a verdict.** "Overall my experience was fantastic." "Ultimately
+   I think we landed on something I'm pretty proud of."
+
+### Words
+
+- **Canadian spelling throughout.** `favourite`, `colour`, `behaviour`,
+  `catalogue`. Not `analyzed` or `agonizing`. The About section is a Canadian
+  passport; the copy has to agree with it.
+- **`super` is his intensifier**, not "incredibly" or "remarkably".
+- **`a ton of` is his quantifier**, not "a great deal" or "numerous".
+- He says **`comp sci`**, not "Computer Science" — the real program name is
+  "Computer Engineering Technology, Computer Science" and he calls that "a
+  mouthful".
+- **Never**: "heartfelt", "passionate about", "leverage", "end-to-end",
+  "owned features", "rigorous", "seamless", "a testament to". Résumé words.
+- **`little site`** is a real tic of his, but it had become a formula. Twice
+  across the whole site, maximum.
+
+### Register
+
+He is warm, self-deprecating and concrete, and he never oversells. Where a
+sentence could be read as a boast, he has already hedged it. Two of the best
+lines in the transcript, for calibration:
+
+> "I need to remember that it's a tool, not a miracle worker."
+
+> "I have no idea why I moved across the entire country. I could have found
+> another college somewhere within BC with a coop program. But in hindsight I'm
+> super proud of myself for pushing myself outside my comfort zone."
+
+That second one is the register the whole site should sit in: admits the thing
+doesn't quite make sense, doesn't resolve it, lands on genuine pride anyway.
+
+### Humour
+
+**He is sincere by default.** Humour is sparse, and it is always **appended,
+never embedded.** The information-carrying clause is complete and useful on its
+own; the joke arrives after it, syntactically detachable, usually at his own
+expense. **Delete the joke and the reader loses nothing.**
+
+His own example of the shape:
+
+> "You can find my projects on the creations page, **if there are any left since
+> I deleted most of the bad ones.**"
+
+Sincere info, then the joke, bolted on the end. Compare a failure that shipped
+briefly in the Home letter:
+
+> ✗ "My work and my projects are on here **somewhere**."
+
+There the vagueness *is* the punchline, so the joke is load-bearing on the
+information and the reader pays for it in comprehension. His never do.
+
+The same shape governs the Bio: "a full-stack developer, CS graduate, and
+**competitive nap taker** from Canada" — two sincere list items, then the joke as
+the third. Strike it and the sentence still does its job.
+
+**Rules:**
+
+- Never let a joke modify, hedge or blur a fact. Facts get stated straight.
+- Put the joke **after** the complete thought — a trailing clause after a comma,
+  a following sentence, or the last item in a list.
+- Aim it at himself. Self-deprecation, not wit at someone else's expense.
+- Keep it rare. A page with a joke in every paragraph is not this voice; the
+  default register is plain sincerity, and the beats land because they are
+  scarce.
+- A flat admission of a flaw ("the code was just bad", "I'm honestly a pretty
+  bad passer", "not the most interesting") counts as one of these beats and
+  follows the same placement rule: state the fact, then the admission.
+
+---
+
+### Architecture (the part that matters most)
+
+Tics and rhythm are the easy half. The reason copy can hit every metric above and
+still read wrong is **sentence architecture** — which idea gets the subject slot,
+and how clauses join. This is where the old copy actually went wrong.
+
+**1. He is the subject. The artifact arrives later.**
+
+**38% of his sentences open with `I` / `I'm` / `I'd` / `My`.** The old copy led
+with the thing instead, which is what makes it read as written *about* him:
+
+> ✗ "The comparison is the main event."
+> ✓ "I think what I'm most proud of is the compare tool."
+
+> ✗ "The detection engine was the hard part."
+> ✓ "I struggled the most with the detection engine."
+
+> ✗ "The mapping from a detected tool to a HubSpot product is a JSON file rather than code."
+> ✓ "I put the mapping in a JSON file instead of in the code."
+
+**2. His cleft is `I think what X is Y`. Never `The X is that Y`.**
+
+He used the first six times and the second **zero** times. The difference is the
+hedge arriving first and `what` standing in for the noun:
+
+> ✗ "The part I'm smug about is that Statmon doesn't call an API."
+> ✓ "I think what I'm smug about is that Statmon never calls an API."
+
+**3. Clauses join with `so`, `but` and `because`.**
+
+`so` 10.3/1k · `but` 9.0/1k · `because` 3.0/1k. These do the work em-dashes and
+appositives were doing. Never restate a noun after a dash.
+
+**4. Passive voice at 3.0/1k, no higher.**
+
+> ✗ "Everything gets pulled once at build time and every sprite is committed into the repo."
+> ✓ "I pull everything once at build time, and I commit every sprite into the repo."
+
+**5. His most common sentence openers**, in order — useful when a paragraph
+refuses to start: `I think` · `I was` · `I wanted` · `I love` · `Like I said` ·
+`I had` · `This was` · `That's why` · `Of course` · `If I'm being honest` · `So I`.
+
+### How to write a block from scratch
+
+Do not edit an existing sentence into shape. That preserves the architecture,
+which is the actual defect, and it is how the first Statmon pass still came out
+half wrong. Instead:
+
+1. Find what he said about it in the transcript. If he never said it, that block
+   is a candidate for cutting, not for invention.
+2. Write it fresh from the facts, out loud, in his order: **problem first, then
+   what he did, then the verdict.**
+3. Check it against the metrics above before committing.
+
+---
+
+### Accessible names count as copy
+
+`aria-label`, `sr-only` text and alt text are read by people, so they follow
+this section too. A screen-reader user should not meet a more formal site than
+a sighted one does.
+
+---
+
 ## Color
 
 Custom hex, defined under `@theme`, usable as normal utilities (`text-ink`,
