@@ -23,7 +23,7 @@ The locked verbal spec, and it is as binding as the colour tokens. Derived from 
 these projects, measured rather than guessed. **When a line is in doubt, read it
 aloud. If he wouldn't say it that way, it's wrong, however well it reads.**
 
-The failure mode this section exists to prevent is not bad writing. It is *good*
+The failure mode this section exists to prevent is not bad writing. It is _good_
 writing in the wrong voice — polished, aphoristic marketing prose that reads as
 though the site were written about him rather than by him.
 
@@ -36,14 +36,14 @@ carried a marker he would never type.
 
 Measured against a home-page draft he wrote himself, per 1,000 words:
 
-| | Speech | **Writing** | What that means |
-| --- | --- | --- | --- |
-| `So` opening a sentence | 3.0 | **0.0** | Never open a written sentence with "So" |
-| `so` anywhere | 10.3 | **0.0** | Join with "but", "and", "that was until" |
-| `a ton of` | 1.3 | **0.0** | In writing the quantifier is **"many"** (7.6/1k) |
-| `I think` | 5.0 | **0.0** | The written voice states things; it doesn't hedge |
-| sentence fragments | 69 | **0** | Every written sentence is a complete clause |
-| median sentence | 14 | **14** | **Rhythm is the one thing that carries over** |
+|                         | Speech | **Writing** | What that means                                   |
+| ----------------------- | ------ | ----------- | ------------------------------------------------- |
+| `So` opening a sentence | 3.0    | **0.0**     | Never open a written sentence with "So"           |
+| `so` anywhere           | 10.3   | **0.0**     | Join with "but", "and", "that was until"          |
+| `a ton of`              | 1.3    | **0.0**     | In writing the quantifier is **"many"** (7.6/1k)  |
+| `I think`               | 5.0    | **0.0**     | The written voice states things; it doesn't hedge |
+| sentence fragments      | 69     | **0**       | Every written sentence is a complete clause       |
+| median sentence         | 14     | **14**      | **Rhythm is the one thing that carries over**     |
 
 **Measured across both drafts he wrote himself (181 words), every spoken tic is
 at exactly zero:** `I love` 2.3 → **0** · `super` 3.5 → **0** · `a ton of`
@@ -88,14 +88,14 @@ on the same stem rather than varying them:
 
 **Written form is fuller than spoken form.** He expands what he clips aloud:
 
-| Says | Writes |
-| --- | --- |
-| "comp sci" | "computer science grad" |
-| "I'm Noah" | "My name is Noah" |
-| "Ottawa" | "Ottawa, Ontario" |
-| "a ton of" | "many" |
+| Says               | Writes                                  |
+| ------------------ | --------------------------------------- |
+| "comp sci"         | "computer science grad"                 |
+| "I'm Noah"         | "My name is Noah"                       |
+| "Ottawa"           | "Ottawa, Ontario"                       |
+| "a ton of"         | "many"                                  |
 | "living in Ottawa" | "living and working in Ottawa, Ontario" |
-| "from Canada" | "born in BC, living in Ottawa, Ontario" |
+| "from Canada"      | "born in BC, living in Ottawa, Ontario" |
 
 Other things his own draft establishes:
 
@@ -115,7 +115,7 @@ Other things his own draft establishes:
   (see Humour above), and it is not required in every block.
 
 Everything below this section still holds for **structure** — architecture,
-placement of humour, no em-dashes, sentence rhythm. The tic *rates* are
+placement of humour, no em-dashes, sentence rhythm. The tic _rates_ are
 spoken-register reference only.
 
 ---
@@ -124,19 +124,19 @@ spoken-register reference only.
 
 Per 1,000 words of natural speech, and the site should land near these:
 
-| Tic | Rate | Examples from the transcript |
-| --- | --- | --- |
-| `just` | 7.0 | "it's just easy to get moving", "just bad" |
-| `I think` | 5.0 | "I think what I'm most proud of…" |
-| `super` (the intensifier) | 3.8 | "super proud", "super easy", "super calming" |
-| `So` opening a sentence | 3.0 | "So it started off simple." |
-| Honesty hedges | 2.8 | "If I'm being honest", "If I remember correctly" |
-| `pretty` (the softener) | 2.5 | "pretty rough", "pretty much", "pretty simple stuff" |
-| Wrap-up words | 2.5 | "Overall", "Ultimately" |
-| Flat self-deprecation | 2.5 | "I'm not the best designer in the world" |
-| `actually` | 2.2 | "my actual current skill set" |
-| `that's why` (causal) | 2.0 | "That's why the Dex table came to be." |
-| Back-references | 2.0 | "Like I said before", "I mentioned before" |
+| Tic                       | Rate | Examples from the transcript                         |
+| ------------------------- | ---- | ---------------------------------------------------- |
+| `just`                    | 7.0  | "it's just easy to get moving", "just bad"           |
+| `I think`                 | 5.0  | "I think what I'm most proud of…"                    |
+| `super` (the intensifier) | 3.8  | "super proud", "super easy", "super calming"         |
+| `So` opening a sentence   | 3.0  | "So it started off simple."                          |
+| Honesty hedges            | 2.8  | "If I'm being honest", "If I remember correctly"     |
+| `pretty` (the softener)   | 2.5  | "pretty rough", "pretty much", "pretty simple stuff" |
+| Wrap-up words             | 2.5  | "Overall", "Ultimately"                              |
+| Flat self-deprecation     | 2.5  | "I'm not the best designer in the world"             |
+| `actually`                | 2.2  | "my actual current skill set"                        |
+| `that's why` (causal)     | 2.0  | "That's why the Dex table came to be."               |
+| Back-references           | 2.0  | "Like I said before", "I mentioned before"           |
 
 ### Punctuation (the biggest single tell)
 
@@ -148,7 +148,7 @@ in displayed copy.
   the site's old default and it is a written device he does not have. Use a
   comma, a full stop, or `so` / `but` / `and` / `which is`.
 - **The one exception is a credit-list separator** (`Ottawa skyline — Meli
-  Julianti`). There the dash is a label separator doing the job of a colon, not
+Julianti`). There the dash is a label separator doing the job of a colon, not
   a prose appositive, so the Colophon's list keeps it.
 - **Don't use semicolons or parentheses in body copy.** Brackets survive only in
   the handwriting layer and short asides.
@@ -157,12 +157,12 @@ in displayed copy.
 
 ### Rhythm
 
-| | Him | The old site copy |
-| --- | --- | --- |
-| under 8 words | **10%** | 29% |
-| 8–19 words | **62%** | 43% |
-| 20–34 words | 24% | 23% |
-| median | **14 words** | — |
+|               | Him          | The old site copy |
+| ------------- | ------------ | ----------------- |
+| under 8 words | **10%**      | 29%               |
+| 8–19 words    | **62%**      | 43%               |
+| 20–34 words   | 24%          | 23%               |
+| median        | **14 words** | —                 |
 
 He is a steady mid-length talker, not a punchy one. **Kill the fragment
 punchline** — "So we built them a shortcut.", "first time it was all mine",
@@ -237,7 +237,7 @@ briefly in the Home letter:
 
 > ✗ "My work and my projects are on here **somewhere**."
 
-There the vagueness *is* the punchline, so the joke is load-bearing on the
+There the vagueness _is_ the punchline, so the joke is load-bearing on the
 information and the reader pays for it in comprehension. His never do.
 
 The same shape governs the Bio: "a full-stack developer, CS graduate, and
@@ -268,7 +268,7 @@ and how clauses join. This is where the old copy actually went wrong.
 **1. He is the subject. The artifact arrives later.**
 
 **38% of his sentences open with `I` / `I'm` / `I'd` / `My`.** The old copy led
-with the thing instead, which is what makes it read as written *about* him:
+with the thing instead, which is what makes it read as written _about_ him:
 
 > ✗ "The comparison is the main event."
 > ✓ "I think what I'm most proud of is the compare tool."
