@@ -72,6 +72,11 @@ const GROUPS = [
         linkText: "diggon",
         href: "https://www.youtube.com/watch?v=Htccpx-zAy8",
       },
+      {
+        text: "The portfolio roasting videos that started all this — ",
+        linkText: "Anthony Sistilli",
+        href: "https://www.youtube.com/@AnthonySistilli",
+      },
     ],
   },
   {
@@ -100,7 +105,7 @@ const GROUPS = [
         href: "https://simpleicons.org",
       },
       {
-        text: "This site's source — ",
+        text: "This site’s source — ",
         linkText: "GitHub",
         href: "https://github.com/noahparknguyen/portfolio",
       },
@@ -198,7 +203,7 @@ function Credits() {
           Colophon
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          A heartfelt thank-you to everyone who inspired this little site.
+          Thank you to everyone who inspired me to make something unique.
         </p>
 
         <div className="mt-4 border-t-2 border-ink" />
@@ -217,8 +222,8 @@ function Credits() {
             full column. */}
         <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-4">
           <p className="text-sm text-gray-600 md:w-[60%]">
-            Planned, designed, and built by Noah. Thanks for scrolling all the
-            way down here.
+            I planned, designed and built all of this myself. Thanks for
+            scrolling all the way down here.
           </p>
           <span
             aria-hidden="true"
