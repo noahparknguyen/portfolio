@@ -2,7 +2,7 @@
 
 # 🍁 my personal portfolio website
 
-<img src="docs/home.png" alt="The site — a bulletin board of pinned widgets over a pink sky" width="680">
+<img src="docs/home.png" alt="The site, a bulletin board of pinned widgets over a pink sky" width="680">
 
 🌐 **Check it out at [noahpn.dev](https://noahpn.dev)**
 
@@ -12,19 +12,24 @@
 
 ## What's up? 👋
 
-Thanks for stopping by! This little site right here is my take on a developer
-portfolio. I wanted to make something that truly showcased me as a person.
-Rather than focus on recruiters and making the site "career-oriented," I wanted
-something that could represent both sides of me — my work experience, projects,
-and skills, but also my personality, hobbies, and interests. I hope you like it!
+Thanks for stopping by! This little site right here is my personal take on a
+portfolio website. I've built many portfolios in the past, but none of them were
+really able to capture the exact tone I was looking for. I decided to ditch all
+of the jargon typically aimed at recruiters, and replace it with things that
+actually represented who I am as a person. My experience, projects and skills
+are all still here, they've just taken a back seat to my non-tech hobbies and
+interests. I hope you like it!
 
 ## Inspirations
 
-I took a ton of inspiration from the [indie web](https://indieweb.org) and
-[Neocities](https://neocities.org) — that old, handmade, personal web from back
+I took a lot of inspiration from the [indie web](https://indieweb.org) and
+[Neocities](https://neocities.org), that old handmade personal web from back
 before every site started looking the same. The Now page is borrowed from
-[Derek Sivers' /now movement](https://nownownow.com). For full credits, check
-out the site's Colophon — the Credits link in the footer.
+[Derek Sivers' /now movement](https://nownownow.com), and the portfolio roasting
+videos that got me started in the first place are
+[Anthony Sistilli's](https://www.youtube.com/@AnthonySistilli). For full
+credits, have a look at the site's Colophon, which is the Credits link in the
+footer.
 
 Thanks!
 
@@ -32,5 +37,5 @@ Thanks!
 
 ---
 
-<sub>MIT licensed ([LICENSE](LICENSE)) — the code's free to reuse, but the
+<sub>MIT licensed ([LICENSE](LICENSE)), so the code's free to reuse, but the
 photos, GIFs, and personal bits are mine.</sub>
