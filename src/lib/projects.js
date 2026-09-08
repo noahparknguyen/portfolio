@@ -1,15 +1,15 @@
-import statmonHome from "../assets/books/statmon-home.webp";
+import statmonCompare from "../assets/books/statmon-compare.webp";
 import hubspotReport from "../assets/books/hubspot-report.webp";
 
 // The Creations book stack. One entry per project; each renders as a book lying
 // on the board (Book.jsx) that opens into a two-page spread (BookSpread.jsx).
 //
-// VOICE — match the rest of the site, not a portfolio. Read Home's Welcome
-// letter, the passport's Bio/Hobbies chapters and Now's notes before writing
-// here: contractions throughout, asides in brackets, the odd exclamation mark,
-// and a real willingness to say what went wrong or what he's bad at. Concrete
-// beats impressive ("Dragon was too dark to read", not "a rigorous audit").
-// Nothing that sounds aimed at a recruiter.
+// VOICE — STYLE_GUIDE.md → Voice is the spec, and it is binding. It was derived
+// from a transcript of Noah speaking, so the rules are measured, not taste: no
+// em-dashes (he used zero in 4,000 words of speech), no fragment punchlines,
+// sentences centred on ~14 words, "So" openers, "I think" hedges, "super" as the
+// intensifier, flat self-deprecation, and an "Overall"/"Ultimately" verdict to
+// close. Read every line aloud before committing it.
 //
 // PAGE BUDGET — a book doesn't resize when you turn a page, so the spread is a
 // FIXED height at md (BookSpread.jsx). Prose pages hold roughly three short
@@ -25,7 +25,7 @@ const statmon = {
   title: "Statmon",
   imprint: "A personal project · 2026",
   summary:
-    "A little set of Pokémon tools. Compare two of them head to head, or sort the entire dex by whatever stat you care about.",
+    "A set of Pokémon tools I built for myself. Compare two of them head to head, sort the whole dex by any stat, read the type chart, or let it quiz you on all of it.",
   liveUrl: "https://statmon.noahparknguyen.workers.dev/",
   repoUrl: "https://github.com/noahparknguyen/statmon",
 
@@ -42,9 +42,9 @@ const statmon = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "Sometimes I like to go on a nostalgia trip and play a ton of old childhood games. One summer I decided to go through every single mainline Pokémon game, generation 1 straight through to generation 5.",
-          "During each playthrough I’d hit a fork in the road where I had to pick between two Pokémon, and what mattered most to me was speed and attack. So I’d go hunting for a site that put two of them side by side. The problem was they either looked a little outdated or were cluttered with features I didn’t need.",
-          "That’s the moment I had the idea for Statmon — a personal tool with all the bloat and fluff stripped out, that gave me exactly what I wanted.",
+          "Every so often I go on a nostalgia trip and replay the games I grew up with. One summer that turned into every mainline Pokémon game, generation 1 straight through to generation 5.",
+          "I got stuck partway through FireRed. I had an Eevee and couldn’t decide between Flareon, Jolteon and Vaporeon. They all share the exact same base stat total, which meant I needed to see each individual stat to pick one.",
+          "I went looking for a site that could put two Pokémon side by side. The ones I found felt outdated, or they were stuffed with features I didn’t need. That’s more or less where Statmon came from.",
         ],
       },
     },
@@ -52,19 +52,19 @@ const statmon = {
       chapter: "What it does",
       verso: {
         kind: "plate",
-        src: statmonHome,
-        alt: "The Statmon home page — the wordmark above a live comparison board, with Volcarona and Chandelure illustrations either side of it",
+        src: statmonCompare,
+        alt: "The Statmon compare board, with Volcarona and Chandelure side by side and their six base stats lined up between them",
         width: 720,
-        height: 440,
+        height: 405,
         caption:
-          "The home page. That’s Volcarona and Chandelure on either side of a live comparison — my two favourites, and the reason the whole site ended up purple.",
+          "The compare board, which is the main event. That’s Volcarona and Chandelure, my two favourites, and pretty much the reason the whole site ended up purple. The numbers up top re-read the whole thing as of an older generation.",
       },
       recto: {
         kind: "prose",
         paragraphs: [
-          "The comparison is the main event. You pick two Pokémon and it lays their six base stats out side by side as type-coloured bars, with the gap in the middle and an arrow pointing at whoever takes that row. Then the total, and a straight answer on who moves first — speed and attack were what I cared about mid-playthrough, and speed is the one that decides fights, so it gets its own line.",
-          "The dex table came later, for the other half of the question — not “which of these two” but “who’s the fastest thing in the whole game.” It’s all 1,259 of them in one table you can sort and filter however you want.",
-          "Both of them keep everything in the URL, so whatever you’re looking at is a link you can send to someone.",
+          "I built the compare tool first and it worked well. But then I hit another problem. I wanted Jolteon, and then realised Zapdos was sitting right there and was simply better. That’s why I built the dex table, which sorts a whole generation at once instead of only ever comparing two.",
+          "I also kept forgetting type matchups mid-playthrough, which is why the type chart came next. And I didn’t want to depend on the site forever, so I built a couple of games that quiz me on the stats and types instead.",
+          "What I’m most proud of is that every feature started as a problem I ran into myself. Nothing was added for the sake of it.",
         ],
       },
     },
@@ -73,9 +73,9 @@ const statmon = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "React, Vite, Tailwind and plain JavaScript, sitting on Cloudflare. Nothing clever — I wanted to spend my time on the actual thing instead of agonizing over the stack.",
-          "The part I’m smug about is that Statmon doesn’t call an API at all while you’re using it. Everything comes from PokéAPI, but it gets pulled once at build time into a local file, and every sprite and piece of artwork is downloaded and committed straight into the repo.",
-          "So the live site is just static files. It can’t fall over because someone else’s API is having a rough day, and it keeps me well inside PokéAPI’s fair-use rules.",
+          "I built it with React, Vite, Tailwind and plain JavaScript, and put it on Cloudflare. That’s my standard stack and I reach for it on almost everything, mostly because it’s quick to get moving.",
+          "Statmon never calls an API while you’re using it. I pull everything from PokéAPI once at build time into a local file, and I commit every sprite, piece of artwork and webfont straight into the repo. I’m probably too smug about that one.",
+          "The live site is nothing but static files. It can’t fall over because someone else’s API is having a rough day, and it keeps me well inside PokéAPI’s fair use rules.",
         ],
       },
       recto: {
@@ -84,9 +84,9 @@ const statmon = {
           { value: "1,259", label: "Pokémon in the dataset" },
           { value: "2,513", label: "images living in the repo" },
           { value: "0", label: "API calls while you use it" },
-          { value: "94", label: "tests keeping me honest" },
+          { value: "480", label: "tests keeping me honest" },
         ],
-        note: "The stat math, the dex sorting and filtering, and a render check on every page all have tests behind them. There’s even a script that checks all eighteen type colours for contrast — that’s how I found out Dragon was too dark to read.",
+        note: "I have tests behind the stat math, the dex sorting, the type matchups and a render check on every page. I also wrote a script that checks all eighteen type colours for contrast, and that’s how I found out Dragon was too dark to read.",
       },
     },
     {
@@ -94,16 +94,15 @@ const statmon = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "When I finished the site I was happy with how it looked. Right up until I realized it looked exactly like every other site I’d made.",
-          "Dark mode, minimalist, gradients everywhere — all the same trends your typical AI-generated site follows.",
+          "Here’s the thing about me. I’m not the best designer in the world. I knew I wanted to avoid that AI generated look, the minimalist dark mode with gradients on everything. But knowing what to avoid and knowing what to build are two very different problems.",
+          "That’s why I kept it simple. I stopped worrying about the site and focused on getting the tools working.",
         ],
       },
       recto: {
         kind: "prose",
         paragraphs: [
-          "The real problem was the gradients — that’s the tell, more than anything else. So I toned them right back and leaned on the colour instead. Chandelure has these really nice purples that don’t need anything done to them; they look good on their own.",
-          "There are still a couple of gradients in there, but they get used sparingly now. I think it worked out great — the palette made it look like its own thing, and tying the design to my two favourites gave it some sentimental value too.",
-          "From there things sort of snowballed, and I ended up with something well outside my comfort zone.",
+          "That’s what saved it. Once the tools worked they handed me the style on their own. Chandelure has these really nice purples that don’t need anything done to them, so I leaned on the colour and left the gradients alone.",
+          "It worked out well in the end. The palette made the site look like its own thing, and tying the design to my two favourites gave it some sentimental value too.",
         ],
         // The site's handwriting, used the way the footer aside and the tech
         // stamp notes use it — a scribble in the margin, not body copy.
@@ -126,8 +125,8 @@ const statmon = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "The data and the images all come from PokéAPI, whose sprites are CC0. Pokémon belongs to Nintendo, Game Freak and The Pokémon Company — Statmon is an unofficial fan project and it’s staying that way.",
-          "My own code is MIT, so help yourself. The working notes are in the repo too: the original brainstorm, the design system, and a dated log of every decision and why I made it. That last one’s probably the most honest thing in there.",
+          "All the data and images come from PokéAPI, and the sprites are CC0. Pokémon belongs to Nintendo, Game Freak and The Pokémon Company. Statmon is an unofficial fan project and it’s staying that way.",
+          "My own code is MIT, so help yourself. I keep my working notes in the repo as well, including the original brainstorm, the design system, and a dated log of every decision and why I made it. That last one is probably the most honest thing in there.",
         ],
       },
     },
@@ -140,7 +139,7 @@ const hubspot = {
   title: "HubSpot Recommendation Tool",
   imprint: "Capstone for Inbox · 2026",
   summary:
-    "A discovery tool for a HubSpot partner. Paste in a website and it works out what that site runs, then lines each tool up against the HubSpot product that could replace it.",
+    "A discovery tool I built for an agency that moves companies onto HubSpot. You paste in a website, it works out what that site is running, and it lines each tool up against the HubSpot product that could replace it.",
   liveUrl: "https://hubspot-recommendation-tool.onrender.com/",
   repoUrl: "https://github.com/noahparknguyen/hubspot-recommendation-tool",
 
@@ -156,9 +155,9 @@ const hubspot = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "In my second-to-last term at college I got put on a team of five and handed a real client — an actual company my professor had lined up. Eight months with them: four to plan, four to build.",
-          "Inbox is a HubSpot partner. It took us a while to pin down what they actually wanted, but it came down to this: a client comes to them with an existing site, and Inbox has to figure out what it’s running and what could be consolidated into HubSpot instead.",
-          "That part was all manual. So we built them a shortcut. It doesn’t do the discovery for them — it just gets them to the interesting part faster.",
+          "During my second to last term I was put on a team of five with a real client, an actual company my professor had lined up. Eight months with them, four to plan and four to build.",
+          "Our client was Inbox, an agency that moves companies onto HubSpot, which is a large marketing and sales platform. A client comes to Inbox with an existing website, and they have to work out what it is running and what could move over to HubSpot instead.",
+          "They were doing all of that by hand, so we built them a shortcut. It doesn’t do the thinking for them, it gets them to the interesting part faster.",
         ],
       },
     },
@@ -167,7 +166,7 @@ const hubspot = {
       verso: {
         kind: "plate",
         src: hubspotReport,
-        alt: "A row of the generated report: a detected technology and its category, a description, and the HubSpot product that could replace it",
+        alt: "A row of the generated report, showing a detected technology and its category, a description, and the HubSpot product that could replace it",
         width: 760,
         height: 322,
         caption:
@@ -176,9 +175,9 @@ const hubspot = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "Paste in a URL and it fetches the page, fingerprints everything it can find, and matches each detection against a HubSpot product.",
-          "Ten separate matchers read the page — headers, cookies, script sources, meta tags, inline scripts, CSS, the DOM — and their guesses get combined into one confidence score. Then it resolves the relationships between technologies, because knowing a site runs WordPress tells you a lot about what else is probably on it.",
-          "The mapping from a detected tool to a HubSpot product is a JSON file rather than code. That was deliberate: Inbox can add or reword a recommendation themselves, without needing a developer.",
+          "You paste in a URL and it fetches the page, fingerprints everything it can find, and matches each detection against a HubSpot product.",
+          "Ten separate matchers read the page, looking at headers, cookies, script sources, meta tags, inline scripts, CSS and the DOM. Their guesses combine into one confidence score, and it then resolves the relationships between technologies, because knowing a site runs WordPress tells you a lot about what else is probably on it.",
+          "I put the mapping from a detected tool to a HubSpot product in a JSON file instead of in the code. That was deliberate, because it means Inbox can add or reword a recommendation themselves without needing a developer.",
         ],
       },
     },
@@ -187,9 +186,9 @@ const hubspot = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "Node on the back-end with no framework at all — just the built-in http module. React and Vite on the front. The whole thing ships as one Docker container.",
-          "Everything the detector knows comes from an open dataset of technology fingerprints: about three megabytes of patterns, loaded into memory once and kept there. The site being analyzed is fetched live, but the knowledge is all local.",
-          "The part I spent longest on after it already worked was making it safe to point at a stranger’s URL.",
+          "I wrote the backend in Node with no framework at all, using nothing but the built-in http module. The frontend is React and Vite, and the whole thing ships as one Docker container.",
+          "None of us had any experience with Python, which ruled out something like BeautifulSoup from the start. Instead we found a repository that forked Wappalyzer’s last open source release, and it was still being updated with new patterns, which made it ideal. That comes to about three megabytes of fingerprints, loaded into memory once and kept there.",
+          "I spent longest on making it safe to point at a stranger’s URL, and that was after it already worked.",
         ],
       },
       recto: {
@@ -198,9 +197,9 @@ const hubspot = {
           { value: "10", label: "matchers read every page" },
           { value: "5", label: "phases in the pipeline" },
           { value: "110", label: "tests behind it" },
-          { value: "0", label: "back-end frameworks" },
+          { value: "0", label: "backend frameworks" },
         ],
-        note: "It refuses to fetch anything on a private network and re-checks on every redirect hop, caps how much it will download, and rate-limits the whole thing. The security doc is honest about the one hole I couldn’t close on my own, which felt more useful than pretending.",
+        note: "It refuses to fetch anything on a private network and re-checks on every redirect hop, caps how much it will download, and rate-limits the whole thing. I was honest in the security doc about the one hole I couldn’t close on my own, because that felt more useful than pretending.",
       },
     },
     {
@@ -208,17 +207,16 @@ const hubspot = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "I’d worked with clients before at my DND co-op, but there our team lead always ran the meetings. This time there was nobody above me to do it, so I took it on — ran the calls, demoed every couple of weeks, asked whether the design was right and whether the output was what they needed.",
-          "Honestly it was a personal test. I wanted to know if I could do the thing I’d only ever watched someone else do, so I copied my team lead’s approach as closely as I could.",
-          "Every week: great work, no complaints. That did a lot for my confidence.",
+          "I’d worked with clients before at DND, but our team lead always ran the meetings there. This time there was nobody above me to do it, so I took it on myself. I hosted the calls, demoed every couple of weeks, and asked whether the design was right and whether the output was what they needed.",
+          "I wasn’t especially nervous in the meetings. The most stressful part was the deadline, because I was making revisions right up until the last minute before our final presentation. It gave me a lot more confidence in the end, because it showed I could run a client on my own.",
         ],
       },
       recto: {
         kind: "prose",
         paragraphs: [
-          "The detection engine was the hard part. I’d never done pattern matching before, and the fingerprint dataset took a long time to wrap my head around.",
-          "There’s more AI in this than anything else I’ve made — most of the documentation and comments started that way, and I leaned on it hard to get detection working at all.",
-          "So I went back through it all myself: polishing, fixing errors, adding the security and deployment work. It’s the first time I’ve led development instead of picking up tickets, and the closest thing I can compare it to is moving out — suddenly it’s all yours, and nobody’s coming to remind you.",
+          "What I struggled with most was the detection engine. I’d never done pattern matching before, and the fingerprint dataset took me a long time to wrap my head around.",
+          "Working out what the client wanted was difficult as well. They started off asking for an AI summary of tech stacks, which was well out of scope for students, and we had to find a compromise between that and what we could actually build.",
+          "There’s more AI in this than anything else I’ve made. I had a deadline, so I leaned on it hard for the last few weeks. Then I went back through it all myself, fixing errors and adding the security and deployment work.",
         ],
         marginNote: "first time it was all mine",
       },
@@ -232,9 +230,9 @@ const hubspot = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "The detection data comes from WebAppAnalyzer, an open dataset of technology fingerprints. It’s GPL-3.0, so this project is too — the one licensing decision that got made for me.",
-          "Five of us worked on it, and I ran the code side: the whole back-end is mine, and a teammate designed and built the first frontend that I revised heavily from there.",
-          "Inbox has its own copy running now. The one you can click through to is mine.",
+          "The detection data comes from WebAppAnalyzer, an open dataset of technology fingerprints. It’s GPL-3.0, so this project is too, and that’s the one licensing decision that got made for me.",
+          "Five of us worked on it and I ran the code side, so the whole backend is mine. One teammate had a web design background and built a really nice frontend, and I updated it whenever our client had feedback. My other teammates handled most of the school side, the progress reports and the professor meetings, which is why I was happy doing all the code.",
+          "Inbox has its own copy running now, and the one you can click through to here is mine.",
         ],
       },
     },
