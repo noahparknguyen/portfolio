@@ -262,7 +262,7 @@ function WeatherTime() {
           ) : empty ? (
             <>
               <p className="font-display text-3xl font-bold text-ink">—°C</p>
-              <p className="text-sm text-gray-600">no reading today</p>
+              <p className="text-sm text-gray-600">couldn&rsquo;t get a reading</p>
             </>
           ) : (
             <>

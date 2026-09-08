@@ -75,7 +75,7 @@ function GameCard({ game }) {
       <div className="p-3">
         <div className="flex items-start justify-between gap-2">
           <p className="min-w-0 wrap-break-word font-display text-lg font-semibold text-ink">
-            {game ? game.name : "Shelf empty"}
+            {game ? game.name : "Nothing lately"}
           </p>
           {game?.iconFallback && !useFallback && (
             <img
