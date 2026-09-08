@@ -266,7 +266,7 @@ function BookSpread({ project, onClose }) {
         {/* The page block, matching the closed book's. */}
         <span
           aria-hidden="true"
-          className="shadow-sticker pointer-events-none absolute inset-0 translate-x-[4px] translate-y-[4px] border-2 border-ink bg-paper"
+          className="shadow-sticker pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
         />
 
         {/* The bookmark ribbon closes the book — the thing you actually reach
@@ -314,7 +314,7 @@ function BookSpread({ project, onClose }) {
               Without it an over-long page did not scroll — it grew the cell
               past the panel's fixed height and spilled outside the book's
               border. This is the guard; copy is still written to fit. */}
-          <Panel as="div" className="md:h-[30rem] md:grid-cols-2">
+          <Panel as="div" className="md:h-120 md:grid-cols-2">
             <Cell bg="bg-paper" padding="p-0" className="min-h-0">
               <Page
                 page={spread.verso}

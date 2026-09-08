@@ -123,16 +123,16 @@ function Now() {
             <TextLink href="https://nownownow.com" accent="blue" external>
               now page
             </TextLink>{" "}
-            is exactly what it sounds like. It&rsquo;s a snapshot
-            of what I&rsquo;m up to at the moment, the sort of thing I&rsquo;d
-            tell a friend I haven&rsquo;t seen in a while.
+            is exactly what it sounds like. It&rsquo;s a snapshot of what
+            I&rsquo;m up to at the moment, the sort of thing I&rsquo;d tell a
+            friend I haven&rsquo;t seen in a while.
           </p>
           <p className="mt-3 max-w-prose text-gray-700">
-            Every couple of months I get really into one particular hobby.
-            Right now it&rsquo;s old GameCube games, and last month it was
-            Balatro. When I burn out on whatever I&rsquo;m fixated on, I always
-            forget that I have a whole catalogue of other interests to fall back
-            on. This page is how I keep track of all of it.
+            Every couple of months I get really into one particular hobby. Right
+            now it&rsquo;s old GameCube games, and last month it was Balatro.
+            When I burn out on whatever I&rsquo;m fixated on, I always forget
+            that I have a whole catalogue of other interests to fall back on.
+            This page is how I keep track of all of it.
           </p>
           <div className="mt-4 flex justify-end">
             <div className="rotate-2 border-2 border-dashed border-label px-3 py-1 text-center">

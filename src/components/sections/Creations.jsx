@@ -67,7 +67,8 @@ function Creations() {
         <p className="mt-2 max-w-prose text-gray-700">
           This is where I keep my projects. The links will take you straight
           there if you want to try them out. But if you open a book up,
-          you&rsquo;ll get the whole story on why I built that one and how it works.
+          you&rsquo;ll get the whole story on why I built that one and how it
+          works.
         </p>
       </PinnedCard>
 

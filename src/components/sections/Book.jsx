@@ -110,11 +110,11 @@ function Book({ project, onOpen, openRef }) {
           book, being the lowest layer. */}
       <span
         aria-hidden="true"
-        className="shadow-sticker pointer-events-none absolute inset-0 translate-x-[4px] translate-y-[4px] border-2 border-ink bg-paper"
+        className="shadow-sticker pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
       />
 
       <div
-        className={`relative border-2 border-ink ${project.coverTint} md:h-[30rem]`}
+        className={`relative border-2 border-ink ${project.coverTint} md:h-120`}
       >
         {/* Spine, with its head and tail bands. */}
         <span

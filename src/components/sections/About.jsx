@@ -222,7 +222,7 @@ function Achievements() {
             as a blank form waiting to be filled in. The fill is not optional —
             without it this card's text sat directly on the sky photo, where
             contrast can't be measured at all. */}
-        <div className="shadow-sticker flex -rotate-[1deg] flex-col gap-3 border-2 border-dashed border-ink bg-paper p-4">
+        <div className="shadow-sticker flex -rotate-1 flex-col gap-3 border-2 border-dashed border-ink bg-paper p-4">
           <Eyebrow as="p" className="text-center">
             Locked
           </Eyebrow>
