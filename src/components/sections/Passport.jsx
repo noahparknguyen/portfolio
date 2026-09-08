@@ -46,29 +46,31 @@ const TABS = [
 
 const CHAPTERS = {
   journey: [
-    "I started coding at around 17. I took an intro programming class and was hooked immediately. After graduating, I picked up a handful of summer and online courses to meet the math prerequisites I needed for post-secondary.",
-    "I worked a couple of jobs over the next year and a half to save up, then moved out to Ottawa to study Computer Science at Algonquin College. During the last four years, I earned my advanced diploma with honours, picked up about a year's worth of professional experience through my co-ops, and (after plenty of failed interviews and applications) somehow landed a developer role with the government.",
+    "I was born and raised in BC, and went through high school with no idea what I wanted to do for a living. During my last year, I forgot to hand in my elective selections, and ended up in an intro programming class on a whim. That ended up being the best grade I’ve ever gotten.",
+    "Unfortunately, it only counted as an elective, and I was short the math prerequisites needed for college. I spent the following year taking summer courses and working to prepare. My aunt then told my parents about Algonquin College, which had a co-op program where I could work while I studied. That was what moved me out to Ottawa.",
+    "Looking back, I still have no idea why I moved across the country. But I’m glad I pushed myself that far out of my comfort zone.",
   ],
   hobbies: [
-    "I'm a huge gaming fan (obviously), especially indie titles like Celeste, Hollow Knight, and Balatro. Lately I've been on a big nostalgia trip, replaying all my favourite childhood games like Pikmin, Pokémon Black and White, and Super Monkey Ball.",
+    "I mainly play a lot of indie games, the kind that are easy to pick up but hard to master. Celeste, Hollow Knight and Balatro are the ones I keep coming back to.",
     <>
-      One of my favourite hobbies is{" "}
+      I’ve also been replaying a lot of my childhood favourites like Pikmin,
+      Super Monkey Ball, and Pokémon. I also love to{" "}
       <TextLink
         href="https://www.speedrun.com/users/SerenePrince"
         accent="violet"
         external
       >
-        speedrunning
+        speedrun
       </TextLink>
-      . I used to run categories like Super Meat Boy and Hollow Knight Any%;
-      these days I don't have as much time to grind, so it's mostly just for fun
-      now.
+      . I used to run games like Super Meat Boy and Hollow Knight Any%, but had
+      to take a break when school got too busy. I’d like to get back into it.
     </>,
-    "My favourite hobby in the world is volleyball — both playing and watching. I may not be the best (shanking passes is my specialty), but I've made a ton of great memories, from playing competitively for a club as a teenager to recreational drop-ins now.",
+    "Volleyball is one of my oldest passions. I used to play on school teams and clubs, but now just play recreationally at drop-ins.",
   ],
   workflow: [
-    "For my front-ends, when I boot up a new project, I stick with my bread and butter: React and Tailwind. My main and most proficient language is Java. It was the first language I learned at college, and I've grown quite fond of its utility. It's my go-to language when doing challenges or setting up back-ends — usually with Spring. I've also been dabbling in Python. My goal is to make it my main scripting language.",
-    "I love web development, but I'm not the best at design. I've been learning a ton about UX/UI in order to get better — and I'm trying to work Figma into my planning phases. Other tech in my toolkit includes Obsidian for notes, VS Code as my main editor, and IntelliJ IDEA for Java.",
+    "React and Tailwind are my bread and butter, and I reach for them on almost everything I build. They’re quick to start with and easy to extend later on.",
+    "Java was my first language at Algonquin, and what I like most about it is everything it opened up. Data structures through the collections interface, object oriented programming, all of it made sense to me through Java. Spring was the natural next step, and I’m picking up Python as well, which is common enough in the industry that it was an easy decision.",
+    "I’m not the best at design, which is why I’m learning Figma and working it into my planning. The rest of my toolkit is Obsidian for notes, VS Code as my main editor, and IntelliJ for Java.",
   ],
 };
 
@@ -76,24 +78,29 @@ function Bio({ onNavigate }) {
   return (
     <div className="flex h-full flex-col">
       <p>
-        What's up? I'm Noah — a full-stack developer, CS graduate, and
-        competitive nap taker from Canada. You can read up on my personal
-        journey by navigating through the tabs. If you want to see what I'm
-        currently up to, check out the{" "}
+        Hey, my name is Noah, I&rsquo;m a full-stack developer, CS graduate, and
+        professional nap taker born in BC, living in Ottawa, Ontario. I mainly
+        focus on web development and frontends, but know my way around the
+        backend as well.
+      </p>
+      <p className="mt-2">
+        If you want to know more about my journey, click through each tab to
+        read more. If you want to know what I&rsquo;m up to at this very moment,
+        check out the{" "}
         <span className="whitespace-nowrap">
           <TextLink accent="violet" onClick={() => onNavigate("now")}>
             Now page
           </TextLink>
           .
         </span>{" "}
-        And if you'd like to peek at some of my other work, take a look at the{" "}
+        For a look into my personal projects, check out the{" "}
         <span className="whitespace-nowrap">
           <TextLink accent="violet" onClick={() => onNavigate("creations")}>
             Creations page
           </TextLink>
-          ,
+          .
         </span>{" "}
-        but only if you want to, no pressure.
+        But only if you want to, no pressure.
       </p>
       <div className="mt-auto pt-6">
         <p

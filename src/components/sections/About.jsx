@@ -23,7 +23,7 @@ const WORK = [
     org: "FINTRAC",
     role: "Application Developer · Jan – Apr 2024",
     summary:
-      "My first professional experience ever. I was given basic tasks and tickets to handle — fairly simple, but an awesome way to get my foot in the door.",
+      "My very first co-op. I spent a couple of months on basic bug tickets, then built a tool to keep the team’s API documentation up to date. It worked, but in hindsight the code was honestly pretty bad. It was my first time, what can you expect.",
     rotate: "rotate-[2deg]",
     cardRotate: "-rotate-[1deg] md:rotate-none",
     tint: "bg-violet-soft",
@@ -34,7 +34,7 @@ const WORK = [
     org: "Algonquin College",
     role: "Software Tester · Sep – Dec 2024",
     summary:
-      "Spent my time creating test cases, writing up bug reports, and making sure the new student information system we were working on was sound and stable.",
+      "I got to work on the R3 project, which was a student information system being built to replace the old one at Algonquin. I spent most of my day on manual test cases, running them step by step, making sure features like menus and links behaved the way they were supposed to. Not the most exciting, but I learned a great deal about Azure DevOps and Scrum.",
     rotate: "-rotate-[1.5deg]",
     cardRotate: "rotate-[1.5deg] md:rotate-none",
     tint: "bg-blue-soft",
@@ -45,7 +45,7 @@ const WORK = [
     org: "Department of National Defence",
     role: "Application Developer · Feb – Dec 2025",
     summary:
-      "My biggest role yet. Built internal tools for clients across several teams within DND — and the first time I owned features end-to-end.",
+      "This was a student position rather than a co-op, and I had no idea what I was doing at first. I had never even heard of Power Apps, Power Automate and Power BI before. I had to learn quick though. They gave me real client work, and I finally saw an Agile project through from beginning to end.",
     rotate: "rotate-[1.5deg]",
     cardRotate: "-rotate-[1.5deg] md:rotate-none",
     tint: "bg-orchid-soft",
@@ -77,7 +77,7 @@ const ACHIEVEMENTS = [
     title: "Advanced Diploma",
     issuer: "Algonquin College · Computer Science",
     detail:
-      "A three-year advanced diploma covering computing top to bottom — hardware, software, testing, and design — capped by a real-world team capstone. Graduated with honours at a 3.8 GPA.",
+      "Computer Engineering Technology — Computer Science. A three-year program learning about software, hardware, and everything in between. Graduated with honours and averaged a 3.8 GPA.",
     date: "Unlocked · Apr 2026",
     logo: algonquinLogo,
     logoAlt: "Algonquin College logo",
@@ -88,7 +88,7 @@ const ACHIEVEMENTS = [
     title: "Dean’s List ×6",
     issuer: "Algonquin College · Computer Science",
     detail:
-      "Earned in all six academic terms of the program — a clean sweep, start to finish.",
+      "Averaged at least a 3.6 for the term without a single grade below C-, for all 6 terms of the program.",
     date: "Unlocked · 2023 – 2026",
     Glyph: StarGlyph,
     rotate: "rotate-[1deg]",
@@ -152,7 +152,9 @@ function WorkTimeline() {
               <p className="font-display font-semibold text-ink">Pending</p>
               <p className="text-xs text-label">New role incoming</p>
               <p className="mt-0.5 text-sm text-gray-600">
-                In the middle of getting my security clearance, wish me luck!
+                This is the first job I found completely on my own. Security
+                clearance can take up to a year, so for now there&rsquo;s not
+                much to do but wait. Wish me luck!
               </p>
             </PinnedCard>
           </li>
@@ -238,7 +240,9 @@ function Achievements() {
             </div>
           </div>
           <div>
-            <p className="text-sm text-gray-600">Working on the next one.</p>
+            <p className="text-sm text-gray-600">
+              Still working on the next one.
+            </p>
           </div>
         </div>
       </div>
