@@ -32,7 +32,7 @@ const statmon = {
   imprint: "A personal project · 2026",
   summary:
     "A simple set of Pokémon tools. It covers visual stat comparisons, a filterable dex, and a type matchup lookup.",
-  liveUrl: "https://statmon.noahparknguyen.workers.dev/",
+  liveUrl: "https://statmon.noahpn.dev/",
   repoUrl: "https://github.com/noahparknguyen/statmon",
 
   // The cover wears violet-soft with a full-violet spine — the soft tint and
