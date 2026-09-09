@@ -1,9 +1,19 @@
 import { useRef, useState } from "react";
+// `about/` is a SUBDIRECTORY on purpose: App.jsx's site-wide preload globs
+// `./assets/*.{…}` with a single `*`, which does not match across a `/`, so
+// nothing in here is pulled into the weight of a visit that never reaches this
+// section (STYLE_GUIDE.md → Assets). Between them canada-map.svg and
+// flag-bc.svg are 226 KB — about a fifth of everything the site preloads — for
+// two images only this page ever shows.
+//
+// Neither needs the warming that `books/` does: both are `alt="" aria-hidden`
+// decoration, so there is no alt text to flash while they load. The headshot
+// stays at the top level precisely because it DOES carry real alt text.
 import headshot from "../../assets/noah-headshot.webp";
 import flagCanada from "../../assets/flag-canada.svg";
-import flagBc from "../../assets/flag-bc.svg";
+import flagBc from "../../assets/about/flag-bc.svg";
 import mapleLeaf from "../../assets/maple-leaf.svg";
-import canadaMap from "../../assets/canada-map.svg";
+import canadaMap from "../../assets/about/canada-map.svg";
 import Panel from "../ui/Panel";
 import Cell from "../ui/Cell";
 import SectionTitle from "../ui/SectionTitle";
@@ -47,14 +57,15 @@ const TABS = [
 const CHAPTERS = {
   journey: [
     "I was born and raised in BC, and went through high school with no idea what I wanted to do for a living. During my last year, I forgot to hand in my elective selections, and ended up in an intro programming class on a whim. That ended up being the best grade I’ve ever gotten.",
-    "Unfortunately, it only counted as an elective, and I was short the math prerequisites needed for college. I spent the following year taking summer courses and working to prepare. My aunt then told my parents about Algonquin College, which had a co-op program where I could work while I studied. That was what moved me out to Ottawa.",
-    "Looking back, I still have no idea why I moved across the country. But I’m glad I pushed myself that far out of my comfort zone.",
+    "Unfortunately, it only counted as an elective, and I was short the math prerequisites needed for college. I spent the following year taking summer courses and working to prepare and save money. My aunt then told my parents about Algonquin College, which had a co-op program where I could work while I studied. That was what moved me out to Ottawa.",
+    "Looking back, I still have no idea why I moved across the country. But I’m glad I pushed myself out of my comfort zone and took a risk I never thought I would.",
   ],
   hobbies: [
-    "I mainly play a lot of indie games, the kind that are easy to pick up but hard to master. Celeste, Hollow Knight and Balatro are the ones I keep coming back to.",
+    "I mainly play a lot of indie games, the kind that are easy to pick up but hard to master. The games I probably replay the most are Celeste, The Binding of Isaac, and Balatro.",
     <>
       I’ve also been replaying a lot of my childhood favourites like Pikmin,
-      Super Monkey Ball, and Pokémon. I also love to{" "}
+      Super Monkey Ball, and Pokémon, basically anything from the GameCube era
+      to the early 2010s. I also love to{" "}
       <TextLink
         href="https://www.speedrun.com/users/SerenePrince"
         accent="violet"
@@ -63,14 +74,16 @@ const CHAPTERS = {
         speedrun
       </TextLink>
       . I used to run games like Super Meat Boy and Hollow Knight Any%, but had
-      to take a break when school got too busy. I’d like to get back into it.
+      to take a break when school got too busy. I’d like to get back into it
+      someday, when I have a bit more time.
     </>,
-    "Volleyball is one of my oldest passions. I used to play on school teams and clubs, but now just play recreationally at drop-ins.",
+    "Volleyball is one of my oldest passions. I used to play on my high school team and for a few clubs, but now I just play recreationally at drop-ins and tournaments.",
   ],
   workflow: [
     "React and Tailwind are my bread and butter, and I reach for them on almost everything I build. They’re quick to start with and easy to extend later on.",
-    "Java was my first language at Algonquin, and what I like most about it is everything it opened up. Data structures through the collections interface, object oriented programming, all of it made sense to me through Java. Spring was the natural next step, and I’m picking up Python as well, which is common enough in the industry that it was an easy decision.",
-    "I’m not the best at design, which is why I’m learning Figma and working it into my planning. The rest of my toolkit is Obsidian for notes, VS Code as my main editor, and IntelliJ for Java.",
+    "Java was the first programming language I ever learned. What made me stick with it was how easy it made learning the more advanced concepts like OOP and data structures. Spring was the obvious next step, since it\u2019s practically synonymous with enterprise applications. Right now I\u2019m trying to make Python more a part of my workflow, both as my main scripting language and because of how common it is in the industry.",
+    "I\u2019m also learning Figma to improve my design skills. I was never the best artist growing up, I was more a math and science guy, but building a clean interface has been some of the most fun I\u2019ve had learning anything.",
+    "The rest of my toolkit is pretty standard. I use Obsidian for notes, IntelliJ IDEA for Java, and VS Code for everything else.",
   ],
 };
 
@@ -80,22 +93,26 @@ function Bio({ onNavigate }) {
       <p>
         Hey, my name is Noah, I&rsquo;m a full-stack developer, CS graduate, and
         professional nap taker born in BC, living in Ottawa, Ontario. I mainly
-        focus on web development and frontends, but know my way around the
-        backend as well.
+        focus on web development and frontends for fun, while my professional
+        experience has mostly been in the backend and internal tools.
       </p>
       <p className="mt-2">
         If you want to know more about my journey, click through each tab to
         read more. If you want to know what I&rsquo;m up to at this very moment,
         check out the{" "}
         <span className="whitespace-nowrap">
-          <TextLink accent="violet" onClick={() => onNavigate("now")}>
+          <TextLink accent="violet" to="now" onClick={() => onNavigate("now")}>
             Now page
           </TextLink>
           .
         </span>{" "}
         For a look into my personal projects, check out the{" "}
         <span className="whitespace-nowrap">
-          <TextLink accent="violet" onClick={() => onNavigate("creations")}>
+          <TextLink
+            accent="violet"
+            to="creations"
+            onClick={() => onNavigate("creations")}
+          >
             Creations page
           </TextLink>
           .
@@ -124,6 +141,8 @@ function PassportBio({ active, i, go, onNavigate }) {
         src={canadaMap}
         alt=""
         aria-hidden="true"
+        width="1114"
+        height="942"
         className="pointer-events-none absolute inset-0 h-full w-full object-contain"
         style={{ opacity: "var(--opacity-watermark-strong)" }}
       />
@@ -199,11 +218,19 @@ function Passport({ onNavigate }) {
   // out of `go` itself so clicking the prev/next Chevron buttons (which also
   // call `go`) doesn't yank focus away from the Chevron.
   const onKeyDown = (e) => {
-    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-    const next = Math.max(
-      0,
-      Math.min(TABS.length - 1, i + (e.key === "ArrowRight" ? 1 : -1)),
-    );
+    // Home/End are part of the APG tablist pattern and were missing, so the
+    // only way to the first or last chapter was to arrow through the others.
+    // preventDefault stops Home/End scrolling the page out from under the
+    // strip, and stops the arrows scrolling it sideways.
+    const MOVES = {
+      ArrowRight: i + 1,
+      ArrowLeft: i - 1,
+      Home: 0,
+      End: TABS.length - 1,
+    };
+    if (!(e.key in MOVES)) return;
+    e.preventDefault();
+    const next = Math.max(0, Math.min(TABS.length - 1, MOVES[e.key]));
     go(next);
     tabRefs.current[next]?.focus();
   };
@@ -223,11 +250,15 @@ function Passport({ onNavigate }) {
                 src={mapleLeaf}
                 alt=""
                 aria-hidden="true"
+                width="650"
+                height="650"
                 className="pointer-events-none absolute inset-0 m-auto h-40 w-40"
                 style={{ opacity: "var(--opacity-watermark)" }}
               />
               <div className="relative flex flex-wrap items-start justify-between gap-3">
-                <SectionTitle accent="violet">About Me!</SectionTitle>
+                <SectionTitle accent="violet" id="about-heading">
+                  About Me!
+                </SectionTitle>
                 <span className="mt-1 shrink-0 font-mono text-xs text-label">
                   TYPE P · CAN
                 </span>
@@ -237,12 +268,16 @@ function Passport({ onNavigate }) {
                   src={flagCanada}
                   alt=""
                   aria-hidden="true"
+                  width="1200"
+                  height="600"
                   className="h-4 w-auto shrink-0 border border-ink"
                 />
                 <img
                   src={flagBc}
                   alt=""
                   aria-hidden="true"
+                  width="1000"
+                  height="600"
                   className="h-4 w-auto shrink-0 border border-ink"
                 />
                 PASSPORT · PASSEPORT

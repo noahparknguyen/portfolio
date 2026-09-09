@@ -34,7 +34,7 @@ const WORK = [
     org: "Algonquin College",
     role: "Software Tester · Sep – Dec 2024",
     summary:
-      "I got to work on the R3 project, which was a student information system being built to replace the old one at Algonquin. I spent most of my day on manual test cases, running them step by step, making sure features like menus and links behaved the way they were supposed to. Not the most exciting, but I learned a great deal about Azure DevOps and Scrum.",
+      "I got to work on the R3 project, which was a student information system being built to replace the old one at Algonquin. I spent most of my day on manual test cases, running them step by step, making sure features like menus and links behaved the way they were supposed to. Not the most exciting, but I learned a lot about Azure DevOps and Scrum.",
     rotate: "-rotate-[1.5deg]",
     cardRotate: "rotate-[1.5deg] md:rotate-none",
     tint: "bg-blue-soft",
@@ -45,7 +45,7 @@ const WORK = [
     org: "Department of National Defence",
     role: "Application Developer · Feb – Dec 2025",
     summary:
-      "This was a student position rather than a co-op, and I had no idea what I was doing at first. I had never even heard of Power Apps, Power Automate and Power BI before. I had to learn quick though. They gave me real client work, and I finally saw an Agile project through from beginning to end.",
+      "This was my most recent job, and the one that felt closest to the real thing. I had never heard of the Power Platform before my first day, so I had no idea what I was doing. I had to learn quick though. They gave me real client work, I sat in on client meetings, and I saw a couple of the bigger features through from planning to release. It\u2019s easily the most fulfilling work I\u2019ve done.",
     rotate: "rotate-[1.5deg]",
     cardRotate: "-rotate-[1.5deg] md:rotate-none",
     tint: "bg-orchid-soft",
@@ -75,9 +75,9 @@ function StarGlyph() {
 const ACHIEVEMENTS = [
   {
     title: "Advanced Diploma",
-    issuer: "Algonquin College · Computer Science",
+    issuer: "Algonquin College · Computing Science",
     detail:
-      "Computer Engineering Technology — Computer Science. A three-year program learning about software, hardware, and everything in between. Graduated with honours and averaged a 3.8 GPA.",
+      "Computer Engineering Technology \u2013 Computing Science. A three-year program learning about software, hardware, and everything in between. Graduated with honours and averaged a 3.8 GPA.",
     date: "Unlocked · Apr 2026",
     logo: algonquinLogo,
     logoAlt: "Algonquin College logo",
@@ -86,7 +86,7 @@ const ACHIEVEMENTS = [
   },
   {
     title: "Dean’s List ×6",
-    issuer: "Algonquin College · Computer Science",
+    issuer: "Algonquin College · Computing Science",
     detail:
       "Averaged at least a 3.6 for the term without a single grade below C-, for all 6 terms of the program.",
     date: "Unlocked · 2023 – 2026",
@@ -152,9 +152,8 @@ function WorkTimeline() {
               <p className="font-display font-semibold text-ink">Pending</p>
               <p className="text-xs text-label">New role incoming</p>
               <p className="mt-0.5 text-sm text-gray-600">
-                This is the first job I found completely on my own. Security
-                clearance can take up to a year, so for now there&rsquo;s not
-                much to do but wait. Wish me luck!
+                Security clearance can take up to a year, so for now
+                there&rsquo;s not much to do but wait. Wish me luck!
               </p>
             </PinnedCard>
           </li>
@@ -222,7 +221,12 @@ function Achievements() {
             as a blank form waiting to be filled in. The fill is not optional —
             without it this card's text sat directly on the sky photo, where
             contrast can't be measured at all. */}
-        <div className="shadow-sticker flex -rotate-1 flex-col gap-3 border-2 border-dashed border-ink bg-paper p-4">
+        <PinnedCard
+          bg="bg-paper"
+          padding="p-4"
+          rotate="-rotate-1"
+          className="flex flex-col gap-3 border-dashed"
+        >
           <Eyebrow as="p" className="text-center">
             Locked
           </Eyebrow>
@@ -244,7 +248,7 @@ function Achievements() {
               Still working on the next one.
             </p>
           </div>
-        </div>
+        </PinnedCard>
       </div>
     </section>
   );
@@ -252,11 +256,14 @@ function Achievements() {
 
 function About({ onNavigate }) {
   return (
-    <div className="flex flex-col gap-8">
+    // Named like every other section. Home and About were the last two
+    // rendering as a bare <div>, so their region was the only one an assistive
+    // tech user could not identify or jump to by name.
+    <section aria-labelledby="about-heading" className="flex flex-col gap-8">
       <Passport onNavigate={onNavigate} />
       <WorkTimeline />
       <Achievements />
-    </div>
+    </section>
   );
 }
 
