@@ -42,12 +42,12 @@ const FOOTER_NOTE = {
   home: "bapanada",
   about: "whoami",
   now: "hey now",
-  creations: "dog-eared",
+  creations: "i'm a chuckster",
   credits: "looks inside",
   // The 404 is a real page with a real URL, so it gets an aside like every
   // other one. Without a key here the footer rendered an empty <p> and the
   // scribble simply vanished on the one page a visitor arrives at confused.
-  notfound: "off the map",
+  notfound: "planet pnf",
 };
 
 function Footer({ active, onNavigate }) {
