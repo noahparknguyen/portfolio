@@ -6,7 +6,7 @@ import LabelTag from "../ui/LabelTag";
 import TextLink from "../ui/TextLink";
 import Pin from "../ui/Pin";
 import Tape from "../ui/Tape";
-import Stamp from "../ui/Stamp";
+import Seal from "../ui/Seal";
 import SpotifyWidget from "../widgets/SpotifyWidget";
 import SteamWidget from "../widgets/SteamWidget";
 import LiveReaction from "../widgets/LiveReaction";
@@ -28,7 +28,10 @@ function Home() {
   });
 
   return (
-    <div className="flex flex-col gap-5 py-3">
+    <section
+      aria-labelledby="home-heading"
+      className="flex flex-col gap-5 py-3"
+    >
       {/* Row 1 — Welcome ←→ Photo */}
       <div className={ROW}>
         <div className="min-w-0 md:w-[65%]">
@@ -40,12 +43,14 @@ function Home() {
             >
               Ottawa · {monthYear}
             </Eyebrow>
-            <SectionTitle accent="rose">Welcome!</SectionTitle>
+            <SectionTitle accent="rose" id="home-heading">
+              Welcome!
+            </SectionTitle>
             <p className="mt-2 text-gray-700">
               Thanks for stopping by! This little site right here is my personal
               take on a portfolio website.
             </p>
-            <p className="mt-3 text-gray-700">
+            <p className="mt-2 text-gray-700">
               I&rsquo;ve built many portfolios in the past, but none of them
               were really able to capture the exact tone I was looking for. That
               was until I found out about the{" "}
@@ -57,10 +62,10 @@ function Home() {
                 Neocities
               </TextLink>
               . I decided to ditch all of the jargon, and replace it with things
-              that actually represented who I am as a person.
+              that actually mattered to me.
             </p>
-            <p className="mt-3 text-gray-700">
-              Hope you enjoy it as much as I enjoyed making it.
+            <p className="mt-2 text-gray-700">
+              I had a lot of fun making it, and I hope that comes through.
             </p>
             {/* The whole sign-off is aria-hidden and mirrored by the sr-only
                 line below: ":)" reads badly aloud, but hiding only the
@@ -71,7 +76,7 @@ function Home() {
               <span className="font-hand text-2xl text-ink">Noah :)</span>
             </p>
             <span className="sr-only">Best, Noah</span>
-            <Stamp className="absolute bottom-2 left-2" />
+            <Seal className="absolute bottom-2 left-2" />
           </PinnedCard>
         </div>
 
@@ -148,7 +153,7 @@ function Home() {
       </div>
       {/* Row 4 — My current toolset (full-width strip) */}
       <TechStack />
-    </div>
+    </section>
   );
 }
 

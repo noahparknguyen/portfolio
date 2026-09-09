@@ -39,11 +39,32 @@ const GROUPS = [
     id: "games",
     title: "Game Assets",
     accent: "violet",
+    // Each rights holder links to its own official site, so this group carries
+    // the same accent underline as the other three. It used to render bold,
+    // unlinked names, which made it the one group whose items looked different
+    // for a reason no reader could see. Edmund McMillen links to his personal
+    // site, not bindingofisaac.com — that domain is a merch store.
     items: [
-      { text: "Celeste — ", boldText: "Extremely OK Games" },
-      { text: "Hollow Knight — ", boldText: "Team Cherry" },
-      { text: "Super Monkey Ball — ", boldText: "SEGA" },
-      { text: "The Binding of Isaac — ", boldText: "Edmund McMillen" },
+      {
+        text: "Celeste — ",
+        linkText: "Extremely OK Games",
+        href: "https://exok.com",
+      },
+      {
+        text: "Hollow Knight — ",
+        linkText: "Team Cherry",
+        href: "https://www.teamcherry.com.au",
+      },
+      {
+        text: "Super Monkey Ball — ",
+        linkText: "SEGA",
+        href: "https://www.sega.com",
+      },
+      {
+        text: "The Binding of Isaac — ",
+        linkText: "Edmund McMillen",
+        href: "https://edmundmcmillen.tumblr.com",
+      },
     ],
   },
   {
@@ -52,7 +73,7 @@ const GROUPS = [
     accent: "blue",
     items: [
       {
-        linkText: "Derek Sivers' /now movement",
+        linkText: "Derek Sivers’ /now movement",
         href: "https://nownownow.com",
       },
       {
@@ -63,19 +84,25 @@ const GROUPS = [
         ],
       },
       {
-        text: '"The Rise of the Indie Web Movement" — ',
+        text: "“The Rise of the Indie Web Movement” — ",
         linkText: "Marighoul",
         href: "https://www.youtube.com/watch?v=Tv223kX0SRg",
       },
       {
-        text: "\"the weird world of 'indie social media'\" — ",
-        linkText: "diggon",
+        text: "“the weird world of ‘indie social media’” — ",
+        // The channel styles itself "Diggon" with a capital D (confirmed in the
+        // video's channelName, ownerChannelName and itemprop metadata). It was
+        // credited lowercase, which is a factual error in an attribution.
+        linkText: "Diggon",
         href: "https://www.youtube.com/watch?v=Htccpx-zAy8",
       },
       {
-        text: "The portfolio roasting videos that started all this — ",
+        // Was the odd one out: a descriptive phrase where its two siblings
+        // above carry a quoted title. Now the same shape, pointing at the
+        // playlist itself rather than the channel, which is the actual source.
+        text: "“PORTFOLIO ROASTS” — ",
         linkText: "Anthony Sistilli",
-        href: "https://www.youtube.com/@AnthonySistilli",
+        href: "https://www.youtube.com/playlist?list=PLQg6GaokU5CwD4sIzFuSJlJLJUqXXo1MK",
       },
     ],
   },
@@ -83,11 +110,33 @@ const GROUPS = [
     id: "odds",
     title: "Everything Else",
     accent: "orchid",
+    // Three of these are licence obligations rather than courtesies, and they
+    // live on the site rather than only in licenses/NOTICE.md for that reason:
+    // Font Awesome is CC BY 4.0, Open-Meteo's data is CC BY 4.0, and Spotify's
+    // Developer Policy requires attribution for any content it supplies (that
+    // one is also satisfied by the mark inside the widget itself).
+    //
+    // Folded into this group rather than given a fifth: the four-groups /
+    // four-hues mapping is what lets this section work without a SectionTitle.
     items: [
       {
-        text: "Weather by ",
-        linkText: "Open-Meteo",
-        href: "https://open-meteo.com",
+        parts: [
+          { text: "Weather data — " },
+          { linkText: "Open-Meteo", href: "https://open-meteo.com" },
+          { text: ", " },
+          {
+            linkText: "CC BY 4.0",
+            href: "https://creativecommons.org/licenses/by/4.0/",
+          },
+        ],
+      },
+      {
+        parts: [
+          { text: "Live widgets — " },
+          { linkText: "Spotify", href: "https://www.spotify.com" },
+          { text: " & " },
+          { linkText: "Steam", href: "https://store.steampowered.com" },
+        ],
       },
       {
         text: "Algonquin College logo, used per their ",
@@ -100,9 +149,17 @@ const GROUPS = [
         href: "https://fonts.google.com",
       },
       {
-        text: "Brand glyphs — ",
-        linkText: "Simple Icons",
-        href: "https://simpleicons.org",
+        parts: [
+          { text: "Icon glyphs — " },
+          { linkText: "Simple Icons", href: "https://simpleicons.org" },
+          { text: " & " },
+          { linkText: "Font Awesome", href: "https://fontawesome.com" },
+        ],
+      },
+      {
+        text: "Every third-party notice — ",
+        linkText: "licenses/NOTICE.md",
+        href: "https://github.com/noahparknguyen/portfolio/blob/main/licenses/NOTICE.md",
       },
       {
         text: "This site’s source — ",
@@ -130,21 +187,12 @@ function CreditItem({ item, accent }) {
     );
   }
 
-  if (item.href) {
-    return (
-      <li className="text-gray-700">
-        {item.text}
-        <TextLink href={item.href} accent={accent} external>
-          {item.linkText}
-        </TextLink>
-      </li>
-    );
-  }
-
   return (
     <li className="text-gray-700">
       {item.text}
-      <span className="font-semibold text-ink">{item.boldText}</span>
+      <TextLink href={item.href} accent={accent} external>
+        {item.linkText}
+      </TextLink>
     </li>
   );
 }
@@ -159,9 +207,12 @@ function CreditGroup({ group }) {
         {group.title}
       </Eyebrow>
       <ul className="mt-2 flex flex-col gap-1">
-        {group.items.map((item) => (
+        {group.items.map((item, i) => (
+          // Index key: this list is static and never reorders. The previous key
+          // was derived from the item's shape and came out `undefined` for any
+          // `parts` entry beginning with plain text.
           <CreditItem
-            key={item.linkText ?? item.boldText ?? item.parts?.[0]?.linkText}
+            key={`${group.id}-${i}`}
             item={item}
             accent={group.accent}
           />
@@ -222,7 +273,7 @@ function Credits() {
             full column. */}
         <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-4">
           <p className="text-sm text-gray-600 md:w-[60%]">
-            I planned, designed and built all of this myself. Thanks for
+            I planned, designed, and built all of this myself. Thanks for
             scrolling all the way down here.
           </p>
           <span
