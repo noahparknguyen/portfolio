@@ -78,6 +78,25 @@ new path is noted where it differs.
 
 ---
 
+## Secrets and the build output
+
+`vite build` writes a copy of `.dev.vars` into `dist/portfolio/`, and
+`vite preview` prints "Using secrets defined in dist/portfolio/.dev.vars" when
+it starts. This is the Cloudflare Vite plugin handing the built Worker its local
+dev bindings, and it is **not** part of what gets deployed:
+
+- `wrangler deploy` uploads the Worker bundle plus `dist/client/` as static
+  assets. `.dev.vars` is in neither — it sits in `dist/portfolio/`, the Worker
+  build directory, and `dist/client/.assetsignore` lists it as well.
+- `dist/` is gitignored, so it never reaches the repository.
+- Production values come from Worker secrets (`wrangler secret put`, or the
+  dashboard), never from this file.
+
+Verified by grepping the built Worker bundle and every file under
+`dist/client/` for the real secret values: no match. The one thing to remember
+is that `dist/` is a directory containing live credentials on disk, so don't
+zip it up and send it anywhere.
+
 ## Reminders (dated)
 
 - **~Oct 2026** — if the site's been stable on HTTPS, widen HSTS to 1 year +

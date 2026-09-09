@@ -67,7 +67,10 @@ He wrote:
 > backend as well."
 
 The enthusiasm is gone, the second sentence is gone, and "I love" became "I
-mainly focus on". **Do not port transcript enthusiasm into prose** — the written
+mainly focus on". (That line has since been sharpened to separate what he does
+for love from what he has been paid to do — "for fun, while my professional
+experience has mostly been in the backend and internal tools" — which the work
+timeline bears out. The register lesson it illustrates is unchanged.) **Do not port transcript enthusiasm into prose** — the written
 voice is level and slightly understated, and reaches for an idiom ("know my way
 around", "taken a back seat") where the spoken voice reaches for an intensifier.
 
@@ -107,8 +110,11 @@ Other things his own draft establishes:
   portfolio website", not "it's not really a portfolio". No arguing with a
   premise the reader never held.
 - **Mild formality is correct in prose**: "professional experience", "typically
-  aimed at", "represented who I am as a person". This is not résumé-speak, and
-  it is not the same thing as the banned words list.
+  aimed at". This is not résumé-speak, and it is not the same thing as the
+  banned words list. ("represented who I am as a person" used to sit in this
+  list and has since been replaced by "mattered to me" — the games and the
+  volleyball _matter_ to him; they do not _represent_ him, which is a claim the
+  first phrasing quietly made.)
 - **A comma splice is rhythm, not an error** — "it's all here, it's just taken a
   back seat". Leave them.
 - **The front door carries no jokes at all.** Humour stays sparse and appended
@@ -192,14 +198,21 @@ is the texture to reproduce:
 
 ### Words
 
+- **The serial comma, always.** The site was split roughly four lists to six
+  before this was written down. It is the form he uses unprompted, and it never
+  leaves a final pair ambiguous.
+- **`frontend` and `backend` are one word.** Seven uses to none across the copy,
+  and it is the dominant form in the field.
 - **Canadian spelling throughout.** `favourite`, `colour`, `behaviour`,
   `catalogue`. Not `analyzed` or `agonizing`. The About section is a Canadian
   passport; the copy has to agree with it.
 - **`super` is his intensifier**, not "incredibly" or "remarkably".
 - **`a ton of` is his quantifier**, not "a great deal" or "numerous".
 - He says **`comp sci`**, not "Computer Science" — the real program name is
-  "Computer Engineering Technology, Computer Science" and he calls that "a
-  mouthful".
+  **"Computer Engineering Technology – Computing Science"** and he calls that "a
+  mouthful". Note _Computing_, not _Computer_: the About cards said "Computer
+  Science" in three places until it was checked against the college's own
+  program page (Ontario College Advanced Diploma, 3 years, levels 01–06).
 - **Never**: "heartfelt", "passionate about", "leverage", "end-to-end",
   "owned features", "rigorous", "seamless", "a testament to". Résumé words.
 - **`little site`** is a real tic of his, but it had become a formula. Twice
@@ -279,9 +292,15 @@ with the thing instead, which is what makes it read as written _about_ him:
 > ✗ "The mapping from a detected tool to a HubSpot product is a JSON file rather than code."
 > ✓ "I put the mapping in a JSON file instead of in the code."
 
-**2. His cleft is `I think what X is Y`. Never `The X is that Y`.**
+**2. His cleft is `what X is Y`. Never `The X is that Y`.**
 
-He used the first six times and the second **zero** times. The difference is the
+He used the first six times and the second **zero** times. **In speech the cleft
+opens with "I think"; in writing it does not.** Those two halves of this guide
+disagreed for a while, and the register table above is the one that governs
+prose: `I think` runs 5.0/1k in speech and **0** in his writing. Keep the `what`
+cleft, drop the hedge — "What I'm most proud of is…", "What made me stick with
+it was…". The site currently contains zero instances of "I think", and that is
+correct. The difference is the
 hedge arriving first and `what` standing in for the noun:
 
 > ✗ "The part I'm smug about is that Statmon doesn't call an API."
@@ -366,18 +385,37 @@ signal.
 A small second palette for the pinned-object layer (see **Handcrafted layer**
 below) — not tied to a section, used for material and mood instead:
 
-| Token           | Value     | Name            | Use                                                                                |
-| --------------- | --------- | --------------- | ---------------------------------------------------------------------------------- |
-| `--color-paper` | `#FBF3E9` | warm note-paper | Note-paper cells (the Welcome letter, the Devlog scroll box)                       |
-| `--color-kraft` | `#B98A5E` | kraft           | Devlog's/Steam's ruled lines — never text                                          |
-| `--color-live`  | `#E24B4A` | record/live red | Live Reaction REC cue; Steam's date-stamp borders (never text — see Accessibility) |
+| Token           | Value     | Name            | Use                                                                             |
+| --------------- | --------- | --------------- | ------------------------------------------------------------------------------- |
+| `--color-paper` | `#FBF3E9` | warm note-paper | Note-paper cells (the Welcome letter, the Devlog scroll box)                    |
+| `--color-kraft` | `#B98A5E` | kraft           | Devlog's/Steam's ruled lines — never text                                       |
+| `--color-live`  | `#E24B4A` | record/live red | Live Reaction REC cue; the border (never the text) of Steam's Last-2-Weeks chip |
 
 ### Icon glyphs
 
-Brand hexes are not used anywhere on the site. `SimpleIcon` (shared by `TechStack`, `Links`
-and the footer `Badge`s) renders every `simple-icons` glyph with `fill="currentColor"`, so it
-inherits the ordinary `ink` text color like any other icon and reads cleanly against the
-varied soft-tint fills instead of going muddy against them.
+Brand hexes are not used for any **glyph** on the site. `SimpleIcon` (shared by `TechStack`,
+`Links` and the footer `Badge`s) renders every `simple-icons` glyph with
+`fill="currentColor"`, so it inherits the ordinary `ink` text color like any other icon and
+reads cleanly against the varied soft-tint fills instead of going muddy against them.
+
+**One documented exception: the Algonquin College crest** on About's diploma card is a raster
+logo in its own brand green, and it is the only saturated non-palette colour on the site. It
+cannot be recoloured — the Colophon credits it as used per the college's own brand guidelines,
+and recolouring an institution's mark is what those guidelines exist to forbid. This line used
+to read "brand hexes are not used anywhere on the site", which the crest had already made
+false. The rule governs glyphs the site draws, not a real institutional mark it reproduces
+under licence. Keep it small, keep it in its `rounded-full` bezel, and don't read it as licence
+to reintroduce brand colour anywhere a glyph would do.
+
+**The second exception is `--color-spotify` (`#1DB954`)**, and it is an
+obligation rather than a choice. Spotify's Developer Policy requires that any
+content it supplies — track, artist, album, cover art — be attributed "by using
+the Spotify Marks", and their design guidelines forbid recolouring the mark, so
+pulling it onto `ink` is not available. It is tokenised rather than inlined so
+it still obeys the no-hardcoded-hex rule, and it is used in exactly one place:
+the attribution row at the foot of the Spotify card. The word "Spotify" sits
+beside it in `ink`, so the meaning never rests on the green alone. Don't remove
+that row, and don't reuse this token anywhere else.
 
 **Use a real brand mark wherever one exists; fall back to a drawn or
 `react-icons` glyph only where it does not.** `simple-icons` is the default
@@ -394,7 +432,22 @@ applies to it.
 
 ## Type
 
-Four families, each with a job. Loaded from Google Fonts in `index.css`.
+Four families, each with a job. Loaded from Google Fonts via a `<link>` in
+`index.html`, **not** an `@import` in `index.css`. An `@import` inside the
+stylesheet can't be discovered until that stylesheet has been fetched and
+parsed, which puts the font CSS one round trip behind the page and the font
+files two behind it. Measured on this site before the change: `index.css`
+requested at +162ms, the font CSS not until **+1200ms**. The `<link>` is visible
+to the preload scanner during the initial HTML parse instead, and a `preconnect`
+to `fonts.gstatic.com` opens that connection in parallel.
+
+Weights requested are **exactly the three on the scale** plus Lilita's single
+weight. Fredoka 500 and Nunito 800 used to be requested and never used, and
+Caveat was requested at `500;600` while every `font-hand` element asks for 400,
+so the handwriting was silently matching to an off-scale 500. It now renders at
+400, on scale. (Trimming weights saves no bytes — these are variable fonts, and
+42 `@font-face` blocks map to 14 files — so this is about the declaration
+matching reality, not payload.)
 
 - **Fredoka** (`font-display`) — headings. Rounded, friendly; the site's voice.
 - **Nunito** (`font-sans`, the default) — body, labels, small text.
@@ -430,6 +483,17 @@ the `eyebrow` utility (`@utility eyebrow` in `src/index.css`) / the `<Eyebrow>`
 primitive, and the Title role is the `<SectionTitle>` primitive (see
 Primitives). Don't re-type either role's class string inline — use the
 utility/primitive.
+
+**The `eyebrow` utility pins `font-sans`, and that is load-bearing.** The
+Overline role is Nunito at every size, but `<Eyebrow>` defaults to rendering an
+`<h3>` and the base rule sets `h1`–`h3` to Fredoka. Without an explicit family
+the role came out in **two different typefaces depending only on the `as` prop**
+— measured across the rendered site, **51 overlines in Nunito and 5 in
+Fredoka**, and those 5 were Home's widget labels ("Get in touch", "My current
+toolset", "What I've been playing", "What I'm listening to", "Most recent
+updates"), which sit side by side on the board where the mismatch is most
+comparable. This is the same argument the `tone` prop makes for colour: the role
+owns its appearance, not the element it happens to be rendered as.
 
 Handwritten (`font-hand`) accents and `font-mono` readouts (the REC label, the
 Weather postcard's stamp caption and postmark) sit outside this scale on
@@ -549,6 +613,18 @@ border-<section hue>` for the accent underline under a section title.
   tiers — the `md` three-column grid and the single-column mobile stack — since a
   pair that is diagonal on desktop becomes vertically adjacent on a phone.
 
+  **For a wrapping strip, "adjacent" is a set of distances, not a pair of
+  neighbours in the source order.** TechStack's eight stamps wrap to 3 columns at
+  320px, 4 at 375px, and a single row of 8 at `md`+, so two stamps touch whenever
+  they sit **1, 3 or 4 apart** in `TECH_ITEMS`. Checking only consecutive entries
+  passed while three collisions were live: React/Figma (distance 4),
+  Java/Obsidian (distance 3) and Python/Isaac (distance 4), each visible only
+  after a wrap. The order is now solved against all three layouts at once rather
+  than chosen: it opens `rose → violet → blue → orchid`, the site's canonical hue
+  order, then mirrors itself. Isaac's stamp counts even though it is decorative,
+  because the eye does not know that. Re-check distances 1, 3 and 4 — not just
+  neighbours in the list — if a stamp is ever added or reordered.
+
 - **A section's intro panel wears its own section hue.** Section identity already
   lives in the `SectionTitle` underline and the active nav underline; the panel
   fill is the third place it belongs. Now is `blue-soft`, Creations is
@@ -630,17 +706,26 @@ rather than printed on it:
   compact card), vary the direction per object so a row doesn't look
   mechanically repeated, and never overdo it.
 
-- **Tape, pins, and stamps.** `<Pin>`, `<Tape>`, and `<Stamp>` (in
+- **Tape, pins, and seals.** `<Pin>`, `<Tape>`, and `<Seal>` (in
   `src/components/ui/`) are small decorative primitives — a pushpin, a washi-
-  tape strip, and the Celeste postage-stamp image — that reinforce the
-  pinned-to-a-board metaphor. All are `aria-hidden`, purely decorative.
+  tape strip, and the Celeste sticker that seals the Welcome letter shut — that
+  reinforce the pinned-to-a-board metaphor. **`<Seal>` was called `<Stamp>` and
+  described here as "the Celeste postage-stamp image", which contradicted the
+  rule below that the Welcome card must not carry postage.** The Personality
+  section had it right the whole time ("a sticker-sealed letter"); only the name
+  and this line had drifted. What makes it read as a seal rather than postage is
+  what it **lacks**: no denomination, no perforated edge, no cancelling
+  postmark. Weather's stamp has all three. Don't add any of them here. The
+  rename also disambiguates a word this codebase overloads four ways — the tech
+  stamps, Steam's hours-logged rubber stamp, Steam's red Last-2-Weeks chip, and
+  this. All are `aria-hidden`, purely decorative.
   **`<Tape>` must be counter-rotated against whatever it is taping.** A strip
   sitting inside a rotated card inherits that card's exact angle, and two
   objects moving as one rigid unit read as printed together rather than placed
   by hand — the mismatch between the tape's angle and the object's is most of
   what sells the gesture. The polaroid tilts `+3°` and its tape `-6°`. This
   applies to `<Tape>` only: `<Pin>` is radially symmetric, so it has no angle to
-  mismatch, and `<Stamp>` carries its own fixed tilt.
+  mismatch, and `<Seal>` carries its own fixed tilt.
 - **The record sleeve.** The AiAi cameo lives inside the Spotify card as the
   sleeve the vinyl is being drawn out of: a square panel flush left, the disc
   flush right, in a `1.58 : 1` wrapper so both are `h-full` squares and 58% of
@@ -675,8 +760,12 @@ bg-white shadow-sticker` tag so it reads over the sky), handwritten date-stamp
   fine print — it and the copyright line sat at identical `text-xs text-gray-600`
   before, which classified the joke as boilerplate and got it skipped.
 - **`--color-live`** — the Live Reaction cam's REC cue, and the border (never
-  the text — see Accessibility) of Steam's decorative library-card date
-  stamps.
+  the text — see Accessibility) of Steam's **Last-2-Weeks chip**, which is
+  styled as a red date-stamp impression to suit the library-card metaphor.
+  This entry used to describe "Steam's decorative library-card date stamps",
+  plural, and no such elements exist: the widget has one hours-logged rubber
+  stamp, one red-bordered stat chip, and the faded Steam mark that appears only
+  in the empty state.
 - **Inline SVG stroke-width scale.** Three tokens: `--stroke-fine` (`1.5`,
   hairlines/rings/sub-16px detail), `--stroke-regular` (`2`, default line-art
   icons 16–40px), `--stroke-bold` (`2.5`, heavier affordances). Applied via
@@ -703,6 +792,72 @@ bg-white shadow-sticker` tag so it reads over the sky), handwritten date-stamp
 
 ### The Creations book
 
+### Layout: a bento row per book
+
+The section used to be three objects of identical width stacked down the middle:
+the intro card and both covers all measured **368px with identical 184px
+gutters**, so half the board was two matching empty strips and the whole thing
+read as one narrow column. Home never does that — its rows run 65/30, then
+20/45/30, then 40/55.
+
+**Every closed book is now a bento row**: the cover on the left at its fixed
+one-page width, its evidence on the right. Cover `md:w-1/2`, evidence
+`md:w-[44%]`, `justify-between`, `md:items-center`. **Nothing was resized.**
+
+**Sides deliberately do not alternate.** Flipping every other row would need
+`flex-row-reverse`, which puts the evidence ahead of the book in visual and
+focus order while the DOM keeps book-first — a meaningful-sequence mismatch this
+site does not otherwise make. Home's rows do not alternate either. The asymmetry
+comes from the 50/44 composition instead.
+
+**Left-aligning the cover also makes a documented mechanic true for the first
+time.** This guide says opening "unfolds the object rightward at a constant
+height", but the covers were `mx-auto` — centred — so opening expanded 184px in
+_both_ directions and the rightward unfold never actually happened.
+
+### The evidence beside each cover
+
+A closed cover can only carry a name, a mark, a blurb, a year and two links.
+Everything a scanning visitor most wants — what it looks like, what it is built
+from, how substantial it is — used to be locked behind a click. Two objects fix
+that, and both are reused patterns rather than new ones:
+
+- **The project's screenshot, taped up** like Home's polaroid, tape
+  counter-rotated against the card. The card stays inside the 1.5° cap for
+  anything wider than a compact card. Rendered ~308px against 720 and 760px
+  native, so the no-upscaling rule holds with room to spare.
+- **Two or three numbers as rubber stamps**, the same object Steam's
+  `1466h LOGGED` chip already establishes. Small enough to scatter, so they fill
+  the board the way a board fills rather than adding a second big rectangle, and
+  under 280px wide so they take the 3° cap.
+
+**The stamps read their values out of the book's own stats page.** A stat
+appears on the board only if it carries a short `stamp` label; the rest stay
+inside. The number is declared once, so board and book cannot drift apart.
+
+**There is no `plate` page kind any more.** Each screenshot moved out of the book
+and onto the board, so no image appears twice in one section — the repetition
+check under Do/Don't, applied to the site's own layout for once. The freed page
+took the plate's caption as prose plus the facing page's opening paragraph, so
+both pages are redistributed copy rather than new writing.
+
+**Opening replaces the whole row**, evidence included, which is exactly when the
+evidence is redundant. The other book's evidence stays on the board.
+
+### The placeholder goes last
+
+The "Up next" card sits **after** both books, the only position where a
+forward-looking heading reads correctly. It spent a version second from the top,
+where it announced the next project ahead of the real ones. Dashed border over
+warm `paper` is the "blank form waiting to be filled in" language already
+carrying About's Pending entry and its Locked achievement card, and it keeps
+`p-6` at every width per the cell-padding rule for exactly this card.
+
+It is true rather than decorative: the Now page says the next project is being
+brainstormed, and this is where that lands.
+
+---
+
 Creations is a stack of **books lying face-up on the board** — one per project,
 closed by default, opening into a two-page spread. The section deliberately has
 no shelf, case, or rack: nothing else on the site is stored in furniture, every
@@ -715,8 +870,8 @@ open spread's full width and both are `md:h-[30rem]`. Opening therefore unfolds
 the object rightward at a constant height, instead of changing width and height
 at once — which is what made an earlier full-width, short cover read as a card
 that swapped for a book. Below `md` the spread is already a single column, so the
-cover matches it at full width and takes its natural height. It is **centred**
-on the column and **level at every width** — see the tilt rule above.
+cover matches it at full width and takes its natural height. It is **level at every width** — see the tilt rule above — and it hugs one
+edge of the column rather than sitting centred. See **Layout** below for why.
 
 **Closed** (`Book.jsx`) — flat, square-cornered linework throughout:
 
@@ -739,11 +894,29 @@ on the column and **level at every width** — see the tilt rule above.
   its three rectangles and loses its rounded tile, with the brand orange becoming
   a palette accent. Each book names its mark as a string in `src/lib/projects.js`
   and `Book.jsx` maps that to the drawing, because the data file holds no JSX.
+
+  **A prose paragraph that needs an inline link uses `parts`, for the same
+  reason.** A paragraph is normally a plain string; where one has to cite a
+  source it becomes `{ parts: [{ text }, { linkText, href }, …] }`, which
+  `BookSpread` renders through `TextLink` on the section's `orchid` accent. That
+  is the shape Credits already uses for mixed text and links, so citing a source
+  keeps the data file JSX-free without inventing a second convention. Keep it
+  rare: a book page is prose, not a link farm.
+
 - **A cue that it opens.** Nothing about a cover says "this one is a button",
   and the hover lift only appears once you are already on it. A short line in the
-  site's handwriting (`font-hand`, "open me up" with a drawn arrow) sits inside
+  site's handwriting (`font-hand`, "read more" with a drawn arrow) sits inside
   the clickable region and does the job — handwriting reads as a note pointing at
-  the object rather than as a third control competing with the two links.
+  the object rather than as a third control competing with the two links. It said
+  "open me up" first, which anthropomorphised the book and sat oddly against the
+  site's other handwriting, all of which annotates rather than speaks. The
+  mechanism is what matters here, not the words.
+- **The cover blurb is a jacket blurb, not the story.** One or two sentences
+  saying plainly what the thing is and what it does. The story is what the book
+  is for, and a cover carrying three lines of narrative buries the two links
+  under it. This is also the one place on the site where a straighter, more
+  descriptive register is right: a stranger scanning the board wants to know what
+  a project is before they want to know how it felt to build.
 - **The imprint says what the project IS**, not where it sits in a sequence —
   `A personal project · 2026`, `Capstone for Inbox · 2026`. Volume numbers were
   tried and dropped: the books are ordered by what should lead, not by date, so
@@ -759,10 +932,59 @@ on the column and **level at every width** — see the tilt rule above.
   The cover **is** that image, redrawn in paper. Check for that overlap before
   putting art on any future cover.
 
-**Both cover links are plain white**, not a soft tint each. The site's usual
-move is a different tint per item (the footer badges, Links' post-its), but those
-sit on the sky; on a violet cover a rose and a blue chip made three hues fight.
-White reads as a pair of controls belonging to the cover.
+**A project may carry a `liveNote`**, rendered by `ProjectLinks` under the link
+pair so it appears on the cover and in the colophon alike — wherever the link
+itself appears. It exists for the HubSpot demo, which runs on a free tier that
+stops the container after ~15 minutes idle and takes the better part of a minute
+to cold start; without the note, the single most important click on the page
+looks broken to anyone who lands on it cold. It takes the Small/meta role rather
+than the site's handwriting, because it is information the reader needs before
+clicking, not a scribble in the margin.
+
+**A book page's body is a tab stop only when it actually scrolls.** A region
+that scrolls must be reachable by keyboard, and this one had no `tabIndex` where
+Devlog and the passport panel both do. It is measured rather than assumed
+(`scrollHeight > clientHeight`, re-checked on resize and after the webfont
+swaps): copy is written to a page budget so most pages never scroll, and a
+permanent stop on every page would add two dead stops to every spread.
+
+**The section is a zig-zag of bento rows, not a centred column.** Every object
+used to be `md:w-1/2` and centred, so half the board sat as two identical empty
+strips and the whole section read as one narrow list. Now each closed book is a
+row — the cover at its fixed one-page width beside its evidence (a taped plate
+of the project and a few rubber-stamped figures) — and **the rows alternate**,
+cover-left then cover-right.
+
+The two lone cards, the intro and the forward-looking "Up next", **stay
+centred**. They are the section's opening and closing beats rather than rows, and
+hugging an edge makes a single card read as a stray rather than as part of the
+composition.
+
+Alternation is `flex-row-reverse`, never reordered markup, so the DOM order stays
+cover-then-evidence in both rows. That is the logical reading order either way,
+and it keeps the visual flip from turning into a focus-order problem. It could
+not become one here regardless: the evidence column holds an image, a caption and
+stat stamps, and **not one focusable element**, so every control in a row lives
+in the cover. Check that still holds before putting a link in the evidence.
+
+Opening a book replaces the whole row with the full-width spread, so the evidence
+steps aside exactly when it is redundant.
+
+**Both cover links take `paper`, and they match each other** rather than taking
+a tint each. The site's usual move is a different tint per item (the footer
+badges, Links' post-its), but those sit on the sky; on a violet cover a rose and
+a blue chip made three hues fight.
+
+They were plain white, which read as glaring against a saturated cover. `paper`
+is the book's **own page colour** — the page block and every inside page use it
+— so a chip in it reads as a page edge showing through the jacket, and being
+warm it sits far more quietly on a cool violet or blue cover. Ink on it measures
+10.08:1.
+
+**The colophon keeps white**, because that page is already `paper` and a paper
+chip there would vanish. The rule that holds in both places is that **the chip
+is the lightest thing on its own surface**, which is why `ProjectLinks` takes a
+`bg` prop rather than hardcoding one.
 
 **The links appear twice per project, and that is deliberate** — on the cover and
 again in the colophon at the back, which is how a real book works: the essentials
@@ -772,12 +994,32 @@ in front of them; without the colophon pair they would have to close the book to
 reach one. Both placements render the same `ProjectLinks` primitive so they
 cannot drift.
 
-**Links live on the cover, and the overlay button stops short of them.** The
+**Links live on the cover, and the overlay button spans the whole of it.** The
 cover is click-to-open, but a `<button>` may only contain phrasing content, so
-neither the title `<h3>` nor the two `<a>`s can sit inside one. The mark, title
-and blurb are wrapped in a transparent overlay button; the links are a **sibling
-below it**, so the markup stays valid and both are independently reachable. Any
-future click-the-whole-card object should copy this arrangement rather than nest.
+neither the title `<h3>` nor the two `<a>`s can sit inside one. The button is a
+transparent `absolute inset-0` **sibling**, never a parent, so the markup stays
+valid and all three controls are independently reachable. Any future
+click-the-whole-card object should copy this arrangement rather than nest.
+
+The overlay used to wrap only the mark, title and blurb, which left **39% of the
+cover clickable** — dead bands on all four sides plus a dead strip between the
+cue and the links. It is now **93%**, everything but the two link chips. A book
+is opened by touching it anywhere, not by hunting for a region.
+
+Two details make that work, and both are load-bearing:
+
+- **The button is FIRST in the DOM**, so a keyboard user reaches it before the
+  two outbound links. Opening the book is the primary action; placed last, the
+  tab order read Live site, Source, then Open.
+- **The cover's contents are `pointer-events-none`, and only the links opt back
+  in** with `pointer-events-auto`. That is what lets the button sit _under_ the
+  contents, so they stay crisp, while still receiving their clicks. It also keeps
+  the hover cue honest: hovering the title lifts the whole book (measured 2px),
+  hovering a link lifts the link alone (measured 0px on the book). The imprint at
+  the foot carries it too, so the bottom of the cover opens the book.
+
+`inset-0` resolves against the padding box, so the overlay reaches over the spine
+as well, which is right — the spine is part of the book.
 
 **Open** (`BookSpread.jsx`) — `Panel` + two `Cell`s with `md:grid-cols-2`, so the
 primitive's 2px ink seam becomes the **gutter**. The passport uses the same
@@ -815,10 +1057,12 @@ whole thing away. Interaction is lifted from `Passport.jsx`: clamped `go(n)`,
 bounds-disabled arrows, and the start/end-delta swipe that ignores a mostly
 vertical drag rather than stealing it from the page scroll.
 
-**A plate gets a printed caption**, set in the Small/meta role rather than the
-site's handwriting: `font-hand` covers photo captions, but a book sets a figure
-caption in type, and this one describes the image rather than joking about it. It
-also stops a plate page from ending in dead space.
+**A pinned screenshot gets a printed caption**, set in the Small/meta role
+rather than the site's handwriting: `font-hand` covers photo captions, but this
+one describes the image rather than joking about it, so it is set in type. The
+convention outlived the page it was written for — the screenshots now sit on the
+board beside each cover rather than on a `plate` page inside the book, and the
+caption travelled with them.
 
 **The cells must carry `min-h-0`, and this is not optional.** A grid item
 defaults to `min-height: auto` and so refuses to shrink below its own content.
@@ -837,6 +1081,40 @@ page that overruns scrolls rather than breaking, but a scrolling book page reads
 as an overflow bug, so trim to fit instead. Roughly three short paragraphs per
 prose page at the design width; the budget note lives with the copy in
 `src/lib/projects.js`.
+
+**A technical fact earns its place by being attached to a decision.** This is the
+rule that resolves the tension the books live in: they are the one place the site
+talks about technical work, in a voice built for hobbies. It is a false choice.
+Say what you chose and why, and the technical content _becomes_ the personal
+content. The best sentence in either book is both at once:
+
+> "I put the mapping from a detected tool to a HubSpot product in a JSON file
+> instead of in the code. That was deliberate, because it means Inbox can add or
+> reword a recommendation themselves without needing a developer."
+
+**The test: if a sentence would be equally true written by someone who didn't
+build it, it is spec, not story.** Spec belongs on GitHub, where the code already
+is. What only he can supply is the reasoning, so that is what a book carries. A
+paragraph that merely lists what the thing contains has no reason to be here.
+
+Two ends of that range, both from the same page:
+
+> ✗ "Ten separate matchers read the page, looking at headers, cookies, script
+> sources, meta tags, inline scripts, CSS, and the DOM." — anyone could write
+> this from the code.
+> ✓ "None of us knew Python, which ruled out something like BeautifulSoup from
+> the start." — only he could.
+
+Necessary framing is exempt: who the client is, what the licence is, what the
+tool does in one line. Those orient a stranger and there is no decision to
+attach. Everything else earns its place or goes.
+
+**The three layers, and who reads each.** The board (cover blurb, screenshot,
+stat stamps) is the scanning layer, and it is deliberately more descriptive and
+professional than the rest of the site — a recruiter with forty seconds never
+opens a book. The book is the reading layer, for someone who has already decided
+they are interested. GitHub is the reference layer. Writing any one of them in
+another's register is the mistake.
 
 **The copy is the site's voice, not a portfolio's.** The books carry the longest
 prose on the site, which makes them the easiest place to drift into sounding like
@@ -866,8 +1144,12 @@ letter and the Devlog scroll.
   stamp/mini object (the photo polaroid, a tech stamp), `p-0` for full-bleed
   cells. No `p-8`, and no one-off pairs like `px-6 py-2`.
 - **Vertical rhythm:** `mt-0.5` for tight meta stacking (a value under its
-  label), `mt-2` (eyebrow/label → content), `mt-4` (within a block), `mt-6`
-  (large separation). `mt-3` is retired — use `mt-2` or `mt-4`. Home's outer
+  label), `mt-2` (eyebrow/label → content, **and paragraph → paragraph**),
+  `mt-4` (within a block), `mt-6` (large separation). `mt-3` is retired — use
+  `mt-2` or `mt-4`. **Paragraph-to-paragraph inside a card is `mt-2`**, the same
+  8px the passport's chapters (`space-y-2`) and the book's prose pages (`gap-2`)
+  already use, so running text has one rhythm everywhere. Home's Welcome letter
+  and Now's intro card used `mt-3` and were the only places that disagreed. Home's outer
   wrapper uses `py-3` as its section top/bottom padding (equivalent to, and
   replacing, a `pt-3 pb-3` pair).
 - **Documented exceptions.** A few widget-internal values sit off this scale
@@ -906,6 +1188,80 @@ letter and the Devlog scroll.
   this scale governs. (Steam's title no longer uses a `max-w` fraction; it wraps
   via `min-w-0 wrap-break-word`.)
 
+### The scale is enforced, not just written down
+
+`npm run audit:styles` enumerates every Tailwind utility used in `src/`, groups
+it by the property it controls, and fails on anything outside the allowlist for
+that family. It runs in `npm run check` and in CI. **A deviation is no longer
+possible to introduce silently — it either gets fixed or gets written into the
+allowlist with a reason.** The script carries the reason next to each exception,
+so the justification travels with the value rather than living only here.
+
+The vocabulary it currently certifies, in full:
+
+| Family        | Distinct values | Notable                                                           |
+| ------------- | --------------- | ----------------------------------------------------------------- |
+| Type size     | 7               | `text-base` and `font-normal` never appear — both are the default |
+| Font weight   | 2               | only `semibold` and `bold`; no `font-medium`                      |
+| Font family   | 4               | display, hand, wordmark, mono                                     |
+| Padding (all) | 5               | `p-0` `p-2` `p-3` `p-4` `p-6` — no `p-8`                          |
+| Gap           | 12              |                                                                   |
+| Margin-top    | 6               | `mt-3` absent, as retired                                         |
+| Text colour   | 8               | no `gray-500`; no accent used as text                             |
+| Background    | 17              | closed palette                                                    |
+| Border radius | **1**           | `rounded-full` only                                               |
+| Shadow        | **2**           | `shadow-sticker` and its `shadow-none` mobile reset               |
+
+The two that matter most are the last two: one radius and one shadow across the
+entire site is what makes the square-cornered, single-depth-cue grammar hold.
+
+**Three lessons from building the audit**, recorded because each one made it
+report a clean site that wasn't:
+
+1. **An apostrophe in prose opens a phantom string.** "it's the most text-dense
+   object" harvested `text-dense` as a class name. Strip comments first.
+2. **A glob string can contain `/*`.** `import.meta.glob("./assets/*.{png,…}")`
+   made a regex comment-stripper eat 62% of `App.jsx`, taking the masthead and
+   footer band classes with it. The scanner tracks string state instead.
+3. **Variant prefixes must be admitted, not just tolerated.** Rejecting any
+   token containing `:` hid the entire `md:` tier — the whole mobile/desktop
+   split — from the report.
+
+Each of those produced a confident "all on-scale" over a file the audit had
+never actually read.
+
+### Newly recorded exceptions
+
+Found by the first full enumeration, and kept because each has a reason:
+
+- **Accent-underline hug** — `pb-1` under a Title, `pb-0.5` under the smaller
+  labels (the nav link, the Colophon's group headers).
+- **`pb-6`** — the 24px large-separation step as bottom padding on a timeline
+  entry, so the trailing Pending card does not inherit it.
+- **`pt-4` / `px-8`** on the masthead — the trimmed asymmetric top padding, and
+  a desktop inset deliberately wider than the footer's `px-6`: the banner's
+  content is a centred cluster flanked by two `flex-1` hairlines, so the extra
+  inset shortens those rules and they read as flanking the mark rather than
+  spanning the band. The footer is a space-between row where the inset is a
+  content margin.
+- **`pl-8`** — the work timeline's rail indent, paired with the badge's
+  `-ml-14` hang. Desktop only.
+- **`py-2`** on the skip link — `px-3 py-1` (LabelTag's chip padding) renders it
+  ~40px tall, under the 44px floor a primary navigation control is held to.
+- **Optical nudges on decorative sub-elements** — the Banner's `mb-1` / `mb-0.5`
+  / `-mb-0.5` aligning a 2px rule, two 6px dots and an image to one optical
+  baseline; `ml-0.5` placing a 4px dot inside the Pin; `-ml-6` centring
+  Weather's glyph optically rather than by its box; `pl-2` indenting the
+  passport signature.
+- **Full-bleed inside a padded card** — `-mx-4 -mb-4` with
+  `w-[calc(100%+2rem)]` cancels the Weather postcard's own `p-4` so the skyline
+  runs edge to edge. The negative margin **is** the idiom.
+
+One genuine redundancy was fixed rather than recorded: the footer was
+`px-4 py-4 md:px-6`, which is `p-4 md:px-6` written twice over. Measured
+identical before and after — 16px all round below `md`, 16/24 at the design
+width.
+
 ---
 
 ## Composition may vary — the grammar doesn't
@@ -924,7 +1280,7 @@ tilted `PinnedCard` but stays full-bleed _inside_ it — an edge-to-edge ink
 label bar over a square image, no inner padding; Steam is a library checkout
 card — a full-bleed header-art banner on top (its title label overlaid in
 ink), a date-due slip below with an hours-logged rubber stamp and decorative
-red date stamps, both stat rows sitting on kraft rules; **Weather is an Ottawa
+a red-bordered Last-2-Weeks chip, both stat rows sitting on kraft rules; **Weather is an Ottawa
 postcard, and it obeys real postcard anatomy** — the message (temperature and
 condition) on the left, postage in the top-right corner, the postmark ring
 cancelling the stamp by overlapping it, and a full-width skyline silhouette
@@ -932,7 +1288,9 @@ across the bottom. The stamp carries country and design (a maple leaf and
 `CANADA`), never the mailing city — the city belongs to the postmark, which is
 also what carries the live clock. **The Welcome card is a letter, not a second
 postcard**; that distinction is what keeps Weather's stamp-and-postmark gag
-distinctive, so don't give Welcome postage. The Devlog panel is a fixed-height
+distinctive, so don't give Welcome postage. It carries a `<Seal>` instead — a
+sticker sealing it shut, with no denomination, perforation or postmark — which
+is a letter's own gesture rather than a second helping of Weather's. The Devlog panel is a fixed-height
 scroll region — a git-graph timeline with a full-height ink spine and rose
 square nodes per commit, written on kraft-ruled note paper whose rules land
 under every line of text (see Spacing scale), scrolled with a custom chunky
@@ -1010,17 +1368,70 @@ the same grammar.
   which clears 4.5:1 on **every** opaque fill on the site and leaves the
   label/`ink` two-tone relationship intact. No component changed.
 
+  **The whole table is now verified by measurement rather than by argument.**
+  Every text-bearing element on all six pages is walked at 375px and 1024px —
+  including every book spread and every passport tab — its effective background
+  resolved by climbing to the first non-transparent ancestor, and its ratio
+  computed against the WCAG threshold for its own size and weight. Current
+  result: **0 elements below AA**.
+
+  **Rendered copy is also checked for straight quotes and apostrophes** in the
+  same pass. Every one on the site is typographic, and the only way they creep
+  back in is by hand-editing a string through a tool that emits U+0027 — which
+  is exactly how one reached a book blurb. A source-level grep cannot separate
+  copy from code comments; the rendered page can, because comments never
+  render.
+
+  **A second pass measures real composited pixels**, because the computed-style
+  method resolves a background by climbing to the first non-transparent
+  ancestor — which means it cannot see the passport's `canada-map` and
+  `maple-leaf` watermarks sitting _behind_ text. Rendering with every glyph
+  turned transparent and sampling the modal pixel inside each text box confirms
+  the watermarks cost nothing: `#d3d3d3` at `--opacity-watermark-strong` and
+  `#f00` at `--opacity-watermark` both composite far too light to matter. The
+  tightest pairing on the whole site is **`label` on `violet-soft` at 4.55:1** —
+  it clears AA by one percent, and it is the constraint that pins
+  `--color-label` where it is. Anything that darkens a soft tint or lightens
+  that token breaks this pairing first.
+
+  Sample the **modal** pixel in a text box, not the darkest one: the darkest
+  catches borders, tab outlines and link underlines that sit inside the box but
+  never behind a glyph, which produced ten false failures on the first run.
+
   The lesson for this table: a pairing is only certified if the _specific_
   foreground and the _specific_ background were both measured together. Certify
   the roles against the fills as a grid, not as two separate sentences. Icon glyphs (`SimpleIcon`, the footer
   `Badge`s, `TechStack`'s Java glyph) render in plain `ink`, not brand color, so
   they're already AA-safe against every tint with no per-icon hue check needed.
 
+- **A skip link is the first element in the document** — WCAG 2.4.1 Bypass
+  Blocks (Level A). The banner, the four nav links and the footer badges repeat
+  on every page, and before it the first focusable element on the site was the
+  "Home" nav link, so a keyboard user had no way past the chrome. It sits ahead
+  of the sticky nav in the DOM and takes `focus:z-60` to clear that bar's
+  `z-50`; a skip link that renders behind the thing it skips is worse than
+  none. It targets `<main>`, which already carries `tabIndex={-1}`, so the
+  anchor lands focus there rather than only scrolling. `sr-only` until focused,
+  then an ordinary pinned object (ink border, square corners,
+  `shadow-sticker`, Nav-link type).
 - **Landmarks:** `<header>` (banner), `<nav aria-label="Primary">`, `<main>`,
-  `<footer>`. One `<main>` per page.
+  `<footer>`. One `<main>` per page. `<main>` carries `tabIndex={-1}` so a route
+  change can move focus into it (see Routing); it is not in the tab order, and
+  its focus ring is suppressed because it is a programmatic target rather than
+  something the user tabbed to.
 - **Headings:** single `h1`, ordered levels (see semantics note).
 - **Images:** every `<img>` has meaningful `alt` (decorative-only images get
   `alt=""`).
+- **Every outbound link announces that it opens a new tab**, via the
+  `<NewTabHint>` primitive (`sr-only`, " (opens in a new tab)"). All outbound
+  links on the site carry `target="_blank"`, which moves the user into a new
+  browsing context with no warning; a sighted user at least sees the tab appear,
+  a screen-reader user is simply somewhere else. WCAG 3.2.5 is AAA rather than
+  AA, so this is a best-practice call — but the site was already doing it in
+  **one** place (`ProjectLinks`) and nowhere else, and a convention applied
+  once is worse than either choice applied uniformly. It is a component rather
+  than a copied string so the wording cannot drift across ~30 call sites.
+  **In-app navigation must not carry it** — those links stay in the tab.
 - **State not by color alone:** the active nav link is signalled by the
   **presence** of an underline (a shape difference, not a hue one) plus
   `aria-current="page"`; section identity is also in the title text. Bold weight
@@ -1035,7 +1446,18 @@ the same grammar.
   programmatically at all times.
 
 - **Images stay crisp:** never render a raster above native size (`max-w` caps
-  only; no upscaling).
+  only; no upscaling). Verified by measuring `naturalWidth` against the rendered
+  box for every visible `<img>` at 375px and 1024px across every page: **0
+  upscaled**.
+- **Every `<img>` carries `width` and `height`.** They reserve the right box
+  before the file lands, so nothing reflows around a late image. Twelve were
+  missing them; the ones that actually shifted were the passport's two flags and
+  Weather's maple leaf, which sit inline at `h-4`/`h-3` with `w-auto` and so
+  reserved **zero** width until they loaded. The attributes are the image's
+  TRUE intrinsic size, never the display size — `monkey-ball-aiai.gif` declared
+  `126x126` for a file that is actually `126x151`, handing the browser a wrong
+  aspect ratio. Steam's remote header art is the one dynamic case and still gets
+  real numbers, because Steam serves every `header.jpg` at a fixed `460x215`.
 - **Motion:** CSS animations — `animate-vinyl` (the Spotify record spins while
   a track is playing), `animate-blink` (the Live Reaction REC dot),
   `animate-marquee`, and `animate-eq` — always play, by design; small and
@@ -1062,6 +1484,71 @@ the same grammar.
   is still fetching — a transient, self-limited state rather than a permanent
   decorative loop, but grouped with the same accessibility exception above
   since it likewise doesn't gate on `prefers-reduced-motion`.
+
+---
+
+## Live widget data
+
+The four live widgets (Spotify, Steam, Weather, Devlog) share `useApiResource`,
+which owns the timeout, the `AbortController`, the cancel flag and the
+loading/error state. They differ only in path, response key, and whether they
+poll.
+
+**A failed refresh keeps the last good value.** The hook used to null the data
+on any error, so one transient blip flipped a playing track to "Nothing playing"
+and a live temperature to "couldn't get a reading" until the next success — 45
+seconds for Spotify, ten minutes for Weather. A stale value is the smaller
+error: the empty state asserts a fact that is probably false, where a slightly
+old reading is merely slightly old.
+
+**A widget must not assert a state it does not have yet.** Spotify's heading
+falls back to "Nothing playing" whenever `track` is null — and `track` is null
+during the first fetch too, so the widget spent its entire load telling the
+reader nothing was playing, directly beside a skeleton body saying it did not
+know. Its heading is now skeletoned like Steam's and Weather's values are. The
+same rule produced Weather's loading placeholder: the dashed stamp held only its
+caption until the fetch landed and then grew by the glyph's 40px, shifting the
+postmark and skyline below it.
+
+**A successful response carrying `null` still clears it.** That is a real answer,
+not a failure, so a finished track never sticks on screen. Only an unreachable
+endpoint preserves what was last true. Both halves are verified end to end
+against a real 45-second poll cycle with the endpoint killed, and again with it
+returning `{track: null}`.
+
+The consequence for every consumer: **the empty state means "there is nothing to
+show", not "the last fetch failed"** — so the check is `!loading && !data`, never
+`error || !data`. Widgets do not surface the error state visually; showing a
+slightly old value silently is the deliberate trade, and an error badge on each
+of four ambient widgets would cost more than it tells anyone.
+
+---
+
+## Attribution
+
+Every third-party notice lives in [`licenses/NOTICE.md`](licenses/NOTICE.md).
+Three of them are **obligations**, and those are credited on the site itself
+rather than only in that file:
+
+| Source                  | Why it must be on the site                                                                                                                      |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Font Awesome 6 Free** | CC BY 4.0. Reached through `react-icons`, whose own licence says to check each icon set separately. Supplies the Java, Steam and LinkedIn marks |
+| **Open-Meteo**          | Its data is CC BY 4.0 and attribution is required                                                                                               |
+| **Spotify**             | Developer Policy requires its mark on any content it supplies, plus a link back to the Spotify Service                                          |
+
+Spotify's is satisfied twice over: the Colophon line, and the mark inside the
+widget itself (see Color). The other two are Colophon lines.
+
+**New credits fold into one of the Colophon's four groups.** The one-to-one
+mapping of four groups to four hues is what lets that section work without a
+`SectionTitle`, so a fifth group would break its only source of section
+identity. When a group grows past about seven items, combine related entries on
+one line with `parts` rather than splitting the group.
+
+**Check a source before crediting it.** Two of these were wrong on inspection:
+`bindingofisaac.com` looks like the obvious link for Edmund McMillen and is a
+merch store, and the Colophon credited "diggon" where the channel styles itself
+"Diggon". Every outbound URL on the site is liveness-checked as part of review.
 
 ---
 
@@ -1108,6 +1595,98 @@ Cells (in the touching-cell grid that remains — About's passport)
 center their content vertically (`flex flex-col justify-center`) so a cell
 that's shorter than its row distributes the slack evenly instead of pinning
 content to the top.
+
+---
+
+## Routing & URLs
+
+Every section has a real address. The section used to live in a bare `useState`
+in `App.jsx`, which meant one URL for the whole site: nothing could be linked or
+bookmarked, the Back button left the site entirely, and only Home's content was
+ever rendered for a crawler.
+
+| Path          | Section   | In nav |
+| ------------- | --------- | ------ |
+| `/`           | Home      | yes    |
+| `/about`      | About     | yes    |
+| `/now`        | Now       | yes    |
+| `/creations`  | Creations | yes    |
+| `/credits`    | Colophon  | no     |
+| anything else | Not found | no     |
+
+**`src/lib/routes.js` is the single source of truth, and the worker imports the
+same table the client renders from.** It replaced `sections.js`, which listed
+only the four nav sections and knew nothing about URLs. Two lists would drift,
+and a drift here is visible: a path the worker calls valid and the app calls
+unknown serves a 200 for a "Nothing here" page, and the reverse serves a 404 for
+a page that renders fine. The nav is derived (`NAV_ROUTES`), so a route can't
+exist without a path or gain a nav link by accident.
+
+**Navigation is `<a href>`, never `<button>`.** This applies to the nav bar and
+to every in-app `TextLink` (`to` prop). An anchor shows its destination on
+hover, honours ctrl/cmd-click and middle-click, and is announced as a link. A
+`<button>` that navigates has none of that. Only plain left clicks are
+intercepted — `isPlainClick()` in `routes.js` is shared by both call sites so
+they can't disagree about what "plain" means, and anything with a modifier key
+goes to the browser.
+
+**A route change behaves like a page load**: scroll to top, and move focus to
+`<main tabIndex={-1}>`. Without the focus move a keyboard or screen-reader user
+stays parked in a DOM that no longer exists and the next Tab resumes from the
+document start with no announcement. `history.scrollRestoration` is set to
+`manual` because the browser's own guess assumes a document swap and lands the
+reader at an arbitrary offset in content they never scrolled.
+
+The effect that does this **compares against the last-seen section rather than
+flipping a first-render flag**. The flag version looked equivalent and was not:
+StrictMode invokes effects twice in development, the first pass cleared the
+flag, and the second stole focus on arrival. Comparing values is idempotent.
+
+**Per-route metadata** — `title`, `canonical`, `og:url`, `description` — is
+applied on navigation from the same table. The static tags in `index.html`
+remain the site-wide fallback and are what Twitter, Facebook and LinkedIn read,
+since those crawlers don't execute JS; the updates here serve the visitor's tab
+title and crawlers that do render.
+
+### The not-found page
+
+The worker answers an unknown page path with the app shell and a **real 404
+status**. `not_found_handling: "single-page-application"` would answer it with a
+200, which is a soft 404: it tells a crawler the page exists and gets it indexed
+as a duplicate of Home.
+
+Deciding what counts as a page takes **two signals, and neither works alone** —
+both single-signal versions shipped and both broke something:
+
+1. **`Sec-Fetch-Dest`**, which the browser sets and is authoritative.
+2. **The file extension**, but only when that header is absent.
+
+Judging by extension alone 404'd Vite's extensionless dev modules
+(`/@vite/client`, `/@react-refresh`) and broke the dev server outright. Judging
+by the header alone, treating an absent header as a page, 404'd **robots.txt,
+sitemap.xml, site.webmanifest, og-image.png and every favicon** for any client
+that omits it — which is most crawlers, so search engines could not read
+robots.txt and social scrapers could not fetch the card image. Neither failure is
+visible in a browser, which is how both survived a pass.
+
+The combined rule lives in `isPageRequest()` in `routes.js` rather than in the
+Worker, so it can be unit-tested; `routes.test.js` covers every case that broke.
+
+**A sitemap is generated by the Worker** at `/sitemap.xml` from the same
+`KNOWN_PATHS`, and `robots.txt` points at it. Generated rather than committed for
+the usual reason: a checked-in sitemap is a second list of routes to keep in
+step.
+
+**The URL the visitor typed is preserved** rather than rewritten to `/404`.
+Rewriting it would change their address bar and break what Back means.
+
+Composition follows the Colophon, not the four hued sections: this page owns no
+section hue, so it takes warm `paper`, is taped rather than pinned, and its
+`<h2>` skips `SectionTitle`'s single-accent underline because there is no accent
+to carry. The Home link takes `TextLink`'s neutral `label` treatment for the
+same reason. It gets a footer aside like every other page (`off the map`) — the
+one page a visitor arrives at confused is the last place to drop the site's
+voice.
 
 ---
 
@@ -1164,15 +1743,15 @@ unaffected — they stay full-bleed (see deviation 3).
 
 ### Deviations from the grammar
 
-| #   | Rule broken                                         | Where                    | Why                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| --- | --------------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Type scale** — the wordmark is a fixed `text-5xl` | Banner                   | The name is 16 glyphs of Lilita One and cannot fit 320px at 48px. It becomes a single fluid value, `--text-wordmark-fluid` in `@theme`, so it stays one line at every width and reaches the full `text-5xl` once there's room. Fluid, not a breakpoint step — a step would leave a dead zone where the name is either cramped or wrapped. It is still the one outlier size; it is now a _range_ rather than a value.                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 2   | **Wordmark stroke** — a fixed `2px` ink outline     | Banner                   | A `2px` stroke at 48px is a hairline; the same `2px` at ~29px chokes the counters and the gradient stops reading. Thins to `1.5px` below `md` — the same value as `--stroke-fine`, and for the same reason.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 3   | **`shadow-sticker` on the bands**                   | Masthead + footer bands  | The bands run edge-to-edge below `md`, and a `4px 4px` offset on a full-bleed element has its right-hand arm clipped by the viewport while the bottom arm still paints — the shadow reads as half-missing rather than as depth. (It does **not** cause horizontal scroll: `box-shadow` is a paint effect and never contributes to scrollable overflow. **Transforms do** — see the tilt note under Composition — so a rotation is an overflow risk where a shadow is not. Don't conflate the two.) Below `md` the bands carry `border-y-4` with no side border and no shadow; the heavy top/bottom rule is the depth cue instead. **This applies to the two bands only** — every pinned object inside `main` keeps its `shadow-sticker` at every width, since `main` retains a `px-3` inset and its cards are never flush to the viewport edge. |
-| 4   | **Motion ignores `prefers-reduced-motion`**         | Sticky nav bar           | The blanket exception under **Accessibility → Motion** is scoped to _decorative_ motion — the vinyl spin, the REC blink, the marquee, the Celeste GIFs. The sticky bar's show/hide is **navigation chrome**, not decoration: it moves a control the user is reaching for. It honors `prefers-reduced-motion` and snaps instead of sliding. Decorative motion keeps its exception unchanged.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 5   | **A bright fill sits behind the whole document**    | `html` background        | Mobile overscroll bounce drags the viewport past the fixed sky layer, and whatever is behind it flashes — white, by default. `html` carries `--color-sky-edge`, a pink sampled from the backdrop photo, so the bounce reveals more sky instead. It is a **new token, deliberately not `--color-rose`**: rose is Home's owned section identity (see **Color → Sky accents**), and site-wide chrome painted in one section's hue would read wrong behind About, Now, or Creations. Nothing sits on this fill and nothing is read against it, so the accents-never-behind-text rule is untouched.                                                                                                                                                                                                                                                  |
-| 6   | **A hover affordance is withheld from touch**       | TechStack notes          | Each tech stamp's handwritten note is an absolute, `whitespace-nowrap` tooltip revealed on hover. On a touch device (`hover: none`) it is instead permanently visible — which works on desktop only because the seven stamps sit on one row with `pb-7` reserved beneath them. Once they wrap to three rows the open notes overlap the stamps below and the widest one overflows the column from the leftmost stamp. Below `md` the note goes **`sr-only`, not `hidden`**: `aria-describedby` pointing at a `display:none` element is honoured inconsistently across screen readers, whereas `sr-only` keeps it reliably in the accessibility tree. So the annotation is withheld from _sighted_ touch users only; nothing is removed from the document.                                                                                        |
-| 7   | **The custom scrollbar steps aside**                | `.devlog-scroll` regions | The chunky square scrollbar is named an intentional styled element under **Composition may vary**, but `::-webkit-scrollbar { width: 14px }` forces a _classic_ scrollbar even on touch, where the platform would otherwise draw a zero-width overlay one. It permanently occupies 14px — 6% of a 244px panel — to draw an affordance the OS already provides better. Below `md` the custom styling is dropped and the native overlay scrollbar takes over. The scrollbar is **not hidden**: `scrollbar-width: none` would remove a real affordance from a region that genuinely scrolls. Only the site's own styling steps aside.                                                                                                                                                                                                              |
+| #   | Rule broken                                         | Where                    | Why                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --- | --------------------------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Type scale** — the wordmark is a fixed `text-5xl` | Banner                   | The name is 16 glyphs of Lilita One and cannot fit 320px at 48px. It becomes a single fluid value, `--text-wordmark-fluid` in `@theme`, so it stays one line at every width and reaches the full `text-5xl` once there's room. Fluid, not a breakpoint step — a step would leave a dead zone where the name is either cramped or wrapped. It is still the one outlier size; it is now a _range_ rather than a value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 2   | **Wordmark stroke** — a fixed `2px` ink outline     | Banner                   | A `2px` stroke at 48px is a hairline; the same `2px` at ~29px chokes the counters and the gradient stops reading. Thins to `1.5px` below `md` — the same value as `--stroke-fine`, and for the same reason.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 3   | **`shadow-sticker` on the bands**                   | Masthead + footer bands  | The bands run edge-to-edge below `md`, and a `4px 4px` offset on a full-bleed element has its right-hand arm clipped by the viewport while the bottom arm still paints — the shadow reads as half-missing rather than as depth. (It does **not** cause horizontal scroll: `box-shadow` is a paint effect and never contributes to scrollable overflow. **Transforms do** — see the tilt note under Composition — so a rotation is an overflow risk where a shadow is not. Don't conflate the two.) Below `md` the bands carry `border-y-4` with no side border and no shadow; the heavy top/bottom rule is the depth cue instead. **This applies to the two bands only** — every pinned object inside `main` keeps its `shadow-sticker` at every width, since `main` retains a `px-3` inset and its cards are never flush to the viewport edge.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 4   | **Motion ignores `prefers-reduced-motion`**         | Sticky nav bar           | The blanket exception under **Accessibility → Motion** is scoped to _decorative_ motion — the vinyl spin, the REC blink, the marquee, the Celeste GIFs. The sticky bar's show/hide is **navigation chrome**, not decoration: it moves a control the user is reaching for. It honors `prefers-reduced-motion` and snaps instead of sliding. Decorative motion keeps its exception unchanged.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 5   | **A bright fill sits behind the whole document**    | `html` background        | Mobile overscroll bounce drags the viewport past the fixed sky layer, and whatever is behind it flashes — white, by default. `html` carries `--color-sky-edge`, a pink sampled from the backdrop photo, so the bounce reveals more sky instead. It is a **new token, deliberately not `--color-rose`**: rose is Home's owned section identity (see **Color → Sky accents**), and site-wide chrome painted in one section's hue would read wrong behind About, Now, or Creations. Nothing sits on this fill and nothing is read against it, so the accents-never-behind-text rule is untouched.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 6   | **A hover affordance is gated on hover capability** | TechStack notes          | Each tech stamp's handwritten note is an absolute, `whitespace-nowrap` tag revealed on hover. It is shown **only under `(hover: hover) and (min-width: 768px)`** and is `sr-only` everywhere else. This entry used to say the note went permanently visible on touch and that this "works on desktop only because the seven stamps sit on one row with `pb-7` reserved beneath them" — **that reasoning was wrong, and the bug it missed was live.** `pb-7` reserves VERTICAL space; the collision is HORIZONTAL, because every note is `whitespace-nowrap` and wider than the 80px stamp it is centred under. Measured on a hover-less device at 768px and up: **all seven notes visible, six overlapping pairs.** That is every tablet and touchscreen laptop, not an edge case. Gating on the hover capability rather than on width is what actually fixes it. It stays **`sr-only`, not `hidden`**: `aria-describedby` pointing at a `display:none` element is honoured inconsistently across screen readers, whereas `sr-only` keeps it reliably in the accessibility tree. Nothing is removed from the document at any width — the annotation is withheld only from sighted users who have no way to summon it. Implemented as the `.tech-note` class in `src/index.css` rather than a Tailwind string, because the compound media query would otherwise have to be repeated as an arbitrary variant on all twenty declarations; same precedent as `.devlog-scroll`. |
+| 7   | **The custom scrollbar steps aside**                | `.devlog-scroll` regions | The chunky square scrollbar is named an intentional styled element under **Composition may vary**, but `::-webkit-scrollbar { width: 14px }` forces a _classic_ scrollbar even on touch, where the platform would otherwise draw a zero-width overlay one. It permanently occupies 14px — 6% of a 244px panel — to draw an affordance the OS already provides better. Below `md` the custom styling is dropped and the native overlay scrollbar takes over. The scrollbar is **not hidden**: `scrollbar-width: none` would remove a real affordance from a region that genuinely scrolls. Only the site's own styling steps aside.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
 That is the whole list. Anything not on it holds at every width.
 
@@ -1234,7 +1813,8 @@ That is the whole list. Anything not on it holds at every width.
   so they keep reading as small pinned objects — and, in the polaroid's case,
   stay clear of the raster's 440px native width at every viewport.
 - **Nav placement.** Below `md` the primary nav lives **only** in the sticky
-  bar; the masthead band holds the `Banner` alone. At `md`+ it returns to the
+  bar; the masthead band holds the `Banner` alone. Both instances render real
+  `<a href>` links (see Routing), so the two are the same markup at both tiers. At `md`+ it returns to the
   band and the sticky bar is not rendered. Exactly one
   `<nav aria-label="Primary">` is ever displayed, so the landmark and the
   `aria-current="page"` marker are never duplicated.
@@ -1264,7 +1844,11 @@ That is the whole list. Anything not on it holds at every width.
 - **Every `<section>` carries an accessible name**, via `aria-labelledby`
   pointing at its own `SectionTitle`/`h2`. An unnamed `<section>` is not
   exposed as a region at all, so naming some and not others yields an
-  inconsistent landmark list for no reason.
+  inconsistent landmark list for no reason. Home and About were the last two
+  rendering as a bare `<div>`, so their region was the only one that could not
+  be identified or jumped to by name. All six pages now expose named regions:
+  Welcome!, About Me! (+ Where I've Worked, What I've Achieved), Now,
+  Creations, Colophon, Nothing here.
 
 - **Only one column of text fits at 320px.** Body copy at `text-base` averages
   ~8px a character, so the full 296px column yields **~37 characters a line** —
@@ -1322,8 +1906,20 @@ That is the whole list. Anything not on it holds at every width.
 
 ### Touch targets
 
-WCAG 2.5.8 (AA) sets the floor at **24×24 CSS px** and nothing on the site may
-sit below it. Primary navigation and the footer badges — the controls a thumb
+WCAG 2.5.8 (AA) sets the floor at **24×24 CSS px**.
+
+**The floor has an exception, and this site relies on it.** 2.5.8 exempts a
+target that is "in a sentence or [whose] size is otherwise constrained by the
+line-height of non-target text". Every inline `TextLink` on the site is exactly
+that: measured, they come out ~22px tall (the footer's Credits link, at
+`text-xs`, is 16px), because their height is the line box of the prose they sit
+in. Enlarging them would mean breaking the line rhythm of the paragraph to do
+it, which is the harm the exception exists to prevent. **This wording used to
+read "nothing on the site may sit below it", which was simply false** — a later
+audit reading only that sentence would file ~20 conforming links as failures.
+
+The floor applies in full to every target that is **not** inline: buttons, tabs,
+pagers, cards, badges and stamps. Primary navigation and the footer badges — the controls a thumb
 actually hunts for — are raised to **44×44** below `md`, matching the platform
 guidance and a measured drop in touch error rate. The nav's accent underline
 must stay hugging its label while the hit area grows: the target is on the
@@ -1338,6 +1934,20 @@ from the original 16/32, so the transition feels identical; the strip simply
 costs 12px more vertical space. 44px also lands on the touch-target size above.
 The `<button>` is a full-height target at all widths and the tab shape lives on
 an inner `<span>`, so the affordance is unchanged and only the hit area grows.
+
+**The strip implements the full APG tablist pattern**: roving `tabindex` (only
+the selected tab is reachable by Tab), Left/Right to move, and **Home/End** to
+jump to the first and last chapter. Home/End were missing, so the only route to
+Workflow was arrowing through everything between. All four keys
+`preventDefault`, which also stops Home/End scrolling the page out from under
+the strip. Selection does not wrap at the ends, matching the pager buttons,
+which disable rather than wrap.
+
+**The strip sits after the panel in the DOM, and that is deliberate.** These are
+a passport's page tabs, drawn below the book. Sighted and screen-reader users
+therefore meet the chapter and then its tabs in the same order, and
+`aria-controls` / `aria-labelledby` carry the relationship regardless of
+position.
 Since each button now has real text content, the `aria-label` that used to name
 the blank tabs is gone as redundant, and the active state rests on **height plus
 `aria-selected`** — both non-color signals, so the rule under Accessibility
@@ -1370,14 +1980,67 @@ tracking-wide`, semibold, `text-label`) — identical type, mirrored alignment.
 
 ---
 
+## The Now page
+
+There was no written rule for this page, which is how it drifted to eleven
+cards. These are researched from the source rather than invented.
+
+**What a now page is** (nownownow.com/about): it "tells you what this person is
+focused on at this point in their life", and it shares **"what you'd tell a
+friend you hadn't seen in a year."** Not a week, a year — that is the filter.
+It is explicitly _not_ social-media updates, and its second job is being a
+reminder of priorities that helps you say no.
+
+**Measured against real ones.** Four Ontario/BC pages from the nownownow.com
+directory, read live: 54 words with no headings, 221 words under four topic
+headings, 399 words flat, 405 words flat. Derek Sivers' own page uses topic
+headings and prose ("Clover died", "two months on the social road", "new servers
+and sysadmin") — specific things happening, not categories.
+
+**So the length was never the problem.** This page is ~400 words, which sits
+squarely with the longer real ones. The outlier was **granularity**: everyone
+else uses nought to four broad buckets, and this had eleven. Eleven discrete
+cards read as an inventory, which is the one thing the convention says a now
+page is not.
+
+### The rules
+
+- **Eight cards, and treat that as a ceiling.** Below the convention's "big
+  picture" it is a list; the grid also seats 8 cleanly (two beside the intro,
+  then two rows of three, no orphan).
+- **Every prompt must be specific to its own answer.** Interchangeable prompts
+  are what let two cards read as the same question — "What am I watching?" and
+  "Who am I watching?" sat one letter apart on the same board, and "What am I
+  focused on?" restated the premise of the entire page. A prompt that could
+  carry a different card's answer is the wrong prompt.
+- **Prefer merging to cutting.** The three pairs that went were merged, so no
+  true thing was lost: both watching cards into one, Java and Python into one
+  languages card, and the thin Statmon card into nothing because the Creations
+  page already carries it.
+- **A card the Creations page already tells is not a now item.**
+- **Keep the question format.** Nobody else uses it, and that is fine: this site
+  exists to do the personal web its own way, and questions on sticky notes suit
+  a bulletin board. The convention governs _what_ goes on the page, not the
+  furniture it sits in.
+- **`LAST_UPDATED` moves with the notes**, and the intro's line quotes the
+  canonical "a friend I haven't seen in a year".
+
+The strongest cards are the ones that answer the year question: the security
+clearance, being wary of complacency, saying no to social media. The weakest are
+pure consumption, which is exactly what the convention warns about — but this
+site puts hobbies before work on purpose, so they stay. That tension is the
+deliberate part.
+
+---
+
 ## Primitives
 
 `src/components/ui/` holds the canonical building blocks for the repeated
 patterns above — reach for these instead of re-typing their class strings:
 
-- **`Eyebrow`** — the Overline/kicker role (`eyebrow` utility, which holds no
-  color of its own — see Accessibility), with a configurable element (`as`
-  prop; a genuine card title defaults to `<h3>`, a decorative status label
+- **`Eyebrow`** — the Overline/kicker role (`eyebrow` utility, which holds the
+  family and no color of its own — see Accessibility), with a configurable
+  element (`as` prop; a genuine card title defaults to `<h3>`, a decorative status label
   should pass `as="p"` / `as="span"` / `as="dt"`) and a `tone` prop
   (`"label"` default, `"ink"` for an overline that must read as primary text on
   a light fill, `"on-ink"` for a dark fill like Live Reaction's label bar) that
@@ -1386,7 +2049,9 @@ patterns above — reach for these instead of re-typing their class strings:
   `className`** — add a `tone` instead, so an element never carries two color
   utilities whose winner depends on Tailwind's source order. The `ink` tone
   exists because the footer `Badge` needed exactly that and the alternative was
-  a second color class.
+  a second color class. An unrecognised `tone` falls back to `"label"`: it used
+  to interpolate the literal string `undefined` into the class list, which is
+  not a class, so the element silently inherited its parent's colour.
 - **`SectionTitle`** — the `<h2>` section title with its accent underline
   (`accent` prop: `"rose" | "violet" | "blue" | "orchid"`).
 - **`PinnedCard`** — the pinned-object card: opaque fill + `border-2
@@ -1398,19 +2063,48 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   reads over the sky (`bg` / `rotate` props). A visual wrapper only — the real
   heading/`<Eyebrow>` element stays inside it, so semantics and heading levels
   are unaffected.
-- **`Panel`** / **`Cell`** — the touching-cell grid, now scoped to About's
-  passport, its one remaining internal fold: `Panel` is the `bg-ink` + `gap-0.5`
-  wrapper, `Cell` is a grid cell (`padding` prop: `p-6` / `p-4` / `p-0`; `bg`
-  prop for the intentional panel-color variation, default `bg-white`).
+- **`Panel`** / **`Cell`** — the touching-cell grid, used by About's passport
+  and Creations' book spread: `Panel` is the `bg-ink` + `gap-0.5` wrapper,
+  `Cell` is a grid cell (`padding` prop: `p-6` / `p-4` / `p-0`; `bg` prop for
+  the intentional panel-color variation, default `bg-white`).
+
+  **`Cell` applies `min-h-0` itself.** A grid item defaults to
+  `min-height: auto` and refuses to shrink below its content, so an over-long
+  page grows the cell past the panel's fixed height and spills outside the
+  border while the inner `overflow-y-auto` never engages. `BookSpread` passed it
+  explicitly and the passport — same primitive, same fixed-height panel — did
+  not. The passport was not visibly broken, because its inner scroll container
+  happens to zero its own contribution through the flex chain, but it was
+  relying on an accident rather than the guard. A rule every call site has to
+  remember is a rule that eventually gets forgotten, so it moved into the
+  primitive. Verified after the change: passport panel 672px with two 333px
+  cells and zero spill on all four tabs; book panel 480px with 476px cells and
+  zero spill on all five spreads.
+
+  **`Panel` defaults to `<div>`, not `<section>`.** Both call sites already pass
+  `as="div"`, so the old default was dead — and a trap, since an unnamed
+  `<section>` is not exposed as a region at all.
+
 - **`Badge`** — the two-line footer badge (`top` / `bottom` props).
+- **`NewTabHint`** — the `sr-only` " (opens in a new tab)" announcement carried
+  by every outbound link (see Accessibility). No props; never used on an in-app
+  link.
 - **`MarqueeText`** — the auto-scrolling/edge-fade text used by the Spotify
-  widget and elsewhere.
+  widget and elsewhere. It re-measures on `document.fonts.ready` as well as on
+  resize: the first measurement runs while the webfont is still loading and so
+  measures the **fallback** face, whose advance widths differ, so the marquee
+  could start on text that fits or fail to start on text that doesn't. A
+  `ResizeObserver` alone does not catch this — the span is `truncate`, so its
+  box is pinned to the container width and never resizes.
 - **`TextLink`** — an inline text link riding the section-hue underline
   (`text-ink underline decoration-2 underline-offset-2`, `accent` prop:
-  `"rose" | "violet" | "blue" | "orchid"`). Renders an `<a>` (pass `href` +
-  `external`) for outbound links or a `<button type="button">` (pass
-  `onClick`) for in-app navigation, so both Home's outbound links and About's
-  in-app "Now page"/"Creations page" links share one class string.
+  `"rose" | "violet" | "blue" | "orchid" | "label"`). Three shapes, one class
+  string: `href` + `external` renders an outbound `<a>`; **`to` (a section id)
+  renders an in-app `<a>` pointing at that section's real URL**; `onClick` alone
+  renders a `<button type="button">` for a control that isn't navigation.
+  In-app navigation **must** pass `to` (see Routing) — a `<button>` that
+  navigates lies to the reader: no destination on hover, no ctrl-click, and
+  assistive tech announces a control with nowhere to go.
 - **`SimpleIcon`** — renders a `simple-icons` brand glyph (`icon` object +
   sizing `className`); shared by `TechStack` and `Badge` so the icon markup
   lives in one place.
@@ -1421,8 +2115,10 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   book pager (`dir` / `className` / `strokeWidth` props). It was a local copy in
   each before, which is how the passport's documented `3` nearly became an
   undocumented second one; the stroke is a prop so that exception stays explicit.
-- **`Pin`** / **`Tape`** / **`Stamp`** — the handcrafted-layer decorative
-  accents (see Handcrafted layer above). All `aria-hidden`.
+- **`Pin`** / **`Tape`** / **`Seal`** — the handcrafted-layer decorative
+  accents (see Handcrafted layer above). All `aria-hidden`. `Seal` is the
+  letter's sticker seal and is deliberately **not** postage — see Handcrafted
+  layer for why that distinction is load-bearing.
 
 ---
 
@@ -1434,9 +2130,25 @@ stay crisp**), and the whole `src/assets/` directory is preloaded on mount by
 that list is silently skipped**, so a new format has to be added there or the
 preload quietly stops covering it.
 
+The Welcome letter's sticker is `celeste-seal.webp` (renamed from
+`celeste-stamp.webp` with the primitive — see Handcrafted layer).
+
 Because everything preloads, total weight is a real budget rather than a
-per-image concern. It currently sits near **1.1 MB**, of which the two animated
-cameos are the bulk.
+per-image concern. It currently sits near **836 KB**, of which the two animated cameos are the
+bulk. It was 1.08 MB until `about/` was split out (see below).
+
+**`src/assets/about/` is a subdirectory for the same reason**, and it is where
+the rule above finally got applied to the assets that most needed it.
+`canada-map.svg` (209 KB) and `flag-bc.svg` (17 KB) are shown by About and
+nothing else, and between them they were **a fifth of everything the site
+preloaded** — paid for by every visitor who never opened that page. Neither
+needs the warming `books/` gets: both are `alt="" aria-hidden` decoration, so
+there is no alt text to flash while they load. `noah-headshot.webp` stays at the
+top level precisely because it does carry real alt text.
+
+The refinement to the warming rule, then: **section art needs its own warming
+only when it has meaningful `alt`.** Decorative art can simply load when its
+section mounts.
 
 **`src/assets/books/` is deliberately a subdirectory, and that is load-bearing.**
 `App.jsx`'s glob is `./assets/*.{…}` — a single `*`, which does not match across
@@ -1529,4 +2241,13 @@ the file to look right at 80px.
 - **Don't** let a label and its value disagree. Steam once showed a two-week
   playtime figure under a "This Week" heading, with the correct span only in its
   `aria-label` — sighted users got the wrong reading and screen-reader users got
-  the right one.
+  the right one. Two more of the same shape have since been fixed:
+  `formatHours(0)` returned **`"<1h"`**, which reads as "a little, but under an
+  hour", for a game not played at all — and `playtime_2weeks` is 0 for any game
+  untouched this fortnight, so that was the ordinary case rather than an edge
+  one. And Devlog rendered a commit with no url as `href="#"`, a real link that
+  scrolls the page to the top; an entry with nowhere to go is not a link.
+- **Don't** carry a label on a bare `<span>` via `aria-label`. ARIA prohibits
+  naming `role=generic`, so the label may simply be discarded. Steam's two stat
+  rows did this and are now a real `<dl>`, with `<Eyebrow as="dt">` carrying the
+  label — the same structure the book's stats page already used.
