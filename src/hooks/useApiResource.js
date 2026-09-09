@@ -26,7 +26,17 @@ function useApiResource(path, { key, pollMs } = {}) {
 
       try {
         const res = await fetch(path, { signal: controller.signal });
-        if (!res.ok) throw new Error(`${path} returned ${res.status}`);
+        if (!res.ok) {
+          // Drain the body before bailing out. Throwing on a non-OK response
+          // without reading it leaves the stream unconsumed, and the browser
+          // holds the connection open: traced in Chrome, the 200 fired
+          // `requestfinished` and the 500s never did, still pending 20s later.
+          // The widget rendered its empty state correctly either way, so this
+          // only ever leaked a socket — but it also meant the page never
+          // reached network idle, which is what broke CI.
+          await res.body?.cancel().catch(() => {});
+          throw new Error(`${path} returned ${res.status}`);
+        }
         const body = await res.json();
         if (cancelled) return;
         setData(body[key] ?? null);

@@ -33,6 +33,9 @@ function Devlog() {
           tabIndex={0}
           role="region"
           aria-label="Recent commits"
+          // Commit messages come from GitHub, so their punctuation is not the
+          // site's to control. Excluded from the typography audit.
+          data-live-text="true"
         >
           {loading ? (
             <div className="relative py-3 pr-5" aria-hidden="true">

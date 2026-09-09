@@ -77,7 +77,7 @@ await page.setViewport({
   height: 1400,
   deviceScaleFactor: SCALE,
 });
-await page.goto(BASE, { waitUntil: "networkidle2" });
+await page.goto(BASE, { waitUntil: "load" });
 await page.evaluateHandle("document.fonts.ready");
 // The GIF cameos animate; a beat lets them settle on a representative frame.
 await wait(2500);
