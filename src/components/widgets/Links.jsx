@@ -3,6 +3,7 @@ import { FaLinkedinIn } from "react-icons/fa6";
 import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import SimpleIcon from "../ui/SimpleIcon";
+import NewTabHint from "../ui/NewTabHint";
 
 // Real brand marks where one exists, a drawn glyph where none does — the same
 // rule TechStack and the footer Badges already follow. GitHub comes from
@@ -52,7 +53,7 @@ const LINKS = [
     label: "GitHub",
     href: "https://github.com/noahparknguyen",
     handle: "@noahparknguyen",
-    rotate: "-rotate-2",
+    rotate: "-rotate-[1.5deg]",
     tint: "bg-blue-soft",
     Glyph: GithubGlyph,
   },
@@ -100,6 +101,7 @@ function Links() {
                     {label}
                   </div>
                   <div className="truncate text-xs text-gray-600">{handle}</div>
+                  {external && <NewTabHint />}
                 </div>
               </div>
             </a>

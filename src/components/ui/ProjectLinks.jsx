@@ -1,3 +1,5 @@
+import NewTabHint from "./NewTabHint";
+
 function ArrowOut() {
   return (
     <svg
@@ -26,28 +28,37 @@ function ArrowOut() {
 // constraint it has to satisfy on the cover: an <a> may not sit inside the
 // transparent overlay <button> that opens the book, so on that side this is
 // rendered as the button's SIBLING (see Book.jsx).
-function ProjectLinks({ liveUrl, repoUrl, title }) {
-  const chip =
-    "flex min-h-11 flex-1 items-center justify-center gap-2 border-2 border-ink bg-white px-2 font-display text-sm font-bold text-ink transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 md:min-h-10";
+function ProjectLinks({ liveUrl, repoUrl, title, liveNote, bg = "bg-white" }) {
+  const chip = `flex min-h-11 flex-1 items-center justify-center gap-2 border-2 border-ink ${bg} px-2 font-display text-sm font-bold text-ink transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 md:min-h-10`;
 
   return (
-    <div className="flex w-full gap-2">
-      <a href={liveUrl} target="_blank" rel="noreferrer" className={chip}>
-        Live site
-        {/* The arrow is the sighted cue for "leaves the site" and is
+    <div className="w-full">
+      <div className="pointer-events-auto flex w-full gap-2">
+        <a href={liveUrl} target="_blank" rel="noreferrer" className={chip}>
+          Live site
+          {/* The arrow is the sighted cue for "leaves the site" and is
             aria-hidden; this is its spoken equivalent. It also names the
             project, since "Live site" alone doesn't say whose — and with one
             book open the other book's cover still shows its own pair. */}
-        <span className="sr-only">{` for ${title}, opens in a new tab`}</span>
-        <ArrowOut />
-      </a>
-      <a href={repoUrl} target="_blank" rel="noreferrer" className={chip}>
-        Source
-        <span className="sr-only">
-          {` code for ${title} on GitHub, opens in a new tab`}
-        </span>
-        <ArrowOut />
-      </a>
+          <span className="sr-only">{` for ${title}`}</span>
+          <NewTabHint />
+          <ArrowOut />
+        </a>
+        <a href={repoUrl} target="_blank" rel="noreferrer" className={chip}>
+          Source
+          <span className="sr-only">{` code for ${title} on GitHub`}</span>
+          <NewTabHint />
+          <ArrowOut />
+        </a>
+      </div>
+      {/* Small/meta role, not the site's handwriting: this is information the
+          reader needs before they click, not a scribble in the margin. */}
+      {/* A caption, never a control, so it inherits the cover's
+          `pointer-events-none` and the bottom of the cover still opens the
+          book. Only the chips above opt back in. */}
+      {liveNote && (
+        <p className="mt-2 text-center text-sm text-gray-600">{liveNote}</p>
+      )}
     </div>
   );
 }

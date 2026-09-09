@@ -11,6 +11,7 @@ import tboiThumbsUp from "../../assets/tboi-thumbs-up.gif";
 import Eyebrow from "../ui/Eyebrow";
 import SimpleIcon from "../ui/SimpleIcon";
 import LabelTag from "../ui/LabelTag";
+import NewTabHint from "../ui/NewTabHint";
 
 function JavaIcon() {
   return <FaJava aria-hidden="true" className="mx-auto h-7 w-7 text-ink" />;
@@ -20,6 +21,20 @@ function JavaIcon() {
 // stack — they're where I sit — so they deliberately have no stamp here and live
 // in the passport's Workflow prose instead (Passport.jsx → CHAPTERS.workflow).
 // Don't add a VS Code or IntelliJ stamp later; that prose is the right home.
+// TINT ORDER IS SOLVED, NOT CHOSEN. The strip wraps to 3 columns at 320px, 4 at
+// 375px and a single row of 8 at md+, so two stamps end up touching whenever
+// they sit 1, 3 or 4 apart in this array — and the guide's rule is that adjacent
+// stamps must differ at EVERY width. The previous order failed three times over:
+// React/Figma (distance 4), Java/Obsidian (distance 3) and Python/Isaac
+// (distance 4), each visible only after a wrap.
+//
+// rose -> violet -> blue -> orchid opens the run deliberately: those first four
+// are the site's canonical hue order. The sequence then mirrors itself, which is
+// what satisfies all three wraps at once. Isaac's stamp counts here even though
+// it is decorative, because the eye does not know that.
+//
+// If you reorder or add a stamp, re-check distances 1, 3 and 4 — not just
+// neighbours in this list.
 const TECH_ITEMS = [
   {
     key: "react",
@@ -63,7 +78,7 @@ const TECH_ITEMS = [
     icon: siFigma,
     href: "https://www.figma.com",
     rotate: "rotate-[-3deg]",
-    tint: "bg-rose-soft",
+    tint: "bg-blue-soft",
     note: "Because I can’t design",
   },
   {
@@ -72,7 +87,7 @@ const TECH_ITEMS = [
     icon: siObsidian,
     href: "https://obsidian.md",
     rotate: "rotate-[2deg]",
-    tint: "bg-blue-soft",
+    tint: "bg-orchid-soft",
     note: "Where my notes go",
   },
   {
@@ -86,15 +101,11 @@ const TECH_ITEMS = [
   },
 ];
 
-// The handwritten note tag shared by the interactive stamps and Isaac's cameo.
-// Below md the note is withheld from sighted touch users (STYLE_GUIDE.md →
-// Mobile deviation 6); at md+ it's an absolute tag revealed on hover. Kept as one
-// constant so the two call sites can't drift — they carried near-identical
-// 20-utility copies of this before. Written out in full so Tailwind's scanner
-// still sees every class name.
-const NOTE_TAG =
-  "md:pointer-events-none md:absolute md:left-1/2 md:top-full md:z-10 md:mt-1 md:-translate-x-1/2 md:whitespace-nowrap md:border-2 md:border-ink md:bg-white md:px-2 md:py-0.5 md:font-hand md:text-base md:text-ink md:opacity-100 md:shadow-sticker md:[@media(hover:hover)]:opacity-0 md:group-hover:opacity-100";
-
+// The annotation is a named class rather than a 20-utility Tailwind string,
+// because it needs a compound `(hover: hover) and (min-width: 768px)` query and
+// repeating that arbitrary variant on every declaration was unreadable. Same
+// precedent as `.devlog-scroll`. See src/index.css for why it is gated on hover
+// capability rather than width.
 function TechBadge({ item }) {
   const noteId = `tech-note-${item.key}`;
   const Glyph = item.Glyph;
@@ -115,11 +126,9 @@ function TechBadge({ item }) {
         <span className="mt-1 block text-xs font-bold text-ink">
           {item.label}
         </span>
+        <NewTabHint />
       </a>
-      <span
-        id={noteId}
-        className={`sr-only md:not-sr-only md:group-[:has(:focus-visible)]:opacity-100 ${NOTE_TAG}`}
-      >
+      <span id={noteId} className="tech-note">
         {item.note}
       </span>
     </div>
@@ -131,14 +140,17 @@ function TechBadge({ item }) {
 function IsaacStamp() {
   return (
     <div className="group relative" aria-hidden="true">
-      <div className="shadow-sticker block w-20 rotate-3 border-2 border-ink bg-orchid-soft p-2 text-center transition-transform hover:-translate-y-1">
+      <div className="shadow-sticker block w-20 rotate-3 border-2 border-ink bg-rose-soft p-2 text-center transition-transform hover:-translate-y-1">
         <img
           src={tboiThumbsUp}
           alt=""
+          width="128"
+          height="128"
+          decoding="async"
           className="block h-12 w-full object-cover"
         />
       </div>
-      <span className={`hidden md:block ${NOTE_TAG}`}>We love you Isaac</span>
+      <span className="tech-note">We love you Isaac</span>
     </div>
   );
 }
@@ -151,7 +163,7 @@ function TechStack() {
           <Eyebrow>My current toolset</Eyebrow>
         </LabelTag>
       </div>
-      <div className="mt-2 flex flex-wrap justify-center gap-2 pb-0 md:pb-7">
+      <div className="tech-strip mt-2 flex flex-wrap justify-center gap-2">
         {TECH_ITEMS.map((item) => (
           <TechBadge key={item.key} item={item} />
         ))}

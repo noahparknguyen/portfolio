@@ -1,7 +1,10 @@
+import { siSpotify } from "simple-icons";
 import aiaiAnim from "../../assets/monkey-ball-aiai.gif";
 import useSpotify from "../../hooks/useSpotify";
 import MarqueeText from "../ui/MarqueeText";
 import Eyebrow from "../ui/Eyebrow";
+import SimpleIcon from "../ui/SimpleIcon";
+import NewTabHint from "../ui/NewTabHint";
 
 function SpotifyWidget() {
   const { track, loading } = useSpotify();
@@ -13,14 +16,39 @@ function SpotifyWidget() {
 
   return (
     <div>
+      {/* The heading is skeletoned while loading rather than rendered.
+          `heading` falls back to "Nothing playing" whenever `track` is null,
+          and `track` is null during the very first fetch too — so the widget
+          spent its whole load asserting that nothing was playing, next to a
+          skeleton body that said it did not know yet. That is the exact
+          "label and value disagree" failure the guide closes on. Steam and
+          Weather already skeleton their values here; this matches them. */}
       <div className="flex items-center justify-between gap-2">
-        <Eyebrow as="p">{heading}</Eyebrow>
-        {track?.isPlaying ? (
-          <Equalizer />
+        {loading ? (
+          <>
+            <div
+              aria-hidden="true"
+              className="h-3 w-24 animate-pulse bg-primary-soft"
+            />
+            <div
+              aria-hidden="true"
+              className="h-3.5 w-3 animate-pulse bg-primary-soft"
+            />
+          </>
         ) : (
-          <span aria-hidden="true" className="text-sm leading-none text-label">
-            ♪
-          </span>
+          <>
+            <Eyebrow as="p">{heading}</Eyebrow>
+            {track?.isPlaying ? (
+              <Equalizer />
+            ) : (
+              <span
+                aria-hidden="true"
+                className="text-sm leading-none text-label"
+              >
+                ♪
+              </span>
+            )}
+          </>
         )}
       </div>
       <div className="mt-2">
@@ -32,7 +60,34 @@ function SpotifyWidget() {
           <TrackBody track={track} />
         )}
       </div>
+      <SpotifyAttribution url={track?.url} />
     </div>
+  );
+}
+
+// REQUIRED, not decorative. Spotify's Developer Policy: "If you display any
+// Spotify Content you must clearly attribute the content as being supplied and
+// made available by Spotify, by using the Spotify Marks", and their design
+// guidelines add that metadata "must always link back to the Spotify Service".
+// The widget displayed track name, artist, album and cover art with no Spotify
+// mark anywhere, and linked out only when the API happened to return a track
+// url — so both halves of that were unmet.
+//
+// The link falls back to open.spotify.com so the link-back exists even when the
+// track carries no url of its own. The word "Spotify" sits in `ink` beside the
+// mark, so the meaning never rests on the green alone.
+function SpotifyAttribution({ url }) {
+  return (
+    <a
+      href={url ?? "https://open.spotify.com"}
+      target="_blank"
+      rel="noreferrer"
+      className="mt-2 flex items-center justify-end gap-1.5"
+    >
+      <SimpleIcon icon={siSpotify} className="h-4 w-4 text-spotify" />
+      <span className="text-xs font-semibold text-ink">Spotify</span>
+      <NewTabHint />
+    </a>
   );
 }
 
@@ -119,7 +174,7 @@ function SleeveRecord({ albumArt, name, spinning }) {
           alt=""
           aria-hidden="true"
           width="126"
-          height="126"
+          height="151"
           decoding="async"
           className="block h-full w-full object-cover"
         />

@@ -13,12 +13,28 @@ function MarqueeText({ text, className = "", style }) {
     const textEl = textRef.current;
     if (!container || !textEl) return;
 
-    const check = () =>
-      setOverflowing(textEl.scrollWidth > container.clientWidth);
+    let cancelled = false;
+    const check = () => {
+      if (!cancelled)
+        setOverflowing(textEl.scrollWidth > container.clientWidth);
+    };
     check();
     const observer = new ResizeObserver(check);
     observer.observe(container);
-    return () => observer.disconnect();
+
+    // The first measurement happens while the webfont is still loading, so it
+    // measures the FALLBACK face. Nunito and the system fallback have different
+    // advance widths, so a track that overflows in one may not in the other,
+    // and the marquee either failed to start or started on text that fit.
+    // `display=swap` guarantees that second layout pass; this waits for it.
+    // ResizeObserver alone does not catch it: the span is `truncate`, so its
+    // box is pinned to the container's width and never resizes.
+    document.fonts?.ready.then(check);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
   }, [text]);
 
   const shouldAnimate = overflowing;

@@ -1,5 +1,6 @@
 import SimpleIcon from "./SimpleIcon";
 import Eyebrow from "./Eyebrow";
+import NewTabHint from "./NewTabHint";
 
 // Hover lifts rather than shifting fill. The previous `hover:bg-<accent>` moved
 // each badge from its soft tint onto the FULL accent while the label stayed
@@ -25,6 +26,7 @@ function Badge({ href, icon, top, bottom, tint = "bg-rose-soft" }) {
         <span className="block font-display text-sm font-bold leading-none text-ink">
           {bottom}
         </span>
+        <NewTabHint />
       </span>
     </a>
   );
