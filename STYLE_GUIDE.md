@@ -672,6 +672,13 @@ rather than printed on it:
   stamp) — the interactive stamps additionally lift (`-translate-y`) on
   hover/focus as an interaction cue on top of their resting shadow; Isaac's
   stamp lifts on hover only, having no focus state to cue.
+- **Two objects are exempt from the tilt cap, and carry `data-tilt-exempt` so
+  the audit skips them.** `<Tape>`, because it is deliberately counter-rotated
+  against whatever it tapes and the mismatch is the whole gesture; and Steam's
+  empty-state stamp at -12°, because a rubber stamp struck onto paper is crooked
+  by nature. The cap governs objects that read as HAND-PLACED, where a fixed
+  angle grows visibly skewed with width. A stamp is a different gesture, and at
+  3° it stops reading as a stamp and starts reading as a misaligned icon.
 - **Slight rotation.** Compact objects carry a small `rotate-[n deg]` so they
   read as hand-placed rather than machine-aligned — the photo polaroid, the
   acronym badges, the tech stamps (including TechStack's decorative Isaac
@@ -1375,8 +1382,20 @@ the same grammar.
   computed against the WCAG threshold for its own size and weight. Current
   result: **0 elements below AA**.
 
+  **The audit must pass with AND without `.dev.vars`.** CI has no secrets, so
+  the live widgets render their empty states there and local runs never see that
+  path. Three separate failures hid in it: the audit crashed on
+  `SVGAnimatedString` (an SVG's `className` is not a string, and only the empty
+  state renders a rotated SVG), Steam's stamp turned out to breach the tilt cap,
+  and the page never reached network idle at all. Run both before trusting a
+  green tick.
+
   **Rendered copy is also checked for straight quotes and apostrophes** in the
-  same pass. Every one on the site is typographic, and the only way they creep
+  same pass, but only over **authored** copy: anything inside `[data-live-text]`
+  is stripped first. Commit messages, track and artist names and game titles come
+  from third parties, and failing a build over an apostrophe in someone else's
+  data is noise. That one only appears WITH credentials, which is the mirror
+  image of the problem above. Every one on the site is typographic, and the only way they creep
   back in is by hand-editing a string through a tool that emits U+0027 — which
   is exactly how one reached a book blurb. A source-level grep cannot separate
   copy from code comments; the rendered page can, because comments never

@@ -196,7 +196,9 @@ function TrackBody({ track }) {
         name={track.name}
         spinning={track.isPlaying}
       />
-      <div className="min-w-0 flex-1">
+      {/* Track, artist and album come from Spotify; their punctuation is not
+          the site's to control (see Devlog.jsx). */}
+      <div data-live-text="true" className="min-w-0 flex-1">
         <MarqueeText text={track.name} className="text-sm font-bold text-ink" />
         <MarqueeText text={track.artist} className="text-xs text-gray-600" />
         {track.album && (

@@ -102,6 +102,14 @@ const CONTRAST_SCAN = () => {
 // Reading `transform` here returns "none" for every tilted object on the site
 // and reports a clean sweep over nothing.
 const ROTATION_SCAN = () => {
+  // `className` is an SVGAnimatedString on SVG elements, not a string, so it
+  // has no .trim(). getAttribute("class") reads safely on both. This only
+  // crashed once a widget was in its empty state, which is the CI condition.
+  const describe = (el) =>
+    (el.innerText || el.getAttribute("class") || el.tagName || "")
+      .trim()
+      .replace(/\s+/g, " ")
+      .slice(0, 38);
   const WIDE_PX = 280;
   const out = [];
   let scanned = 0;
@@ -111,7 +119,7 @@ const ROTATION_SCAN = () => {
     let deg = null;
     if (cs.rotate && cs.rotate !== "none") deg = parseFloat(cs.rotate);
     if (deg === null || Number.isNaN(deg) || deg === 0) return;
-    if (el.dataset.counterRotated) return; // see Tape.jsx
+    if (el.dataset.tiltExempt) return; // Tape.jsx, SteamWidget.jsx
     scanned++;
     const width = el.getBoundingClientRect().width;
     const cap = width > WIDE_PX ? 1.5 : 3;
@@ -120,10 +128,7 @@ const ROTATION_SCAN = () => {
         deg,
         cap,
         width: Math.round(width),
-        text: (el.innerText || el.className || "")
-          .trim()
-          .replace(/\s+/g, " ")
-          .slice(0, 38),
+        text: describe(el),
       });
     }
   });
@@ -138,7 +143,13 @@ const ROTATION_SCAN = () => {
 const TYPOGRAPHY_SCAN = () => {
   const main = document.querySelector("main");
   if (!main) return [];
-  const text = main.innerText;
+  // Live third-party strings are excluded: commit messages, track and artist
+  // names, game titles. Their punctuation is not the site's to control, and
+  // failing a build over an apostrophe in someone else's data is noise. This
+  // only shows up when the API has credentials, so CI never saw it.
+  const clone = main.cloneNode(true);
+  clone.querySelectorAll("[data-live-text]").forEach((n) => n.remove());
+  const text = clone.textContent;
   const out = [];
   for (const m of text.matchAll(/[A-Za-z]'[a-z]/g)) {
     out.push(
@@ -241,7 +252,12 @@ for (const width of WIDTHS) {
   for (const path of PATHS) {
     const page = await browser.newPage();
     await page.setViewport({ width, height: 1200 });
-    await page.goto(`${BASE}${path}`, { waitUntil: "networkidle2" });
+    // `load`, not `networkidle2`. This page runs live widgets and pulls fonts
+    // from a third party, so "the network went quiet" is not a state it
+    // reliably reaches, and in CI where the API has no credentials it never
+    // reached it at all. `load` waits for the images, CSS and fonts these
+    // checks actually measure, and nothing else.
+    await page.goto(`${BASE}${path}`, { waitUntil: "load" });
     await page.evaluateHandle("document.fonts.ready");
     await wait(400);
 

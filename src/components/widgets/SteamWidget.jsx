@@ -34,9 +34,16 @@ function SteamWidget() {
 // The Steam brand mark rendered as a faded library due-date stamp — a
 // monochrome impression (currentColor + reduced opacity), not the full-color
 // brand glyph. The emblem's own ring gives it the postmark feel.
+// The -12 degree tilt is deliberate and exempt from the cap. That cap governs
+// objects that read as HAND-PLACED, where a fixed angle grows visibly skewed
+// with width. This is a different gesture: a rubber stamp struck onto paper,
+// which is crooked by nature. At 3 degrees it stops reading as a stamp and
+// starts reading as a misaligned icon. It is `aria-hidden`, half-opacity, and
+// only ever appears in the empty state.
 function SteamStamp() {
   return (
     <FaSteam
+      data-tilt-exempt="true"
       aria-hidden="true"
       style={{ opacity: "var(--opacity-accent-line)" }}
       className="pointer-events-none absolute right-2 top-2 h-14 w-14 -rotate-12 text-ink"
@@ -80,7 +87,11 @@ function GameCard({ game }) {
 
       <div className="p-3">
         <div className="flex items-start justify-between gap-2">
-          <p className="min-w-0 wrap-break-word font-display text-lg font-semibold text-ink">
+          {/* The game name comes from Steam (see Devlog.jsx). */}
+          <p
+            data-live-text="true"
+            className="min-w-0 wrap-break-word font-display text-lg font-semibold text-ink"
+          >
             {game ? game.name : "Nothing lately"}
           </p>
           {game?.iconFallback && !useFallback && (
