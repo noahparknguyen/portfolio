@@ -13,6 +13,24 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#3D3660" />
 
+    <!-- Fonts. Linked here rather than @imported from index.css so the preload
+         scanner finds them during the initial HTML parse instead of one round
+         trip after the stylesheet lands. preconnect opens the gstatic
+         connection in parallel, so the font files don't pay a fresh DNS+TLS
+         handshake once the CSS names them.
+
+         Weights are exactly the three on the scale (normal / semibold / bold,
+         STYLE_GUIDE.md → Type → Weight rule) plus Lilita's single weight.
+         Fredoka 500 and Nunito 800 were requested and never used; Caveat was
+         requested at 500;600 while every `font-hand` element asks for 400,
+         so the handwriting was silently matching to an off-scale 500. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&family=Lilita+One&family=Caveat:wght@400;600&display=swap"
+    />
+
     <title>Noah Park-Nguyen · Full-Stack Developer</title>
     <meta
       name="description"
