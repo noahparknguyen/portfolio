@@ -10,98 +10,96 @@ import Pin from "../ui/Pin";
 const LAST_UPDATED = "September 2026";
 
 // Tints are a solved layout, not a free choice. The intro card carries Now's own
-// section hue (blue), and it touches four notes, so none of those can be blue.
-// The order below is checked for both tiers: no two touching cards share a hue
-// in the md 3-column grid OR in the single-column mobile stack.
-// Spread: violet x3, rose x3, blue x3, orchid x2.
+// section hue (blue), and it touches the first four notes, so none of those can
+// be blue. Beyond that, two notes touch whenever they sit 1 or 3 apart in this
+// array: 1 apart in the single-column mobile stack, 3 apart in the md
+// three-column grid once the intro's 2x2 span is accounted for. The order below
+// is one of 42 arrangements satisfying both tiers with an even 2-2-2-2 spread.
+//
+// Rotations are all within 1.5 degrees. Three notes used to sit at 2, which
+// breaks the guide's cap for anything wider than a compact card, and at 320px
+// every note is full width, so the cap applies to all of them.
+//
+// EIGHT cards, not eleven. The questions are the general ones real now pages
+// actually cover (work, reading, learning, health, saying no) rather than the
+// oddly specific ones this page opened with; "What am I reading?" is the
+// second most common topic in the directory and was missing entirely.
+//
+// A now page is "what you'd tell a friend you hadn't
+// seen in a year" (nownownow.com/about): focus and priorities, not an
+// inventory. Real now pages run 0-4 broad buckets, and eleven discrete ones
+// read as a list. Three pairs were merged rather than cut, so nothing true was
+// lost: the two "watching" cards, which were one letter apart and collided on
+// the board; Java and Python into one languages card; and the thin Statmon
+// card, whose only content the Creations page already carries.
+//
+// The prompts are specific to their own answer. Interchangeable ones like
+// "What am I focused on?" restate the premise of the whole page, and two of
+// them had ended up reading as the same question.
 const NOW_NOTES = [
   {
-    prompt: "What am I figuring out?",
-    answer: "A sleep schedule",
+    prompt: "What am I playing?",
+    answer: "Pikmin",
     explanation:
-      "Sleeping has always been a struggle for me. I keep drifting later every week until I’m waking up at noon, and I’m resetting it properly this time.",
-    tint: "bg-violet-soft",
+      "I’ve been addicted to Pikmin lately, the original GameCube games plus the many ROM hacks the community has made.",
+    tint: "bg-orchid-soft",
     rotate: "-rotate-[1deg]",
   },
   {
     prompt: "What am I watching?",
-    answer: "Haikyuu, again",
+    answer: "Haikyuu!! again",
     explanation:
-      "Haikyuu is probably my favourite thing ever made. It’s what got me into volleyball in the first place, and I’ve rewatched it more times than I can count.",
+      "I’m rewatching it again. It’s honestly one of my favourite pieces of media ever, both the show and the manga.",
     tint: "bg-rose-soft",
     rotate: "rotate-[1.5deg]",
   },
   {
-    prompt: "What am I focused on?",
-    answer: "Sharpening my Java",
+    prompt: "What am I reading?",
+    answer: "Core Java",
     explanation:
-      "I’m going back through Java from the basics. I want to stay sharp and not lose anything before the new job starts.",
+      "I’m partway through Core Java, starting from the beginning again so I really know the ins and outs of the language.",
     tint: "bg-orchid-soft",
     rotate: "-rotate-[1.5deg]",
   },
   {
-    prompt: "What’s happening with work?",
-    answer: "Security clearance",
+    prompt: "What am I working on?",
+    answer: "The next project",
     explanation:
-      "The clearance can take up to a year, so most of this is out of my hands. I check my email more than I should.",
-    tint: "bg-rose-soft",
+      "With the portfolio and Statmon basically finished, I’m brainstorming what to build next. The urge to create needs somewhere to go.",
+    tint: "bg-violet-soft",
     rotate: "rotate-[1deg]",
   },
   {
-    prompt: "What am I maintaining?",
-    answer: "Statmon",
+    prompt: "What am I learning?",
+    answer: "How emulation works",
     explanation:
-      "My Pokémon tools site is finished now, so all that’s left is keeping it running.",
+      "I’ve always played old games on emulators. What pulls me in now is the people decompiling them to build ROM hacks and fan games.",
     tint: "bg-blue-soft",
-    rotate: "-rotate-[2deg]",
+    rotate: "-rotate-[1deg]",
   },
   {
-    prompt: "What am I learning?",
-    answer: "Python",
+    prompt: "What habit am I building?",
+    answer: "Moving every day",
     explanation:
-      "Python is so common in the industry that picking it up was a no-brainer. Eventually I want to build a full backend with it.",
-    tint: "bg-violet-soft",
-    rotate: "rotate-[2deg]",
+      "I’m trying to be more active every day, whether that’s the gym or just a walk after a long day of sitting.",
+    tint: "bg-rose-soft",
+    rotate: "rotate-[1.5deg]",
   },
   {
     prompt: "What am I saying no to?",
     answer: "Social media",
     explanation:
-      "Social media gives me headaches, and it’s the reason my sleep is bad. I’m trying to filter out the slop and keep YouTube as the only thing I sit down for.",
+      "I almost never get anything from it, and I usually come away feeling worse. I’ve cut myself back to YouTube and nothing else.",
     tint: "bg-blue-soft",
-    rotate: "-rotate-[1deg]",
+    rotate: "-rotate-[1.5deg]",
   },
   {
     prompt: "What’s on my mind?",
-    answer: "Being complacent",
+    answer: "AI",
     explanation:
-      "AI has been in my workflow for a while now, and it’s tempting to let it do everything. But I need to keep making my own decisions. It’s a tool, not a miracle worker.",
-    tint: "bg-rose-soft",
-    rotate: "rotate-[1.5deg]",
-  },
-  {
-    prompt: "What did I just start?",
-    answer: "Back in the gym",
-    explanation:
-      "I’m back to basic weightlifting, a couple of sessions a week. The goal is a routine I actually stick to, with no missed days.",
-    tint: "bg-blue-soft",
-    rotate: "-rotate-[2deg]",
-  },
-  {
-    prompt: "What am I playing?",
-    answer: "Pikmin & GameCube",
-    explanation:
-      "I’m pretty addicted to Pikmin right now, enough that I’m thinking about picking speedrunning back up.",
-    tint: "bg-orchid-soft",
-    rotate: "rotate-[1deg]",
-  },
-  {
-    prompt: "Who am I watching?",
-    answer: "Sarah Z & SnapCube",
-    explanation:
-      "Sarah Z on YouTube and SnapCube on Twitch are pretty much the only creators I keep up with these days.",
+      "Its rise has been hard to ignore. I’d need more than a sticky note to get my thoughts down, so maybe that’s a blog post.",
     tint: "bg-violet-soft",
-    rotate: "-rotate-[1deg]",
+    rotate: "rotate-[1deg]",
   },
 ];
 
@@ -112,7 +110,7 @@ function Now() {
         <PinnedCard
           bg="bg-blue-soft"
           padding="p-4 md:p-6"
-          className="relative md:col-span-2 md:row-span-2"
+          className="relative flex flex-col md:col-span-2 md:row-span-2"
         >
           <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
           <SectionTitle accent="blue" id="now-heading">
@@ -120,21 +118,28 @@ function Now() {
           </SectionTitle>
           <p className="mt-2 max-w-prose text-gray-700">
             A{" "}
-            <TextLink href="https://nownownow.com" accent="blue" external>
+            <TextLink href="https://nownownow.com/about" accent="blue" external>
               now page
             </TextLink>{" "}
             is exactly what it sounds like. It&rsquo;s a snapshot of what
-            I&rsquo;m up to at the moment, the sort of thing I&rsquo;d tell a
-            friend I haven&rsquo;t seen in a while.
+            I&rsquo;m up to these days, the sort of thing I&rsquo;d tell a
+            friend I haven&rsquo;t seen in a year.
           </p>
-          <p className="mt-3 max-w-prose text-gray-700">
+          <p className="mt-2 max-w-prose text-gray-700">
             Every couple of months I get really into one particular hobby. Right
             now it&rsquo;s old GameCube games, and last month it was Balatro.
-            When I burn out on whatever I&rsquo;m fixated on, I always forget
-            that I have a whole catalogue of other interests to fall back on.
-            This page is how I keep track of all of it.
+            Whenever I burn out on whatever I&rsquo;m fixated on, I always
+            forget that I have a whole catalogue of other interests to fall back
+            on. This page is how I&rsquo;m going to keep track of it all.
           </p>
-          <div className="mt-4 flex justify-end">
+          {/* Pushed to the foot at md, where the card's `row-span-2` makes it
+              taller than its own content: the stamp used to sit right under the
+              prose and leave 110px of dead paper below it, 23% of the card.
+              `mt-auto` reads as a date stamped at the bottom of a document,
+              which is the same move the Achievements cards make with their
+              "Unlocked" line. Stays `mt-4` below md, where the card is its
+              natural height and there is no slack to distribute. */}
+          <div className="mt-4 flex justify-end md:mt-auto">
             <div className="rotate-2 border-2 border-dashed border-label px-3 py-1 text-center">
               <Eyebrow as="p">Last updated</Eyebrow>
               <Eyebrow as="p" tone="ink">
