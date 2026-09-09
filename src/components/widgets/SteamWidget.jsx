@@ -1,18 +1,14 @@
 import { useState } from "react";
 import { FaSteam } from "react-icons/fa6";
 import useSteam from "../../hooks/useSteam";
+import { formatHours } from "../../lib/format";
 import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import PinnedCard from "../ui/PinnedCard";
 
-function formatHours(hours) {
-  if (hours < 1) return "<1h";
-  return `${Math.round(hours)}h`;
-}
-
 function SteamWidget() {
-  const { game, loading, error } = useSteam();
-  const empty = !loading && (error || !game);
+  const { game, loading } = useSteam();
+  const empty = !loading && !game;
 
   return (
     <div>
@@ -59,12 +55,22 @@ function GameCard({ game }) {
             <img
               src={game.iconFallback}
               alt={game.name}
+              width="32"
+              height="32"
+              decoding="async"
               className="h-full w-full object-contain p-4"
             />
           ) : (
             <img
               src={game.image}
               alt={`${game.name} header art`}
+              /* Steam serves every `header.jpg` at a fixed 460x215, which is
+                 also this container's aspect ratio. Remote and dynamic, but the
+                 dimensions are a known constant, so the browser gets a real
+                 intrinsic size rather than none. */
+              width="460"
+              height="215"
+              decoding="async"
               className="h-full w-full object-cover"
               onError={() => setUseFallback(true)}
             />
@@ -91,44 +97,55 @@ function GameCard({ game }) {
             />
           )}
         </div>
-        <div className="mt-2 flex items-center justify-between gap-2 border-b border-kraft pb-2.5">
-          <Eyebrow as="p">All-time</Eyebrow>
-          {game ? (
-            <span
-              aria-label={`${formatHours(game.hoursTotal)} logged all-time`}
-              className="shadow-sticker rotate-1 border-2 border-ink bg-white px-2 py-0.5 font-display text-xs font-bold text-ink"
-            >
-              {formatHours(game.hoursTotal)} LOGGED
-            </span>
-          ) : (
-            <span
-              aria-hidden="true"
-              className="rotate-2 border-2 border-dashed border-kraft px-2 py-0.5 font-display text-xs font-bold text-gray-600"
-            >
-              — LOGGED
-            </span>
-          )}
-        </div>
-        <div className="mt-5 flex items-center justify-between border-b border-kraft pb-2.5">
-          <Eyebrow as="p">Last 2 Weeks</Eyebrow>
-          {game ? (
-            <span
-              aria-label={`${formatHours(
-                game.playtime2Weeks / 60,
-              )} logged in the last two weeks`}
-              className="-rotate-1 border-2 border-live px-2 py-0.5 font-display text-xs font-bold text-ink"
-            >
-              {formatHours(game.playtime2Weeks / 60)} RECENT
-            </span>
-          ) : (
-            <span
-              aria-hidden="true"
-              className="-rotate-1 border-2 border-dashed border-kraft px-2 py-0.5 font-display text-xs font-bold text-gray-600"
-            >
-              — RECENT
-            </span>
-          )}
-        </div>
+        {/* A real <dl>. These were label/value pairs expressed as two loose
+            spans, with the pairing carried by an `aria-label` on a bare
+            <span> — and ARIA prohibits naming role=generic, so that label was
+            free to be dropped entirely, taking the "all-time" / "last two
+            weeks" context with it. The <dt> now carries the label
+            programmatically, which is both valid and the same structure the
+            book's stats page already uses. */}
+        <dl>
+          <div className="mt-2 flex items-center justify-between gap-2 border-b border-kraft pb-2.5">
+            <Eyebrow as="dt">All-time</Eyebrow>
+            <dd>
+              {game ? (
+                <span className="shadow-sticker inline-block rotate-1 border-2 border-ink bg-white px-2 py-0.5 font-display text-xs font-bold text-ink">
+                  {formatHours(game.hoursTotal)} LOGGED
+                </span>
+              ) : (
+                <>
+                  <span
+                    aria-hidden="true"
+                    className="inline-block rotate-2 border-2 border-dashed border-kraft px-2 py-0.5 font-display text-xs font-bold text-gray-600"
+                  >
+                    — LOGGED
+                  </span>
+                  <span className="sr-only">Not available</span>
+                </>
+              )}
+            </dd>
+          </div>
+          <div className="mt-5 flex items-center justify-between border-b border-kraft pb-2.5">
+            <Eyebrow as="dt">Last 2 Weeks</Eyebrow>
+            <dd>
+              {game ? (
+                <span className="-rotate-1 inline-block border-2 border-live px-2 py-0.5 font-display text-xs font-bold text-ink">
+                  {formatHours(game.playtime2Weeks / 60)} RECENT
+                </span>
+              ) : (
+                <>
+                  <span
+                    aria-hidden="true"
+                    className="-rotate-1 inline-block border-2 border-dashed border-kraft px-2 py-0.5 font-display text-xs font-bold text-gray-600"
+                  >
+                    — RECENT
+                  </span>
+                  <span className="sr-only">Not available</span>
+                </>
+              )}
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
   );

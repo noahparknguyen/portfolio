@@ -1,27 +1,11 @@
 import useCommits from "../../hooks/useCommits";
+import { relativeTime } from "../../lib/format";
 import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
-
-function relativeTime(dateStr) {
-  const date = new Date(dateStr);
-  const diffSec = Math.round((Date.now() - date.getTime()) / 1000);
-  const diffMin = Math.round(diffSec / 60);
-  const diffHour = Math.round(diffMin / 60);
-  const diffDay = Math.round(diffHour / 24);
-
-  if (diffSec < 60) return "just now";
-  if (diffMin < 60) return `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`;
-  if (diffHour < 24) return `${diffHour} hour${diffHour === 1 ? "" : "s"} ago`;
-  if (diffDay < 30) return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
-  const diffMonth = Math.round(diffDay / 30);
-  if (diffMonth < 12)
-    return `${diffMonth} month${diffMonth === 1 ? "" : "s"} ago`;
-  const diffYear = Math.round(diffMonth / 12);
-  return `${diffYear} year${diffYear === 1 ? "" : "s"} ago`;
-}
+import NewTabHint from "../ui/NewTabHint";
 
 function Devlog() {
-  const { commits, loading, error } = useCommits();
+  const { commits, loading } = useCommits();
 
   return (
     <div>
@@ -62,7 +46,7 @@ function Devlog() {
                 ))}
               </ul>
             </div>
-          ) : error || commits.length === 0 ? (
+          ) : commits.length === 0 ? (
             <div className="relative py-3 pr-5">
               <div
                 aria-hidden="true"
@@ -92,21 +76,9 @@ function Devlog() {
                 className="absolute inset-y-0 left-1.75 w-0.5 bg-ink"
               />
               <ul>
-                {commits.map((commit) => (
-                  <li
-                    key={commit.url ?? commit.message}
-                    className="relative flex"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="absolute left-0.5 top-1.25 h-3 w-3 border-2 border-ink bg-rose"
-                    />
-                    <a
-                      href={commit.url ?? "#"}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group block pb-5 pl-6"
-                    >
+                {commits.map((commit, n) => {
+                  const body = (
+                    <>
                       <span className="block text-sm leading-5 text-gray-700 transition-colors group-hover:text-ink">
                         {commit.message}
                       </span>
@@ -115,9 +87,38 @@ function Devlog() {
                           {relativeTime(commit.date)}
                         </span>
                       )}
-                    </a>
-                  </li>
-                ))}
+                    </>
+                  );
+                  return (
+                    // The index only breaks a tie between two commits that share
+                    // a message AND have no url; url alone is unique in practice.
+                    <li
+                      key={commit.url ?? `${commit.message}-${n}`}
+                      className="relative flex"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="absolute left-0.5 top-1.25 h-3 w-3 border-2 border-ink bg-rose"
+                      />
+                      {/* A commit with no url used to render `href="#"`, which
+                          is a real link that scrolls the page to the top. An
+                          entry with nowhere to go is not a link. */}
+                      {commit.url ? (
+                        <a
+                          href={commit.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="group block pb-5 pl-6"
+                        >
+                          {body}
+                          <NewTabHint />
+                        </a>
+                      ) : (
+                        <div className="block pb-5 pl-6">{body}</div>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}

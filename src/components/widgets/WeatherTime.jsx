@@ -2,31 +2,9 @@ import { useEffect, useState } from "react";
 import ottawaSkyline from "../../assets/ottawa-skyline.webp";
 import mapleLeaf from "../../assets/maple-leaf.svg";
 import useWeather from "../../hooks/useWeather";
+import { weatherLabel, glyphFor } from "../../lib/weather";
 
 const TIMEZONE = "America/Toronto";
-
-function weatherLabel(code) {
-  if (code === 0) return "clear";
-  if (code === 1 || code === 2) return "partly cloudy";
-  if (code === 3) return "cloudy";
-  if (code === 45 || code === 48) return "foggy";
-  if ([51, 53, 55, 56, 57].includes(code)) return "drizzle";
-  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "rain";
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return "snow";
-  if ([95, 96, 99].includes(code)) return "thunderstorm";
-  return "unsettled";
-}
-
-function glyphFor(code, isDay) {
-  if (code === 0) return isDay ? "sun" : "moon";
-  if (code === 1 || code === 2) return isDay ? "partly-day" : "partly-night";
-  if (code === 45 || code === 48) return "fog";
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return "snow";
-  if ([95, 96, 99].includes(code)) return "storm";
-  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code))
-    return "rain";
-  return "cloud";
-}
 
 // Shared cloud silhouettes: every condition below composes from one of these
 // two spines (positioned per-condition), instead of each carrying its own
@@ -211,7 +189,7 @@ function Postmark({ clock, dayPeriod }) {
 
 function WeatherTime() {
   const [now, setNow] = useState(() => new Date());
-  const { weather, loading, error } = useWeather();
+  const { weather, loading } = useWeather();
 
   // The clock only renders h:mm, so ticking every second re-rendered this whole
   // widget (weather SVG included) 59 extra times a minute for a byte-identical
@@ -243,7 +221,10 @@ function WeatherTime() {
   const dayPeriod = (
     timeParts.find((p) => p.type === "dayPeriod")?.value ?? ""
   ).toUpperCase();
-  const empty = !loading && (error || !weather);
+  // `!weather`, not `error || !weather`: the hook keeps the last good reading
+  // through a failed poll, so the postcard only goes blank when there has never
+  // been a reading to show (see useApiResource).
+  const empty = !loading && !weather;
 
   return (
     <div>
@@ -280,7 +261,17 @@ function WeatherTime() {
 
         <div className="flex shrink-0 items-center">
           <div className="border-2 border-dashed border-ink bg-white p-2 text-center">
-            {(weather || empty) && (
+            {/* A placeholder of the glyph's exact size while loading. Without
+                it the dashed stamp held only its caption and then grew by the
+                glyph's 40px the moment the fetch landed, shifting the postmark
+                and the skyline below it. `empty` is `!loading && !weather`, so
+                once loading is false one of the two branches always renders. */}
+            {loading ? (
+              <div
+                aria-hidden="true"
+                className="h-10 w-10 animate-pulse bg-primary-soft"
+              />
+            ) : (
               <WeatherGlyph
                 name={weather ? glyphFor(weather.code, weather.isDay) : "cloud"}
                 muted={empty}
@@ -291,6 +282,8 @@ function WeatherTime() {
                 src={mapleLeaf}
                 alt=""
                 aria-hidden="true"
+                width="650"
+                height="650"
                 className="h-3 w-auto"
               />
               CANADA
