@@ -2,7 +2,7 @@
 
 # 🍁 my personal portfolio website
 
-<img src="docs/home.png" alt="The site, a bulletin board of pinned widgets over a pink sky" width="680">
+<img src="docs/home.webp" alt="The site, a bulletin board of pinned widgets over a pink sky" width="680">
 
 🌐 **Check it out at [noahpn.dev](https://noahpn.dev)**
 
@@ -27,7 +27,7 @@ I took a lot of inspiration from the [indie web](https://indieweb.org) and
 before every site started looking the same. The Now page is borrowed from
 [Derek Sivers' /now movement](https://nownownow.com), and the portfolio roasting
 videos that got me started in the first place are
-[Anthony Sistilli's](https://www.youtube.com/@AnthonySistilli). For full
+[Anthony Sistilli's](https://www.youtube.com/playlist?list=PLQg6GaokU5CwD4sIzFuSJlJLJUqXXo1MK). For full
 credits, have a look at the site's Colophon, which is the Credits link in the
 footer.
 
@@ -38,4 +38,7 @@ Thanks!
 ---
 
 <sub>MIT licensed ([LICENSE](LICENSE)), so the code's free to reuse, but the
-photos, GIFs, and personal bits are mine.</sub>
+photos, GIFs, and personal bits are mine. Everything the site borrows is
+credited on the [Colophon](https://noahpn.dev/credits), and the full third-party
+notices, including the ones that are licence obligations rather than
+courtesies, are in [`licenses/NOTICE.md`](licenses/NOTICE.md).</sub>

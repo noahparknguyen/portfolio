@@ -1,4 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Lilita+One&family=Caveat:wght@500;600&display=swap");
+/* Fonts are linked from index.html, NOT @imported here. An @import inside the
+   stylesheet cannot be discovered until this file has been fetched and parsed,
+   which puts the font CSS a full round trip behind the page and the font files
+   two behind it. Measured on this site: index.css requested at +162ms, the font
+   CSS not until +1200ms. The <link> in index.html is visible to the preload
+   scanner during the initial HTML parse instead. */
 @import "tailwindcss";
 
 @theme {
@@ -43,6 +48,17 @@
   --color-wordmark-from: #5b82be;
   --color-wordmark-via: #8e7dc4;
   --color-wordmark-to: #d77ba9;
+
+  /* Spotify brand green. The SECOND documented brand colour on the site, after
+     the Algonquin crest, and it is here for the same reason: it is a real mark
+     reproduced under its owner's terms, not a glyph the site draws. Spotify's
+     Developer Policy requires that any displayed metadata (track, artist,
+     album, cover art) "be accompanied by the Spotify brand" and attributed
+     "by using the Spotify Marks", and their design guidelines forbid recolouring
+     the mark to an arbitrary hue — so `ink` is not an option here. Tokenised
+     rather than inlined so it obeys the no-hardcoded-hex rule and is findable.
+     Used in exactly one place: SpotifyWidget's attribution row. */
+  --color-spotify: #1db954;
 
   /* Sky-photo edge fallback (STYLE_GUIDE.md → Mobile deviation 5). Sampled by
      eye from bg-pinksky.jpg's dominant lower field and softened a touch so it
@@ -125,7 +141,18 @@
    element never carries two competing text-color utilities whose winner
    depends on Tailwind's internal source order rather than the className. */
 @utility eyebrow {
-  @apply text-xs font-semibold uppercase tracking-wide;
+  /* font-sans is load-bearing, not decoration. The Overline/kicker role is
+     Nunito at every size (STYLE_GUIDE.md → Type → the scale), but <Eyebrow>
+     defaults to rendering an <h3>, and the base rule below sets h1-h3 to
+     Fredoka. Without an explicit family the role rendered in TWO typefaces
+     depending only on the `as` prop: measured across the site, 51 overlines
+     came out Nunito and 5 came out Fredoka — and those 5 were Home's widget
+     labels ("Get in touch", "My current toolset", "What I've been playing",
+     "What I'm listening to", "Most recent updates"), which sit side by side on
+     the board where the mismatch is most comparable. Pinning it here is the
+     same argument the `tone` prop already makes for colour: the role owns its
+     own appearance, not the element it happens to be rendered as. */
+  @apply font-sans text-xs font-semibold uppercase tracking-wide;
 }
 
 /* Hard offset ink shadow, no blur — lifts a paper object off the board.
@@ -156,6 +183,72 @@
 }
 @utility animate-blink {
   animation: blink 1.1s steps(1, end) infinite;
+}
+
+/* The tech-stamp annotation (TechStack.jsx).
+   
+   Hidden — but present in the accessibility tree — unless the device can
+   actually hover. It used to be `md:opacity-100` with an
+   `@media(hover:hover)` override back to `opacity-0`, which meant a device
+   with NO hover at md+ showed every note permanently. Measured at 768px and
+   up on a touch device: all seven visible, six overlapping pairs, each one a
+   `whitespace-nowrap` tag wider than the 80px stamp it is centred under. That
+   is every tablet and touchscreen laptop.
+   
+   The guide blamed `pb-7` for making this safe on desktop; `pb-7` reserves
+   VERTICAL space and does nothing about a horizontal collision. Gating on the
+   hover capability is what actually fixes it.
+   
+   `sr-only` rather than `display: none` in the hidden state, because
+   `aria-describedby` pointing at a `display:none` element is honoured
+   inconsistently across screen readers. Nothing is removed from the document
+   at any width — the annotation is withheld from SIGHTED users who have no way
+   to summon it. */
+.tech-note {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@media (hover: hover) and (min-width: 768px) {
+  .tech-note {
+    position: absolute;
+    width: auto;
+    height: auto;
+    margin-top: calc(var(--spacing) * 1);
+    padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 2);
+    overflow: visible;
+    clip-path: none;
+    border: 2px solid var(--color-ink);
+    background: #fff;
+    box-shadow: 4px 4px 0 0 var(--color-ink);
+    font-family: var(--font-hand);
+    font-size: var(--text-base);
+    color: var(--color-ink);
+    left: 50%;
+    top: 100%;
+    z-index: 10;
+    transform: translateX(-50%);
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .group:hover > .tech-note,
+  .group:has(:focus-visible) > .tech-note {
+    opacity: 1;
+  }
+
+  /* Room for the note to hang beneath the row. Only reserved where a note can
+     actually appear, so a tablet no longer pays 28px for nothing. */
+  .tech-strip {
+    padding-bottom: calc(var(--spacing) * 7);
+  }
 }
 
 @layer utilities {
