@@ -8,7 +8,7 @@
 //
 // Run after `npm run build`:  node scripts/shoot-docs.mjs
 
-import { spawn } from "node:child_process";
+import { execSync, spawn } from "node:child_process";
 import { existsSync, statSync } from "node:fs";
 import puppeteer from "puppeteer-core";
 
@@ -23,6 +23,17 @@ const OUT = "docs/home.webp";
 const WIDTH = 1024;
 const SCALE = 1.5;
 
+// A framed shot of the top of the page, NOT `fullPage`. The home page is 1670px
+// tall at this width, which at the 680px the README displays it comes out over a
+// thousand pixels long — and a full-page capture resizes the viewport, so the
+// fixed sky layer stops covering and the bottom turns into flat colour.
+//
+// 940px cuts in the gap between rows two and three (row 2 ends at 925, row 3
+// starts at 945), so nothing is sliced in half. It keeps the masthead, the
+// welcome letter, the polaroid and the whole widget row, which is enough to show
+// what the site is.
+const HEIGHT = 940;
+
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function findChrome() {
@@ -36,6 +47,26 @@ function findChrome() {
     if (c && existsSync(c)) return c;
   }
   return null;
+}
+
+// The Live Reaction label contains a strawberry. Without an emoji font on the
+// machine, headless Chrome draws it as a tofu box, and the README then shows
+// what looks like a broken glyph on a site that renders it fine for every real
+// visitor. Warn rather than ship that silently.
+function hasEmojiFont() {
+  try {
+    return /emoji/i.test(execSync("fc-list", { encoding: "utf8" }));
+  } catch {
+    return true; // no fontconfig to ask; assume the platform has one
+  }
+}
+
+if (!hasEmojiFont()) {
+  console.warn(
+    "  WARNING: no emoji font on this machine, so the strawberry in the Live\n" +
+      "  Reaction label will capture as an empty box. Install one first:\n" +
+      "    sudo apt install fonts-noto-color-emoji",
+  );
 }
 
 const chrome = findChrome();
@@ -74,7 +105,7 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 await page.setViewport({
   width: WIDTH,
-  height: 1400,
+  height: HEIGHT,
   deviceScaleFactor: SCALE,
 });
 await page.goto(BASE, { waitUntil: "load" });
@@ -82,9 +113,9 @@ await page.evaluateHandle("document.fonts.ready");
 // The GIF cameos animate; a beat lets them settle on a representative frame.
 await wait(2500);
 
-await page.screenshot({ path: OUT, type: "webp", quality: 85, fullPage: true });
+await page.screenshot({ path: OUT, type: "webp", quality: 85 });
 await browser.close();
 server.kill();
 
 const kb = (statSync(OUT).size / 1024).toFixed(0);
-console.log(`  wrote ${OUT} — ${kb} KB at ${WIDTH}x${SCALE} device pixels`);
+console.log(`  wrote ${OUT} — ${kb} KB, ${WIDTH}x${HEIGHT} at ${SCALE}x`);
