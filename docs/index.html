@@ -28,10 +28,14 @@
 
     <style>
       :root {
-        /* Tokens copied verbatim from src/index.css (@theme). */
+        /* Tokens copied verbatim from src/index.css (@theme). KEEP IN SYNC —
+           --color-label silently drifted once and sat at the pre-fix #625AA0
+           here long after the real token was darkened to #5A5393, while this
+           comment still claimed the copy was verbatim. If you change a token in
+           index.css, change it here and regenerate the images below. */
         --color-ink: #3d3660;
         --color-paper: #fbf3e9;
-        --color-label: #625aa0;
+        --color-label: #5a5393;
         --color-rose: #f58fbe;
         --color-wordmark-from: #5b82be;
         --color-wordmark-via: #8e7dc4;
