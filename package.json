@@ -8,7 +8,16 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "vite build && wrangler deploy"
+    "deploy": "vite build && wrangler deploy",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:config": "node scripts/check-config.mjs",
+    "audit:styles": "node scripts/audit-styles.mjs",
+    "audit:browser": "node scripts/audit-browser.mjs",
+    "shoot:docs": "node scripts/shoot-docs.mjs",
+    "check": "npm run lint && npm run format:check && npm run check:config && npm run audit:styles && npm run test:run && npm run build && npm run audit:browser"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
@@ -28,12 +37,15 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
+    "prettier": "^3.9.6",
+    "puppeteer-core": "^23.11.1",
     "vite": "^8.1.1",
+    "vitest": "^4.1.11",
     "wrangler": "^4.111.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
-    "workerd@1.20260710.1": true,
-    "sharp@0.34.5": true
+    "workerd@1.20260722.1": true,
+    "sharp@0.35.2": true
   }
 }
