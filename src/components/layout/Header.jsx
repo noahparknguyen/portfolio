@@ -1,11 +1,18 @@
 import { useRef } from "react";
-import SECTIONS from "../../lib/sections";
+import { NAV_ROUTES, isPlainClick } from "../../lib/routes";
 import { borderAccent } from "../../lib/accents";
 import useScrollDirection from "../../hooks/useScrollDirection";
 
 // `sticky` doubles this as the mobile nav bar: pinned to the viewport top,
 // hiding on scroll-down/revealing on scroll-up (see useScrollDirection). The
 // masthead instance renders with `sticky` unset — a normal in-flow nav.
+//
+// The links are real <a href> elements, not buttons. Each section has its own
+// URL now, so the anchor is the honest element: it shows the destination in the
+// status bar, ctrl/cmd-click opens it in a new tab, and it is exposed to
+// assistive tech as a link rather than as a control with no destination. The
+// click handler intercepts only plain left clicks and hands everything else back
+// to the browser.
 function Header({ active, onNavigate, className = "", sticky = false }) {
   const barRef = useRef(null);
   const hidden = useScrollDirection(barRef, sticky);
@@ -23,13 +30,17 @@ function Header({ active, onNavigate, className = "", sticky = false }) {
       } ${className}`}
     >
       <ul className="flex items-center justify-evenly">
-        {SECTIONS.map((link) => {
+        {NAV_ROUTES.map((link) => {
           const isActive = active === link.id;
           return (
             <li key={link.id}>
-              <button
-                type="button"
-                onClick={() => onNavigate(link.id)}
+              <a
+                href={link.path}
+                onClick={(event) => {
+                  if (!isPlainClick(event)) return;
+                  event.preventDefault();
+                  onNavigate(link.id);
+                }}
                 aria-current={isActive ? "page" : undefined}
                 className="group flex min-h-11 items-center md:min-h-0"
               >
@@ -42,7 +53,7 @@ function Header({ active, onNavigate, className = "", sticky = false }) {
                 >
                   {link.label}
                 </span>
-              </button>
+              </a>
             </li>
           );
         })}

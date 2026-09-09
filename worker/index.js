@@ -1,3 +1,16 @@
+import {
+  KNOWN_PATHS,
+  SITE,
+  isPageRequest,
+  normalizePath,
+} from "../src/lib/routes";
+
+// The app's real pages, from the same table the client renders from. Sharing it
+// is the point: a path the worker calls valid and the app calls unknown (or the
+// reverse) would serve a 200 for a "Nothing here" page, or a 404 for a page that
+// renders fine. One list, imported by both.
+const APP_PATHS = new Set(KNOWN_PATHS);
+
 function json(body, status = 200, extraHeaders = {}) {
   // Default to no-store so transient error responses (502/500/405) are never
   // cached. Success handlers pass their own Cache-Control in extraHeaders,
@@ -193,7 +206,7 @@ async function handleCommits(env) {
 // hashed module scripts (no inline JS) and Cloudflare Web Analytics is disabled
 // (no injected beacon/inline script). style-src allows 'unsafe-inline' for
 // React's inline style attributes and Tailwind's injected styles, plus
-// fonts.googleapis.com for the Google Fonts stylesheet imported in index.css;
+// fonts.googleapis.com for the Google Fonts stylesheet linked from index.html;
 // the font files themselves load from fonts.gstatic.com (font-src). img-src is
 // broad because the live widgets pull album/game art from third-party CDNs.
 const CSP = [
@@ -257,9 +270,31 @@ const SECURITY_TXT = [
   "",
 ].join("\n");
 
+// Generated from the same route table the app renders from, so it cannot list a
+// page that does not exist or miss one that does. KNOWN_PATHS already excludes
+// the not-found route. Served from the Worker rather than committed as a static
+// file for that reason: a checked-in sitemap is a second list to keep in step.
+function sitemap() {
+  const urls = KNOWN_PATHS.map(
+    (path) => `  <url><loc>${SITE}${path}</loc></url>`,
+  ).join("\n");
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+    {
+      headers: {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, max-age=86400",
+      },
+    },
+  );
+}
+
 async function route(request, env) {
   const { pathname } = new URL(request.url);
   switch (pathname) {
+    case "/sitemap.xml":
+      return sitemap();
     case "/.well-known/security.txt":
       return new Response(SECURITY_TXT, {
         headers: {
@@ -275,11 +310,33 @@ async function route(request, env) {
       return handleCommits(env);
     case "/api/weather":
       return handleWeather();
-    default:
+    default: {
       if (pathname.startsWith("/api/")) {
         return json({ error: "Not found" }, 404);
       }
-      return env.ASSETS.fetch(request);
+
+      // Assets and known pages serve normally. `not_found_handling:
+      // "single-page-application"` (wrangler.jsonc) hands back index.html for
+      // every one of the app's paths, which is exactly what a client-routed app
+      // wants.
+      if (
+        !isPageRequest(request.headers.get("Sec-Fetch-Dest"), pathname) ||
+        APP_PATHS.has(normalizePath(pathname))
+      ) {
+        return env.ASSETS.fetch(request);
+      }
+
+      // An unknown page path. SPA fallback would answer it with index.html and a
+      // 200 — a soft 404, which tells a crawler the page exists and gets it
+      // indexed as a duplicate of the home page. Serve the same shell (so the
+      // app can render its own "Nothing here" section in the site's own
+      // grammar) but with the status that is actually true.
+      const shell = await env.ASSETS.fetch(new URL("/", request.url));
+      return new Response(shell.body, {
+        status: 404,
+        headers: shell.headers,
+      });
+    }
   }
 }
 
