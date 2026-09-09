@@ -3,6 +3,7 @@ import Panel from "../ui/Panel";
 import Cell from "../ui/Cell";
 import Eyebrow from "../ui/Eyebrow";
 import ProjectLinks from "../ui/ProjectLinks";
+import TextLink from "../ui/TextLink";
 import Chevron from "../ui/Chevron";
 
 // Page-turn controls live in the outer bottom corners — where a thumb turns a
@@ -49,27 +50,6 @@ function PageBody({ page, project, titleId }) {
           {project.imprint}
         </Eyebrow>
       </div>
-    );
-  }
-
-  if (page.kind === "plate") {
-    return (
-      <figure>
-        <img
-          src={page.src}
-          alt={page.alt}
-          width={page.width}
-          height={page.height}
-          decoding="async"
-          className="block h-auto w-full border-2 border-ink"
-        />
-        {/* A printed plate caption — Small/meta, not the site's handwriting.
-            font-hand covers photo captions, but a book sets a figure caption in
-            type, and this one is a description rather than an aside. */}
-        <figcaption className="mt-4 border-t-2 border-ink pt-2 text-sm text-gray-600">
-          {page.caption}
-        </figcaption>
-      </figure>
     );
   }
 
@@ -134,17 +114,32 @@ function PageBody({ page, project, titleId }) {
             liveUrl={project.liveUrl}
             repoUrl={project.repoUrl}
             title={project.title}
+            liveNote={project.liveNote}
           />
         </div>
       </div>
     );
   }
 
+  // A paragraph is either a plain string or `{ parts: [...] }` for the rare one
+  // carrying an inline link. The parts shape is the same one Credits uses, and
+  // it exists so `src/lib/projects.js` can stay free of JSX (see Book.jsx) while
+  // still citing a source properly.
   return (
     <div className="flex flex-col gap-2">
-      {page.paragraphs.map((text, n) => (
+      {page.paragraphs.map((para, n) => (
         <p key={n} className="text-sm text-gray-700">
-          {text}
+          {typeof para === "string"
+            ? para
+            : para.parts.map((part, i) =>
+                part.href ? (
+                  <TextLink key={i} href={part.href} accent="orchid" external>
+                    {part.linkText}
+                  </TextLink>
+                ) : (
+                  <span key={i}>{part.text}</span>
+                ),
+              )}
         </p>
       ))}
       {page.marginNote && (
@@ -164,6 +159,27 @@ function PageBody({ page, project, titleId }) {
 // two pages follow the print convention and carry different things: the verso
 // runs the book's title and the back control, the recto its chapter and forward.
 function Page({ page, project, titleId, head, folio, navLeft, navRight }) {
+  const bodyRef = useRef(null);
+  const [scrollable, setScrollable] = useState(false);
+
+  // A region that scrolls must be reachable by keyboard (WCAG 2.1.1) — Devlog
+  // and the passport panel both carry `tabIndex={0}` for exactly this, and this
+  // one did not. It is measured rather than assumed, so the tab stop only
+  // exists on a page that actually overflows: copy is written to a page budget,
+  // so most pages never scroll, and a permanent stop on every page would add
+  // two dead stops per spread. Re-measured on resize and after the webfont
+  // swaps in, since both change where the text ends.
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!el) return;
+    const check = () => setScrollable(el.scrollHeight > el.clientHeight + 1);
+    check();
+    const observer = new ResizeObserver(check);
+    observer.observe(el);
+    document.fonts?.ready.then(check);
+    return () => observer.disconnect();
+  }, [page]);
+
   return (
     <div className="relative flex h-full w-full flex-col p-4 md:p-6">
       {/* The rule belongs to the head, so a title page — which carries neither a
@@ -177,6 +193,8 @@ function Page({ page, project, titleId, head, folio, navLeft, navRight }) {
       )}
 
       <div
+        ref={bodyRef}
+        tabIndex={scrollable ? 0 : undefined}
         className={`devlog-scroll md:min-h-0 md:flex-1 md:overflow-y-auto md:pr-1 ${head ? "mt-4" : ""}`}
       >
         <PageBody page={page} project={project} titleId={titleId} />

@@ -104,7 +104,13 @@ function Book({ project, onOpen, openRef }) {
     // On the boards it moved the cover alone and left the page block and shadow
     // behind — the cover peeling off its own pages. `has-[button:hover]` keeps
     // it scoped to the open button, so hovering a link lifts that link alone.
-    <div className="relative mx-auto transition-transform has-[button:hover]:-translate-y-0.5 has-[button:focus-visible]:-translate-y-0.5 md:w-1/2">
+    // No margin utilities and no `mx-auto`: the cover sits in a bento row now
+    // (Creations.jsx) and the row's `justify-between` places it. Centring it
+    // here is what used to leave the section as one narrow column, and it also
+    // meant opening expanded 184px in BOTH directions, so the guide's
+    // "unfolds rightward" mechanic never actually happened. Left in a row, it
+    // does.
+    <div className="relative transition-transform has-[button:hover]:-translate-y-0.5 has-[button:focus-visible]:-translate-y-0.5 md:w-1/2">
       {/* The page block, offset down-right so the closed book reads as a thick
           object rather than a card. It carries the shadow-sticker for the whole
           book, being the lowest layer. */}
@@ -126,6 +132,34 @@ function Book({ project, onOpen, openRef }) {
         </span>
 
         <div className="relative flex h-full flex-col pl-5">
+          {/* The whole cover is the control, which is what a book is: you open it
+              by touching it anywhere rather than by hunting for a region.
+              Overlaying only the mark, title and blurb left just 39% of the cover
+              clickable, with dead bands on all four sides and a dead strip
+              between the cue and the links. Measured, not guessed.
+
+              FIRST in the DOM so it is the first control a keyboard user reaches
+              inside the cover: opening the book is the primary action, and the
+              two outbound links are secondary. Putting it last made the tab order
+              read Live site, Source, then Open.
+
+              It still paints UNDER the cover's contents, which is why they stay
+              crisp. The content is `pointer-events-none` so clicks fall through
+              to this button, and only the links opt back in. That also keeps the
+              hover lift honest: hovering the title lifts the whole book, and
+              hovering a link lifts the link alone.
+
+              `inset-0` resolves against this parent's PADDING box, so the overlay
+              reaches over the spine as well, which is right — the spine is part
+              of the book. */}
+          <button
+            ref={openRef}
+            type="button"
+            onClick={onOpen}
+            aria-label={`Open the ${project.title} book`}
+            className="absolute inset-0"
+          />
+
           {/* The blind-stamped rule frame an old cloth binding carries. It is
               stamped on the COVER BOARD only, so it has to stop at the spine.
               `inset-2` doesn't do that on its own: an absolute element resolves
@@ -143,7 +177,7 @@ function Book({ project, onOpen, openRef }) {
               content block pushed up and links pinned down — the two halves
               being separately placed left a void through the middle of the
               cover. Only the imprint sits apart, at the foot. */}
-          <div className="relative flex flex-1 flex-col items-center justify-center gap-4 p-4 md:p-6">
+          <div className="pointer-events-none relative flex flex-1 flex-col items-center justify-center gap-4 p-4 md:p-6">
             <div className="relative flex flex-col items-center gap-3 text-center">
               <Device />
               <div>
@@ -159,37 +193,31 @@ function Book({ project, onOpen, openRef }) {
                   pointing at the object rather than as a third control
                   competing with the two links below. */}
               <p className="flex items-center gap-1 font-hand text-xl leading-none text-ink">
-                open me up
+                read more
                 <ArrowRight />
               </p>
-
-              {/* Transparent overlay: the mark, title and blurb are the control.
-                  It stops short of the links — a <button> may only contain
-                  phrasing content, so the <h3> and the two <a>s cannot live
-                  inside one, and an overlay over the links would swallow their
-                  clicks. */}
-              <button
-                ref={openRef}
-                type="button"
-                onClick={onOpen}
-                aria-label={`Open the ${project.title} book`}
-                className="absolute inset-0"
-              />
             </div>
 
-            {/* Sibling of the overlay button, never inside it: a <button> may
-                only contain phrasing content, and an overlay covering these
-                would swallow their clicks. */}
-            <ProjectLinks
-              liveUrl={project.liveUrl}
-              repoUrl={project.repoUrl}
-              title={project.title}
-            />
+            {/* Still a SIBLING of the overlay rather than its child: a
+                <button> may only contain phrasing content, so the two <a>s can
+                never live inside one. The opt-in to pointer events is scoped to
+                the chips themselves inside ProjectLinks, so the note beneath
+                them does not punch a dead strip through the cover. */}
+            <div className="w-full">
+              <ProjectLinks
+                liveUrl={project.liveUrl}
+                repoUrl={project.repoUrl}
+                title={project.title}
+                liveNote={project.liveNote}
+                bg="bg-paper"
+              />
+            </div>
           </div>
 
+          {/* pointer-events-none so the foot of the cover opens the book too. */}
           <Eyebrow
             as="p"
-            className="relative shrink-0 px-4 pb-4 text-center md:px-6"
+            className="pointer-events-none relative shrink-0 px-4 pb-4 text-center md:px-6"
           >
             {project.imprint}
           </Eyebrow>
