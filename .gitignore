@@ -15,6 +15,10 @@ dist-ssr
 # Cloudflare Worker secrets
 .dev.vars
 
+# Throwaway browser-probe scripts. They live inside the project so they can
+# resolve puppeteer-core from node_modules, but they are never committed.
+.tmp-probe/
+
 # wrangler local dev cache/state
 .wrangler
 

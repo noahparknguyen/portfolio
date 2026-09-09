@@ -1,0 +1,53 @@
+# The checks that have to stay green. They exist as npm scripts so they can be
+# run locally with `npm run check`; this is the part that doesn't depend on
+# anyone remembering to.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # `npm ci` rather than `npm install`, so the lockfile is what gets tested.
+      - run: npm ci
+
+      # Ordered cheapest-first: an obvious failure reports in seconds instead of
+      # after the browser pass.
+      - name: Lint
+        run: npm run lint
+
+      - name: Formatting
+        run: npm run format:check
+
+      # Catches the two drifts that nothing else can see: docs/index.html's
+      # colour tokens falling out of step with src/index.css, and package.json's
+      # exact-version `allowScripts` pins going stale, which silently blocks a
+      # dependency's install script and only ever produces an npm warning.
+      - name: Config consistency
+        run: npm run check:config
+
+      - name: Unit tests
+        run: npm run test:run
+
+      - name: Build
+        run: npm run build
+
+      # Needs dist/ from the step above, and Chrome — which the runner image
+      # ships. The script finds a binary itself rather than this pinning a path
+      # that may move between images; CHROME_PATH overrides it. Covers
+      # horizontal overflow, WCAG AA contrast and image scaling across every
+      # route at 320 / 375 / 768 / 1024 — the class of bug that is invisible to
+      # every check above it.
+      - name: Browser audit
+        run: npm run audit:browser

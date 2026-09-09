@@ -1,0 +1,23 @@
+# Throwaway browser-probe scripts. They live inside the project so they can
+# resolve puppeteer-core from node_modules, but they are never committed.
+.tmp-probe/
+
+# Build output and caches
+dist/
+.wrangler/
+node_modules/
+
+# Generated / vendored
+package-lock.json
+
+# Binary assets Prettier has no business touching
+*.png
+*.jpg
+*.gif
+*.webp
+*.ico
+
+# The OG-image template is a standalone hand-maintained snapshot whose
+# formatting is deliberately aligned column-by-column with src/index.css so the
+# two can be diffed by eye (scripts/check-config.mjs does it mechanically).
+docs/index.html
