@@ -235,7 +235,7 @@ const hubspot = {
         items: [
           { value: "10", label: "matchers read every page", stamp: "matchers" },
           { value: "5", label: "phases in the pipeline" },
-          { value: "110", label: "tests behind it", stamp: "tests" },
+          { value: "122", label: "tests behind it", stamp: "tests" },
           { value: "0", label: "backend frameworks", stamp: "frameworks" },
         ],
         note: "It refuses to fetch anything on a private network and re-checks on every redirect hop, caps how much it will download, and rate-limits the whole thing. I was honest in the security doc about the one hole I couldn’t close on my own, because that felt more useful than pretending.",
