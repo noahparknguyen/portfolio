@@ -56,7 +56,7 @@ const TABS = [
 
 const CHAPTERS = {
   journey: [
-    "I was born and raised in BC, and went through high school with no idea what I wanted to do for a living. During my last year, I forgot to hand in my elective selections, and ended up in an intro programming class on a whim. That ended up being the best grade I’ve ever gotten.",
+    "I was born and raised in BC, and went through high school with no idea what I wanted to do for a living. During my last year, I forgot to hand in my elective selections, and ended up in an intro programming class on a whim. That ended up being my best grade in all four years of high school.",
     "Unfortunately, it only counted as an elective, and I was short the math prerequisites needed for college. I spent the following year taking summer courses and working to prepare and save money. My aunt then told my parents about Algonquin College, which had a co-op program where I could work while I studied. That was what moved me out to Ottawa.",
     "Looking back, I still have no idea why I moved across the country. But I’m glad I pushed myself out of my comfort zone and took a risk I never thought I would.",
   ],
