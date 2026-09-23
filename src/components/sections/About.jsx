@@ -152,8 +152,9 @@ function WorkTimeline() {
               <p className="font-display font-semibold text-ink">Pending</p>
               <p className="text-xs text-label">New role incoming</p>
               <p className="mt-0.5 text-sm text-gray-600">
-                Security clearance can take up to a year, so for now
-                there&rsquo;s not much to do but wait. Wish me luck!
+                I don&rsquo;t have a start date yet, and it could still be a
+                while before I do. Until then, I&rsquo;m making sure I stay
+                sharp and don&rsquo;t lose any of my skills. Wish me luck!
               </p>
             </PinnedCard>
           </li>

@@ -24,7 +24,7 @@ import Chevron from "../ui/Chevron";
 const ID_FIELDS = [
   { label: "Name / Nom", value: "Noah Park-Nguyen" },
   { label: "Pronouns / Pronoms", value: "He / Him" },
-  { label: "Date of birth / Date de naissance", value: "18 OCT" },
+  { label: "Nationality / Nationalité", value: "Canadian" },
   { label: "Birthplace / Lieu de naissance", value: "British Columbia" },
   { label: "Residence / Résidence", value: "Ottawa, ON" },
 ];
@@ -62,21 +62,7 @@ const CHAPTERS = {
   ],
   hobbies: [
     "I mainly play a lot of indie games, the kind that are easy to pick up but hard to master. The games I probably replay the most are Celeste, The Binding of Isaac, and Balatro.",
-    <>
-      I’ve also been replaying a lot of my childhood favourites like Pikmin,
-      Super Monkey Ball, and Pokémon, basically anything from the GameCube era
-      to the early 2010s. I also love to{" "}
-      <TextLink
-        href="https://www.speedrun.com/users/SerenePrince"
-        accent="violet"
-        external
-      >
-        speedrun
-      </TextLink>
-      . I used to run games like Super Meat Boy and Hollow Knight Any%, but had
-      to take a break when school got too busy. I’d like to get back into it
-      someday, when I have a bit more time.
-    </>,
+    "I’ve also been replaying a lot of my childhood favourites like Pikmin, Super Monkey Ball, and Pokémon, basically anything from the GameCube era to the early 2010s. I also love to speedrun. I used to run games like Super Meat Boy and Hollow Knight Any%, but had to take a break when school got too busy. I’d like to get back into it someday, when I have a bit more time.",
     "Volleyball is one of my oldest passions. I used to play on my high school team and for a few clubs, but now I just play recreationally at drop-ins and tournaments.",
   ],
   workflow: [
@@ -301,7 +287,7 @@ function Passport({ onNavigate }) {
                     <div
                       key={f.label}
                       /* Only the first two fields ride beside the floated photo.
-                         Everything from index 2 (Date of birth) clears it, so a
+                         Everything from index 2 (Nationality) clears it, so a
                          field can never straddle the float — half its label
                          beside the photo and half wrapped underneath, which is
                          what unconstrained flow produced at some widths. Two is

@@ -1898,7 +1898,7 @@ That is the whole list. Anything not on it holds at every width.
   Flow alone is not enough, though. Left to itself a field can **straddle** the
   float — part of its label beside the photo, the rest wrapped underneath —
   and which field does so drifts with the viewport. So the first two fields
-  (Name, Pronouns) ride beside the photo and **everything from Date of birth
+  (Name, Pronouns) ride beside the photo and **everything from Nationality
   onward carries `clear-left`**, putting a deterministic boundary at the
   photo's bottom edge. Two is the count that fits the photo's 112px band at
   320px.
@@ -2044,8 +2044,8 @@ page is not.
 - **`LAST_UPDATED` moves with the notes**, and the intro's line quotes the
   canonical "a friend I haven't seen in a year".
 
-The strongest cards are the ones that answer the year question: the security
-clearance, being wary of complacency, saying no to social media. The weakest are
+The strongest cards are the ones that answer the year question: the habit being
+built, what's on his mind, saying no to social media. The weakest are
 pure consumption, which is exactly what the convention warns about — but this
 site puts hobbies before work on purpose, so they stay. That tension is the
 deliberate part.
@@ -2266,6 +2266,13 @@ the file to look right at 80px.
   untouched this fortnight, so that was the ordinary case rather than an edge
   one. And Devlog rendered a commit with no url as `href="#"`, a real link that
   scrolls the page to the top; an entry with nowhere to go is not a link.
+- **Don't** publish details that help someone take over an account. That means
+  no date of birth, no security-clearance status, and no link to a handle he uses
+  on other platforms. All three were live until 2026-09-23. The passport's
+  date-of-birth field became Nationality, which keeps its five-field grid
+  intact. The Pending card says a start date is to come without saying why. The
+  speedrun.com link came out, and the sentence stayed as plain text. Name, email,
+  Ottawa and BC stay, because the site needs them.
 - **Don't** carry a label on a bare `<span>` via `aria-label`. ARIA prohibits
   naming `role=generic`, so the label may simply be discarded. Steam's two stat
   rows did this and are now a real `<dl>`, with `<Eyebrow as="dt">` carrying the
