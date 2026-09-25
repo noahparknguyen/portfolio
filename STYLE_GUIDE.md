@@ -2266,13 +2266,12 @@ the file to look right at 80px.
   untouched this fortnight, so that was the ordinary case rather than an edge
   one. And Devlog rendered a commit with no url as `href="#"`, a real link that
   scrolls the page to the top; an entry with nowhere to go is not a link.
-- **Don't** publish details that help someone take over an account. That means
-  no date of birth, no security-clearance status, and no link to a handle he uses
-  on other platforms. All three were live until 2026-09-23. The passport's
-  date-of-birth field became Nationality, which keeps its five-field grid
-  intact. The Pending card says a start date is to come without saying why. The
-  speedrun.com link came out, and the sentence stayed as plain text. Name, email,
-  Ottawa and BC stay, because the site needs them.
+- **Don't** publish details that help someone take over an account or target
+  him. That means no date of birth, no detail about his employment beyond "in
+  the hiring process", and no link to a handle he uses on other platforms. The
+  passport's date-of-birth field became Nationality, which keeps its five-field
+  grid intact. The speedrun.com link came out, and the sentence stayed as plain
+  text. Name, email, Ottawa and BC stay, because the site needs them.
 - **Don't** carry a label on a bare `<span>` via `aria-label`. ARIA prohibits
   naming `role=generic`, so the label may simply be discarded. Steam's two stat
   rows did this and are now a real `<dl>`, with `<Eyebrow as="dt">` carrying the
