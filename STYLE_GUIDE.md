@@ -495,6 +495,13 @@ updates"), which sit side by side on the board where the mismatch is most
 comparable. This is the same argument the `tone` prop makes for colour: the role
 owns its appearance, not the element it happens to be rendered as.
 
+**Those five labels have since moved up a role.** They are now plain `<h3>`s in
+the Heading role (`text-xl font-semibold`, Fredoka), the same as About's "Where
+I've Worked" and "What I've Achieved". A `LabelTag` strip is one object, and in
+the Overline role Home's five looked like the small print inside the widgets
+beneath them rather than like signs pinned above them. The Overline fix above
+still governs every `<Eyebrow>` that remains.
+
 Handwritten (`font-hand`) accents and `font-mono` readouts (the REC label, the
 Weather postcard's stamp caption and postmark) sit outside this scale on
 purpose — see **Handcrafted layer** — but still pick from the same handful of
@@ -540,11 +547,11 @@ The page outline is fixed:
   book there is nothing for it to sit under.
 
 Never add a second `h1`. Keep levels in order (no skipping). Not every
-`<Eyebrow>` is a heading — a genuine card title (Devlog's "Most recent
-updates", Links' "Get in touch") stays the default `<h3>`, but a decorative status label sitting
-next to a value (Weather's "Ottawa", Spotify's "Now Playing"/"Paused", Steam's
-"What I've been playing") should pass `as="p"` / `as="span"` so it doesn't
-register as a heading. About's `h2` lives **inside the passport** — on the
+`<Eyebrow>` is a heading — a decorative status label sitting next to a value
+(Weather's "Ottawa", Spotify's "Now Playing"/"Paused") should pass `as="p"` /
+`as="span"` so it doesn't register as a heading. The widget labels on `LabelTag`
+strips are real headings, and are written as `<h3>`s directly rather than as
+Eyebrows (see the Type note above). About's `h2` lives **inside the passport** — on the
 opaque ID page, not a title floating separately above it — the passport's
 chapter title (e.g. "Bio") is the section's `h3`.
 
@@ -580,7 +587,7 @@ border-<section hue>` for the accent underline under a section title.
 - **Text never sits directly on the sky.** Every run of text rides an opaque
   surface that is itself a discrete pinned object sized to the text — a title
   **sign** (`SectionTitle`, on the passport's opaque page), a label **tag**
-  (`LabelTag`, wrapping a heading/`<Eyebrow>` — "My current toolset", "What
+  (`LabelTag`, wrapping an `<h3>` in the Heading role — "My current toolset", "What
   I'm listening to", "Get in touch", "Most recent updates", "Where I've
   Worked", "What I've Achieved"), or a
   **document** (About's boarding passes, each a bordered `shadow-sticker` pass
@@ -2079,10 +2086,13 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   `rotate` props). Home's layout primitive for widgets that need their own
   fill (Spotify, Weather, Live Reaction) — not every widget uses one; some
   float bare on the sky (see Shape & surface).
-- **`LabelTag`** — the opaque text plate a heading/`<Eyebrow>` sits on so it
-  reads over the sky (`bg` / `rotate` props). A visual wrapper only — the real
-  heading/`<Eyebrow>` element stays inside it, so semantics and heading levels
-  are unaffected.
+- **`LabelTag`** — the opaque text plate a heading sits on so it reads over the
+  sky (`bg` / `rotate` props). A visual wrapper only — the real heading element
+  stays inside it, so semantics and heading levels are unaffected. **What goes
+  inside is always the same:** `<h3 className="text-xl font-semibold text-ink">`,
+  on Home and About alike. Home's five used to carry Overline-role `<Eyebrow>`s
+  while About's two carried headings, so one object read as two different
+  things depending on the page.
 - **`Panel`** / **`Cell`** — the touching-cell grid, used by About's passport
   and Creations' book spread: `Panel` is the `bg-ink` + `gap-0.5` wrapper,
   `Cell` is a grid cell (`padding` prop: `p-6` / `p-4` / `p-0`; `bg` prop for

@@ -138,7 +138,9 @@ function Home() {
               so both the record and the track text gained room. */}
           <div className="text-center">
             <LabelTag rotate="rotate-[1deg]">
-              <Eyebrow>What I&rsquo;m listening to</Eyebrow>
+              <h3 className="text-xl font-semibold text-ink">
+                What I&rsquo;m listening to
+              </h3>
             </LabelTag>
           </div>
           <div className="mt-2 min-w-0 w-full">

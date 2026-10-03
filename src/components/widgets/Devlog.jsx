@@ -1,6 +1,5 @@
 import useCommits from "../../hooks/useCommits";
 import { relativeTime } from "../../lib/format";
-import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import NewTabHint from "../ui/NewTabHint";
 
@@ -11,7 +10,9 @@ function Devlog() {
     <div>
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">
-          <Eyebrow>Most recent updates</Eyebrow>
+          <h3 className="text-xl font-semibold text-ink">
+            Most recent updates
+          </h3>
         </LabelTag>
       </div>
       <div className="relative mt-2">

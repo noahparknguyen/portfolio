@@ -8,7 +8,6 @@ import {
 } from "simple-icons";
 import { FaJava } from "react-icons/fa6";
 import tboiThumbsUp from "../../assets/tboi-thumbs-up.gif";
-import Eyebrow from "../ui/Eyebrow";
 import SimpleIcon from "../ui/SimpleIcon";
 import LabelTag from "../ui/LabelTag";
 import NewTabHint from "../ui/NewTabHint";
@@ -160,7 +159,7 @@ function TechStack() {
     <div>
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">
-          <Eyebrow>My current toolset</Eyebrow>
+          <h3 className="text-xl font-semibold text-ink">My current toolset</h3>
         </LabelTag>
       </div>
       <div className="tech-strip mt-2 flex flex-wrap justify-center gap-2">

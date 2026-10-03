@@ -14,7 +14,9 @@ function SteamWidget() {
     <div>
       <div className="text-center">
         <LabelTag rotate="-rotate-[1deg]">
-          <Eyebrow>What I&rsquo;ve been playing</Eyebrow>
+          <h3 className="text-xl font-semibold text-ink">
+            What I&rsquo;ve been playing
+          </h3>
         </LabelTag>
       </div>
       <PinnedCard padding="p-0" rotate="rotate-[1deg]" className="mt-2">

@@ -1,6 +1,5 @@
 import { siGithub } from "simple-icons";
 import { FaLinkedinIn } from "react-icons/fa6";
-import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import SimpleIcon from "../ui/SimpleIcon";
 import NewTabHint from "../ui/NewTabHint";
@@ -80,7 +79,7 @@ function Links() {
     <div>
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">
-          <Eyebrow>Get in touch</Eyebrow>
+          <h3 className="text-xl font-semibold text-ink">Get in touch</h3>
         </LabelTag>
       </div>
       <div className="mt-4 flex flex-col gap-4">
