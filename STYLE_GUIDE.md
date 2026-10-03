@@ -866,15 +866,15 @@ evidence is redundant. The other book's evidence stays on the board.
 
 ### The placeholder goes last
 
-The "Up next" card sits **after** both books, the only position where a
+The "Up next" card sits **after** the books, the only position where a
 forward-looking heading reads correctly. It spent a version second from the top,
 where it announced the next project ahead of the real ones. Dashed border over
 warm `paper` is the "blank form waiting to be filled in" language already
 carrying About's standby boarding pass and its blank certificate, and it keeps
 `p-6` at every width per the cell-padding rule for exactly this card.
 
-It is true rather than decorative: the Now page says the next project is being
-brainstormed, and this is where that lands.
+It is true rather than decorative: it names the next emulator in the Elbaite
+family, the one the Now page says comes next, and this is where it will land.
 
 ---
 
@@ -912,7 +912,9 @@ edge of the column rather than sitting centred. See **Layout** below for why.
   **Translate a project's mark into this grammar; never paste it in.** Statmon's
   Poké Ball keeps its circle and loses its tile and gradient; Inbox's mark keeps
   its three rectangles and loses its rounded tile, with the brand orange becoming
-  a palette accent. Each book names its mark as a string in `src/lib/projects.js`
+  a palette accent; Elbaite's pixel-art tourmaline keeps its silhouette, a
+  pointed hexagonal prism, and its colour bands, which become section tints, and
+  loses its pixel stepping. Each book names its mark as a string in `src/lib/projects.js`
   and `Book.jsx` maps that to the drawing, because the data file holds no JSX.
 
   **A prose paragraph that needs an inline link uses `parts`, for the same
@@ -951,6 +953,10 @@ edge of the column rather than sitting centred. See **Layout** below for why.
   cover itself, so pasting it in would have printed the cover's contents twice.
   The cover **is** that image, redrawn in paper. Check for that overlap before
   putting art on any future cover.
+
+**A project may carry a `liveLabel`**, which renames the first link. It
+defaults to "Live site"; Elbaite is an app you install rather than a site you
+visit, so its first link reads "Download" and points at the latest release.
 
 **A project may carry a `liveNote`**, rendered by `ProjectLinks` under the link
 pair so it appears on the cover and in the colophon alike — wherever the link
@@ -1136,12 +1142,30 @@ opens a book. The book is the reading layer, for someone who has already decided
 they are interested. GitHub is the reference layer. Writing any one of them in
 another's register is the mistake.
 
-**The copy is the site's voice, not a portfolio's.** The books carry the longest
-prose on the site, which makes them the easiest place to drift into sounding like
-a CV. They follow Home's Welcome letter and Now's notes instead: contractions
-throughout, asides in brackets, the odd exclamation mark, and a real willingness
-to say what went wrong. Concrete beats impressive — "that's how I found out
-Dragon was too dark to read" earns more than "a rigorous contrast audit" does.
+**The books are written in Noah's professional register, not the site's casual
+one.** Decided by Noah on 2026-10-03, after the casual voice proved the hardest
+to reproduce at book length. It is the register of his project READMEs, with the
+Elbaite README as the model: plain, exact, first person, short declarative
+sentences, and a colon where an explanation follows. That README already shows
+the mix this needs, because its "Why" is casual and first person while
+everything around it is plain, so the books are personal where the content is
+personal (why a project exists, what went wrong, what he is proud of) and plain
+everywhere else. The rest of the site keeps the casual voice.
+
+What does not change is the mechanics. **Voice still binds the books**: no
+em-dashes, no semicolons or parentheses in body copy, the serial comma, complete
+sentences, Canadian spelling, and none of the spoken tics ("So" openers, "I
+think", "super", "just"). An earlier version of this paragraph asked for "asides
+in brackets" and "the odd exclamation mark", which Voice → Punctuation forbids;
+Voice wins. A real willingness to say what went wrong survives, and so does the
+rule that concrete beats impressive: "which is how I found out Dragon was too
+dark to read" earns more than "a rigorous contrast audit" does.
+
+**Elbaite's book has one extra constraint.** Achroite 1.0 is Noah's own code; the
+menus, packages and release pipeline in 1.1 were built at his direction. The
+book says "I" about 1.0 and about decisions ("I wanted it to install like any
+other app, so…"), says nothing about how the rest was made either way, and never
+claims he wrote every line.
 
 **`--color-paper` extends to book pages and the page block.** The token is
 otherwise reserved for stationery, but a book's pages are the most literal paper

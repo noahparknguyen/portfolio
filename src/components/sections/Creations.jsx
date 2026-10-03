@@ -209,8 +209,8 @@ function Creations() {
           Up next
         </h3>
         <p className="text-sm text-gray-700">
-          I&rsquo;m brainstorming what to build next. Whatever it turns out to
-          be will end up here.
+          A Game Boy emulator is next in the Elbaite family. Whenever it&rsquo;s
+          ready, it&rsquo;ll end up here.
         </p>
       </PinnedCard>
     </section>

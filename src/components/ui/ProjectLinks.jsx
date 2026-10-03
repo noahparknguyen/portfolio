@@ -28,18 +28,28 @@ function ArrowOut() {
 // constraint it has to satisfy on the cover: an <a> may not sit inside the
 // transparent overlay <button> that opens the book, so on that side this is
 // rendered as the button's SIBLING (see Book.jsx).
-function ProjectLinks({ liveUrl, repoUrl, title, liveNote, bg = "bg-white" }) {
+// `liveLabel` names the first link. Most projects are sites, so it defaults to
+// "Live site"; Elbaite is an app you install, so its first link is "Download"
+// and points at the latest release instead.
+function ProjectLinks({
+  liveUrl,
+  liveLabel = "Live site",
+  repoUrl,
+  title,
+  liveNote,
+  bg = "bg-white",
+}) {
   const chip = `flex min-h-11 flex-1 items-center justify-center gap-2 border-2 border-ink ${bg} px-2 font-display text-sm font-bold text-ink transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 md:min-h-10`;
 
   return (
     <div className="w-full">
       <div className="pointer-events-auto flex w-full gap-2">
         <a href={liveUrl} target="_blank" rel="noreferrer" className={chip}>
-          Live site
+          {liveLabel}
           {/* The arrow is the sighted cue for "leaves the site" and is
             aria-hidden; this is its spoken equivalent. It also names the
             project, since "Live site" alone doesn't say whose — and with one
-            book open the other book's cover still shows its own pair. */}
+            book open the other books' covers still show their own pairs. */}
           <span className="sr-only">{` for ${title}`}</span>
           <NewTabHint />
           <ArrowOut />

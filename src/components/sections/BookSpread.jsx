@@ -112,6 +112,7 @@ function PageBody({ page, project, titleId }) {
         <div className="mt-2">
           <ProjectLinks
             liveUrl={project.liveUrl}
+            liveLabel={project.liveLabel}
             repoUrl={project.repoUrl}
             title={project.title}
             liveNote={project.liveNote}

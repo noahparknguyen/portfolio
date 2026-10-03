@@ -1,15 +1,20 @@
+import elbaiteBr8kout from "../assets/books/elbaite-br8kout.webp";
 import statmonCompare from "../assets/books/statmon-compare.webp";
 import hubspotReport from "../assets/books/hubspot-report.webp";
 
 // The Creations book stack. One entry per project; each renders as a book lying
 // on the board (Book.jsx) that opens into a two-page spread (BookSpread.jsx).
 //
-// VOICE — STYLE_GUIDE.md → Voice is the spec, and it is binding. It was derived
-// from a transcript of Noah speaking, so the rules are measured, not taste: no
-// em-dashes (he used zero in 4,000 words of speech), no fragment punchlines,
-// sentences centred on ~14 words, "So" openers, "I think" hedges, "super" as the
-// intensifier, flat self-deprecation, and an "Overall"/"Ultimately" verdict to
-// close. Read every line aloud before committing it.
+// VOICE — the books are the one place on the site written in Noah's
+// professional register, the same one his project READMEs use: plain, exact,
+// first person, short declarative sentences. They stay personal where the
+// content is personal (why a project exists, what went wrong, what he is proud
+// of), and a technical fact earns its place by being attached to a decision
+// (STYLE_GUIDE.md → The Creations book). The mechanics come from
+// STYLE_GUIDE.md → Voice and are binding: no em-dashes, semicolons, or
+// parentheses in body copy, the serial comma, complete sentences, and Canadian
+// spelling. None of the spoken tics belong here either: no "So" openers, no
+// "I think", no "super" or "just". Read every line aloud before committing it.
 //
 // PAGE BUDGET — a book doesn't resize when you turn a page, so the spread is a
 // FIXED height at md (BookSpread.jsx). Prose pages hold roughly three short
@@ -25,13 +30,145 @@ import hubspotReport from "../assets/books/hubspot-report.webp";
 // page took the plate caption as prose plus the facing page opening paragraph,
 // so both pages are redistributed copy rather than new writing.
 
+// ELBAITE AND ATTRIBUTION. Achroite 1.0 is Noah's own code; the menus, the
+// packages and the release pipeline in 1.1 were built at his direction. So
+// this book says "I" about 1.0 and about decisions, says nothing about how the
+// rest was made either way, and never claims he wrote every line.
+const elbaite = {
+  id: "elbaite",
+  mark: "crystal",
+  title: "Elbaite",
+  imprint: "A personal project · 2026",
+  summary:
+    "Emulators written in Java. The first, Achroite, runs CHIP-8 games on Windows and Linux with nothing else to install.",
+  // An app you install, not a site you visit, so the first link is the latest
+  // release rather than a live URL.
+  liveUrl: "https://github.com/noahparknguyen/elbaite/releases/latest",
+  liveLabel: "Download",
+  repoUrl: "https://github.com/noahparknguyen/elbaite",
+
+  // Rose-soft against the orchid-soft intro panel above it and Statmon's
+  // violet-soft below: adjacent objects must not share a tint.
+  coverTint: "bg-rose-soft",
+  spineTint: "bg-rose",
+
+  board: {
+    src: elbaiteBr8kout,
+    alt: "Achroite running Br8kout, a brick-breaking game, with the debug view beside the screen showing the registers, timers, stack, and memory",
+    width: 760,
+    height: 265,
+    caption: "Br8kout, with the debug view open.",
+  },
+
+  spreads: [
+    {
+      chapter: "Why I made it",
+      verso: { kind: "title" },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "I was replaying a lot of old Game Boy games, mostly the Pokémon ones, and I was itching for a new project when it hit me: why not build an emulator myself? I’d used plenty of them over the years, but I’d never stopped to ask how they actually work.",
+          "I started reading, and realized pretty quickly that a Game Boy emulator was out of reach for my current skills. More reading led me to CHIP-8, a small virtual machine from 1977 that ran simple games on hobby computers.",
+          "That made it the perfect warm-up: a whole machine small enough to finish, and a way to build the skills the Game Boy is going to need.",
+        ],
+      },
+    },
+    {
+      chapter: "What it does",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "Achroite runs every instruction of the original COSMAC VIP interpreter but one, at sixty frames a second, with the keyboard mapped onto the VIP’s hex keypad.",
+          "CHIP-8 interpreters disagree about a handful of small behaviours, and games quietly depend on whichever one they were written for. I made each of those six quirks a setting, with presets for the original VIP, SUPER-CHIP, and Octo.",
+        ],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "The one instruction I left out is 0NNN. It called a routine in the host computer’s own machine code, which means nothing outside that computer, so a ROM that reaches it stops with an error instead of guessing.",
+          "To check my work, I used Timendus’s CHIP-8 test suite. Achroite passes the IBM logo, opcode, flags, and keypad tests, and the quirks test on its CHIP-8 settings. It also plays the beep test’s SOS in Morse code.",
+        ],
+      },
+    },
+    {
+      chapter: "How it’s built",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "It’s plain Java 25, with Swing for the window and Maven for the build. Its only library is JUnit, and only the tests use it.",
+          "It has a debugger built in. I can pause, step one instruction at a time, and watch the registers, timers, stack, and memory change beside the screen.",
+          "I wanted it to install like any other app, so every package carries its own Java runtime. On Windows and Linux there’s nothing else to install.",
+        ],
+      },
+      recto: {
+        kind: "stats",
+        items: [
+          { value: "34", label: "of CHIP-8’s 35 instructions" },
+          { value: "176", label: "unit tests behind it", stamp: "tests" },
+          {
+            value: "6",
+            label: "quirks, each its own setting",
+            stamp: "quirks",
+          },
+          {
+            value: "4",
+            label: "packages, each with its own Java runtime",
+            stamp: "packages",
+          },
+        ],
+        note: "I wanted the downloads to be trustworthy too. Every release lists a checksum for each file and a signed record of the build that made it, and once it’s published, nothing in it can be changed.",
+      },
+    },
+    {
+      chapter: "The name, and what’s next",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "Elbaite is a kind of tourmaline, and each emulator in the project is named for one of its varieties. Achroite is the colourless one, which suits CHIP-8’s one-bit screen.",
+          "Verdelite, the green variety, will be the Game Boy emulator, and Paraíba will be the Game Boy Color. Both are planned, and neither has started yet.",
+        ],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "The Game Boy is the reason this project exists. What I really want is to play the Pokémon games I grew up with on my own emulator, and those cartridges will decide what Verdelite has to support first.",
+          "CHIP-8 was the warm-up. It covered the parts every emulator shares: reading and running instructions, keeping time, taking input, and drawing a screen sixty times a second.",
+        ],
+        marginNote: "a whole machine, small enough to finish",
+      },
+    },
+    {
+      chapter: "Colophon",
+      verso: {
+        kind: "colophon",
+        stack: [
+          "Java 25",
+          "Swing",
+          "Maven",
+          "JUnit",
+          "jpackage",
+          "GitHub Actions",
+        ],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "No ROMs are included. I tested against Timendus’s CHIP-8 test suite, which is GPLv3, and John Earnest’s CHIP-8 archive. The game in the screenshot is Br8kout by SharpenedSpoon, released under CC0.",
+          "The two references I leaned on most were Tobias V. Langhoff’s guide to writing a CHIP-8 emulator and Laurence Scotford’s disassembly of the original interpreter.",
+          "My code is MIT, so anyone is free to use it.",
+        ],
+      },
+    },
+  ],
+};
+
 const statmon = {
   id: "statmon",
   mark: "pokeball",
   title: "Statmon",
   imprint: "A personal project · 2026",
   summary:
-    "A simple set of Pokémon tools. It covers visual stat comparisons, a filterable dex, and a type matchup lookup.",
+    "A set of Pokémon tools: a stat comparison, the whole dex in one table, and a type chart, plus two games. Each one can be read as of any generation.",
   liveUrl: "https://statmon.noahpn.dev/",
   repoUrl: "https://github.com/noahparknguyen/statmon",
 
@@ -60,9 +197,9 @@ const statmon = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "I like to go on nostalgia trips and replay the games I grew up with. One summer I decided to play all the mainline Pokémon games, from generation 1 straight through to generation 5.",
-          "Partway through I got stuck on FireRed. I had an Eevee I wanted to evolve, and I couldn’t decide between Flareon, Jolteon, and Vaporeon. They all share the exact same base stat total, which meant I needed to see each individual stat to pick one.",
-          "I went looking for a site that could put two Pokémon side by side. The ones I found felt outdated, or they were stuffed with features I didn’t need. That’s more or less where Statmon came from.",
+          "I like to go on nostalgia trips and replay the games I grew up with. One summer that meant every mainline Pokémon game, from Generation 1 through 5.",
+          "Partway through FireRed, I had an Eevee to evolve and couldn’t decide between Flareon, Jolteon, and Vaporeon. All three share the same base stat total, so I needed to see each stat on its own to pick one.",
+          "The sites I found for comparing two Pokémon felt outdated, or they were stuffed with features I didn’t need. I wanted something I’d actually use mid-playthrough, and that was the start of Statmon.",
         ],
       },
     },
@@ -71,14 +208,14 @@ const statmon = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "The compare board is the main event. The two Pokémon I put up on display are Volcarona and Chandelure, probably my two favourite Pokémon ever, with Chandelure being the reason the whole site ended up purple. The numbers along the top re-read everything as of an older generation.",
-          "I built the compare tool first and it worked. Then I hit another problem. I wanted Jolteon, and realised Zapdos was sitting right there and was simply better. That is why the dex table came next, sorting a whole generation at once instead of only two.",
+          "I started with the compare board: two Pokémon side by side, with their stats, abilities, and type matchup, and a straight answer about who moves first. The strip along the top re-reads all of it as of an older generation.",
+          "Then I hit another problem. I wanted Jolteon, and realized Zapdos was right there and was simply better. That’s why the dex came next: all 1,259 entries in one table, sortable by any stat.",
         ],
       },
       recto: {
         kind: "prose",
         paragraphs: [
-          "I also kept forgetting type matchups mid-playthrough, which is why the type chart came next. And I didn’t want to depend on the site forever, so I built a couple of games that quiz me on the stats and types instead.",
+          "I kept forgetting type matchups mid-playthrough, so the type chart came next. I also didn’t want to depend on the site forever, so I built two games that quiz me on stats and types instead.",
           "What I’m most proud of is that every feature started as a problem I ran into myself. Nothing was added for the sake of it.",
         ],
       },
@@ -88,16 +225,16 @@ const statmon = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "I built it with React, Vite, Tailwind, and plain JavaScript, and put it on Cloudflare. That’s my standard stack and I reach for it on almost everything, mostly because it’s quick to get moving.",
-          "Statmon never calls an API while you’re using it. I pull everything from PokéAPI once at build time into a local file, and I commit every sprite, piece of artwork, and webfont straight into the repo.",
-          "The live site is nothing but static files. It can’t fall over because someone else’s API is offline, and it keeps me well inside PokéAPI’s fair use rules.",
+          "It’s React, Vite, Tailwind, and plain JavaScript, served from Cloudflare. That’s my standard stack, and I reach for it on almost everything because it’s quick to get moving.",
+          "Statmon never calls an API while you use it. I pull everything from PokéAPI once at build time into a local file, and commit every sprite, piece of artwork, and webfont to the repo.",
+          "The live site is nothing but static files. It can’t fall over because someone else’s API is down, and it keeps me well inside PokéAPI’s fair-use rules.",
         ],
       },
       recto: {
         kind: "stats",
         items: [
           { value: "1,259", label: "Pokémon in the dataset", stamp: "Pokémon" },
-          { value: "2,513", label: "images living in the repo" },
+          { value: "2,513", label: "sprites and artwork in the repo" },
           {
             value: "0",
             label: "API calls while you use it",
@@ -109,7 +246,7 @@ const statmon = {
             stamp: "tests",
           },
         ],
-        note: "I have tests behind the stat math, the dex sorting, the type matchups, and a render check on every page. I also wrote a script that checks all eighteen type colours for contrast, and that’s how I found out Dragon was too dark to read.",
+        note: "I have tests behind the stat math, the dex sorting, the type matchups, and a render check on every page. I also wrote a script that checks all eighteen type colours for contrast, which is how I found out Dragon was too dark to read.",
       },
     },
     {
@@ -117,15 +254,15 @@ const statmon = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "Here’s the thing about me. I’m not the best designer in the world. I knew I wanted to avoid that AI generated look, the minimalist dark mode with gradients on everything. But knowing what to avoid and knowing what to build are two very different problems.",
-          "That’s why I kept it simple. I stopped worrying about the site and focused on getting the tools working.",
+          "I’m not the best designer in the world. I knew I wanted to avoid the AI-generated look, the minimalist dark mode with gradients on everything. But knowing what to avoid and knowing what to build are two very different problems.",
+          "I kept it simple instead, and put my effort into getting the tools working.",
         ],
       },
       recto: {
         kind: "prose",
         paragraphs: [
-          "That’s ultimately what inspired the look. Once the tools worked they handed me the style on their own. Chandelure has these really nice purples that sit well against the dark background, so I leaned on the colour and left the gradients alone.",
-          "It worked out well in the end. The palette made the site look like its own thing, and tying the design to one of my favourites gave it some sentimental value too.",
+          "That’s what ended up shaping the look. Once the tools worked, they handed me the style on their own. Chandelure, one of my two favourite Pokémon, has some really nice purples that sit well on a dark background, so I leaned on colour and left the gradients alone.",
+          "It worked out well in the end. The palette makes the site look like its own thing, and tying the design to a favourite gives it some sentimental value too.",
         ],
         // The site's handwriting, used the way the footer aside and the tech
         // stamp notes use it — a scribble in the margin, not body copy.
@@ -148,8 +285,8 @@ const statmon = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "All the data and images come from PokéAPI, and the sprites are CC0. Pokémon belongs to Nintendo, Game Freak, and The Pokémon Company. Statmon is an unofficial fan project and it’s staying that way.",
-          "My own code is MIT, so help yourself. I keep my working notes in the repo as well, including the original brainstorm, the design system, and a dated log of every decision and why I made it. That last one is probably the most honest thing in there.",
+          "All the data and images come from PokéAPI, and the sprites are CC0. Pokémon is © Nintendo, Game Freak, and The Pokémon Company, and Statmon is an unofficial fan project.",
+          "My own code is MIT, so help yourself. I keep my working notes in the repo too, including the original brainstorm, the design system, and a dated log of every decision and why I made it. That last one is probably the most honest thing in there.",
         ],
       },
     },
@@ -162,7 +299,7 @@ const hubspot = {
   title: "HubSpot Recommendation Tool",
   imprint: "Capstone for Inbox · 2026",
   summary:
-    "A discovery tool for understanding a website’s tech stack. Paste in a URL and get back a clear report of the findings.",
+    "A discovery tool built for Inbox, a HubSpot partner. Paste in a website’s URL to see what it’s built with, and which HubSpot product could replace each piece.",
   liveUrl: "https://hubspot-recommendation-tool.onrender.com/",
   repoUrl: "https://github.com/noahparknguyen/hubspot-recommendation-tool",
 
@@ -197,8 +334,8 @@ const hubspot = {
       recto: {
         kind: "prose",
         paragraphs: [
-          "During my second to last term I was put on a team of five, and assigned a real client our professor had lined up. We had eight months, four to plan and four to build.",
-          "Our client was Inbox, an agency that moves companies onto HubSpot, the marketing platform. Someone arrives with an existing website, and Inbox has to work out what it runs and what could move across.",
+          "In my second-to-last term, I was put on a team of five and assigned a real client our professor had lined up. We had eight months, four to plan and four to build.",
+          "The client was Inbox, an agency that moves companies onto HubSpot, the marketing platform. When someone arrives with an existing website, Inbox has to work out what it runs and what could move across.",
           "They were doing all of that by hand, so we built them a shortcut. It doesn’t do the thinking for them, it gets them to the interesting part faster.",
         ],
       },
@@ -209,13 +346,13 @@ const hubspot = {
         kind: "prose",
         paragraphs: [
           "You paste in a URL, and it fetches the page, fingerprints everything it can find, and matches each detection against a HubSpot product.",
-          "The report then lines every technology it found against the product that could replace it. Putting the two side by side is what makes the discovery quick.",
+          "The report lines up every technology it found against the product that could replace it. Seeing the two side by side is what makes the discovery quick.",
         ],
       },
       recto: {
         kind: "prose",
         paragraphs: [
-          "Ten matchers read the page separately, from headers and cookies down to inline scripts and the DOM, and their guesses combine into one confidence score. I had it resolve the relationships between them as well, because knowing a site runs WordPress tells you a lot about the rest.",
+          "Ten matchers read the page separately, from headers and cookies down to inline scripts and the DOM, and their guesses combine into one confidence score. I had it resolve the relationships between technologies too, because knowing a site runs WordPress tells you a lot about the rest.",
           "I put the mapping from a detected tool to a HubSpot product in a JSON file instead of in the code. That was deliberate, because it means Inbox can add or reword a recommendation themselves without needing a developer.",
         ],
       },
@@ -225,8 +362,8 @@ const hubspot = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "I wrote the backend in Node with no framework at all, using nothing but the built-in http module. The frontend is React and Vite, and the whole thing ships as one Docker container.",
-          "None of us knew Python, which ruled out something like BeautifulSoup from the start. We found a fork of Wappalyzer’s last open source release instead, still being updated with new patterns. That is about three megabytes of fingerprints, loaded into memory once and kept there.",
+          "I wrote the backend in Node with no framework, using only the built-in http module. The frontend is React and Vite, and the whole thing ships as one Docker container.",
+          "None of us knew Python, which ruled out something like BeautifulSoup from the start. Instead, we found a fork of Wappalyzer’s last open-source release that was still getting new patterns. That’s about three megabytes of fingerprints, loaded into memory once and kept there.",
           "I spent the longest on safety, making sure a user couldn\u{2019}t break anything at any point.",
         ],
       },
@@ -238,7 +375,7 @@ const hubspot = {
           { value: "122", label: "tests behind it", stamp: "tests" },
           { value: "0", label: "backend frameworks", stamp: "frameworks" },
         ],
-        note: "It refuses to fetch anything on a private network and re-checks on every redirect hop, caps how much it will download, and rate-limits the whole thing. I was honest in the security doc about the one hole I couldn’t close on my own, because that felt more useful than pretending.",
+        note: "It refuses to fetch anything on a private network, re-checks every redirect, caps downloads, limits how many analyses run at once, and rate-limits failed logins. I was honest in the security doc about the one hole I couldn’t close on my own, because that felt more useful than pretending.",
       },
     },
     {
@@ -246,18 +383,18 @@ const hubspot = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "I’d worked with clients at DND, but our team lead always ran the meetings. This time there was nobody above me, so I took it upon myself to act as our main point of contact. I hosted the calls, demoed every couple of weeks, and asked whether the output was what they actually needed.",
-          "I wasn’t especially nervous in the meetings. The most stressful part was the deadline, because I was making revisions right up until the last minute before our final presentation. It gave me a lot more confidence in the end, because it showed I could interact with a client all on my own.",
+          "I’d worked with clients at DND, but our team lead always ran the meetings. This time there was nobody above me, so I took on the role of main point of contact. I hosted the calls, demoed every couple of weeks, and asked whether the output was what they actually needed.",
+          "I wasn’t nervous in the meetings. The most stressful part was the deadline, because I was making revisions right up until our final presentation. It gave me a lot more confidence in the end, because it showed I could work with a client on my own.",
         ],
       },
       recto: {
         kind: "prose",
         paragraphs: [
           "What I struggled with most was the detection engine. I’d never done pattern matching, and the fingerprint dataset took a long time to get my head around.",
-          "Working out what the client wanted was hard as well. They opened by asking for an AI summary of tech stacks, well out of scope for students, so we had to find a compromise.",
-          "There’s more AI in this than anything else I’ve made. I had a deadline, so I leaned on it hard at the end. Then I went back through it myself, fixing errors and adding the security and deployment work.",
+          "Working out what the client wanted was hard as well. They opened by asking for an AI summary of tech stacks, which was well out of scope for students, so we had to find a compromise.",
+          "I had a deadline, so I leaned on AI hard in the last few weeks. Then I went back through it myself, fixing errors and adding the security and deployment work.",
         ],
-        marginNote: "first time it was all mine",
+        marginNote: "no team lead this time",
       },
     },
     {
@@ -281,14 +418,14 @@ const hubspot = {
               },
             ],
           },
-          "There were five of us on the team and I ran the code side, so the whole backend is mine. A teammate with a web design background did the mockups and wireframes and laid the foundations for the frontend, which I updated whenever the client had feedback. The rest handled the progress reports, assignments, and professor meetings.",
-          "Inbox has its own copy running now, and the one you can click through to here is mine.",
+          "There were five of us on the team and I ran the code side, so the whole backend is mine. A teammate with a web design background did the mockups and wireframes and laid the foundations for the frontend, which I updated whenever the client had feedback. The rest of the team handled the progress reports, assignments, and professor meetings.",
+          "Inbox has its own copy running now. The demo linked here is my copy.",
         ],
       },
     },
   ],
 };
 
-const PROJECTS = [statmon, hubspot];
+const PROJECTS = [elbaite, statmon, hubspot];
 
 export default PROJECTS;

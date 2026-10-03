@@ -7,7 +7,7 @@ import Pin from "../ui/Pin";
 // Keep this next to NOW_NOTES and move it whenever the notes move — the two are
 // one edit, not two. It can't be derived: the last commit date would report a
 // CSS tweak as a content update, which is worse than being stale.
-const LAST_UPDATED = "September 2026";
+const LAST_UPDATED = "October 2026";
 
 // Tints are a solved layout, not a free choice. The intro card carries Now's own
 // section hue (blue), and it touches the first four notes, so none of those can
@@ -63,9 +63,9 @@ const NOW_NOTES = [
   },
   {
     prompt: "What am I working on?",
-    answer: "The next project",
+    answer: "Emulators",
     explanation:
-      "With the portfolio and Statmon basically finished, I’m brainstorming what to build next. The urge to create needs somewhere to go.",
+      "I finished Achroite, a CHIP-8 emulator and the first in a family I’m calling Elbaite. A Game Boy emulator comes next, whenever I find the time.",
     tint: "bg-violet-soft",
     rotate: "rotate-[1deg]",
   },

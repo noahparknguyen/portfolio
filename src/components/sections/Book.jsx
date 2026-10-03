@@ -60,11 +60,50 @@ function InboxDevice() {
   );
 }
 
+// Elbaite's mark is a pixel-art tourmaline crystal in colour bands, pink at
+// the tip down to green at the base. Redrawn on the same terms as the two
+// above: the pixel stepping goes, because a staircase outline is not this
+// grammar, but the silhouette stays: a hexagonal prism seen from the front,
+// with a faceted tip, a front ridge, and a V at the base. Its bands become
+// palette colours (rose, paper, blue, violet), chosen to stand out against the
+// rose-soft cover. The right face is shaded with a watermark-strength wash of
+// ink, which is what turns it from a flat badge into a stone. A first draft
+// was narrower with a straight base, and read as a pencil.
+function CrystalDevice() {
+  return (
+    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
+      <polygon points="11,14 24,3 37,14" fill="var(--color-rose)" />
+      <rect x="11" y="14" width="26" height="8" fill="var(--color-paper)" />
+      <rect x="11" y="22" width="26" height="8" fill="var(--color-blue)" />
+      <polygon
+        points="11,30 37,30 37,40 24,45 11,40"
+        fill="var(--color-violet)"
+      />
+      <polygon
+        points="24,3 37,14 37,40 24,45"
+        fill="var(--color-ink)"
+        style={{ opacity: "var(--opacity-watermark)" }}
+      />
+      <g
+        stroke="var(--color-ink)"
+        style={{ strokeWidth: "var(--stroke-bold)" }}
+        fill="none"
+        strokeLinejoin="round"
+      >
+        <polygon points="24,3 37,14 37,40 24,45 11,40 11,14" />
+        <line x1="11" y1="14" x2="37" y2="14" />
+        <line x1="24" y1="3" x2="24" y2="45" />
+      </g>
+    </svg>
+  );
+}
+
 // Each book names its mark in the data; the drawing lives here, because
 // `src/lib/projects.js` stays data and holds no JSX.
 const DEVICES = {
   pokeball: PokeballDevice,
   inbox: InboxDevice,
+  crystal: CrystalDevice,
 };
 
 function ArrowRight() {
@@ -206,6 +245,7 @@ function Book({ project, onOpen, openRef }) {
             <div className="w-full">
               <ProjectLinks
                 liveUrl={project.liveUrl}
+                liveLabel={project.liveLabel}
                 repoUrl={project.repoUrl}
                 title={project.title}
                 liveNote={project.liveNote}
