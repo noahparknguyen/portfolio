@@ -593,7 +593,7 @@ border-<section hue>` for the accent underline under a section title.
   **document** (About's boarding passes, each a bordered `shadow-sticker` pass
   with its own stub, and the Dean's List placard under the ribbons).
   **Non-text decorative objects**
-  (tech stamps, Links' sticky-notes, the taped photo) stay bare on the sky —
+  (tech stamps, Links' index cards, the taped photo) stay bare on the sky —
   they're already opaque and aren't read. Don't fix legibility by filling a
   big background behind unrelated items; give the _words_ their own small
   object and let everything else float free.
@@ -605,11 +605,11 @@ border-<section hue>` for the accent underline under a section title.
   library card, About's passport). Everything else that reads as a pinned note
   or stamp draws its fill from the **four section soft tints** (`rose-soft` /
   `violet-soft` / `blue-soft` / `orchid-soft`): the tech stamps (each a
-  different hue), the Spotify card (`blue-soft`), Links' sticky-notes, Now's
+  different hue), the Spotify card (`blue-soft`), Links' index cards, Now's
   stickies, and About's boarding-pass bands and stubs and its Dean's List
   ribbons. The Live
   Reaction cam keeps its dark `ink` fill. Not everything is a filled
-  `PinnedCard`, though — the photo, the tech stamps, Links' sticky-notes, the
+  `PinnedCard`, though — the photo, the tech stamps, Links' index cards, the
   Devlog scroll, and Steam's library card sit bare/unenclosed on the sky (see
   "Text never sits directly on the sky" above), their own fills doing the work
   without an outer card. **Rules for the tint layer:** draw only from the four
@@ -676,24 +676,24 @@ rather than printed on it:
 
 - **`shadow-sticker`** (see Shadows above) — applied by default on every Home
   `PinnedCard`, plus the photo polaroid, Steam's library card, the Devlog
-  scroll box, the footer badges, the Links post-its, the masthead/footer
+  scroll box, the footer badges, the Links index cards, the masthead/footer
   bands, and the tech stamps at rest too (not
   hover-only, and including TechStack's decorative, non-interactive Isaac
   stamp) — the interactive stamps additionally lift (`-translate-y`) on
   hover/focus as an interaction cue on top of their resting shadow; Isaac's
   stamp lifts on hover only, having no focus state to cue.
-- **Three objects are exempt from the tilt cap, and carry `data-tilt-exempt` so
+- **Four objects are exempt from the tilt cap, and carry `data-tilt-exempt` so
   the audit skips them.** `<Tape>`, because it is deliberately counter-rotated
   against whatever it tapes and the mismatch is the whole gesture; Steam's
   empty-state stamp at -12°, because a rubber stamp struck onto paper is crooked
-  by nature; and About's STANDBY stamp at -12° on the standby boarding pass's
-  stub, for the same reason. The cap governs objects that read as HAND-PLACED, where a fixed
+  by nature; About's STANDBY stamp at -12° on the standby boarding pass's stub,
+  and the 404's RETURN TO SENDER stamp at -6°, both for the same reason. The cap governs objects that read as HAND-PLACED, where a fixed
   angle grows visibly skewed with width. A stamp is a different gesture, and at
   3° it stops reading as a stamp and starts reading as a misaligned icon.
 - **Slight rotation.** Compact objects carry a small `rotate-[n deg]` so they
   read as hand-placed rather than machine-aligned — the photo polaroid, the
   Dean's List ribbons and the diploma's honours rosette, the tech stamps (including TechStack's decorative Isaac
-  stamp), the Links post-its, Now's stickies, the small `LabelTag` signs,
+  stamp), the Links index cards, Now's stickies, the small `LabelTag` signs,
   the AiAi record sleeve inside the Spotify card, and card-sized widgets (Spotify, Weather, the
   diploma and blank certificates, the Live Reaction cam). **Three things govern tilt: how much running
   text an object holds, its width, and whether it sits against a straight edge.**
@@ -998,7 +998,7 @@ steps aside exactly when it is redundant.
 
 **Both cover links take `paper`, and they match each other** rather than taking
 a tint each. The site's usual move is a different tint per item (the footer
-badges, Links' post-its), but those sit on the sky; on a violet cover a rose and
+badges, Links' index cards), but those sit on the sky; on a violet cover a rose and
 a blue chip made three hues fight.
 
 They were plain white, which read as glaring against a saturated cover. `paper`
@@ -1185,7 +1185,7 @@ letter and the Devlog scroll.
   Passport / WorkHistory / Achievements stack, and the ribbons and the
   certificates within Achievements).
 - **Cell padding:** `p-6` for roomy/section cells, `p-4` for compact widget
-  cells, `p-3` for a small card or note (a Links post-it), `p-2` for a
+  cells, `p-3` for a small card or note (a Links index card), `p-2` for a
   stamp/mini object (the photo polaroid, a tech stamp), `p-0` for full-bleed
   cells. No `p-8`, and no one-off pairs like `px-6 py-2`.
 - **Vertical rhythm:** `mt-0.5` for tight meta stacking (a value under its
@@ -1339,7 +1339,14 @@ employer is the carrier, the role is the seat, and the old acronym is the flight
 number. **Its achievements are physical proof rather than cards**: six Dean's
 List prize ribbons, one per level of the program, and the diploma as a
 double-ruled certificate with the crest as its seal and an honours rosette on
-its corner. The Devlog panel is a fixed-height
+its corner. **Home's "Get in touch" links are index cards from a card file**: a red rule
+under the heading line, a faint blue rule under the line of writing, and a tab
+along the top edge carrying the glyph, staggered left, centre and right so every
+tab stays visible. The tab has three borders and no bottom one and sits 2px down
+over the card's top border in the card's tint, which joins it to the card. A
+Rolodex notch was the first idea and was dropped: a real cutout needs a gradient
+mask, which Gradients forbids, or a `clip-path`, which would clip the focus ring.
+The Devlog panel is a fixed-height
 scroll region — a git-graph timeline with a full-height ink spine and rose
 square nodes per commit, written on kraft-ruled note paper whose rules land
 under every line of text (see Spacing scale), scrolled with a custom chunky
@@ -1367,7 +1374,7 @@ the same grammar.
   ~3.8:1 and ~3.3:1 against `ink`, both below AA. The footer badges used to do
   this and now lift instead (see below).
 - **Hover lift, not fill, on the handcrafted layer.** Objects that already carry
-  `shadow-sticker` — the tech stamps, Links' post-its, the footer badges —
+  `shadow-sticker` — the tech stamps, Links' index cards, the footer badges —
   signal hover with a small `-translate-y`, mirrored on `:focus-visible`. This
   is the site's standard hover cue for pinned objects, and it sidesteps the
   contrast trap above entirely.
@@ -1741,6 +1748,16 @@ step.
 **The URL the visitor typed is preserved** rather than rewritten to `/404`.
 Rewriting it would change their address bar and break what Back means.
 
+**The card is a returned letter**, and it obeys returned-mail anatomy the way
+Weather obeys a postcard's: the sender's address in the top-left corner, the
+address the visitor typed as the addressee in typewriter type, and a crooked
+RETURN TO SENDER · ADDRESS UNKNOWN stamp struck across it. It deliberately
+carries **no postage stamp**: stamp and postmark are Weather's gag, and the
+returned-mail stamp says "undeliverable" on its own. The envelope front is
+`aria-hidden`, because the heading and paragraphs below say everything it shows
+in words, and the address is read during render, which is safe because the site
+is client-rendered only.
+
 Composition follows the Colophon, not the four hued sections: this page owns no
 section hue, so it takes warm `paper`, is taped rather than pinned, and its
 `<h2>` skips `SectionTitle`'s single-accent underline because there is no accent
@@ -1831,7 +1848,7 @@ That is the whole list. Anything not on it holds at every width.
   every panel is full width — which is why the caps below still matter.
 
   **Tilted at every width** — everything else: Weather, Spotify, Steam, the
-  Links post-its, Now's note cards, the polaroid, the Live Reaction cam, the
+  Links index cards, Now's note cards, the polaroid, the Live Reaction cam, the
   tech stamps, the Dean's List ribbons, and every `LabelTag`.
 
   **Tilt caps still apply.** The `≤ ~1.5°` limit on anything wider than a
@@ -2287,7 +2304,8 @@ the file to look right at 80px.
 - **Don't** remove focus outlines or rely on color as the only signal.
 - **Do** give each object a reason to be the thing it is. Every widget on the
   board depicts something — a letter, a polaroid, a facecam, a postcard,
-  post-its, a library card, a record, a scroll, rubber stamps, a book. If a new
+  index cards, a library card, a record, a scroll, rubber stamps, a book,
+  boarding passes, prize ribbons, a certificate, a returned letter. If a new
   object can only be described by its file format, it isn't finished.
 - **Do** translate an outside mark into this grammar rather than pasting it in.
   Statmon's favicon arrived as a gradient on a rounded tile and was redrawn as a
