@@ -48,11 +48,13 @@ function EnvelopeGlyph() {
 }
 
 // Three index cards from a card file. What makes them read as index cards
-// rather than three tinted rectangles is real index-card anatomy: a red rule
+// rather than three tinted rectangles is real index-card anatomy: a rule
 // under the heading line, a faint blue rule under each line of writing, and
 // a tab along the top edge, staggered left, centre and right the way a card
 // file's dividers are so every tab stays visible. Pastel index cards are a
 // real product, so the cards keep the section tints rather than going white.
+// The heading rule is ink, not an index card's usual red: red read as out of
+// place against the rest of the board's ink linework (Noah's call).
 //
 // The tab carries the glyph. It is drawn with three borders and no bottom
 // one, and sits 2px down over the card's top border in the card's own tint,
@@ -115,7 +117,7 @@ function Links() {
               >
                 <Glyph />
               </span>
-              <div className="border-b-2 border-live pb-1 font-display text-lg font-bold leading-tight text-ink">
+              <div className="border-b-2 border-ink pb-1 font-display text-lg font-bold leading-tight text-ink">
                 {label}
               </div>
               <div className="mt-1 truncate border-b border-blue pb-0.5 text-xs text-gray-600">

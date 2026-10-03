@@ -1339,8 +1339,9 @@ employer is the carrier, the role is the seat, and the old acronym is the flight
 number. **Its achievements are physical proof rather than cards**: six Dean's
 List prize ribbons, one per level of the program, and the diploma as a
 double-ruled certificate with the crest as its seal and an honours rosette on
-its corner. **Home's "Get in touch" links are index cards from a card file**: a red rule
-under the heading line, a faint blue rule under the line of writing, and a tab
+its corner. **Home's "Get in touch" links are index cards from a card file**: an ink rule
+under the heading line (an index card's usual red read as out of place against
+the board's ink linework), a faint blue rule under the line of writing, and a tab
 along the top edge carrying the glyph, staggered left, centre and right so every
 tab stays visible. The tab has three borders and no bottom one and sits 2px down
 over the card's top border in the card's tint, which joins it to the card. A
