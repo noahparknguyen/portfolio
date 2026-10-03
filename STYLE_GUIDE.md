@@ -398,7 +398,7 @@ Brand hexes are not used for any **glyph** on the site. `SimpleIcon` (shared by 
 `fill="currentColor"`, so it inherits the ordinary `ink` text color like any other icon and
 reads cleanly against the varied soft-tint fills instead of going muddy against them.
 
-**One documented exception: the Algonquin College crest** on About's diploma card is a raster
+**One documented exception: the Algonquin College crest** on About's diploma certificate is a raster
 logo in its own brand green, and it is the only saturated non-palette colour on the site. It
 cannot be recoloured — the Colophon credits it as used per the college's own brand guidelines,
 and recolouring an institution's mark is what those guidelines exist to forbid. This line used
@@ -583,8 +583,9 @@ border-<section hue>` for the accent underline under a section title.
   (`LabelTag`, wrapping a heading/`<Eyebrow>` — "My current toolset", "What
   I'm listening to", "Get in touch", "Most recent updates", "Where I've
   Worked", "What I've Achieved"), or a
-  **note** (the work-timeline entries, each on its own small bordered
-  `shadow-sticker` card beside its stamp). **Non-text decorative objects**
+  **document** (About's boarding passes, each a bordered `shadow-sticker` pass
+  with its own stub, and the Dean's List placard under the ribbons).
+  **Non-text decorative objects**
   (tech stamps, Links' sticky-notes, the taped photo) stay bare on the sky —
   they're already opaque and aren't read. Don't fix legibility by filling a
   big background behind unrelated items; give the _words_ their own small
@@ -598,7 +599,8 @@ border-<section hue>` for the accent underline under a section title.
   or stamp draws its fill from the **four section soft tints** (`rose-soft` /
   `violet-soft` / `blue-soft` / `orchid-soft`): the tech stamps (each a
   different hue), the Spotify card (`blue-soft`), Links' sticky-notes, Now's
-  stickies, and About's work-timeline note cards and diploma card. The Live
+  stickies, and About's boarding-pass bands and stubs and its Dean's List
+  ribbons. The Live
   Reaction cam keeps its dark `ink` fill. Not everything is a filled
   `PinnedCard`, though — the photo, the tech stamps, Links' sticky-notes, the
   Devlog scroll, and Steam's library card sit bare/unenclosed on the sky (see
@@ -606,10 +608,11 @@ border-<section hue>` for the accent underline under a section title.
   without an outer card. **Rules for the tint layer:** draw only from the four
   accents (never `paper`, which is reserved except for the dashed "blank form"
   placeholders noted under Handcrafted layer), spread the hues evenly, and never
-  let two of the same touch — **a work note never repeats its own acronym
-  badge** (they sit flush across a 16px gap, so sharing a hue makes the pair read
-  as one block of colour rather than a marker pinned beside a note), and adjacent
-  tech stamps differ. Now's eleven stickies are checked for this at **both**
+  let two of the same touch — adjacent boarding passes differ (a pass's band and
+  stub share one hue because they are two parts of one object, not two objects
+  touching), the six Dean's List ribbons are solved for distances 1 and 3
+  because they run as one row of six from `md` and two rows of three below it,
+  and adjacent tech stamps differ. Now's eleven stickies are checked for this at **both**
   tiers — the `md` three-column grid and the single-column mobile stack — since a
   pair that is diagonal on desktop becomes vertically adjacent on a phone.
 
@@ -672,19 +675,20 @@ rather than printed on it:
   stamp) — the interactive stamps additionally lift (`-translate-y`) on
   hover/focus as an interaction cue on top of their resting shadow; Isaac's
   stamp lifts on hover only, having no focus state to cue.
-- **Two objects are exempt from the tilt cap, and carry `data-tilt-exempt` so
+- **Three objects are exempt from the tilt cap, and carry `data-tilt-exempt` so
   the audit skips them.** `<Tape>`, because it is deliberately counter-rotated
-  against whatever it tapes and the mismatch is the whole gesture; and Steam's
+  against whatever it tapes and the mismatch is the whole gesture; Steam's
   empty-state stamp at -12°, because a rubber stamp struck onto paper is crooked
-  by nature. The cap governs objects that read as HAND-PLACED, where a fixed
+  by nature; and About's STANDBY stamp at -12° on the standby boarding pass's
+  stub, for the same reason. The cap governs objects that read as HAND-PLACED, where a fixed
   angle grows visibly skewed with width. A stamp is a different gesture, and at
   3° it stops reading as a stamp and starts reading as a misaligned icon.
 - **Slight rotation.** Compact objects carry a small `rotate-[n deg]` so they
   read as hand-placed rather than machine-aligned — the photo polaroid, the
-  acronym badges, the tech stamps (including TechStack's decorative Isaac
+  Dean's List ribbons and the diploma's honours rosette, the tech stamps (including TechStack's decorative Isaac
   stamp), the Links post-its, Now's stickies, the small `LabelTag` signs,
   the AiAi record sleeve inside the Spotify card, and card-sized widgets (Spotify, Weather, the
-  diploma, the Live Reaction cam). **Three things govern tilt: how much running
+  diploma and blank certificates, the Live Reaction cam). **Three things govern tilt: how much running
   text an object holds, its width, and whether it sits against a straight edge.**
 
   **Text density comes first, and it applies at every width.** On a tilted
@@ -705,9 +709,9 @@ rather than printed on it:
   of a fixed angle grows with an object's width, and a tilt next to a straight
   reference line reads as an error rather than character. So wide or full-width
   panels and anything stacked against a straight edge stay level too: the Now
-  intro card, the Colophon card, and the work-timeline note strips (they line up
-  against the timeline's vertical spine — their acronym badges stay tilted, so
-  the character lives in the small tag pinned to a level note).
+  intro card, the Colophon card, and About's boarding passes (wide, and each
+  carries a paragraph, so the character lives in the stub, the barcode and the
+  crooked STANDBY stamp instead).
 
   Keep the tilts that remain small (≤ ~3°, and ≤ ~1.5° on anything wider than a
   compact card), vary the direction per object so a row doesn't look
@@ -744,12 +748,12 @@ rather than printed on it:
   object on the board described by its file format.
 - **`--color-paper`** — warm note-paper stationery, used for the Welcome letter
   and the Devlog scroll box, and — paired with a **dashed** ink border — for the
-  site's two "not yet" placeholders: the work timeline's Pending entry (with its
-  `???` badge) and Achievements' Locked card. Dashed border plus warm paper reads
+  site's "not yet" placeholders: About's standby boarding pass, its blank
+  certificate, and Creations' Up next card. Dashed border plus warm paper reads
   as a blank form waiting to be filled in, which is exactly what those entries
-  mean, so this is a legitimate stationery use rather than tint drift. The Locked
-  card's fill is **not optional**: without it, that card's text sat directly on
-  the sky photograph, where contrast cannot be measured at all.
+  mean, so this is a legitimate stationery use rather than tint drift. The blank
+  certificate's fill is **not optional**: without it, its text would sit directly
+  on the sky photograph, where contrast cannot be measured at all.
 - **`--color-kraft`** — a warm material accent used for Devlog's and Steam's
   ruled lines — never used as text. Steam carries a rule under **both** stat
   rows, not only the last: one rule reads as an underline, and it is the
@@ -761,7 +765,8 @@ rather than printed on it:
 - **`--font-hand` (Caveat)** — signatures, photo captions, the tech-stamp
   hover notes (the note itself rides a small opaque `border-2 border-ink
 bg-white shadow-sticker` tag so it reads over the sky), handwritten date-stamp
-  captions (an achievement card's "Unlocked · …" line), and the footer's
+  captions (the "Unlocked · …" date on the Dean's List placard and the
+  diploma certificate), and the footer's
   per-page aside; never body copy (see Type). The footer aside is handwritten so
   it reads as a scribble in the margin rather than as a second line of
   fine print — it and the copyright line sat at identical `text-xs text-gray-600`
@@ -793,9 +798,10 @@ bg-white shadow-sticker` tag so it reads over the sky), handwritten date-stamp
 - **Round, non-rectangular shapes** are allowed here even though rectangles
   stay square-cornered everywhere (see Corners above) — the pushpin, the
   Spotify record disc, the Weather postcard's postmark ring, small round
-  accent dots (the REC indicator, the banner's flanking dots), and the
-  achievement cards' circular logo bezel (and its matching "Locked"
-  placeholder circle).
+  accent dots (the REC indicator, the banner's flanking dots), the diploma
+  certificate's round crest bezel (and the blank certificate's empty dashed
+  seal), and the Dean's List rosettes, whose pleated edge and white centre disc
+  are what make them read as prize ribbons.
 
 ### The Creations book
 
@@ -857,7 +863,7 @@ The "Up next" card sits **after** both books, the only position where a
 forward-looking heading reads correctly. It spent a version second from the top,
 where it announced the next project ahead of the real ones. Dashed border over
 warm `paper` is the "blank form waiting to be filled in" language already
-carrying About's Pending entry and its Locked achievement card, and it keeps
+carrying About's standby boarding pass and its blank certificate, and it keeps
 `p-6` at every width per the cell-padding rule for exactly this card.
 
 It is true rather than decorative: the Now page says the next project is being
@@ -1145,9 +1151,10 @@ letter and the Devlog scroll.
   `gap-4` for sub-groups (a badge grid, a stack of link cards), `gap-3` for an
   icon beside its text, `gap-2` for tight inline groups. **Section gap:**
   `gap-8`, for major separation between whole blocks within a section (About's
-  Passport / WorkTimeline / Achievements stack).
+  Passport / WorkHistory / Achievements stack, and the ribbons and the
+  certificates within Achievements).
 - **Cell padding:** `p-6` for roomy/section cells, `p-4` for compact widget
-  cells, `p-3` for a small card or note (a work-timeline entry), `p-2` for a
+  cells, `p-3` for a small card or note (a Links post-it), `p-2` for a
   stamp/mini object (the photo polaroid, a tech stamp), `p-0` for full-bleed
   cells. No `p-8`, and no one-off pairs like `px-6 py-2`.
 - **Vertical rhythm:** `mt-0.5` for tight meta stacking (a value under its
@@ -1243,16 +1250,12 @@ Found by the first full enumeration, and kept because each has a reason:
 
 - **Accent-underline hug** — `pb-1` under a Title, `pb-0.5` under the smaller
   labels (the nav link, the Colophon's group headers).
-- **`pb-6`** — the 24px large-separation step as bottom padding on a timeline
-  entry, so the trailing Pending card does not inherit it.
 - **`pt-4` / `px-8`** on the masthead — the trimmed asymmetric top padding, and
   a desktop inset deliberately wider than the footer's `px-6`: the banner's
   content is a centred cluster flanked by two `flex-1` hairlines, so the extra
   inset shortens those rules and they read as flanking the mark rather than
   spanning the band. The footer is a space-between row where the inset is a
   content margin.
-- **`pl-8`** — the work timeline's rail indent, paired with the badge's
-  `-ml-14` hang. Desktop only.
 - **`py-2`** on the skip link — `px-3 py-1` (LabelTag's chip padding) renders it
   ~40px tall, under the 44px floor a primary navigation control is held to.
 - **Optical nudges on decorative sub-elements** — the Banner's `mb-1` / `mb-0.5`
@@ -1297,7 +1300,15 @@ also what carries the live clock. **The Welcome card is a letter, not a second
 postcard**; that distinction is what keeps Weather's stamp-and-postmark gag
 distinctive, so don't give Welcome postage. It carries a `<Seal>` instead — a
 sticker sealing it shut, with no denomination, perforation or postmark — which
-is a letter's own gesture rather than a second helping of Weather's. The Devlog panel is a fixed-height
+is a letter's own gesture rather than a second helping of Weather's. **About's
+work history is a set of boarding passes** with real pass anatomy: a carrier
+band, passenger / seat / class / departure fields, and a perforated stub
+carrying the flight number, the boarding group and a decorative barcode. The
+employer is the carrier, the role is the seat, and the old acronym is the flight
+number. **Its achievements are physical proof rather than cards**: six Dean's
+List prize ribbons, one per level of the program, and the diploma as a
+double-ruled certificate with the crest as its seal and an honours rosette on
+its corner. The Devlog panel is a fixed-height
 scroll region — a git-graph timeline with a full-height ink spine and rose
 square nodes per commit, written on kraft-ruled note paper whose rules land
 under every line of text (see Spacing scale), scrolled with a custom chunky
@@ -1368,8 +1379,8 @@ the same grammar.
   masthead/footer band, and the paragraph only ever certified `ink`/`gray-700`/
   `gray-600` against the tints — so the one pairing nobody had measured was the
   `<Eyebrow>` default (`label`) sitting on a tinted card, which is a pattern the
-  site uses constantly: Now's eleven stickies, About's timeline and achievement
-  cards, Home's Spotify card, and every book cover. Measured across the rendered
+  site uses constantly: Now's eleven stickies, About's boarding passes, Home's
+  Spotify card, and every book cover. Measured across the rendered
   page it came to **4.03–4.31:1 against the four tints — 21 failing elements**.
   Fixed at the token: `--color-label` was darkened 8% (`#625AA0` → `#5A5393`),
   which clears 4.5:1 on **every** opaque fill on the site and leaves the
@@ -1790,16 +1801,7 @@ That is the whole list. Anything not on it holds at every width.
 
   **Tilted at every width** — everything else: Weather, Spotify, Steam, the
   Links post-its, Now's note cards, the polaroid, the Live Reaction cam, the
-  tech stamps, the acronym badges, and every `LabelTag`.
-
-  **Tilted below `md` only** — the work-timeline notes. This is the one case
-  that inverts, and for a reason the desktop rule already gives: on desktop a
-  note is a long horizontal strip lined up against the timeline's spine, and
-  the guide says anything stacked against a straight edge stays level. Below
-  `md` there is no spine and the note is nearly square, so the objection is
-  gone and it takes a small tilt. Each entry's `rotate` (the badge, desktop
-  only) and `cardRotate` (the note, mobile only) are mirror images that never
-  apply at the same width.
+  tech stamps, the Dean's List ribbons, and every `LabelTag`.
 
   **Tilt caps still apply.** The `≤ ~1.5°` limit on anything wider than a
   compact card governs every mobile tilt, since at 320px every panel is wide.
@@ -1874,7 +1876,7 @@ That is the whole list. Anything not on it holds at every width.
   already under the comfortable 45–75. Every horizontal split spends width the
   page does not have: a two-up field list inside the passport lands at ~14
   characters a line. Below `md`, anything bearing running text spans the whole
-  column. This is the constraint the passport, the timeline, and the ID block
+  column. This is the constraint the passport, the boarding passes, and the ID block
   entries below all follow from.
 
 - **The passport gives up equal halves below `md`, to give up nested scroll.**
@@ -1911,17 +1913,16 @@ That is the whole list. Anything not on it holds at every width.
   Both variants stay in the DOM, toggled with CSS; duplicating hidden
   decoration is harmless.
 
-- **The work timeline drops its spine below `md` and folds each badge into its
-  card.** Side by side, the spine, indent, and badge consume 44% of a 296px
-  column and starve the note to 166px — and stacking the badge above the note
-  still leaves the indent in place. Removing the rail gives the note the full
-  column; **the acronym badge is dropped entirely below `md`**. Folding it into
-  the card's header row was tried first and looked wrong — with no rail to sit
-  on, a 48px tinted square beside the org name reads as clutter rather than as
-  a marker, because the badge's whole meaning came from its position on the
-  spine. It is `aria-hidden`, so hiding it costs nothing semantically, and the
-  chronological reading survives in the `<ol>`. The rail and the hanging badges
-  both return at `md`+.
+- **About's boarding passes drop the stub underneath below `md`.** From `md` up
+  the stub sits to the right of the body behind a dashed vertical perforation,
+  the way a printed pass tears. Below it a 176px stub would starve the body, so
+  the perforation turns horizontal and the stub becomes one short row of flight,
+  group and barcode under the body, the way a phone boarding pass stacks. The
+  stub's Date field is hidden there, since one short row has no room for a third
+  field and the body already prints the departure. The field grid drops from
+  four columns to two, with Seat and Class sharing a row, and that is also why
+  the flight number is printed only on the stub: repeating it in the body cost a
+  whole row of fields on a phone.
 
 ### Touch targets
 
@@ -2105,6 +2106,19 @@ border-ink` + `shadow-sticker` + optional `rotate` (`bg` / `padding` /
   `<section>` is not exposed as a region at all.
 
 - **`Badge`** — the two-line footer badge (`top` / `bottom` props).
+- **`Rosette`** — a prize ribbon: two tails, a pleated rosette and a white
+  centre disc carrying a short `label` (`fill` / `label` / `size` props; `size`
+  is `"md"` or `"sm"`). **It carries no `<Pin>`, on purpose.** The first build
+  pinned every ribbon, and the ribbon reads better standing on its own: the
+  pleats and tails already say what it is. `fill` is a
+  token reference such as `var(--color-rose-soft)`, because it paints SVG
+  shapes rather than taking a class. Used by About's Dean's List ribbons and
+  the diploma's honours rosette. **It is `relative` itself**, since its label
+  is placed against it, so a caller that needs it positioned wraps it
+  in a positioned element rather than passing `absolute`: two position classes
+  on one element resolve by Tailwind's emit order, not by intent, and that is
+  how the honours rosette first rendered under the certificate instead of on
+  its corner.
 - **`NewTabHint`** — the `sr-only` " (opens in a new tab)" announcement carried
   by every outbound link (see Accessibility). No props; never used on an in-app
   link.

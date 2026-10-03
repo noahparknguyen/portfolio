@@ -192,7 +192,7 @@ function Creations() {
           the top before, where it announced the next project ahead of the real
           ones. Dashed border over warm `paper` is the site's established "blank
           form waiting to be filled in" language, already carrying About's
-          Pending entry and its Locked achievement card. */}
+          standby boarding pass and its blank certificate. */}
       <PinnedCard
         bg="bg-paper"
         padding="p-6"

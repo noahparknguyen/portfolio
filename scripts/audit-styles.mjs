@@ -199,7 +199,6 @@ const FAMILIES = [
       // The 24px "large separation" step (the mt-6 value) expressed as bottom
       // padding, because it belongs to the timeline entry rather than to the
       // gap between entries — the trailing Pending card must not inherit it.
-      "pb-6",
       // Compact masthead: the banner is deliberately asymmetric, pt-4 over
       // pb-1, which is the "trimmed top padding" the Layout section calls for.
       "pt-4",
@@ -212,7 +211,6 @@ const FAMILIES = [
       // The work timeline's rail geometry: the indent from the spine, paired
       // with the badge's `-ml-14` hang and the list's `ml-8`. Desktop only —
       // below md the rail is dropped entirely.
-      "pl-8",
       // An 8px indent on the passport's handwritten signature so it does not
       // start flush against the cell edge. Optical placement of handwriting.
       "pl-2",
@@ -256,8 +254,6 @@ const FAMILIES = [
       "mb-2",
       "mr-0",
       "mr-4",
-      "ml-8",
-      "-ml-14",
       "-mx-3",
       "my-0",
       // Banner optical alignment. A 2px hairline, two 6px dots and the duo

@@ -2,101 +2,50 @@ import algonquinLogo from "../../assets/logo-algonquin.webp";
 import PinnedCard from "../ui/PinnedCard";
 import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
+import Rosette from "../ui/Rosette";
 import Passport from "./Passport";
+import { BoardingPass, StandbyPass } from "./BoardingPass";
 
-// `rotate` is the acronym badge's tilt (desktop only — the badge is hidden
-// below md). `cardRotate` is the note card's tilt, and is the mirror image:
-// mobile only, because on desktop the note is a long horizontal strip lined up
-// against the timeline's spine, where a tilt reads as a misalignment. Below md
-// there is no spine and the card is nearly square, so it can carry one. The
-// two never apply at the same width, which is why they can differ freely —
-// and why `cardRotate` stays within the guide's cap for anything wider than a
-// compact card.
-//
-// `tint` (badge) and `cardTint` (note) must never match: a badge sits flush
-// against its own card across a 16px gap, so sharing a hue makes the pair read
-// as one block of colour instead of a marker pinned beside a note. The sequence
-// below also keeps adjacent badges, and adjacent cards, distinct.
-const WORK = [
+// One pass per job, oldest first. `band` tints the carrier band and the stub,
+// which are two parts of one object, so they share a hue. Adjacent passes
+// never do, and the standby pass below is on paper, so it can't collide.
+const PASSES = [
   {
-    acronym: "FIN",
-    org: "FINTRAC",
-    role: "Application Developer · Jan – Apr 2024",
-    summary:
+    carrier: "FINTRAC",
+    flight: "FIN 24",
+    fare: "Co-op",
+    seat: "Application Developer",
+    departs: "Jan 2024",
+    arrives: "Apr 2024",
+    band: "bg-rose-soft",
+    remarks:
       "My very first co-op. I spent a couple of months on basic bug tickets, then built a tool to keep the team’s API documentation up to date. It worked, but in hindsight the code was honestly pretty bad. It was my first time, what can you expect.",
-    rotate: "rotate-[2deg]",
-    cardRotate: "-rotate-[1deg] md:rotate-none",
-    tint: "bg-violet-soft",
-    cardTint: "bg-rose-soft",
   },
   {
-    acronym: "ALG",
-    org: "Algonquin College",
-    role: "Software Tester · Sep – Dec 2024",
-    summary:
+    carrier: "Algonquin College",
+    flight: "ALG 24",
+    fare: "Co-op",
+    seat: "Software Tester",
+    departs: "Sep 2024",
+    arrives: "Dec 2024",
+    band: "bg-violet-soft",
+    remarks:
       "I got to work on the R3 project, which was a student information system being built to replace the old one at Algonquin. I spent most of my day on manual test cases, running them step by step, making sure features like menus and links behaved the way they were supposed to. Not the most exciting, but I learned a lot about Azure DevOps and Scrum.",
-    rotate: "-rotate-[1.5deg]",
-    cardRotate: "rotate-[1.5deg] md:rotate-none",
-    tint: "bg-blue-soft",
-    cardTint: "bg-violet-soft",
   },
   {
-    acronym: "DND",
-    org: "Department of National Defence",
-    role: "Application Developer · Feb – Dec 2025",
-    summary:
-      "This was my most recent job, and the one that felt closest to the real thing. I had never heard of the Power Platform before my first day, so I had no idea what I was doing. I had to learn quick though. They gave me real client work, I sat in on client meetings, and I saw a couple of the bigger features through from planning to release. It\u2019s easily the most fulfilling work I\u2019ve done.",
-    rotate: "rotate-[1.5deg]",
-    cardRotate: "-rotate-[1.5deg] md:rotate-none",
-    tint: "bg-orchid-soft",
-    cardTint: "bg-blue-soft",
+    carrier: "Department of National Defence",
+    flight: "DND 25",
+    fare: "FSWEP",
+    seat: "Application Developer",
+    departs: "Feb 2025",
+    arrives: "Dec 2025",
+    band: "bg-blue-soft",
+    remarks:
+      "This was my most recent job, and the one that felt closest to the real thing. I had never heard of the Power Platform before my first day, so I had no idea what I was doing. I had to learn quick though. They gave me real client work, I sat in on client meetings, and I saw a couple of the bigger features through from planning to release. It’s easily the most fulfilling work I’ve done.",
   },
 ];
 
-// The achievement mark for a card with no logo of its own. A star, not a
-// mortarboard: at 36px inside the 56px bezel a laurel's leaves collapse into
-// mush, and a cap would read as "diploma" right beside the actual diploma card.
-function StarGlyph() {
-  return (
-    <svg viewBox="0 0 70 70" aria-hidden="true" className="h-9 w-9">
-      <polygon
-        points="35,10 40.9,26.9 58.8,27.3 44.5,38.1 49.7,55.2 35,45 20.3,55.2 25.5,38.1 11.2,27.3 29.1,26.9"
-        fill="var(--color-violet-soft)"
-        stroke="var(--color-ink)"
-        style={{ strokeWidth: "var(--stroke-bold)" }}
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-// Honours and Dean's List are separate achievements, not one line item: honours
-// is a program-level GPA threshold, Dean's List is earned term by term.
-const ACHIEVEMENTS = [
-  {
-    title: "Advanced Diploma",
-    issuer: "Algonquin College · Computing Science",
-    detail:
-      "Computer Engineering Technology \u2013 Computing Science. A three-year program learning about software, hardware, and everything in between. Graduated with honours and averaged a 3.8 GPA.",
-    date: "Unlocked · Apr 2026",
-    logo: algonquinLogo,
-    logoAlt: "Algonquin College logo",
-    rotate: "-rotate-[1deg]",
-    tint: "bg-blue-soft",
-  },
-  {
-    title: "Dean’s List ×6",
-    issuer: "Algonquin College · Computing Science",
-    detail:
-      "Averaged at least a 3.6 for the term without a single grade below C-, for all 6 terms of the program.",
-    date: "Unlocked · 2023 – 2026",
-    Glyph: StarGlyph,
-    rotate: "rotate-[1deg]",
-    tint: "bg-orchid-soft",
-  },
-];
-
-function WorkTimeline() {
+function WorkHistory() {
   return (
     <section aria-labelledby="work-heading">
       <LabelTag rotate="-rotate-[1deg]">
@@ -104,63 +53,145 @@ function WorkTimeline() {
           Where I&rsquo;ve Worked
         </h3>
       </LabelTag>
-      <div className="mt-4 md:ml-8">
-        <ol className="flex flex-col">
-          {WORK.map((job) => (
-            <li
-              key={job.acronym}
-              className="flex flex-col gap-2 pb-6 md:flex-row md:items-start md:gap-4 md:border-l-2 md:border-ink md:pl-8"
-            >
-              {/* Desktop-only: the badge hangs off the spine. Below md there
-                  is neither spine nor badge — with no rail to sit on it read as
-                  clutter beside the org name rather than as a marker. It's
-                  aria-hidden, so hiding it costs nothing semantically, and the
-                  card takes the full column. */}
-              <span
-                aria-hidden="true"
-                className={`shadow-sticker hidden h-12 w-12 shrink-0 items-center justify-center border-2 border-ink ${job.tint} font-display font-bold text-ink ${job.rotate} md:-ml-14 md:flex`}
-              >
-                {job.acronym}
-              </span>
-              <PinnedCard
-                bg={job.cardTint}
-                padding="p-3"
-                rotate={job.cardRotate}
-              >
-                <p className="font-display font-semibold text-ink">{job.org}</p>
-                <p className="text-xs text-label">{job.role}</p>
-                <p className="mt-0.5 text-sm text-gray-600">{job.summary}</p>
-              </PinnedCard>
-            </li>
-          ))}
-          {/* The spine deliberately stops before this entry — the line ends
-              because the future isn't drawn yet, and the ??? badge floats past
-              where the rail ran out. Don't "fix" the missing border-l-2. */}
-          <li className="flex flex-col gap-2 md:flex-row md:items-start md:gap-4 md:pl-8">
-            <span
-              aria-hidden="true"
-              className="hidden h-12 w-12 shrink-0 items-center justify-center border-2 border-dashed border-ink bg-paper font-display text-lg font-bold text-ink md:-ml-14 md:flex"
-            >
-              ???
-            </span>
-            <PinnedCard
-              bg="bg-paper"
-              padding="p-3"
-              rotate="rotate-1 md:rotate-none"
-              className="border-dashed"
-            >
-              <p className="font-display font-semibold text-ink">Pending</p>
-              <p className="text-xs text-label">New role incoming</p>
-              <p className="mt-0.5 text-sm text-gray-600">
-                I don&rsquo;t have a start date yet, and it could still be a
-                while before I do. Until then, I&rsquo;m making sure I stay
-                sharp and don&rsquo;t lose any of my skills. Wish me luck!
-              </p>
-            </PinnedCard>
+      <ol className="mt-4 flex flex-col gap-5">
+        {PASSES.map((pass) => (
+          <li key={pass.flight}>
+            <BoardingPass {...pass} />
           </li>
-        </ol>
-      </div>
+        ))}
+        <li>
+          <StandbyPass remarks="I don’t have a start date yet, and it could still be a while before I do. Until then, I’m making sure I stay sharp and don’t lose any of my skills. Wish me luck!" />
+        </li>
+      </ol>
     </section>
+  );
+}
+
+// One ribbon per term of the program, which Algonquin numbers as levels 01 to
+// 06. The hues are solved against both layouts: a single row of six from `md`
+// up, and two rows of three below it, so ribbons 1 and 3 apart must differ.
+// Opening on the site's canonical rose → violet → blue → orchid order and
+// repeating it satisfies both.
+const RIBBONS = [
+  { level: "01", fill: "var(--color-rose-soft)", rotate: "-rotate-[2deg]" },
+  { level: "02", fill: "var(--color-violet-soft)", rotate: "rotate-[1.5deg]" },
+  { level: "03", fill: "var(--color-blue-soft)", rotate: "-rotate-[1deg]" },
+  { level: "04", fill: "var(--color-orchid-soft)", rotate: "rotate-[2deg]" },
+  { level: "05", fill: "var(--color-rose-soft)", rotate: "-rotate-[1.5deg]" },
+  { level: "06", fill: "var(--color-violet-soft)", rotate: "rotate-[1deg]" },
+];
+
+// The ribbons are `aria-hidden` decoration, so the placard beneath them has to
+// say everything they show: the award, how many, and when.
+function DeansList() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div aria-hidden="true" className="flex flex-wrap justify-center gap-4">
+        {RIBBONS.map((r) => (
+          <Rosette
+            key={r.level}
+            fill={r.fill}
+            label={r.level}
+            className={r.rotate}
+          />
+        ))}
+      </div>
+      <PinnedCard bg="bg-white" padding="p-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+          <p className="font-display text-lg font-semibold text-ink">
+            Dean&rsquo;s List ×6
+          </p>
+          <Eyebrow as="p">Algonquin College · Levels 01 to 06</Eyebrow>
+        </div>
+        <p className="mt-1 text-sm text-gray-600">
+          I made the Dean&rsquo;s List in every one of the program&rsquo;s six
+          terms. I like being able to see my progress, and getting that proof at
+          the end of each term really helped with the stress.
+        </p>
+        <p className="mt-2 text-right font-hand text-label">
+          Unlocked · 2023 – 2026
+        </p>
+      </PinnedCard>
+    </div>
+  );
+}
+
+// Card stock with a double rule, which is what reads as "certificate" at a
+// glance: the outer PinnedCard border, a gap of white, then an inner rule.
+// The Algonquin crest sits where a certificate's seal would, in the round
+// bezel its brand-colour exception requires (Color → the Algonquin crest).
+function Diploma() {
+  return (
+    <div className="relative">
+      <PinnedCard
+        bg="bg-white"
+        padding="p-2"
+        rotate="-rotate-[1deg]"
+        className="h-full"
+      >
+        <div className="flex h-full flex-col items-center border-2 border-ink p-4 text-center">
+          <Eyebrow as="p">Algonquin College</Eyebrow>
+          <p className="mt-2 font-display text-xl font-semibold text-ink">
+            Advanced Diploma
+          </p>
+          <p className="mt-1 text-sm text-gray-600">
+            Computer Engineering Technology – Computing Science
+          </p>
+          <p className="mt-2 font-bold text-ink">
+            Graduated with honours and a 3.8 GPA
+          </p>
+          <span className="mt-4 block h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-ink">
+            <img
+              src={algonquinLogo}
+              alt="Algonquin College logo"
+              width="120"
+              height="120"
+              decoding="async"
+              className="h-full w-full object-cover"
+            />
+          </span>
+          <p className="mt-2 font-hand text-label">Unlocked · Apr 2026</p>
+        </div>
+      </PinnedCard>
+      {/* Honours, on the corner. The GPA in its disc is decoration; the
+          sentence above is what states it. The wrapper does the positioning
+          because a Rosette is `relative` itself (its label is placed against
+          it), and a second position class on the same element loses to
+          whichever Tailwind happens to emit later. */}
+      <span className="absolute -top-4 right-4 rotate-[3deg]">
+        <Rosette size="sm" fill="var(--color-violet-soft)" label="3.8" />
+      </span>
+    </div>
+  );
+}
+
+// The next one, not earned yet. A blank certificate in the site's "blank
+// form" grammar: dashed rules on warm paper, and an empty seal where the crest
+// will go.
+function BlankCertificate() {
+  return (
+    <PinnedCard
+      bg="bg-paper"
+      padding="p-2"
+      rotate="rotate-[1deg]"
+      className="border-dashed"
+    >
+      <div className="flex h-full flex-col items-center justify-center border-2 border-dashed border-ink p-4 text-center">
+        <Eyebrow as="p">Locked</Eyebrow>
+        <p className="mt-2 font-display text-xl font-semibold text-gray-600">
+          Future certification
+        </p>
+        <p className="mt-1 text-sm text-gray-600">
+          Still working on the next one.
+        </p>
+        <span
+          aria-hidden="true"
+          className="mt-4 flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-ink font-display text-xl font-bold text-gray-600"
+        >
+          ?
+        </span>
+      </div>
+    </PinnedCard>
   );
 }
 
@@ -172,84 +203,12 @@ function Achievements() {
           What I&rsquo;ve Achieved
         </h3>
       </LabelTag>
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        {ACHIEVEMENTS.map((a) => {
-          const Glyph = a.Glyph;
-          return (
-            <PinnedCard
-              key={a.title}
-              bg={a.tint}
-              padding="p-4"
-              rotate={a.rotate}
-              className="flex flex-col gap-3"
-            >
-              <div className="flex items-center gap-3">
-                {a.logo ? (
-                  <span className="block h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-ink">
-                    <img
-                      src={a.logo}
-                      alt={a.logoAlt}
-                      width="120"
-                      height="120"
-                      decoding="async"
-                      className="h-full w-full object-cover"
-                    />
-                  </span>
-                ) : (
-                  <span
-                    aria-hidden="true"
-                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-white"
-                  >
-                    <Glyph />
-                  </span>
-                )}
-                <div className="min-w-0">
-                  <p className="font-display font-semibold leading-tight text-ink">
-                    {a.title}
-                  </p>
-                  <p className="text-xs text-label">{a.issuer}</p>
-                </div>
-              </div>
-              <p className="text-sm leading-relaxed text-gray-600">
-                {a.detail}
-              </p>
-              <p className="mt-auto self-end font-hand text-label">{a.date}</p>
-            </PinnedCard>
-          );
-        })}
-
-        {/* Matches the timeline's Pending card: dashed border + warm paper reads
-            as a blank form waiting to be filled in. The fill is not optional —
-            without it this card's text sat directly on the sky photo, where
-            contrast can't be measured at all. */}
-        <PinnedCard
-          bg="bg-paper"
-          padding="p-4"
-          rotate="-rotate-1"
-          className="flex flex-col gap-3 border-dashed"
-        >
-          <Eyebrow as="p" className="text-center">
-            Locked
-          </Eyebrow>
-          <div className="flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-ink font-display text-xl font-bold text-gray-600"
-            >
-              ?
-            </span>
-            <div className="min-w-0">
-              <p className="font-display font-semibold leading-tight text-gray-600">
-                Future certification
-              </p>
-            </div>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">
-              Still working on the next one.
-            </p>
-          </div>
-        </PinnedCard>
+      <div className="mt-4 flex flex-col gap-8">
+        <DeansList />
+        <div className="grid gap-8 md:grid-cols-2">
+          <Diploma />
+          <BlankCertificate />
+        </div>
       </div>
     </section>
   );
@@ -262,7 +221,7 @@ function About({ onNavigate }) {
     // tech user could not identify or jump to by name.
     <section aria-labelledby="about-heading" className="flex flex-col gap-8">
       <Passport onNavigate={onNavigate} />
-      <WorkTimeline />
+      <WorkHistory />
       <Achievements />
     </section>
   );

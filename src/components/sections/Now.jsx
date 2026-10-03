@@ -135,9 +135,8 @@ function Now() {
           {/* Pushed to the foot at md, where the card's `row-span-2` makes it
               taller than its own content: the stamp used to sit right under the
               prose and leave 110px of dead paper below it, 23% of the card.
-              `mt-auto` reads as a date stamped at the bottom of a document,
-              which is the same move the Achievements cards make with their
-              "Unlocked" line. Stays `mt-4` below md, where the card is its
+              `mt-auto` reads as a date stamped at the bottom of a document.
+              Stays `mt-4` below md, where the card is its
               natural height and there is no slack to distribute. */}
           <div className="mt-4 flex justify-end md:mt-auto">
             <div className="rotate-2 border-2 border-dashed border-label px-3 py-1 text-center">
