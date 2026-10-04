@@ -16,7 +16,7 @@ Thanks for stopping by! This little site right here is my personal take on a
 portfolio website. I've built many portfolios in the past, but none of them were
 really able to capture the exact tone I was looking for. I decided to ditch all
 of the jargon typically aimed at recruiters, and replace it with things that
-actually represented who I am as a person. My experience, projects and skills
+actually represented who I am as a person. My experience, projects, and skills
 are all still here, they've just taken a back seat to my non-tech hobbies and
 interests. I hope you like it!
 

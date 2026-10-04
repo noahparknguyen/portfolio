@@ -1,7 +1,7 @@
 # Third-party notices
 
 This site's own code is MIT — see [`LICENSE`](../LICENSE). This file covers
-everything it depends on, displays or redistributes. Some of these are
+everything it depends on, displays, or redistributes. Some of these are
 **obligations** rather than courtesies, and those are marked.
 
 The short version of what's required: Font Awesome is CC BY 4.0, Open-Meteo's
@@ -28,10 +28,10 @@ that is the point at which the clause starts binding us instead of Google.
 
 ## Icons — bundled into the shipped bundle
 
-| Set                                         | Used for                       | Licence                                                                               |
-| ------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------- |
-| **Simple Icons**                            | Most brand glyphs              | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) — no attribution needed |
-| **Font Awesome 6 Free** (`react-icons/fa6`) | Java, Steam and LinkedIn marks | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — **attribution required**  |
+| Set                                         | Used for                        | Licence                                                                               |
+| ------------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------- |
+| **Simple Icons**                            | Most brand glyphs               | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) — no attribution needed |
+| **Font Awesome 6 Free** (`react-icons/fa6`) | Java, Steam, and LinkedIn marks | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — **attribution required**  |
 
 `react-icons` is MIT, but it is a wrapper: its own LICENSE says "Icons are taken
 from the other projects so please check each project licences accordingly."
@@ -57,7 +57,7 @@ clearly attribute the content as being supplied and made available by Spotify,
 by using the Spotify Marks."_ Their design guidelines add that metadata
 _"must always link back to the Spotify Service."_
 
-The widget displays track name, artist, album and cover art, so both apply. It
+The widget displays track name, artist, album, and cover art, so both apply. It
 carries the Spotify mark and a link back to Spotify on every render, including
 when the API returns no track url of its own. **Don't remove either**, and don't
 recolour the mark — `--color-spotify` exists so it stays Spotify green rather
@@ -65,7 +65,7 @@ than being pulled onto the site's `ink`, which their guidelines forbid.
 
 ### Steam
 
-Valve, Steam, the Valve logo and the Steam logo are registered trademarks of
+Valve, Steam, the Valve logo, and the Steam logo are registered trademarks of
 Valve Corporation. This site is not affiliated with or endorsed by Valve. Game
 header artwork is served from Steam's own CDN and belongs to its publisher.
 
@@ -80,7 +80,7 @@ header artwork is served from Steam's own CDN and belongs to its publisher.
 | `logo-algonquin.webp`                                                | Algonquin College                            | Used per the college's published brand guidelines |
 | `statmon-compare.webp`, `hubspot-report.webp`                        | Screenshots of my own projects               | Mine                                              |
 
-Favicons, the OG image and everything in `public/` are mine.
+Favicons, the OG image, and everything in `public/` are mine.
 
 ## Game assets — unofficial fan use
 
