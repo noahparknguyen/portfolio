@@ -241,7 +241,7 @@ const statmon = {
             stamp: "API calls",
           },
           {
-            value: "497",
+            value: "501",
             label: "tests ensuring consistent behaviour",
             stamp: "tests",
           },
