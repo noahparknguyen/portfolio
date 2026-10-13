@@ -61,14 +61,16 @@ function GameCard({ game }) {
       <div className="relative aspect-460/215 w-full border-b-2 border-ink bg-primary-soft">
         {game &&
           (useFallback ? (
-            <img
-              src={game.iconFallback}
-              alt={game.name}
-              width="32"
-              height="32"
-              decoding="async"
-              className="h-full w-full object-contain p-4"
-            />
+            game.iconFallback && (
+              <img
+                src={game.iconFallback}
+                alt={game.name}
+                width="32"
+                height="32"
+                decoding="async"
+                className="h-full w-full object-contain p-4"
+              />
+            )
           ) : (
             <img
               src={game.image}

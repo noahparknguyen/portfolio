@@ -25,7 +25,15 @@ function json(body, status = 200, extraHeaders = {}) {
   });
 }
 
+// A Spotify access token lasts an hour, so it's kept for the life of the
+// isolate rather than fetched on every request. It's dropped a minute early, so
+// an expiring token is never used, and dropped at once if Spotify rejects it.
+let spotifyToken = null;
+
 async function getSpotifyAccessToken(clientId, clientSecret, refreshToken) {
+  if (spotifyToken && Date.now() < spotifyToken.expiresAt) {
+    return spotifyToken.value;
+  }
   const res = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
@@ -42,7 +50,12 @@ async function getSpotifyAccessToken(clientId, clientSecret, refreshToken) {
     throw new Error(`Token refresh failed (${res.status}): ${body}`);
   }
   const data = await res.json();
-  return data.access_token;
+  const lifetime = (data.expires_in ?? 3600) - 60;
+  spotifyToken = {
+    value: data.access_token,
+    expiresAt: Date.now() + lifetime * 1000,
+  };
+  return spotifyToken.value;
 }
 
 async function handleSpotify(env) {
@@ -73,6 +86,7 @@ async function handleSpotify(env) {
     return json({ track: null }, 502);
   }
   if (res.status === 204) return json({ track: null });
+  if (res.status === 401) spotifyToken = null;
   if (!res.ok) return json({ track: null }, 502);
   let data;
   try {
@@ -127,7 +141,11 @@ async function handleSteam(env) {
       game: {
         name: g.name,
         image: `https://cdn.cloudflare.steamstatic.com/steam/apps/${g.appid}/header.jpg`,
-        iconFallback: `https://media.steampowered.com/steamcommunity/public/images/apps/${g.appid}/${g.img_icon_url}.jpg`,
+        // Some games have no icon, and an empty hash would build a URL that
+        // can only fail.
+        iconFallback: g.img_icon_url
+          ? `https://media.steampowered.com/steamcommunity/public/images/apps/${g.appid}/${g.img_icon_url}.jpg`
+          : null,
         hoursTotal: g.playtime_forever / 60,
         playtime2Weeks: g.playtime_2weeks ?? 0,
       },
@@ -172,7 +190,7 @@ async function handleWeather() {
 async function handleCommits(env) {
   const { GITHUB_REPO, GITHUB_TOKEN } = env;
   if (!GITHUB_REPO) {
-    return json({ commits: [] }, 502);
+    return json({ error: "Missing GitHub repository" }, 500);
   }
   let data;
   try {
@@ -259,11 +277,14 @@ function withSecurityHeaders(response) {
   return res;
 }
 
-// RFC 9116 vulnerability-disclosure contact. Served from the Worker so it works
-// regardless of how static-asset dotfile (.well-known) handling behaves. Bump the
-// Expires date within a year to keep it valid.
+// RFC 9116 vulnerability-disclosure contact, pointing at GitHub's private
+// reporting rather than an email address, like the repo's SECURITY.md. Served
+// from the Worker so it works however static-asset dotfile (.well-known)
+// handling behaves. Bump the Expires date before it passes, keeping it within
+// a year, or the file stops being valid.
 const SECURITY_TXT = [
-  "Contact: mailto:noahparknguyen@gmail.com",
+  "Contact: https://github.com/noahparknguyen/portfolio/security/advisories/new",
+  "Policy: https://github.com/noahparknguyen/portfolio/security/policy",
   "Expires: 2027-07-23T00:00:00.000Z",
   "Preferred-Languages: en",
   "Canonical: https://noahpn.dev/.well-known/security.txt",
@@ -290,7 +311,29 @@ function sitemap() {
   );
 }
 
-async function route(request, env) {
+// The widget endpoints are cached at the edge with the Cache API, because a
+// Worker's own responses never reach Cloudflare's CDN cache, whatever their
+// Cache-Control says. Without this, every visitor's poll would go straight to
+// Spotify, Steam, GitHub, and Open-Meteo. The cache honours each handler's
+// max-age, and only a 200 is stored, so an outage is never cached.
+//
+// Keyed on the path alone, so a query string can't bypass the cache and spend
+// the upstream rate limits. Skipped under `vite dev`, where a cached answer
+// would hide the change being worked on.
+async function cached(request, ctx, handle) {
+  if (DEV) return handle();
+  const url = new URL(request.url);
+  const key = new Request(url.origin + url.pathname);
+  const hit = await caches.default.match(key);
+  if (hit) return hit;
+  const response = await handle();
+  if (response.status === 200) {
+    ctx.waitUntil(caches.default.put(key, response.clone()));
+  }
+  return response;
+}
+
+async function route(request, env, ctx) {
   const { pathname } = new URL(request.url);
   switch (pathname) {
     case "/sitemap.xml":
@@ -303,34 +346,40 @@ async function route(request, env) {
         },
       });
     case "/api/spotify":
-      return handleSpotify(env);
+      return cached(request, ctx, () => handleSpotify(env));
     case "/api/steam":
-      return handleSteam(env);
+      return cached(request, ctx, () => handleSteam(env));
     case "/api/commits":
-      return handleCommits(env);
+      return cached(request, ctx, () => handleCommits(env));
     case "/api/weather":
-      return handleWeather();
+      return cached(request, ctx, () => handleWeather());
     default: {
       if (pathname.startsWith("/api/")) {
         return json({ error: "Not found" }, 404);
       }
 
-      // Assets and known pages serve normally. `not_found_handling:
-      // "single-page-application"` (wrangler.jsonc) hands back index.html for
-      // every one of the app's paths, which is exactly what a client-routed app
-      // wants.
-      if (
-        !isPageRequest(request.headers.get("Sec-Fetch-Dest"), pathname) ||
-        APP_PATHS.has(normalizePath(pathname))
-      ) {
-        return env.ASSETS.fetch(request);
+      // Every page of the app is the one shell, which renders the page for the
+      // path it's on. Passing the request along keeps its conditional headers,
+      // so a revisit can still get a 304.
+      if (APP_PATHS.has(normalizePath(pathname))) {
+        return env.ASSETS.fetch(
+          new Request(new URL("/", request.url), request),
+        );
       }
 
-      // An unknown page path. SPA fallback would answer it with index.html and a
-      // 200 — a soft 404, which tells a crawler the page exists and gets it
-      // indexed as a duplicate of the home page. Serve the same shell (so the
-      // app can render its own "Nothing here" section in the site's own
-      // grammar) but with the status that is actually true.
+      // Anything else is a file, served if it exists, whoever asked for it.
+      // `not_found_handling` is "none" (wrangler.jsonc), so a missing file
+      // comes back as a 404 rather than as the shell with a 200.
+      const asset = await env.ASSETS.fetch(request);
+      if (asset.status !== 404) return asset;
+      if (!isPageRequest(request.headers.get("Sec-Fetch-Dest"), pathname)) {
+        return asset;
+      }
+
+      // A page that doesn't exist gets the shell, so the app renders its own
+      // "Nothing here" section, but with the 404 that's true, so a crawler
+      // doesn't index it as a copy of the home page. Fetched without the
+      // request's conditional headers, because a 304 can't carry a 404.
       const shell = await env.ASSETS.fetch(new URL("/", request.url));
       return new Response(shell.body, {
         status: 404,
@@ -341,7 +390,7 @@ async function route(request, env) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     try {
       const url = new URL(request.url);
 
@@ -359,7 +408,7 @@ export default {
           json({ error: "Method not allowed" }, 405, { Allow: "GET, HEAD" }),
         );
       }
-      const response = await route(request, env);
+      const response = await route(request, env, ctx);
       return withSecurityHeaders(response);
     } catch (err) {
       // Last-resort boundary: the individual handlers already catch their own

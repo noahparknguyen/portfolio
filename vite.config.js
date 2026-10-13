@@ -21,6 +21,6 @@ export default defineConfig({
   // measured in a real headless browser instead, where the answers are true.
   test: {
     environment: "node",
-    include: ["src/**/*.test.{js,jsx}"],
+    include: ["src/**/*.test.{js,jsx}", "worker/**/*.test.js"],
   },
 });

@@ -14,7 +14,10 @@
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS",
-    "not_found_handling": "single-page-application",
+    // "none", not the single-page-application fallback, which would answer a
+    // missing file with index.html and a 200. The Worker serves the app's
+    // shell for its own pages, and a 404 for everything else that's missing.
+    "not_found_handling": "none",
     // Run the Worker before static-asset serving so the fetch() handler runs on
     // EVERY request (including the root and other real assets). Required for the
     // www->apex redirect to fire on `/` — by default assets are served first and
