@@ -232,6 +232,19 @@
     opacity: 1;
   }
 
+  /* The end stamps' notes hang inward from their outer edge instead of
+     centring. At 768px the strip nearly fills the viewport, so a centred note
+     wider than about 150px on the first stamp starts off-screen. */
+  .tech-strip > .group:first-child > .tech-note {
+    left: 0;
+    transform: none;
+  }
+  .tech-strip > .group:last-child > .tech-note {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
   /* Room for the note to hang beneath the row. Only reserved where a note can
      appear, so a tablet doesn't pay 28px for nothing. */
   .tech-strip {

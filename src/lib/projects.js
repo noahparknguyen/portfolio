@@ -1,6 +1,7 @@
 import elbaiteBr8kout from "../assets/books/elbaite-br8kout.webp";
 import statmonCompare from "../assets/books/statmon-compare.webp";
 import hubspotReport from "../assets/books/hubspot-report.webp";
+import liteTypeCode from "../assets/books/lite-type-code.webp";
 
 // The Creations book stack. One entry per project, and each renders as a book
 // lying on the board (Book.jsx) that opens into a two-page spread
@@ -401,6 +402,138 @@ const hubspot = {
   ],
 };
 
-const PROJECTS = [elbaite, statmon, hubspot];
+const liteType = {
+  id: "lite-type",
+  mark: "lt",
+  title: "lite-type",
+  imprint: "A personal project · 2026",
+  summary:
+    "A typing test for the desktop, with real code to practise on as well as words. It runs on Windows and Linux with nothing else to install.",
+  // An app you install, like Elbaite, so the first link is the latest release.
+  liveUrl: "https://github.com/noahparknguyen/lite-type/releases/latest",
+  liveLabel: "Download",
+  repoUrl: "https://github.com/noahparknguyen/lite-type",
+
+  // Orchid-soft against HubSpot's blue-soft above it: adjacent covers must not
+  // share a tint.
+  coverTint: "bg-orchid-soft",
+  spineTint: "bg-orchid",
+
+  board: {
+    src: liteTypeCode,
+    alt: "lite-type in its Ink theme, partway through typing a Java enum, with two wrong letters in red",
+    width: 760,
+    height: 336,
+    caption: "A Java snippet, partway through.",
+  },
+
+  spreads: [
+    {
+      chapter: "Why I made it",
+      verso: { kind: "title" },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "I’d wanted to try JavaFX for a long time, but never had a good excuse to. I’d also been working on my typing on Monkeytype and TypeRacer, to make my everyday work faster.",
+          "A typing test, built as a desktop app in JavaFX, was the perfect way to do both.",
+          "When I practised, I only ever typed lowercase words with no punctuation. Real code is full of capitals, brackets, and symbols, so I wanted a mode for that too. It ended up improving my typing and my coding at the same time.",
+        ],
+      },
+    },
+    {
+      chapter: "What it does",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "You can practise on random words, drawn from 200 common English ones, or on 12 Java snippets, short, medium, or long, typed line by line.",
+          "There’s no input box. Each letter fills in when you type it right and turns red when you don’t, and nothing ever stops you.",
+          "Timed mode keeps the text coming for 15 to 120 seconds, and Length mode ends after a set number of words or one whole snippet.",
+        ],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "Words move a word at a time, the way they do on Monkeytype, so one slip stays one mistake. Code moves a character at a time, so a line never changes shape.",
+          "At the end you get three scores: WPM, accuracy, and text accuracy. Escape gives you new text, and Shift+Escape gives you the same text again.",
+          "It has three themes, Ink, Night, and Mono, and it remembers your choices and where you left the window.",
+        ],
+      },
+    },
+    {
+      chapter: "How it’s built",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "My first time building a GUI in Java was a school project in Swing. It felt tedious and confusing at first, and I assumed JavaFX would be Swing in a different format. To my surprise, it felt a bit more intuitive and easier to use.",
+          "What I’m most proud of is that the app’s logic works on its own. The text, the keystrokes, the timer, and the scoring live in a module with no JavaFX in it, and the window only draws what that logic decides.",
+          "It’s Java 25 and JavaFX 27, built with Maven. Every package carries its own Java runtime, so on Windows and Linux there’s nothing else to install.",
+        ],
+      },
+      recto: {
+        kind: "stats",
+        items: [
+          {
+            value: "12",
+            label: "Java snippets, short, medium, and long",
+            stamp: "snippets",
+          },
+          { value: "138", label: "unit tests behind it", stamp: "tests" },
+          {
+            value: "101",
+            label: "of them test the logic with no JavaFX",
+          },
+          {
+            value: "3",
+            label: "themes, Ink, Night, and Mono",
+            stamp: "themes",
+          },
+        ],
+        note: "I wanted it to feel light too. The app’s own work for each key takes 0.035 to 0.061 ms at the median, measured on Windows and on Linux, and nothing is read from disk while you type.",
+      },
+    },
+    {
+      chapter: "The name, and what’s next",
+      verso: {
+        kind: "prose",
+        paragraphs: [
+          "The name is the brief, in two senses. It’s lite as in minimal, in features, dependencies, and look, and light as in never heavy or slow.",
+          "I’m also proud of the overall design. I kept it minimal on purpose: the text sits in the middle of the window, and the bar of choices fades while you type.",
+        ],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "It’s finished for now. Later on, I want to add new themes, new settings so you can customize more of it, and more code snippets.",
+          "My own typing speed has improved a little too, since it’s easy to open the app and do a few rounds.",
+        ],
+        marginNote: "a few rounds at a time",
+      },
+    },
+    {
+      chapter: "Colophon",
+      verso: {
+        kind: "colophon",
+        stack: [
+          "Java 25",
+          "JavaFX 27",
+          "Maven",
+          "JUnit",
+          "jpackage",
+          "GitHub Actions",
+        ],
+      },
+      recto: {
+        kind: "prose",
+        paragraphs: [
+          "The font is JetBrains Mono, under the SIL Open Font License. Every package carries OpenJFX and Eclipse Temurin, both under the GPL v2 with the Classpath Exception.",
+          "The word list and the snippets were written for lite-type, so nothing comes from Monkeytype but the idea of moving word by word.",
+          "The code is MIT, so anyone is free to use it.",
+        ],
+      },
+    },
+  ],
+};
+
+const PROJECTS = [elbaite, statmon, hubspot, liteType];
 
 export default PROJECTS;

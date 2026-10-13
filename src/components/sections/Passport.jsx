@@ -66,7 +66,7 @@ const CHAPTERS = {
   ],
   workflow: [
     "React and Tailwind are my bread and butter, and I reach for them on almost everything I build. They’re quick to start with and easy to extend later on.",
-    "Java was the first programming language I ever learned. What made me stick with it was how easy it made learning the more advanced concepts like OOP and data structures. Spring was the obvious next step, since it\u2019s practically synonymous with enterprise applications. Right now I\u2019m trying to make Python more a part of my workflow, since it\u2019s so common in the industry.",
+    "Java was the first programming language I ever learned. What made me stick with it was how easy it made learning the more advanced concepts like OOP and data structures. Spring was the obvious next step, since it\u2019s practically synonymous with enterprise applications. Node.js is my main scripting language. Right now I\u2019m trying to make Python more a part of my workflow, since it\u2019s so common in the industry.",
     "I\u2019m learning Figma to improve my design skills, and building a clean interface has been some of the most fun I\u2019ve had learning anything. The rest is pretty standard. I use Obsidian for notes, IntelliJ IDEA for Java, and VS Code for everything else.",
   ],
 };

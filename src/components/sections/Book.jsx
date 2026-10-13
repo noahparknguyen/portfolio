@@ -98,12 +98,37 @@ function CrystalDevice() {
   );
 }
 
+// lite-type's mark is "lt" in JetBrains Mono over a progress line, just over
+// half filled, on a rounded tile. Redrawn on the same terms as the others: the
+// tile goes, the pill-shaped line gets square ends, and the fill takes the
+// cover's orchid. The letters are the logo's own outlines, scaled into this
+// 48-unit frame and lined up with the bar's ends.
+function LiteTypeDevice() {
+  return (
+    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
+      <path
+        fill="var(--color-ink)"
+        transform="translate(1.08 0.97) scale(0.18)"
+        d="M98.08 158.5Q86.89 158.5 80.2 151.98Q73.53 145.46 73.53 134.72L73.53 59.09L44.38 59.09L44.38 46.5L87.34 46.5L87.34 134.72Q87.34 139.95 90.24 142.94Q93.17 145.91 98.08 145.91L124.16 145.91L124.16 158.5L98.08 158.5ZM186.3 158.5Q175.87 158.5 169.57 152.43Q163.29 146.37 163.29 136.25L163.29 86.7L139.05 86.7L139.05 74.12L163.29 74.12L163.29 50.34L177.1 50.34L177.1 74.12L211.62 74.12L211.62 86.7L177.1 86.7L177.1 136.25Q177.1 140.54 179.61 143.23Q182.15 145.91 186.3 145.91L210.85 145.91L210.85 158.5L186.3 158.5Z"
+      />
+      <g
+        stroke="var(--color-ink)"
+        style={{ strokeWidth: "var(--stroke-bold)" }}
+      >
+        <rect x="9" y="34" width="30" height="6" fill="var(--color-paper)" />
+        <rect x="9" y="34" width="16.5" height="6" fill="var(--color-orchid)" />
+      </g>
+    </svg>
+  );
+}
+
 // Each book names its mark in the data; the drawing lives here, because
 // `src/lib/projects.js` stays data and holds no JSX.
 const DEVICES = {
   pokeball: PokeballDevice,
   inbox: InboxDevice,
   crystal: CrystalDevice,
+  lt: LiteTypeDevice,
 };
 
 function ArrowRight() {

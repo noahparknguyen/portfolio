@@ -55,7 +55,7 @@ const NOW_NOTES = [
     prompt: "What am I working on?",
     answer: "Emulators",
     explanation:
-      "I finished Achroite, a CHIP-8 emulator and the first in a family I’m calling Elbaite. A Game Boy emulator comes next, whenever I find the time.",
+      "I finished Achroite, a CHIP-8 emulator, and lite-type, a typing test for the desktop. A Game Boy emulator comes next, whenever I find the time.",
     tint: "bg-violet-soft",
     rotate: "rotate-[1deg]",
   },
