@@ -270,7 +270,7 @@ function Credits() {
             full column. */}
         <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-4">
           <p className="text-sm text-gray-600 md:w-[60%]">
-            I planned, designed, and built all of this myself. Thanks for
+            Shoutout to everyone who made this little site possible. Thanks for
             scrolling all the way down here.
           </p>
           <span

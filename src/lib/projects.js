@@ -221,12 +221,12 @@ const statmon = {
             stamp: "API calls",
           },
           {
-            value: "501",
+            value: "506",
             label: "tests ensuring consistent behaviour",
             stamp: "tests",
           },
         ],
-        note: "I have tests behind the stat math, the dex sorting, the type matchups, and a render check on every page. I also wrote a script that checks all eighteen type colours for contrast, which is how I found out Dragon was too dark to read.",
+        note: "I have tests behind the stat math, the dex sorting, the type matchups, and a render check on every page. I also have a script that checks all eighteen type colours for contrast, which is how I found out Dragon was too dark to read.",
       },
     },
     {
@@ -266,7 +266,7 @@ const statmon = {
         kind: "prose",
         paragraphs: [
           "All the data and images come from PokéAPI, and the sprites are CC0. Pokémon is © Nintendo, Game Freak, and The Pokémon Company, and Statmon is an unofficial fan project.",
-          "My own code is MIT, so help yourself. I keep my working notes in the repo too, including the original brainstorm, the design system, and a dated log of every decision and why I made it. That last one is probably the most honest thing in there.",
+          "My own code is MIT, so help yourself.",
         ],
       },
     },
@@ -338,7 +338,7 @@ const hubspot = {
       verso: {
         kind: "prose",
         paragraphs: [
-          "I wrote the backend in Node with no framework, using only the built-in http module. The frontend is React and Vite, and the whole thing ships as one Docker container.",
+          "The backend is Node with no framework, using only the built-in http module. The frontend is React and Vite, and the whole thing ships as one Docker container.",
           "None of us knew Python, which ruled out something like BeautifulSoup from the start. Instead, we found a fork of Wappalyzer’s last open-source release that was still getting new patterns. That’s about three megabytes of fingerprints, loaded into memory once and kept there.",
           "I spent the longest on safety, making sure a user couldn\u{2019}t break anything at any point.",
         ],
@@ -348,10 +348,10 @@ const hubspot = {
         items: [
           { value: "10", label: "matchers read every page", stamp: "matchers" },
           { value: "5", label: "phases in the pipeline" },
-          { value: "122", label: "tests behind it", stamp: "tests" },
+          { value: "151", label: "tests behind it", stamp: "tests" },
           { value: "0", label: "backend frameworks", stamp: "frameworks" },
         ],
-        note: "It refuses to fetch anything on a private network, re-checks every redirect, caps downloads, limits how many analyses run at once, and rate-limits failed logins. I was honest in the security doc about the one hole I couldn’t close on my own, because that felt more useful than pretending.",
+        note: "It refuses to fetch anything on a private network, re-checks every redirect, caps downloads, limits how many analyses run at once, and rate-limits failed logins.",
       },
     },
     {
@@ -368,7 +368,6 @@ const hubspot = {
         paragraphs: [
           "What I struggled with most was the detection engine. I’d never done pattern matching, and the fingerprint dataset took a long time to get my head around.",
           "Working out what the client wanted was hard as well. They opened by asking for an AI summary of tech stacks, which was well out of scope for students, so we had to find a compromise.",
-          "I had a deadline, so I leaned on AI hard in the last few weeks. Then I went back through it myself, fixing errors and adding the security and deployment work.",
         ],
         marginNote: "no team lead this time",
       },
@@ -394,7 +393,7 @@ const hubspot = {
               },
             ],
           },
-          "There were five of us on the team and I ran the code side, so the whole backend is mine. A teammate with a web design background did the mockups and wireframes and laid the foundations for the frontend, which I updated whenever the client had feedback. The rest of the team handled the progress reports, assignments, and professor meetings.",
+          "There were five of us on the team, and I ran the code side, detection engine included. A teammate with a web design background did the mockups and wireframes and laid the foundations for the frontend, which I updated whenever the client had feedback. The rest of the team handled the progress reports, assignments, and professor meetings.",
           "Inbox has its own copy running now. The demo linked here is my copy.",
         ],
       },
