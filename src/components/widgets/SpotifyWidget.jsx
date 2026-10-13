@@ -81,6 +81,11 @@ function SleeveRecord({ albumArt, name }) {
             <img
               src={albumArt}
               alt={`${name} album art`}
+              /* Spotify's album art is square, and the Worker picks its 300px
+                 size, so the browser gets a real intrinsic size up front. */
+              width="300"
+              height="300"
+              decoding="async"
               className="h-full w-full rounded-full border-2 border-ink object-cover"
             />
           ) : (

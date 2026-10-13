@@ -120,12 +120,17 @@ function App() {
         </div>
 
         {/* tabIndex={-1} makes this a programmatic focus target for the route
-            change above. It is not in the tab order. */}
+            change above. It is not in the tab order.
+
+            `w-full` matters: `mx-auto` stops a flex item stretching, so
+            without it `main` sizes to its content, and one long unbroken line,
+            such as a track title held on one line for its marquee, widens the
+            page past a phone's screen. */}
         <main
           id="main"
           ref={mainRef}
           tabIndex={-1}
-          className="mx-auto max-w-md flex-1 focus:outline-none md:mx-0 md:max-w-none"
+          className="mx-auto w-full max-w-md flex-1 focus:outline-none md:mx-0 md:max-w-none"
         >
           <ActiveSection onNavigate={navigate} />
         </main>
