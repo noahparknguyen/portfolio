@@ -6,48 +6,19 @@ import Eyebrow from "../ui/Eyebrow";
 import SimpleIcon from "../ui/SimpleIcon";
 import NewTabHint from "../ui/NewTabHint";
 
+// The top track of the last four weeks, not what's playing now, so the widget
+// says what I listen to without saying when (worker/index.js). The label is
+// the same whatever loads, so it never needs a skeleton.
 function SpotifyWidget() {
   const { track, loading } = useSpotify();
-  const heading = track
-    ? track.isPlaying
-      ? "Now Playing"
-      : "Paused"
-    : "Nothing playing";
 
   return (
     <div>
-      {/* The heading is skeletoned while loading rather than rendered.
-          `heading` falls back to "Nothing playing" whenever `track` is null,
-          and `track` is null during the first fetch too, so the label would
-          claim nothing is playing beside a skeleton body that doesn't know
-          yet. Steam and Weather skeleton their values the same way. */}
       <div className="flex items-center justify-between gap-2">
-        {loading ? (
-          <>
-            <div
-              aria-hidden="true"
-              className="h-3 w-24 animate-pulse bg-primary-soft"
-            />
-            <div
-              aria-hidden="true"
-              className="h-3.5 w-3 animate-pulse bg-primary-soft"
-            />
-          </>
-        ) : (
-          <>
-            <Eyebrow as="p">{heading}</Eyebrow>
-            {track?.isPlaying ? (
-              <Equalizer />
-            ) : (
-              <span
-                aria-hidden="true"
-                className="text-sm leading-none text-label"
-              >
-                ♪
-              </span>
-            )}
-          </>
-        )}
+        <Eyebrow as="p">Top track, last 4 weeks</Eyebrow>
+        <span aria-hidden="true" className="text-sm leading-none text-label">
+          ♪
+        </span>
       </div>
       <div className="mt-2">
         {loading ? (
@@ -88,26 +59,12 @@ function SpotifyAttribution({ url }) {
   );
 }
 
-function Equalizer() {
-  const delays = ["0s", "0.15s", "0.3s"];
-  return (
-    <span className="flex h-3.5 items-end gap-0.5" aria-hidden="true">
-      {delays.map((d) => (
-        <span
-          key={d}
-          className="animate-eq h-full w-1 origin-bottom bg-rose"
-          style={{ animationDelay: d }}
-        />
-      ))}
-    </span>
-  );
-}
-
 // The album art is the record: cropped to a circle, with groove rings, a rose
-// label, and a centre hole, spinning only while a track is playing, and half
-// drawn out of its sleeve. The sleeve is the AiAi cameo: a record comes out of
-// a sleeve, so putting the two together is what earns the cameo its place
-// instead of parking it beside the widget as a loose GIF.
+// label, and a centre hole, and half drawn out of its sleeve. It stays still,
+// since a spinning record would say something is playing now. The sleeve is
+// the AiAi cameo: a record comes out of a sleeve, so putting the two together
+// is what earns the cameo its place instead of parking it beside the widget as
+// a loose GIF.
 //
 // Geometry: the wrapper is 1.58 : 1, and both the disc and the sleeve are
 // `h-full` squares, so each is exactly as wide as the wrapper is tall. The
@@ -115,13 +72,11 @@ function Equalizer() {
 // showing past the sleeve's edge and hides the rest behind it. The sleeve comes
 // later in the DOM so it paints in front, which is the direction that reads as
 // "being pulled out" rather than "resting on top".
-function SleeveRecord({ albumArt, name, spinning }) {
+function SleeveRecord({ albumArt, name }) {
   return (
     <div className="relative aspect-[1.58/1] w-[46%] shrink-0">
       <div className="absolute right-0 top-0 aspect-square h-full">
-        <div
-          className={`relative h-full w-full ${spinning ? "animate-vinyl" : ""}`}
-        >
+        <div className="relative h-full w-full">
           {albumArt ? (
             <img
               src={albumArt}
@@ -188,11 +143,7 @@ function SleeveRecord({ albumArt, name, spinning }) {
 function TrackBody({ track }) {
   const content = (
     <div className="flex items-center gap-3">
-      <SleeveRecord
-        albumArt={track.albumArt}
-        name={track.name}
-        spinning={track.isPlaying}
-      />
+      <SleeveRecord albumArt={track.albumArt} name={track.name} />
       {/* Track, artist, and album come from Spotify, so their punctuation
           isn't the site's to control (see Devlog.jsx). */}
       <div data-live-text="true" className="min-w-0 flex-1">
@@ -225,7 +176,7 @@ function TrackBody({ track }) {
 function IdlePlaceholder() {
   return (
     <div className="flex items-center gap-3">
-      <SleeveRecord spinning={false} />
+      <SleeveRecord />
       <div className="min-w-0 flex-1">
         <p className="text-sm font-bold text-ink">404 music not found.</p>
       </div>

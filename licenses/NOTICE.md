@@ -44,7 +44,7 @@ the LinkedIn mark at the rights holder's request, so it cannot come from there.
 | Source                                           | What                                       | Terms                                                          |
 | ------------------------------------------------ | ------------------------------------------ | -------------------------------------------------------------- |
 | [Open-Meteo](https://open-meteo.com)             | Ottawa temperature and condition           | **CC BY 4.0 — attribution required.** Credited on the Colophon |
-| [Spotify Web API](https://developer.spotify.com) | Current track, artist, album, cover art    | **Attribution required.** See below                            |
+| [Spotify Web API](https://developer.spotify.com) | Top track, artist, album, cover art        | **Attribution required.** See below                            |
 | [Steam Web API](https://steamcommunity.com/dev)  | Recently played game, playtime, header art | Valve API Terms of Use                                         |
 | [GitHub REST API](https://docs.github.com/rest)  | Recent commit messages for the devlog      | No attribution required                                        |
 

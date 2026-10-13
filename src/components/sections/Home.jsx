@@ -126,19 +126,15 @@ function Home() {
         </div>
       </div>
 
-      {/* Row 3, a bento: Steam ←→ [Spotify / Devlog] */}
+      {/* Row 3, a bento: [Spotify / Devlog] ←→ Steam */}
       <div className={ROW}>
-        <div className="min-w-0 w-full md:w-[40%]">
-          <SteamWidget />
-        </div>
-
         <div className="min-w-0 w-full md:w-[55%]">
           {/* The whole column belongs to the Spotify card, since the AiAi
               cameo lives inside it as the record's sleeve (SpotifyWidget.jsx). */}
           <div className="text-center">
             <LabelTag rotate="rotate-[1deg]">
               <h3 className="text-xl font-semibold text-ink">
-                What I&rsquo;m listening to
+                What I&rsquo;ve been listening to
               </h3>
             </LabelTag>
           </div>
@@ -150,6 +146,10 @@ function Home() {
           <div className="mt-5 min-w-0 w-full">
             <Devlog />
           </div>
+        </div>
+
+        <div className="min-w-0 w-full md:w-[40%]">
+          <SteamWidget />
         </div>
       </div>
       {/* Row 4: My current toolset, a full-width strip */}

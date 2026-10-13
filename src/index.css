@@ -154,16 +154,6 @@
   box-shadow: 4px 4px 0 0 var(--color-ink);
 }
 
-@keyframes spin-vinyl {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@utility animate-vinyl {
-  animation: spin-vinyl 3.6s linear infinite;
-  transform-origin: center;
-}
-
 @keyframes blink {
   0%,
   49% {
@@ -263,20 +253,6 @@
 
   .animate-marquee {
     animation: marquee-scroll var(--marquee-duration, 8s) linear infinite;
-  }
-
-  @keyframes eq-bounce {
-    0%,
-    100% {
-      transform: scaleY(0.3);
-    }
-    50% {
-      transform: scaleY(1);
-    }
-  }
-
-  .animate-eq {
-    animation: eq-bounce 0.9s ease-in-out infinite;
   }
 
   /* The Devlog (Devlog.jsx) and the passport bio panel: a chunky scrollbar in

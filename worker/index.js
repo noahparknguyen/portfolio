@@ -58,6 +58,9 @@ async function getSpotifyAccessToken(clientId, clientSecret, refreshToken) {
   return spotifyToken.value;
 }
 
+// The top track of roughly the last four weeks, Spotify's short-term range,
+// rather than what's playing now: it shows what I listen to without showing
+// when. Needs the refresh token to carry the `user-top-read` scope.
 async function handleSpotify(env) {
   const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } =
     env;
@@ -77,7 +80,7 @@ async function handleSpotify(env) {
   let res;
   try {
     res = await fetch(
-      "https://api.spotify.com/v1/me/player/currently-playing",
+      "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=1",
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       },
@@ -85,7 +88,6 @@ async function handleSpotify(env) {
   } catch {
     return json({ track: null }, 502);
   }
-  if (res.status === 204) return json({ track: null });
   if (res.status === 401) spotifyToken = null;
   if (!res.ok) return json({ track: null }, 502);
   let data;
@@ -94,7 +96,7 @@ async function handleSpotify(env) {
   } catch {
     return json({ track: null }, 502);
   }
-  const item = data?.item;
+  const item = data?.items?.[0];
   if (!item) return json({ track: null });
   const images = item.album?.images ?? [];
   const albumArt = (images[1] ?? images[0])?.url ?? null;
@@ -106,14 +108,11 @@ async function handleSpotify(env) {
         album: item.album?.name ?? null,
         albumArt,
         url: item.external_urls?.spotify ?? null,
-        isPlaying: data.is_playing ?? false,
       },
     },
     200,
-    {
-      "Cache-Control":
-        "public, max-age=30, s-maxage=30, stale-while-revalidate=60",
-    },
+    // An hour: the short-term top track moves over days, not minutes.
+    { "Cache-Control": "public, max-age=3600, s-maxage=3600" },
   );
 }
 

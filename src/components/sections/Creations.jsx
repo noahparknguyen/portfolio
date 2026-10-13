@@ -177,31 +177,6 @@ function Creations() {
           </li>
         ))}
       </ol>
-
-      {/* Last, the only place a forward-looking card reads correctly: after
-          the projects, "Up next" means what it says. A dashed border over warm
-          `paper` is the site's "blank form waiting to be filled in" language,
-          also used by About's blank certificate. */}
-      <PinnedCard
-        bg="bg-paper"
-        padding="p-6"
-        rotate="-rotate-[1deg]"
-        className="flex flex-col items-center gap-3 border-dashed text-center md:mx-auto md:w-1/2"
-      >
-        <span
-          aria-hidden="true"
-          className="font-display text-3xl font-bold text-ink"
-        >
-          ???
-        </span>
-        <h3 className="font-display text-xl font-semibold leading-tight text-ink">
-          Up next
-        </h3>
-        <p className="text-sm text-gray-700">
-          A Game Boy emulator is next in the Elbaite family. Whenever it&rsquo;s
-          ready, it&rsquo;ll end up here.
-        </p>
-      </PinnedCard>
     </section>
   );
 }

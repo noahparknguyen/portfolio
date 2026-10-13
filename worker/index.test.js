@@ -74,7 +74,7 @@ const callsTo = (prefix) =>
 
 const WEATHER = "https://api.open-meteo.com/";
 const SPOTIFY_TOKEN = "https://accounts.spotify.com/api/token";
-const SPOTIFY_NOW = "https://api.spotify.com/";
+const SPOTIFY_TOP = "https://api.spotify.com/";
 const STEAM = "https://api.steampowered.com/";
 
 const weatherOk = () =>
@@ -83,6 +83,7 @@ const weatherOk = () =>
   });
 const spotifyToken = () =>
   Response.json({ access_token: "access", expires_in: 3600 });
+const noTopTracks = () => Response.json({ items: [] });
 
 beforeEach(() => {
   assetRequests = [];
@@ -194,23 +195,62 @@ describe("the API", () => {
     expect(callsTo(WEATHER)).toBe(2);
   });
 
+  it("serves the top track of the last four weeks, with no sign of when it played", async () => {
+    respondWith({
+      [SPOTIFY_TOKEN]: spotifyToken,
+      [SPOTIFY_TOP]: () =>
+        Response.json({
+          items: [
+            {
+              name: "Song",
+              artists: [{ name: "One" }, { name: "Two" }],
+              album: {
+                name: "Album",
+                images: [{ url: "big" }, { url: "mid" }],
+              },
+              external_urls: { spotify: "https://open.spotify.com/track/x" },
+            },
+          ],
+        }),
+    });
+    const worker = await loadWorker();
+    const res = await get(worker, "/api/spotify");
+    const asked = new URL(
+      upstream.mock.calls.find(([url]) =>
+        String(url).startsWith(SPOTIFY_TOP),
+      )[0],
+    );
+    expect(asked.pathname).toBe("/v1/me/top/tracks");
+    expect(asked.searchParams.get("time_range")).toBe("short_term");
+    expect(asked.searchParams.get("limit")).toBe("1");
+    expect(await res.json()).toEqual({
+      track: {
+        name: "Song",
+        artist: "One, Two",
+        album: "Album",
+        albumArt: "mid",
+        url: "https://open.spotify.com/track/x",
+      },
+    });
+  });
+
   it("keeps a Spotify token for its lifetime rather than fetching one per request", async () => {
     respondWith({
       [SPOTIFY_TOKEN]: spotifyToken,
-      [SPOTIFY_NOW]: () => new Response(null, { status: 204 }),
+      [SPOTIFY_TOP]: noTopTracks,
     });
     const worker = await loadWorker();
     expect((await get(worker, "/api/spotify")).status).toBe(200);
     cache.clear();
     expect((await get(worker, "/api/spotify")).status).toBe(200);
-    expect(callsTo(SPOTIFY_NOW)).toBe(2);
+    expect(callsTo(SPOTIFY_TOP)).toBe(2);
     expect(callsTo(SPOTIFY_TOKEN)).toBe(1);
   });
 
   it("drops a Spotify token that Spotify rejects", async () => {
     respondWith({
       [SPOTIFY_TOKEN]: spotifyToken,
-      [SPOTIFY_NOW]: () => new Response(null, { status: 401 }),
+      [SPOTIFY_TOP]: () => new Response(null, { status: 401 }),
     });
     const worker = await loadWorker();
     expect((await get(worker, "/api/spotify")).status).toBe(502);

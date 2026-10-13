@@ -40,15 +40,14 @@ function useApiResource(path, { key, pollMs } = {}) {
       } catch (err) {
         if (cancelled || (err.name === "AbortError" && !didTimeout)) return;
         // Keep the last good value instead of blanking the widget. Clearing it
-        // would turn a playing track into "Nothing playing", or a live
-        // temperature into "couldn't get a reading", until the next success:
-        // 45 seconds for Spotify, 10 minutes for Weather. A stale value is the
+        // would turn a live temperature into "couldn't get a reading" until
+        // the next poll succeeds, 10 minutes later. A stale value is the
         // smaller error: the empty state asserts something that's probably
         // false, where a slightly old reading is only slightly old.
         //
         // A successful response carrying null still clears the data, because
-        // that's a real answer. So a finished track never sticks on screen:
-        // only an unreachable endpoint preserves what was last true.
+        // that's a real answer: only an unreachable endpoint preserves what was
+        // last true.
         setError(true);
       } finally {
         clearTimeout(timeoutId);
