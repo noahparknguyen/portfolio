@@ -12,6 +12,7 @@ const FILES = {
   "/": [SHELL, "text/html"],
   "/robots.txt": ["User-agent: *", "text/plain"],
   "/assets/app-abc123.js": ["export {}", "text/javascript"],
+  "/fonts/nunito-latin.woff2": ["wOF2", "font/woff2"],
 };
 
 let assetRequests;
@@ -132,6 +133,17 @@ describe("pages", () => {
 });
 
 describe("files", () => {
+  it("caches build files and fonts for a year, and nothing else", async () => {
+    const worker = await loadWorker();
+    const cacheOf = async (path) =>
+      (await get(worker, path)).headers.get("Cache-Control");
+    const year = "public, max-age=31536000, immutable";
+    expect(await cacheOf("/assets/app-abc123.js")).toBe(year);
+    expect(await cacheOf("/fonts/nunito-latin.woff2")).toBe(year);
+    expect(await cacheOf("/robots.txt")).not.toBe(year);
+    expect(await cacheOf("/about")).not.toBe(year);
+  });
+
   it("serves a file that exists, even when it's opened as a page", async () => {
     const worker = await loadWorker();
     for (const headers of [{ "Sec-Fetch-Dest": "document" }, {}]) {

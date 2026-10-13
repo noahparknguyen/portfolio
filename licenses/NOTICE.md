@@ -4,27 +4,25 @@ This site's own code is MIT — see [`LICENSE`](../LICENSE). This file covers
 everything it depends on, displays, or redistributes. Some of these are
 **obligations** rather than courtesies, and those are marked.
 
-The short version of what's required: Font Awesome is CC BY 4.0, Open-Meteo's
-data is CC BY 4.0, and Spotify requires its mark on anything it supplies. All
-three are credited on the site's Colophon, not only here.
+The short version of what's required: the four fonts' licences travel with
+them, Font Awesome is CC BY 4.0, Open-Meteo's data is CC BY 4.0, and Spotify
+requires its mark on anything it supplies. The last three are credited on the
+site's Colophon, not only here.
 
-## Fonts — loaded from Google Fonts, not redistributed
+## Fonts — redistributed in this repository
 
-All four are under the **SIL Open Font License 1.1** (confirmed present under
-`ofl/` in the `google/fonts` repository). They are served from
-`fonts.gstatic.com` rather than committed here, so the OFL's
-"licence must travel with the font" clause binds Google as the distributor, not
-this repository. Listed anyway, because the designers deserve naming.
+All four are under the **SIL Open Font License 1.1**, which is an
+**obligation**: the licence has to travel with the fonts. They're vendored into
+`public/fonts/` by `npm run vendor:fonts`, which fetches each family's licence
+from the `google/fonts` repository into this folder at the same time, so a
+re-vendor can't drop them.
 
-| Font           | Designers                               | Licence     |
-| -------------- | --------------------------------------- | ----------- |
-| **Fredoka**    | Milena Brandão, Hafontia                | SIL OFL 1.1 |
-| **Nunito**     | Vernon Adams, Cyreal, Jacques Le Bailly | SIL OFL 1.1 |
-| **Lilita One** | Juan Montoreano                         | SIL OFL 1.1 |
-| **Caveat**     | Impallari Type                          | SIL OFL 1.1 |
-
-If a font is ever vendored into this repo, its `OFL.txt` has to come with it —
-that is the point at which the clause starts binding us instead of Google.
+| Font           | Designers                               | Licence                                                |
+| -------------- | --------------------------------------- | ------------------------------------------------------ |
+| **Fredoka**    | Milena Brandão, Hafontia                | SIL OFL 1.1 — [`OFL-Fredoka.txt`](OFL-Fredoka.txt)     |
+| **Nunito**     | Vernon Adams, Cyreal, Jacques Le Bailly | SIL OFL 1.1 — [`OFL-Nunito.txt`](OFL-Nunito.txt)       |
+| **Lilita One** | Juan Montoreano                         | SIL OFL 1.1 — [`OFL-LilitaOne.txt`](OFL-LilitaOne.txt) |
+| **Caveat**     | Impallari Type                          | SIL OFL 1.1 — [`OFL-Caveat.txt`](OFL-Caveat.txt)       |
 
 ## Icons — bundled into the shipped bundle
 

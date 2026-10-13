@@ -221,18 +221,18 @@ async function handleCommits(env) {
 }
 
 // Content Security Policy. script-src stays 'self' because Vite emits external,
-// hashed module scripts (no inline JS) and Cloudflare Web Analytics is disabled
-// (no injected beacon/inline script). style-src allows 'unsafe-inline' for
-// React's inline style attributes and Tailwind's injected styles, plus
-// fonts.googleapis.com for the Google Fonts stylesheet linked from index.html;
-// the font files themselves load from fonts.gstatic.com (font-src). img-src is
-// broad because the live widgets pull album/game art from third-party CDNs.
+// hashed module scripts (no inline JS), and Cloudflare Web Analytics is
+// disabled (no injected beacon or inline script). style-src needs no
+// 'unsafe-inline': React sets its `style` props through the CSSOM, which CSP
+// doesn't govern, and Vite ships the CSS as a file. The fonts are self-hosted,
+// so they're 'self' too. img-src is broad because the live widgets pull album
+// and game art from third-party CDNs.
 const CSP = [
   "default-src 'self'",
   "script-src 'self'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "style-src 'self'",
   "img-src 'self' data: https:",
-  "font-src 'self' data: https://fonts.gstatic.com",
+  "font-src 'self' data:",
   "connect-src 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
@@ -311,6 +311,12 @@ function sitemap() {
   );
 }
 
+// Files cached for a year. A build file's name carries a hash of its contents,
+// so a changed file is a new name. The vendored fonts keep their names, and
+// change only on a re-vendor, which is rare enough to accept a year's caching.
+// Everything else keeps the assets default, revalidating on each visit.
+const LONG_LIVED = /^\/(assets|fonts)\//;
+
 // The widget endpoints are cached at the edge with the Cache API, because a
 // Worker's own responses never reach Cloudflare's CDN cache, whatever their
 // Cache-Control says. Without this, every visitor's poll would go straight to
@@ -371,6 +377,11 @@ async function route(request, env, ctx) {
       // `not_found_handling` is "none" (wrangler.jsonc), so a missing file
       // comes back as a 404 rather than as the shell with a 200.
       const asset = await env.ASSETS.fetch(request);
+      if (asset.ok && LONG_LIVED.test(pathname)) {
+        const res = new Response(asset.body, asset);
+        res.headers.set("Cache-Control", "public, max-age=31536000, immutable");
+        return res;
+      }
       if (asset.status !== 404) return asset;
       if (!isPageRequest(request.headers.get("Sec-Fetch-Dest"), pathname)) {
         return asset;

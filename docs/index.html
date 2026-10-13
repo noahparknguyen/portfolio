@@ -18,13 +18,23 @@
       identical to the live banner.
     -->
 
-    <!-- Same Google Fonts the site loads (only the two the banner uses). -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Lilita+One&display=swap"
-      rel="stylesheet"
-    />
+    <!-- The site's own vendored fonts (only the two the banner uses), so this
+         renders the same letterforms the site ships, and works with no
+         network. -->
+    <style>
+      @font-face {
+        font-family: "Nunito";
+        font-weight: 400 700;
+        font-display: block;
+        src: url("../public/fonts/nunito-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Lilita One";
+        font-weight: 400;
+        font-display: block;
+        src: url("../public/fonts/lilita-one-latin.woff2") format("woff2");
+      }
+    </style>
 
     <style>
       :root {
