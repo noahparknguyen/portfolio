@@ -7,29 +7,25 @@ import Tape from "../ui/Tape";
 import Book from "./Book";
 import BookSpread from "./BookSpread";
 
-// Book art deliberately lives in `assets/books/`, a SUBDIRECTORY. App.jsx's
-// site-wide preload globs `./assets/*.{…}` — a single `*`, which does not match
-// across a `/` — so nothing in here is pulled into the page weight on a visit
-// that never reaches this section (STYLE_GUIDE.md → Assets). That does leave
-// the alt-text flash the preload exists to prevent, so the same warming trick
-// runs here instead, once, when Creations first mounts.
+// Book art lives in `assets/books/`, a subdirectory, on purpose. App.jsx's
+// site-wide preload globs `./assets/*.{…}` with a single `*`, which doesn't
+// match across a `/`, so nothing in here adds to the page weight on a visit
+// that never reaches this section. That brings back the alt-text flash the
+// preload exists to prevent, so the same warming trick runs here instead,
+// once, when Creations first mounts.
 const BOOK_ASSETS = import.meta.glob(
   "../../assets/books/*.{png,jpg,jpeg,gif,webp,svg}",
   { eager: true, query: "?url", import: "default" },
 );
 
 // The evidence pinned beside a closed cover: what the project looks like, and
-// two or three numbers that say how substantial it is.
-//
-// This is the space the section used to leave empty. A closed cover can only
-// carry a name, a mark, a blurb, a year and two links — everything a scanning
-// visitor most wants (what does it look like, what is it built from, how big is
-// it) was locked behind a click. Now the board answers the first two before
-// anyone opens anything.
+// two or three numbers that say how substantial it is. A closed cover can only
+// carry a name, a mark, a blurb, a year, and two links, so this answers what a
+// scanning visitor most wants to know before anyone opens anything.
 //
 // The stamps read their numbers straight out of the book's own stats page, so
-// the board and the book cannot drift apart. A stat appears here only if it
-// carries a short `stamp` label; the rest stay inside.
+// the board and the book can't drift apart. A stat appears here only if it
+// carries a short `stamp` label, and the rest stay inside.
 function ProjectEvidence({ project }) {
   const stats =
     project.spreads
@@ -40,9 +36,9 @@ function ProjectEvidence({ project }) {
   return (
     <div className="flex flex-col gap-4 md:w-[44%]">
       {/* Taped up like Home's polaroid. The tape is counter-rotated against the
-          card, which is what sells it as placed by hand rather than printed on
-          (STYLE_GUIDE.md → Handcrafted layer). The card itself stays within the
-          1.5 degree cap that applies to anything wider than a compact card. */}
+          card, which is what sells it as placed by hand rather than printed
+          on. The card itself stays within the 1.5 degree cap that applies to
+          anything wider than a compact card. */}
       <figure className="relative">
         <Tape className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 -rotate-3" />
         <PinnedCard padding="p-2" rotate="rotate-[1.5deg]">
@@ -60,15 +56,15 @@ function ProjectEvidence({ project }) {
         </PinnedCard>
       </figure>
 
-      {/* Rubber stamps, the same object Steam's "1466h LOGGED" chip already
-          establishes. Small enough to scatter, so they fill the board the way a
-          board fills rather than adding a second big rectangle. Under 280px
-          wide, so the 3 degree tilt cap applies rather than 1.5.
+      {/* Rubber stamps, the same object as Steam's hours-logged chip. Small
+          enough to scatter, so they fill the board rather than adding a second
+          big rectangle. Under 280px wide, so the 3 degree tilt cap applies
+          rather than 1.5.
 
-            The list is NAMED: on its own a screen reader announces "list, 3
-            items: 1,259 Pokemon, 0 API calls, 480 tests" with nothing tying
-            those figures to the project they describe. Sighted readers get that
-            from the stamps sitting beside the cover. */}
+          The list is named: on its own a screen reader announces "list, 3
+          items" and the figures, with nothing tying them to the project they
+          describe. Sighted readers get that from the stamps beside the
+          cover. */}
       {stamped.length > 0 && (
         <ul
           aria-label={`${project.title} by the numbers`}
@@ -103,9 +99,9 @@ function Creations() {
   }, []);
 
   // Closing swaps the spread back out for the cover, so the control that was
-  // focused is gone by the time this runs — hand focus back to the cover the
+  // focused is gone by the time this runs. Focus goes back to the cover the
   // reader opened, not to the top of the document. The pending id is held in a
-  // ref rather than state: clearing it must not cost a second render, and it is
+  // ref rather than state: clearing it mustn't cost a second render, and it's
   // read only after the cover has remounted.
   useEffect(() => {
     if (openId !== null) return;
@@ -142,26 +138,21 @@ function Creations() {
         </p>
       </PinnedCard>
 
-      {/* Each closed book is a bento row: the cover at its fixed one-page width
-          on the left, its evidence on the right, hugging the row's edges with
-          sky between. Same grammar as Home, whose rows also all read
-          left-to-right at varied widths rather than alternating.
+      {/* Each closed book is a bento row, like Home's: the cover at its fixed
+          one-page width and its evidence beside it, hugging the row's edges
+          with sky between.
 
-          Rows ALTERNATE: cover left with its evidence right, then the reverse.
-          A column of identically-arranged rows was the original complaint in
-          miniature, and flipping every other one turns the stack into a zig-zag
-          without resizing anything.
+          Rows alternate, cover left and then cover right, so the stack reads
+          as a zig-zag rather than a column of identical rows.
 
-          `flex-row-reverse` rather than reordered markup, so the DOM order stays
-          cover-then-evidence in both rows. That is the logical reading order
-          either way, and it keeps the visual flip from becoming a focus-order
-          problem. It could not become one here regardless: `ProjectEvidence`
-          holds an image, a caption and stat stamps, and not one focusable
-          element, so every control in the row lives in the cover.
+          `flex-row-reverse` rather than reordered markup, so the DOM order
+          stays cover-then-evidence in both rows. That's the logical reading
+          order either way, and `ProjectEvidence` holds nothing focusable, so
+          the flip can't upset the focus order.
 
-          Opening REPLACES the whole row with the full-width spread, so the
-          evidence steps aside while you are reading the book, which is exactly
-          when it is redundant. */}
+          Opening replaces the whole row with the full-width spread, so the
+          evidence steps aside while you're reading the book, which is exactly
+          when it's redundant. */}
       <ol className="flex flex-col gap-5">
         {PROJECTS.map((project, i) => (
           <li key={project.id}>
@@ -187,12 +178,11 @@ function Creations() {
         ))}
       </ol>
 
-      {/* Last, which is the only place a forward-looking card reads correctly:
-          after the projects, "Up next" means what it says. It sat second from
-          the top before, where it announced the next project ahead of the real
-          ones. Dashed border over warm `paper` is the site's established "blank
-          form waiting to be filled in" language, already carrying About's
-          standby boarding pass and its blank certificate. */}
+      {/* Last, the only place a forward-looking card reads correctly: after
+          the projects, "Up next" means what it says. A dashed border over warm
+          `paper` is the site's "blank form waiting to be filled in" language,
+          also used by About's standby boarding pass and its blank
+          certificate. */}
       <PinnedCard
         bg="bg-paper"
         padding="p-6"

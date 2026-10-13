@@ -4,9 +4,9 @@ import TextLink from "../ui/TextLink";
 import Tape from "../ui/Tape";
 import { borderAccent } from "../../lib/accents";
 
-// Four groups, one owned hue each — that one-to-one mapping is what lets this
-// section work without a SectionTitle (see the note by the <h2> below), so don't
-// add a fifth group; fold new entries into an existing one instead.
+// Four groups, one owned hue each. That one-to-one mapping is what lets this
+// section work without a SectionTitle (see the note by the <h2> below), so
+// don't add a fifth group: fold new entries into an existing one instead.
 const GROUPS = [
   {
     id: "art",
@@ -39,11 +39,9 @@ const GROUPS = [
     id: "games",
     title: "Game Assets",
     accent: "violet",
-    // Each rights holder links to its own official site, so this group carries
-    // the same accent underline as the other three. It used to render bold,
-    // unlinked names, which made it the one group whose items looked different
-    // for a reason no reader could see. Edmund McMillen links to his personal
-    // site, not bindingofisaac.com — that domain is a merch store.
+    // Each rights holder links to its own official site, so this group looks
+    // like the other three. Edmund McMillen links to his personal site, not
+    // bindingofisaac.com, which is a merch store.
     items: [
       {
         text: "Celeste — ",
@@ -208,9 +206,9 @@ function CreditGroup({ group }) {
       </Eyebrow>
       <ul className="mt-2 flex flex-col gap-1">
         {group.items.map((item, i) => (
-          // Index key: this list is static and never reorders. The previous key
-          // was derived from the item's shape and came out `undefined` for any
-          // `parts` entry beginning with plain text.
+          // Index key: this list is static and never reorders. A key derived
+          // from the item's shape comes out `undefined` for any `parts` entry
+          // that begins with plain text.
           <CreditItem
             key={`${group.id}-${i}`}
             item={item}
@@ -229,7 +227,7 @@ function Credits() {
       className="flex justify-center py-8"
     >
       {/* Keeps bg-paper rather than taking a section hue like Now and Creations
-          do: Credits is the one section with NO owned hue (its four group
+          do: Credits is the one section with no owned hue (its four group
           headers carry all four instead), and it's taped up rather than pinned,
           so warm stationery is the right fill here. */}
       <PinnedCard
@@ -239,10 +237,9 @@ function Credits() {
       >
         <Tape className="absolute -top-3 left-1/2 -translate-x-1/2 rotate-3" />
 
-        {/* Credits has no single owned hue (STYLE_GUIDE.md → Color → Sky
-            accents), so unlike every other section this deliberately skips
-            SectionTitle's single-accent underline — the four hues live on
-            the group headers below instead.
+        {/* Credits has no single owned hue, so unlike every other section
+            this skips SectionTitle's single-accent underline. The four hues
+            live on the group headers below instead.
 
             The heading says "Colophon" while the footer link says "Credits" on
             purpose: "Credits" is the plain-language door, since not everyone

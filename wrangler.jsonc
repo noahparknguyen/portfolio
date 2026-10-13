@@ -5,7 +5,7 @@
   "main": "worker/index.js",
   // Serve only from the custom domains below. Disables the default
   // *.noahparknguyen.workers.dev subdomain and preview URLs (clears the
-  // workers.dev TLS/HTTPS/HSTS security warnings). Takes effect on next deploy.
+  // workers.dev TLS/HTTPS/HSTS security warnings).
   "workers_dev": false,
   "preview_urls": false,
   // Worker logs/metrics in the dashboard (Workers & Pages -> this Worker ->
@@ -18,12 +18,12 @@
     // missing file with index.html and a 200. The Worker serves the app's
     // shell for its own pages, and a 404 for everything else that's missing.
     "not_found_handling": "none",
-    // Run the Worker before static-asset serving so the fetch() handler runs on
-    // EVERY request (including the root and other real assets). Required for the
-    // www->apex redirect to fire on `/` — by default assets are served first and
+    // Run the Worker before static-asset serving, so the fetch() handler runs on
+    // every request, including the root and other real assets. The www->apex
+    // redirect needs it to fire on `/`: by default assets are served first and
     // the Worker is skipped for asset-matching paths. The Worker's default route
-    // still delegates to env.ASSETS.fetch(), so assets serve as before, now also
-    // carrying the Worker's security headers (unifying the header source).
+    // delegates to env.ASSETS.fetch(), so assets still serve, carrying the
+    // Worker's security headers.
     "run_worker_first": true,
   },
   "routes": [

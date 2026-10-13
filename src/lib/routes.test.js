@@ -129,7 +129,7 @@ describe("isPlainClick", () => {
   });
 });
 
-// REGRESSION: two earlier versions of this each broke production or dev.
+// Each signal alone gets something wrong, so both are tested.
 describe("isPageRequest — page vs file", () => {
   it("trusts Sec-Fetch-Dest when the browser sends it", () => {
     expect(isPageRequest("document", "/about")).toBe(true);
@@ -138,10 +138,8 @@ describe("isPageRequest — page vs file", () => {
     expect(isPageRequest("style", "/assets/index.css")).toBe(false);
   });
 
-  // Judging by the header alone, and treating "absent" as a page, 404'd every
-  // static file for any client that omits it — which is most crawlers. Search
-  // engines could not read robots.txt and social scrapers could not fetch the
-  // card image.
+  // Most crawlers omit the header, so without it a path with an extension is
+  // a file.
   it.each([
     "/robots.txt",
     "/sitemap.xml",
@@ -160,8 +158,8 @@ describe("isPageRequest — page vs file", () => {
     expect(isPageRequest(null, "/about")).toBe(true);
   });
 
-  // Judging by extension alone 404'd Vite's extensionless dev modules and broke
-  // the dev server, which is why the header is checked first.
+  // Vite's dev modules have no extension, which is why the header is checked
+  // first.
   it("does not mistake an extensionless dev module for a page", () => {
     expect(isPageRequest("script", "/@react-refresh")).toBe(false);
   });

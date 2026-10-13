@@ -7,8 +7,8 @@ import { weatherLabel, glyphFor } from "../../lib/weather";
 const TIMEZONE = "America/Toronto";
 
 // Shared cloud silhouettes: every condition below composes from one of these
-// two spines (positioned per-condition), instead of each carrying its own
-// slightly-drifted copy behind a one-off <g transform>.
+// two spines, positioned per condition, so the clouds can't drift apart into
+// slightly different copies.
 const BIG_CLOUD_TAIL =
   "a6.5 6.5 0 0 1 0-13 8.5 8.5 0 0 1 16 2 5.5 5.5 0 0 1 1 11H13Z";
 const SMALL_CLOUD = "M12 33a6 6 0 0 1 0-12 8 8 0 0 1 15 2 5 5 0 0 1 1 10H13Z";
@@ -191,9 +191,9 @@ function WeatherTime() {
   const [now, setNow] = useState(() => new Date());
   const { weather, loading } = useWeather();
 
-  // The clock only renders h:mm, so ticking every second re-rendered this whole
-  // widget (weather SVG included) 59 extra times a minute for a byte-identical
-  // DOM. Align to the minute boundary first, then tick once a minute.
+  // The clock only renders h:mm, so ticking every second would re-render this
+  // whole widget, weather SVG included, 59 extra times a minute for an
+  // identical DOM. It aligns to the minute boundary, then ticks once a minute.
   useEffect(() => {
     let intervalId;
     const timeoutId = setTimeout(
@@ -228,11 +228,11 @@ function WeatherTime() {
 
   return (
     <div>
-      {/* Real postcard anatomy: message on the LEFT, postage in the TOP-RIGHT
+      {/* Real postcard anatomy: message on the left, postage in the top-right
           corner, and the postmark cancelling the stamp by overlapping it. The
-          stamp carries country + design (never the mailing city — that belongs
-          to the postmark), which is why the maple leaf lives inside it and the
-          caption reads CANADA. */}
+          stamp carries the country and a design, never the mailing city, which
+          belongs to the postmark. That's why the maple leaf lives inside it and
+          the caption reads CANADA. */}
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
           {loading ? (
@@ -262,10 +262,10 @@ function WeatherTime() {
         <div className="flex shrink-0 items-center">
           <div className="border-2 border-dashed border-ink bg-white p-2 text-center">
             {/* A placeholder of the glyph's exact size while loading. Without
-                it the dashed stamp held only its caption and then grew by the
-                glyph's 40px the moment the fetch landed, shifting the postmark
-                and the skyline below it. `empty` is `!loading && !weather`, so
-                once loading is false one of the two branches always renders. */}
+                it the dashed stamp holds only its caption, then grows by the
+                glyph's 40px when the fetch lands, shifting the postmark and the
+                skyline below it. `empty` is `!loading && !weather`, so once
+                loading is false one of the two branches always renders. */}
             {loading ? (
               <div
                 aria-hidden="true"
@@ -293,9 +293,9 @@ function WeatherTime() {
         </div>
       </div>
       {/* Full-bleed skyline. The negative margins are tied to the wrapper's
-          `p-4` in Home.jsx — Weather is deliberately exempt from the
-          `p-4 md:p-6` text-density rule, so this stays correct at every width.
-          If that padding ever changes, these values must change with it. */}
+          `p-4` in Home.jsx. Weather's card keeps `p-4` at every width, unlike
+          the `p-4 md:p-6` the text cards use, so these stay correct. If that
+          padding changes, these values must change with it. */}
       <img
         src={ottawaSkyline}
         alt=""

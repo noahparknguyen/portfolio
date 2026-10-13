@@ -1,14 +1,13 @@
 // Single source of truth for every addressable page: its path, its section id,
 // its nav identity, and the per-route metadata the document head carries.
 //
-// This replaces the old `sections.js`, which listed only the four NAV sections
-// and knew nothing about URLs. Keeping paths in a second file would have meant
-// two lists that drift; the nav is derived from this one instead (NAV_ROUTES),
-// so a route can never exist without a path or gain a nav link by accident.
+// The nav is derived from this list (NAV_ROUTES) rather than kept as a second
+// one, so the two can't drift: a route can never exist without a path or gain
+// a nav link by accident.
 //
-// `accent` is the section's owned hue (STYLE_GUIDE.md → Color → Sky accents).
-// Routes with no owned hue (Credits, the not-found page) carry `null` — Credits
-// spreads all four across its group headers instead, and 404 owns nothing.
+// `accent` is the section's owned hue. Routes with no owned hue (Credits, the
+// not-found page) carry `null`: Credits spreads all four across its group
+// headers instead, and the 404 owns nothing.
 
 const SITE = "https://noahpn.dev";
 
@@ -126,22 +125,19 @@ export function isPlainClick(event) {
   );
 }
 
-// Is this request for a PAGE (so an unknown path should 404) or for a FILE (so
-// it should fall through to the asset handler)?
+// Is this request for a page or for a file? The Worker asks only once no asset
+// matched: a missing page gets the app's shell with a real 404, and a missing
+// file gets a plain 404.
 //
-// Two signals, in order, because neither is sufficient alone:
+// Two signals, in order, because neither is enough alone:
 //
-//   1. `Sec-Fetch-Dest`, which the browser sets and is authoritative. This alone
-//      was the first attempt, treating an absent header as a page — which 404'd
-//      robots.txt, site.webmanifest, og-image.png and every favicon for any
-//      client that omits it. That is most crawlers, so search engines could not
-//      read robots.txt and social scrapers could not fetch the card image.
-//   2. When the header is absent, the file extension. A path ending in an
-//      extension is a file; anything else is a page, so a crawler that skips the
-//      header still gets a real 404 for a URL that does not exist.
-//
-// The extension test alone was the attempt BEFORE that, and it 404'd Vite's
-// extensionless dev modules (`/@vite/client`), breaking the dev server.
+//   1. `Sec-Fetch-Dest`, which the browser sets and is authoritative. Vite's
+//      dev modules, such as `/@vite/client`, have no extension, so the
+//      extension alone would take them for pages.
+//   2. When the header is absent, as it is from most crawlers, the file
+//      extension. A path ending in an extension is a file, and anything else
+//      is a page, so a crawler still gets a real 404 for a page that doesn't
+//      exist.
 export function isPageRequest(secFetchDest, pathname) {
   if (secFetchDest) return secFetchDest === "document";
   return !/\.[a-zA-Z0-9]+$/.test(pathname);

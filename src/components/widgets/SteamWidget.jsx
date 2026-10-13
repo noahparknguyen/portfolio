@@ -33,15 +33,15 @@ function SteamWidget() {
   );
 }
 
-// The Steam brand mark rendered as a faded library due-date stamp — a
-// monochrome impression (currentColor + reduced opacity), not the full-color
-// brand glyph. The emblem's own ring gives it the postmark feel.
-// The -12 degree tilt is deliberate and exempt from the cap. That cap governs
-// objects that read as HAND-PLACED, where a fixed angle grows visibly skewed
-// with width. This is a different gesture: a rubber stamp struck onto paper,
-// which is crooked by nature. At 3 degrees it stops reading as a stamp and
-// starts reading as a misaligned icon. It is `aria-hidden`, half-opacity, and
-// only ever appears in the empty state.
+// The Steam brand mark as a faded library due-date stamp: a monochrome
+// impression (currentColor at reduced opacity), not the full-colour brand
+// glyph. The emblem's own ring gives it the postmark feel.
+//
+// The -12 degree tilt is deliberate and exempt from the tilt cap. That cap
+// governs objects that read as hand-placed, where a fixed angle grows visibly
+// skewed with width. This is a rubber stamp struck onto paper, which is crooked
+// by nature, and at 3 degrees it reads as a misaligned icon instead. It's
+// `aria-hidden`, half-opacity, and only ever appears in the empty state.
 function SteamStamp() {
   return (
     <FaSteam
@@ -112,13 +112,11 @@ function GameCard({ game }) {
             />
           )}
         </div>
-        {/* A real <dl>. These were label/value pairs expressed as two loose
-            spans, with the pairing carried by an `aria-label` on a bare
-            <span> — and ARIA prohibits naming role=generic, so that label was
-            free to be dropped entirely, taking the "all-time" / "last two
-            weeks" context with it. The <dt> now carries the label
-            programmatically, which is both valid and the same structure the
-            book's stats page already uses. */}
+        {/* A real <dl>, so each value's label is tied to it in markup. An
+            `aria-label` on a bare <span> wouldn't do: ARIA prohibits naming
+            role=generic, so a screen reader may drop the label and the
+            "All-time" or "Last 2 Weeks" context with it. The book's stats
+            page uses the same structure. */}
         <dl>
           <div className="mt-2 flex items-center justify-between gap-2 border-b border-kraft pb-2.5">
             <Eyebrow as="dt">All-time</Eyebrow>

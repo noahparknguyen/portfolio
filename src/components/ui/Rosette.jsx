@@ -3,9 +3,8 @@
 // can come from the four section tints like every other object on the board,
 // and its outline from the same ink stroke tokens.
 //
-// No <Pin>, deliberately. It had one, and the ribbon reads better standing on
-// its own: the pleats and tails already say "prize ribbon", and a pin on top
-// competed with the label for the eye (Noah's call, after the first build).
+// No <Pin>, deliberately: the pleats and tails already say "prize ribbon", and
+// a pin on top competes with the label for the eye.
 //
 // The pleats are generated rather than hand-written: 32 points alternating
 // between two radii, which is what makes the edge read as gathered ribbon

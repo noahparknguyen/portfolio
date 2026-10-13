@@ -1,14 +1,12 @@
 // Display formatters for the live widgets.
 //
-// These live here rather than inside their components so they can be reached by
-// a test as the pure functions they are. That is not bookkeeping: `formatHours`
-// returned "<1h" for zero hours — reading as "a little, but under an hour" for a
-// game that had not been played at all — and it held that answer for as long as
-// nothing could call it in isolation.
+// These live here rather than inside their components so a test can reach them
+// as the pure functions they are.
 
-// Steam playtime. Zero is its own answer, and it is the ORDINARY value for
-// `playtime_2weeks` on any game not touched this fortnight, so it is the common
-// path rather than an edge case.
+// Steam playtime. Zero is its own answer, not "<1h", which would read as "a
+// little, but under an hour" for a game that wasn't played. It's the ordinary
+// value for `playtime_2weeks` on any game not touched this fortnight, so it's
+// the common path rather than an edge case.
 export function formatHours(hours) {
   if (hours <= 0) return "0h";
   if (hours < 1) return "<1h";

@@ -22,13 +22,13 @@ function MarqueeText({ text, className = "", style }) {
     const observer = new ResizeObserver(check);
     observer.observe(container);
 
-    // The first measurement happens while the webfont is still loading, so it
-    // measures the FALLBACK face. Nunito and the system fallback have different
-    // advance widths, so a track that overflows in one may not in the other,
-    // and the marquee either failed to start or started on text that fit.
-    // `display=swap` guarantees that second layout pass; this waits for it.
-    // ResizeObserver alone does not catch it: the span is `truncate`, so its
-    // box is pinned to the container's width and never resizes.
+    // The first measurement can happen while the webfont is still loading, so
+    // it measures the fallback face. Nunito and the system fallback have
+    // different advance widths, so a track that overflows in one may not in the
+    // other, and the marquee would either fail to start or start on text that
+    // fits. `font-display: swap` guarantees a second layout pass, and this waits
+    // for it. ResizeObserver alone doesn't catch it: the span is `truncate`, so
+    // its box is pinned to the container's width and never resizes.
     document.fonts?.ready.then(check);
 
     return () => {

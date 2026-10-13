@@ -3,8 +3,7 @@ import { idForPath, pathForId, routeFor, SITE } from "../lib/routes";
 
 // Keeps the active section and the URL in step, so every page has a real
 // address: it can be linked, bookmarked, opened in a new tab, and walked with
-// the browser's Back button. Before this the section lived in a bare useState,
-// which meant one URL for the whole site and no history at all.
+// the browser's Back button.
 //
 // Deliberately hand-rolled rather than pulling in a router: there are five
 // static routes, no params, no nested layouts and no data loading, so a
@@ -16,9 +15,9 @@ function setMeta(selector, attr, value) {
 }
 
 // The head tags in index.html are the ones social crawlers read, since Twitter,
-// Facebook and LinkedIn don't execute JS — those stay the site-wide fallback.
-// Updating them here is for the visitor's tab title and for crawlers that DO
-// render (Google), which is also what makes each route indexable on its own.
+// Facebook, and LinkedIn don't execute JS, so those stay the site-wide
+// fallback. Updating them here is for the visitor's tab title and for crawlers
+// that do render (Google), which is what makes each route indexable on its own.
 function applyRouteMeta(id) {
   const route = routeFor(id);
   document.title = route.title;

@@ -7,15 +7,15 @@
 
     <!--
       Standalone snapshot of the site banner, for generating the og-image and
-      GitHub preview image. Not part of the Vite app — open this file directly
+      GitHub preview image. Not part of the Vite app: open this file directly
       in a browser, then screenshot and crop to whatever dimensions you need
       (og-image 1200×630, GitHub preview 1280×640, etc.).
 
       Every value here is copied 1:1 from the real source of truth so it matches
-      the site exactly — tokens from src/index.css (@theme) and markup/structure
-      from src/components/layout/Banner.jsx. It is scaled up uniformly (see
-      --scale) purely so screenshots have enough resolution; the proportions are
-      identical to the live banner.
+      the site exactly: tokens from src/index.css (@theme), and markup and
+      structure from src/components/layout/Banner.jsx. It's scaled up uniformly
+      (see --scale) purely so screenshots have enough resolution, and the
+      proportions are identical to the live banner.
     -->
 
     <!-- The site's own vendored fonts (only the two the banner uses), so this
@@ -38,11 +38,9 @@
 
     <style>
       :root {
-        /* Tokens copied verbatim from src/index.css (@theme). KEEP IN SYNC —
-           --color-label silently drifted once and sat at the pre-fix #625AA0
-           here long after the real token was darkened to #5A5393, while this
-           comment still claimed the copy was verbatim. If you change a token in
-           index.css, change it here and regenerate the images below. */
+        /* Tokens copied verbatim from src/index.css (@theme). Keep them in
+           step: `npm run check:config` fails if one drifts. If you change a
+           token in index.css, change it here and regenerate the images. */
         --color-ink: #3d3660;
         --color-paper: #fbf3e9;
         --color-label: #5a5393;
@@ -112,7 +110,7 @@
 
       /* Banner text block: inline, left-aligned, so the reverse eyebrows bracket
          the wordmark on opposite corners (greeting top-left, tagline
-         bottom-right) — the deliberate diagonal from Banner.jsx. */
+         bottom-right), the deliberate diagonal from Banner.jsx. */
       .text-block {
         display: inline-block;
         text-align: left;

@@ -1,17 +1,13 @@
 #!/usr/bin/env node
-// Two repo-consistency checks that nothing else can catch, both of which have
-// already gone wrong here once:
+// Two repo-consistency checks that nothing else catches:
 //
-//   1. docs/index.html claims its colour tokens are "copied verbatim from
-//      src/index.css". --color-label sat at the pre-fix #625AA0 there long after
-//      the real token was darkened to #5A5393 to clear AA, and the comment went
-//      on claiming otherwise. A generated OG image would have carried the old
-//      value.
+//   1. docs/index.html copies its colour tokens from src/index.css. Nothing
+//      else keeps the two in step, so a token changed in one place would leave
+//      the generated social image on the old value.
 //
-//   2. package.json's `allowScripts` pins an EXACT version per package, so it
-//      goes stale the moment a dependency bumps — and npm only warns. Both
-//      workerd and sharp had their install scripts silently blocked because the
-//      pins still named older versions.
+//   2. package.json's `allowScripts` pins an exact version per package, so a
+//      pin goes stale the moment its dependency updates, and npm only warns.
+//      A stale pin silently blocks that package's install script.
 //
 // Exits non-zero on any failure so CI fails rather than warns.
 
@@ -64,8 +60,8 @@ for (const key of Object.keys(pins)) {
   const name = key.slice(0, at);
   const pinned = key.slice(at + 1);
   // Read the manifest off disk rather than through `require`: a package with an
-  // `exports` map need not expose its own package.json, and sharp does not —
-  // resolving it that way reported an installed package as missing.
+  // `exports` map need not expose its own package.json, and sharp doesn't, so
+  // resolving it that way reports an installed package as missing.
   const manifest = `node_modules/${name}/package.json`;
   if (!existsSync(manifest)) {
     problems.push(

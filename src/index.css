@@ -7,79 +7,76 @@
 @import "./fonts.css";
 
 @theme {
-  /* Rounded, playful, webtoon-flavored typography */
+  /* Rounded, playful, webtoon-flavoured typography */
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fredoka", var(--font-sans);
   --font-wordmark: "Lilita One", var(--font-display);
   --font-hand:
     "Caveat", var(--font-display); /* signatures + polaroid caption ONLY */
 
-  /* Cosy sky-pastel aesthetic — cool light base, sky-sampled accents */
-  --color-ink: #3d3660; /* deep sky-indigo — borders, headings, body text */
-  --color-primary: #cdc4ee; /* cool lilac — pastel fill/accent (not for text) */
-  --color-primary-soft: #eceaf8; /* cool lavender-white — masthead/footer band fill (opaque) */
-  --color-label: #5a5393; /* cool periwinkle — small-caps accent text. Darkened
-     8% from #625AA0, which measured 4.03–4.31:1 against the four soft tints and
-     failed AA on every <Eyebrow> sitting on one (Now's stickies, About's
-     boarding passes, Home's Spotify card). This value clears 4.5:1 on
-     every opaque fill on the site — see the contrast table in STYLE_GUIDE.md. */
-  --color-on-ink: #f4f2fb; /* cool off-white — primary text on ink fills */
-  --color-on-ink-muted: #b9b2d6; /* muted periwinkle — secondary/inactive text on ink */
+  /* Cosy sky-pastel aesthetic: a cool light base, with sky-sampled accents */
+  --color-ink: #3d3660; /* deep sky-indigo: borders, headings, body text */
+  --color-primary: #cdc4ee; /* cool lilac: pastel fill or accent, not text */
+  --color-primary-soft: #eceaf8; /* cool lavender-white: masthead and footer band fill (opaque) */
+  --color-label: #5a5393; /* cool periwinkle: small-caps accent text. Dark
+     enough to clear 4.5:1 on every opaque fill on the site, including the four
+     soft tints that every <Eyebrow> on a sticky, boarding pass, or Spotify
+     card sits on. */
+  --color-on-ink: #f4f2fb; /* cool off-white: primary text on ink fills */
+  --color-on-ink-muted: #b9b2d6; /* muted periwinkle: secondary or inactive text on ink */
 
-  /* Sky-sampled accents — bright fills, borders & underlines (NOT body text).
-     Each section owns one; also used for the wordmark gradient. */
-  --color-rose: #f58fbe; /* pink cloud — Home */
-  --color-violet: #9e8fd0; /* lavender — About */
-  --color-blue: #9dbee6; /* sky blue — Now */
-  --color-orchid: #c56bb8; /* orchid — Creations */
-  --color-rose-soft: #f3c9dc; /* soft tints — for filled chips/backgrounds */
+  /* Sky-sampled accents: bright fills, borders, and underlines, never body
+     text. Each section owns one, and the wordmark gradient uses them too. */
+  --color-rose: #f58fbe; /* pink cloud: Home */
+  --color-violet: #9e8fd0; /* lavender: About */
+  --color-blue: #9dbee6; /* sky blue: Now */
+  --color-orchid: #c56bb8; /* orchid: Creations */
+  --color-rose-soft: #f3c9dc; /* soft tints, for filled chips and backgrounds */
   --color-violet-soft: #d8cfee;
   --color-blue-soft: #cbdcf0;
   --color-orchid-soft: #eccfe8;
 
-  /* Handcrafted-pass additions — intentional exceptions to the plain
-     bulletin-board grammar. */
+  /* The handcrafted layer: deliberate exceptions to the plain bulletin-board
+     look. */
   --color-paper: #fbf3e9; /* warm note-paper (Welcome letter) */
-  --color-live: #e24b4a; /* record/live red — Live Reaction cue + Steam date-stamp border */
-  --color-kraft: #b98a5e; /* Devlog + Steam ruled lines — warm material accent, never text */
+  --color-live: #e24b4a; /* record/live red: Live Reaction cue and Steam date-stamp border */
+  --color-kraft: #b98a5e; /* Devlog and Steam ruled lines: a warm material accent, never text */
 
-  /* Banner wordmark gradient stops (Banner.jsx) — same hexes as before,
-     just named so the gradient is token-driven. */
+  /* Banner wordmark gradient stops (Banner.jsx), named so the gradient comes
+     from tokens. */
   --color-wordmark-from: #5b82be;
   --color-wordmark-via: #8e7dc4;
   --color-wordmark-to: #d77ba9;
 
-  /* Spotify brand green. The SECOND documented brand colour on the site, after
-     the Algonquin crest, and it is here for the same reason: it is a real mark
-     reproduced under its owner's terms, not a glyph the site draws. Spotify's
-     Developer Policy requires that any displayed metadata (track, artist,
-     album, cover art) "be accompanied by the Spotify brand" and attributed
-     "by using the Spotify Marks", and their design guidelines forbid recolouring
-     the mark to an arbitrary hue — so `ink` is not an option here. Tokenised
-     rather than inlined so it obeys the no-hardcoded-hex rule and is findable.
-     Used in exactly one place: SpotifyWidget's attribution row. */
+  /* Spotify brand green. The second brand colour on the site, after the
+     Algonquin crest, and here for the same reason: it's a real mark reproduced
+     under its owner's terms, not a glyph the site draws. Spotify's Developer
+     Policy requires that any displayed metadata (track, artist, album, cover
+     art) "be accompanied by the Spotify brand" and attributed "by using the
+     Spotify Marks", and its design guidelines forbid recolouring the mark, so
+     `ink` isn't an option. A token rather than a literal, so it follows the
+     no-hardcoded-hex rule and is easy to find. Used in exactly one place:
+     SpotifyWidget's attribution row. */
   --color-spotify: #1db954;
 
-  /* Sky-photo edge fallback (STYLE_GUIDE.md → Mobile deviation 5). Sampled by
-     eye from bg-pinksky.jpg's dominant lower field and softened a touch so it
-     reads as backdrop, not as an accent. Deliberately NOT --color-rose: that
-     hue is Home's owned section identity, and site-wide chrome must not be
-     painted in one section's colour. Nudge freely — it's only ever glimpsed
-     behind an overscroll bounce. */
+  /* The sky photo's edge fallback. Sampled by eye from bg-pinksky.jpg's
+     dominant lower field, and softened a touch so it reads as backdrop, not
+     as an accent. Not --color-rose, on purpose: that hue is Home's own, and
+     site-wide chrome mustn't be painted in one section's colour. Nudge it
+     freely: it's only ever glimpsed behind an overscroll bounce. */
   --color-sky-edge: #f5a3c7;
 
-  /* Fluid wordmark size (STYLE_GUIDE.md → Mobile deviation 1). Named -fluid
-     so it doesn't read as a sibling of the --font-wordmark family token.
-     Caps at 3rem (text-5xl) so it's a drop-in replacement — desktop is
-     unaffected since the clamp saturates at its max well under 768px. */
+  /* The fluid wordmark size. Named -fluid so it doesn't read as a sibling of
+     the --font-wordmark family token. Caps at 3rem (text-5xl), and the clamp
+     reaches that cap well under 768px, so desktop is unaffected. */
   --text-wordmark-fluid: clamp(1.875rem, 9vw, 3rem);
 
-  /* Inline SVG glyph stroke-width scale (STYLE_GUIDE.md → Handcrafted layer). */
+  /* The stroke-width scale for inline SVG glyphs. */
   --stroke-fine: 1.5; /* hairlines, rings, sub-16px detail */
   --stroke-regular: 2; /* default line-art icons (16–40px) */
   --stroke-bold: 2.5; /* heavier affordances (chevrons, emphasis) */
 
-  /* Decorative-opacity scale (STYLE_GUIDE.md → Accessibility / Handcrafted layer). */
+  /* The opacity scale for decoration, never for text. */
   --opacity-watermark: 0.1; /* faint full-bleed image watermark (maple leaf) */
   --opacity-watermark-strong: 0.3; /* larger, lighter watermark (canada map) */
   --opacity-accent-line: 0.5; /* decorative corner marks / hairlines */
@@ -121,10 +118,9 @@
   }
 }
 
-/* Wordmark stroke width — thinner below md (STYLE_GUIDE.md → Mobile
-   deviation 2). An inline style can't hold a media query, so Banner's
-   -webkit-text-stroke reads this custom property instead. The 768px query
-   below is the md breakpoint; keep the two in step. */
+/* The wordmark's stroke width, thinner below md. An inline style can't hold a
+   media query, so Banner's -webkit-text-stroke reads this custom property
+   instead. The 768px query below is the md breakpoint: keep the two in step. */
 .wordmark {
   --wordmark-stroke: 1.5px;
 }
@@ -134,29 +130,26 @@
   }
 }
 
-/* Canonical overline/kicker role (STYLE_GUIDE.md → Type → the scale) — used by
-   the <Eyebrow> primitive in components/ui/. @utility (not @layer utilities)
-   so it stays a proper Tailwind utility. Color is intentionally NOT baked in
-   here — it lives on the <Eyebrow> component's `tone` prop instead, so an
-   element never carries two competing text-color utilities whose winner
-   depends on Tailwind's internal source order rather than the className. */
+/* The overline, or kicker, role, used by the <Eyebrow> primitive in
+   components/ui/. @utility rather than @layer utilities, so it stays a proper
+   Tailwind utility. Colour isn't set here, on purpose: it lives on <Eyebrow>'s
+   `tone` prop instead, so an element never carries two competing text-colour
+   utilities whose winner depends on Tailwind's source order rather than the
+   className. */
 @utility eyebrow {
-  /* font-sans is load-bearing, not decoration. The Overline/kicker role is
-     Nunito at every size (STYLE_GUIDE.md → Type → the scale), but <Eyebrow>
-     defaults to rendering an <h3>, and the base rule below sets h1-h3 to
-     Fredoka. Without an explicit family the role rendered in TWO typefaces
-     depending only on the `as` prop: measured across the site, 51 overlines
-     came out Nunito and 5 came out Fredoka — and those 5 were Home's widget
-     labels ("Get in touch", "My current toolset", "What I've been playing",
-     "What I'm listening to", "Most recent updates"), which sit side by side on
-     the board where the mismatch is most comparable. Pinning it here is the
-     same argument the `tone` prop already makes for colour: the role owns its
-     own appearance, not the element it happens to be rendered as. */
+  /* font-sans matters here. The overline role is Nunito at every size, but
+     <Eyebrow> renders an <h3> by default, and the base rule below sets h1 to
+     h3 in Fredoka. Without an explicit family, the role would render in two
+     typefaces depending only on the `as` prop, and Home's widget labels, which
+     sit side by side, would show the mismatch. It's the same argument the
+     `tone` prop makes for colour: the role owns its appearance, not the
+     element it's rendered as. */
   @apply font-sans text-xs font-semibold uppercase tracking-wide;
 }
 
-/* Hard offset ink shadow, no blur — lifts a paper object off the board.
-   Intentional exception to the "no shadows" rule (handcrafted pass). */
+/* A hard offset ink shadow with no blur, which lifts a paper object off the
+   board. A deliberate exception to the no-shadows rule, part of the
+   handcrafted layer. */
 @utility shadow-sticker {
   box-shadow: 4px 4px 0 0 var(--color-ink);
 }
@@ -186,24 +179,19 @@
 }
 
 /* The tech-stamp annotation (TechStack.jsx).
-   
-   Hidden — but present in the accessibility tree — unless the device can
-   actually hover. It used to be `md:opacity-100` with an
-   `@media(hover:hover)` override back to `opacity-0`, which meant a device
-   with NO hover at md+ showed every note permanently. Measured at 768px and
-   up on a touch device: all seven visible, six overlapping pairs, each one a
-   `whitespace-nowrap` tag wider than the 80px stamp it is centred under. That
-   is every tablet and touchscreen laptop.
-   
-   The guide blamed `pb-7` for making this safe on desktop; `pb-7` reserves
-   VERTICAL space and does nothing about a horizontal collision. Gating on the
-   hover capability is what actually fixes it.
-   
+
+   Hidden, but present in the accessibility tree, unless the device can hover.
+   Gated on the hover capability rather than on width, because a tablet or a
+   touchscreen laptop is wide but can't hover: shown there, all seven notes
+   would sit visible at once, each a `whitespace-nowrap` tag wider than the
+   80px stamp it's centred under, overlapping their neighbours. `pb-7` reserves
+   vertical space and does nothing about a horizontal collision.
+
    `sr-only` rather than `display: none` in the hidden state, because
-   `aria-describedby` pointing at a `display:none` element is honoured
+   `aria-describedby` pointing at a `display: none` element is honoured
    inconsistently across screen readers. Nothing is removed from the document
-   at any width — the annotation is withheld from SIGHTED users who have no way
-   to summon it. */
+   at any width: the annotation is withheld only from sighted users who have
+   no way to summon it. */
 .tech-note {
   position: absolute;
   width: 1px;
@@ -245,15 +233,15 @@
   }
 
   /* Room for the note to hang beneath the row. Only reserved where a note can
-     actually appear, so a tablet no longer pays 28px for nothing. */
+     appear, so a tablet doesn't pay 28px for nothing. */
   .tech-strip {
     padding-bottom: calc(var(--spacing) * 7);
   }
 }
 
 @layer utilities {
-  /* Marquee text (MarqueeText.jsx): the row/track is duplicated in markup,
-     so translating by -50% loops seamlessly. Always plays, by design. */
+  /* Marquee text (MarqueeText.jsx): the track is duplicated in the markup, so
+     translating by -50% loops seamlessly. Always plays, on purpose. */
   @keyframes marquee-scroll {
     to {
       transform: translateX(-50%);
@@ -278,14 +266,12 @@
     animation: eq-bounce 0.9s ease-in-out infinite;
   }
 
-  /* Devlog (Devlog.jsx) + the passport bio panel: a chunky, in-aesthetic
-     scrollbar instead of the default browser one, restored at md: only
-     (STYLE_GUIDE.md → Mobile deviation 7). Below md this permanently
-     occupied 14px — 6% of a 244px panel — to draw an affordance the OS
-     already provides as a zero-width overlay on touch, so the custom
-     styling steps aside there and the native scrollbar takes over. Chunky
-     square styling is WebKit/Blink only; scrollbar-color is the Firefox
-     fallback (slim lilac-on-ink). */
+  /* The Devlog (Devlog.jsx) and the passport bio panel: a chunky scrollbar in
+     the site's style instead of the browser's, from md up only. Below md it
+     would take 14px, 6% of a 244px panel, to draw something a touch OS
+     already provides as a zero-width overlay, so the native scrollbar takes
+     over there. The chunky square styling is WebKit and Blink only, and
+     scrollbar-color is the Firefox fallback (slim lilac on ink). */
   @media (min-width: 768px) {
     .devlog-scroll {
       scrollbar-color: var(--color-primary) var(--color-primary-soft);

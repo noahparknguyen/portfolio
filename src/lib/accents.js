@@ -1,9 +1,8 @@
-// Site-section hue → literal Tailwind class, for the two grammar layers that
-// carry a section's accent (SectionTitle.jsx, Header.jsx, and Credits.jsx all
-// used to keep their own copy of the border map; TextLink.jsx its own
-// decoration map). Centralized here since Tailwind can't scan an interpolated
-// `border-${hue}` / `decoration-${hue}`, so the literal strings still have to
-// exist somewhere — just in one place instead of four.
+// Site-section hue → literal Tailwind class, for the two layers that carry a
+// section's accent: the border map (SectionTitle.jsx, Header.jsx, Credits.jsx)
+// and the decoration map (TextLink.jsx). Tailwind can't scan an interpolated
+// `border-${hue}` or `decoration-${hue}`, so the literal strings have to exist
+// somewhere, and here they exist once.
 export const borderAccent = {
   rose: "border-rose",
   violet: "border-violet",

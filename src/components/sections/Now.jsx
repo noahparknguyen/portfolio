@@ -4,38 +4,28 @@ import Eyebrow from "../ui/Eyebrow";
 import TextLink from "../ui/TextLink";
 import Pin from "../ui/Pin";
 
-// Keep this next to NOW_NOTES and move it whenever the notes move — the two are
-// one edit, not two. It can't be derived: the last commit date would report a
-// CSS tweak as a content update, which is worse than being stale.
+// Keep this next to NOW_NOTES and update it whenever the notes change: the two
+// are one edit, not two. It can't be derived, because the last commit date
+// would report a CSS tweak as a content update, which is worse than stale.
 const LAST_UPDATED = "October 2026";
 
 // Tints are a solved layout, not a free choice. The intro card carries Now's own
 // section hue (blue), and it touches the first four notes, so none of those can
 // be blue. Beyond that, two notes touch whenever they sit 1 or 3 apart in this
-// array: 1 apart in the single-column mobile stack, 3 apart in the md
-// three-column grid once the intro's 2x2 span is accounted for. The order below
-// is one of 42 arrangements satisfying both tiers with an even 2-2-2-2 spread.
+// array: 1 apart in the single-column mobile stack, and 3 apart in the md
+// three-column grid once the intro's 2x2 span is accounted for. The order
+// below satisfies both, with each tint used twice.
 //
-// Rotations are all within 1.5 degrees. Three notes used to sit at 2, which
-// breaks the guide's cap for anything wider than a compact card, and at 320px
-// every note is full width, so the cap applies to all of them.
+// Rotations stay within 1.5 degrees, the cap for anything wider than a compact
+// card, since at 320px every note is full width.
 //
-// EIGHT cards, not eleven. The questions are the general ones real now pages
-// actually cover (work, reading, learning, health, saying no) rather than the
-// oddly specific ones this page opened with; "What am I reading?" is the
-// second most common topic in the directory and was missing entirely.
+// Eight cards, on the general questions real now pages cover (work, reading,
+// learning, health, saying no). A now page is "what you'd tell a friend you
+// hadn't seen in a year" (nownownow.com/about): focus and priorities, not an
+// inventory, so many more cards would read as a list.
 //
-// A now page is "what you'd tell a friend you hadn't
-// seen in a year" (nownownow.com/about): focus and priorities, not an
-// inventory. Real now pages run 0-4 broad buckets, and eleven discrete ones
-// read as a list. Three pairs were merged rather than cut, so nothing true was
-// lost: the two "watching" cards, which were one letter apart and collided on
-// the board; Java and Python into one languages card; and the thin Statmon
-// card, whose only content the Creations page already carries.
-//
-// The prompts are specific to their own answer. Interchangeable ones like
-// "What am I focused on?" restate the premise of the whole page, and two of
-// them had ended up reading as the same question.
+// Each prompt is specific to its own answer. Interchangeable ones like "What
+// am I focused on?" restate the premise of the whole page.
 const NOW_NOTES = [
   {
     prompt: "What am I playing?",
@@ -133,11 +123,10 @@ function Now() {
             on. This page is how I&rsquo;m going to keep track of it all.
           </p>
           {/* Pushed to the foot at md, where the card's `row-span-2` makes it
-              taller than its own content: the stamp used to sit right under the
-              prose and leave 110px of dead paper below it, 23% of the card.
-              `mt-auto` reads as a date stamped at the bottom of a document.
-              Stays `mt-4` below md, where the card is its
-              natural height and there is no slack to distribute. */}
+              taller than its own content, so the stamp doesn't leave dead
+              paper below it. `mt-auto` reads as a date stamped at the bottom
+              of a document. Stays `mt-4` below md, where the card is its
+              natural height and there's no slack to distribute. */}
           <div className="mt-4 flex justify-end md:mt-auto">
             <div className="rotate-2 border-2 border-dashed border-label px-3 py-1 text-center">
               <Eyebrow as="p">Last updated</Eyebrow>

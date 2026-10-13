@@ -15,9 +15,9 @@ import TechStack from "../widgets/TechStack";
 import Links from "../widgets/Links";
 import Devlog from "../widgets/Devlog";
 
-// Each row hugs the left/right edges (`md:justify-between`, slack centered) and
-// centers its widgets vertically (`md:items-center`) so short widgets sit in the
-// middle of taller neighbours. Widths are per-widget knobs (`md:w-[..]`).
+// Each row hugs the left and right edges (`md:justify-between`, slack centred)
+// and centres its widgets vertically (`md:items-center`), so short widgets sit
+// in the middle of taller neighbours. Widths are per-widget knobs (`md:w-[..]`).
 const ROW =
   "flex flex-col gap-5 md:flex-row md:items-center md:justify-between";
 
@@ -32,7 +32,7 @@ function Home() {
       aria-labelledby="home-heading"
       className="flex flex-col gap-5 py-3"
     >
-      {/* Row 1 — Welcome ←→ Photo */}
+      {/* Row 1: Welcome ←→ Photo */}
       <div className={ROW}>
         <div className="min-w-0 md:w-[65%]">
           <PinnedCard bg="bg-paper" padding="p-4 md:p-6" className="relative">
@@ -69,7 +69,8 @@ function Home() {
             </p>
             {/* The whole sign-off is aria-hidden and mirrored by the sr-only
                 line below: ":)" reads badly aloud, but hiding only the
-                signature left a screen reader hearing "Best," with no name. */}
+                signature would leave a screen reader hearing "Best," with no
+                name. */}
             <p className="mt-4 text-right leading-tight" aria-hidden="true">
               <span className="italic text-label">Best,</span>
               <br />
@@ -106,7 +107,7 @@ function Home() {
         </div>
       </div>
 
-      {/* Row 2 — Live Reaction · Weather · Links */}
+      {/* Row 2: Live Reaction · Weather · Links */}
       <div className={ROW}>
         <div className="mx-auto min-w-0 max-w-40 md:mx-0 md:w-[20%] md:max-w-none">
           <PinnedCard bg="bg-ink" padding="p-0" rotate="-rotate-[2deg]">
@@ -125,17 +126,15 @@ function Home() {
         </div>
       </div>
 
-      {/* Row 3 — bento: Steam ←→ [Spotify / Devlog] */}
+      {/* Row 3, a bento: Steam ←→ [Spotify / Devlog] */}
       <div className={ROW}>
         <div className="min-w-0 w-full md:w-[40%]">
           <SteamWidget />
         </div>
 
         <div className="min-w-0 w-full md:w-[55%]">
-          {/* The AiAi cameo now lives inside the Spotify card as the record's
-              sleeve (SpotifyWidget.jsx), which frees this whole column for the
-              card — it is wider here than it was when the sleeve sat beside it,
-              so both the record and the track text gained room. */}
+          {/* The whole column belongs to the Spotify card, since the AiAi
+              cameo lives inside it as the record's sleeve (SpotifyWidget.jsx). */}
           <div className="text-center">
             <LabelTag rotate="rotate-[1deg]">
               <h3 className="text-xl font-semibold text-ink">
@@ -153,7 +152,7 @@ function Home() {
           </div>
         </div>
       </div>
-      {/* Row 4 — My current toolset (full-width strip) */}
+      {/* Row 4: My current toolset, a full-width strip */}
       <TechStack />
     </section>
   );

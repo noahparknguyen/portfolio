@@ -9,7 +9,7 @@ import NewTabHint from "./NewTabHint";
 //   to               → an in-app <a> pointing at that section's real URL
 //   onClick alone    → a <button>, for a control that isn't navigation
 //
-// `to` exists because every section has an address now. In-app navigation that
+// `to` exists because every section has its own URL. In-app navigation that
 // renders a <button> lies to the user: no destination on hover, no ctrl-click,
 // and assistive tech announces a control instead of a link. Passing the section
 // id gives the anchor a real href while the handler keeps the navigation client

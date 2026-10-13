@@ -1,16 +1,15 @@
 // The spoken half of "this link leaves the site in a new tab".
 //
 // Every outbound link on the site carries `target="_blank"`, which moves the
-// user into a new browsing context without warning. Sighted users get no cue
-// either, but they at least see the tab appear; a screen-reader user is simply
-// somewhere else. WCAG 3.2.5 is AAA rather than AA, so this is a
-// best-practice call, not a conformance one — but the site was already doing it
-// in ONE place (ProjectLinks) and nowhere else, and an inconsistent convention
-// is worse than either choice made uniformly.
+// user into a new browsing context without warning. Sighted users at least see
+// the tab appear, while a screen-reader user is simply somewhere else. WCAG
+// 3.2.5 is AAA rather than AA, so this goes beyond conformance, and it's on
+// every outbound link because a convention applied in some places is worse
+// than either choice made everywhere.
 //
-// Kept as a component rather than a copied string so the wording can't drift
-// across the ~30 call sites. The leading space matters: it separates this from
-// the link text when a screen reader concatenates them.
+// A component rather than a copied string, so the wording can't drift between
+// call sites. The leading space separates this from the link text when a
+// screen reader joins them.
 function NewTabHint() {
   return <span className="sr-only"> (opens in a new tab)</span>;
 }

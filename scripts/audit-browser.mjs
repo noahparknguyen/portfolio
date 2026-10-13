@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // The checks that only a real browser can answer: horizontal overflow, computed
-// colour contrast, and image scaling. Every one of these caught something during
-// the full review, and none of them is visible to ESLint, Prettier or a unit
-// test — so they run in CI rather than living in someone's memory.
+// colour contrast, and image scaling. None of them is visible to ESLint,
+// Prettier, or a unit test, so they run in CI rather than living in someone's
+// memory.
 //
 // Serves the production build with `vite preview`, so it audits what actually
 // ships. The /api/* routes are absent there, which is deliberate: the widgets
@@ -91,10 +91,10 @@ const CONTRAST_SCAN = () => {
   return { scanned, failures: out };
 };
 
-// Tilt caps (STYLE_GUIDE.md -> Handcrafted layer -> Slight rotation): <= ~3 deg,
-// and <= ~1.5 deg on anything wider than a compact card. The width threshold is
-// what makes this checkable — a fixed angle's visible skew grows with width, so
-// the same 2 deg that reads as charm on an 80px stamp reads as a mistake on a
+// Tilt caps: <= ~3 deg, and <= ~1.5 deg on anything wider than a compact card.
+// The width threshold is what makes this checkable: a fixed angle's visible
+// skew grows with width, so the same 2 deg that reads as charm on an 80px
+// stamp reads as a mistake on a
 // 296px panel. 280px is "wider than a compact card": at 320px every panel in
 // the column clears it, which is exactly the case the cap exists for.
 //
@@ -136,8 +136,8 @@ const ROTATION_SCAN = () => {
 };
 
 // Straight apostrophes and quotes in RENDERED copy. Every one on the site is
-// typographic, and the only way they creep back in is exactly how they did:
-// hand-editing a string through a tool that emits U+0027 instead of U+2019.
+// typographic, and the usual way one creeps back in is a string edited with a
+// tool that types U+0027 instead of U+2019.
 // Source-level greps cannot separate copy from code comments; the rendered page
 // can, because comments never render.
 const TYPOGRAPHY_SCAN = () => {
@@ -184,10 +184,10 @@ if (!chrome) {
 //
 // `server.kill()` does not reliably take down the whole `npx vite preview`
 // process tree, so an interrupted run can leave an orphan holding the port. The
-// next run's own preview then fails to bind, the audit connects to the ORPHAN
-// instead — which is serving a stale dist whose hashed assets no longer exist —
-// and every page comes up blank. Detecting that is what the sanity floors at
-// the end are for; not walking into it is better.
+// next run's own preview then fails to bind, the audit connects to the orphan
+// instead, which serves a stale dist whose hashed assets no longer exist, and
+// every page comes up blank. The sanity floors at the end would catch that,
+// but not walking into it is better.
 try {
   const stale = await fetch(BASE, { signal: AbortSignal.timeout(2000) });
   if (stale.ok) {
@@ -252,11 +252,10 @@ for (const width of WIDTHS) {
   for (const path of PATHS) {
     const page = await browser.newPage();
     await page.setViewport({ width, height: 1200 });
-    // `load`, not `networkidle2`. This page runs live widgets and pulls fonts
-    // from a third party, so "the network went quiet" is not a state it
-    // reliably reaches, and in CI where the API has no credentials it never
-    // reached it at all. `load` waits for the images, CSS and fonts these
-    // checks actually measure, and nothing else.
+    // `load`, not `networkidle2`. This page runs live widgets that poll, so
+    // "the network went quiet" isn't a state it reliably reaches, least of all
+    // in CI, where the API has no credentials. `load` waits for the images,
+    // CSS, and fonts these checks measure, and nothing else.
     await page.goto(`${BASE}${path}`, { waitUntil: "load" });
     await page.evaluateHandle("document.fonts.ready");
     await wait(400);
@@ -307,10 +306,10 @@ await browser.close();
 stopServer();
 
 // A check that can pass while measuring nothing is worse than no check at all.
-// This audit once reported "clean" having scanned 0 text elements and 0 images,
-// because the machine was out of memory and every page came up blank — the
-// overflow check still "passed" on an empty document. These floors turn that
-// silent success into a loud failure.
+// If every page comes up blank (out of memory, or a stale server), the
+// overflow check still "passes" on an empty document, having scanned 0 text
+// elements and 0 images. These floors turn that silent success into a loud
+// failure.
 if (contrastChecks < 100) {
   problems.push(
     `only ${contrastChecks} text elements were scanned across ${PATHS.length} pages — ` +

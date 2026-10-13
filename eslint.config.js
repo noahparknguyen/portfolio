@@ -22,11 +22,9 @@ export default defineConfig([
     },
   },
 
-  // Node-side: the build config and the repo scripts. These were previously
-  // either linted with browser globals (so `process` was an undefined variable
-  // in vite.config.js) or not linted at all — the `**/*.{js,jsx}` pattern above
-  // never matched `scripts/*.mjs`, so every script in this repo was invisible
-  // to ESLint until it was pointed at them.
+  // Node-side: the build config and the repo scripts. They need Node's globals,
+  // or `process` is an undefined variable in vite.config.js, and their own
+  // pattern, since `**/*.{js,jsx}` above never matches `scripts/*.mjs`.
   {
     files: ["*.config.js", "scripts/**/*.{js,mjs}"],
     extends: [js.configs.recommended],

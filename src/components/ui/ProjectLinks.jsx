@@ -19,10 +19,10 @@ function ArrowOut() {
 }
 
 // The live/source pair, used twice per project: on the book's cover and again in
-// its colophon at the back. That repetition is deliberate — it is how a real
-// book works, with the essentials on the jacket and the production details
-// inside — and the reader most likely to want the link is the one who has just
-// finished reading, with the cover no longer in front of them.
+// its colophon at the back. The repetition is deliberate: it's how a real book
+// works, with the essentials on the jacket and the production details inside,
+// and the reader most likely to want the link is the one who has just finished
+// reading, with the cover no longer in front of them.
 //
 // One component so the two placements cannot drift apart. Note the markup
 // constraint it has to satisfy on the cover: an <a> may not sit inside the
@@ -48,7 +48,7 @@ function ProjectLinks({
           {liveLabel}
           {/* The arrow is the sighted cue for "leaves the site" and is
             aria-hidden; this is its spoken equivalent. It also names the
-            project, since "Live site" alone doesn't say whose — and with one
+            project, since "Live site" alone doesn't say whose, and with one
             book open the other books' covers still show their own pairs. */}
           <span className="sr-only">{` for ${title}`}</span>
           <NewTabHint />

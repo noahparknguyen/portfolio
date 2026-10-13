@@ -2,11 +2,11 @@
 // Enumerates every Tailwind utility used in src/ and groups it by the property
 // it controls, so a one-off value cannot hide among hundreds of consistent ones.
 //
-// The style guide fixes a small vocabulary — seven type sizes, three weights,
-// five cell paddings, a named spacing rhythm, a closed colour palette. Nothing
-// enforced it. This does: each family below carries the documented allowlist,
-// and anything outside it is reported with the files that use it, so it either
-// gets fixed or gets written down as a deliberate exception.
+// The site keeps a small vocabulary: a handful of type sizes and weights, a
+// cell-padding scale, a named spacing rhythm, and a closed colour palette. Each
+// family below carries its allowlist, and anything outside it is reported with
+// the files that use it, so it either gets fixed or gets added here as a
+// deliberate exception.
 //
 // Usage: node scripts/audit-styles.mjs [--verbose]
 
@@ -28,16 +28,15 @@ function walk(dir, out = []) {
 // Pull class-ish tokens out of every string literal.
 //
 // This walks the source character by character rather than stripping comments
-// with a regex. Two things defeat the regex approach, and both were live here:
+// with a regex. Two things in this codebase defeat the regex approach:
 //
 //   - An apostrophe in prose ("it's the most text-dense object") opens a
 //     phantom string that runs to the next apostrophe, harvesting the words
 //     between as class names.
-//   - `import.meta.glob("./assets/*.{png,...}")` contains `/*` INSIDE a string.
+//   - `import.meta.glob("./assets/*.{png,...}")` contains `/*` inside a string.
 //     A block-comment stripper treats that as a comment opener and eats
-//     everything to the next `*/` — 62% of App.jsx, including every className
-//     on the masthead and footer bands, which is why `border-4` and `border-y-4`
-//     silently vanished from this report.
+//     everything to the next `*/`, which in App.jsx swallows every className
+//     on the masthead and footer bands.
 //
 // A scanner that knows whether it is inside a string, a line comment or a block
 // comment gets both right, and is the only way to be sure the audit sees the
@@ -93,9 +92,8 @@ for (const file of files) {
       // Variant prefixes (`md:`, `hover:`, `focus-visible:`, `group-hover:`,
       // and arbitrary ones like `[@media(hover:hover)]:`) must be allowed
       // through here, not just tolerated by strip() later. Requiring the token
-      // to start with a bare utility name rejected every `md:`-prefixed class
-      // outright — which hid the entire responsive tier from this audit,
-      // including `md:border-4` on the masthead and footer bands.
+      // to start with a bare utility name would reject every `md:`-prefixed
+      // class and hide the entire responsive tier from this audit.
       if (
         !/^(?:[a-z0-9@[\]()<>=:.,%-]+:)*-?[a-z][a-z0-9]*(-[a-z0-9./[\]()#%,:_-]+)*$/i.test(
           tok,
@@ -194,13 +192,10 @@ const FAMILIES = [
       "px-6",
       // Accent-underline hug: a `border-b-2` sitting tight under its label.
       // `pb-1` under a Title (SectionTitle), `pb-0.5` under the smaller
-      // labels — the nav link and the Colophon's group headers.
+      // labels: the nav link and the Colophon's group headers.
       "pb-0.5",
-      // The 24px "large separation" step (the mt-6 value) expressed as bottom
-      // padding, because it belongs to the timeline entry rather than to the
-      // gap between entries — the trailing Pending card must not inherit it.
-      // Compact masthead: the banner is deliberately asymmetric, pt-4 over
-      // pb-1, which is the "trimmed top padding" the Layout section calls for.
+      // Compact masthead: the banner is deliberately asymmetric, with pt-4
+      // over pb-1 trimming the top.
       "pt-4",
       // The masthead band's desktop inset is wider than the footer's px-6, and
       // that is deliberate: the banner's content is a centred cluster flanked
@@ -208,9 +203,6 @@ const FAMILIES = [
       // they read as flanking the mark rather than spanning the whole band.
       // The footer is a space-between row, where the inset is a content margin.
       "px-8",
-      // The work timeline's rail geometry: the indent from the spine, paired
-      // with the badge's `-ml-14` hang and the list's `ml-8`. Desktop only —
-      // below md the rail is dropped entirely.
       // An 8px indent on the passport's handwritten signature so it does not
       // start flush against the cell edge. Optical placement of handwriting.
       "pl-2",
@@ -258,7 +250,7 @@ const FAMILIES = [
       "my-0",
       // Banner optical alignment. A 2px hairline, two 6px dots and the duo
       // image have to sit on one optical baseline, and none of their boxes
-      // agree — these are the nudges that align them, not content spacing.
+      // agree. These are the nudges that align them, not content spacing.
       "mb-1",
       "mb-0.5",
       "-mb-0.5",

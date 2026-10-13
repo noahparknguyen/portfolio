@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
-// `about/` is a SUBDIRECTORY on purpose: App.jsx's site-wide preload globs
-// `./assets/*.{…}` with a single `*`, which does not match across a `/`, so
-// nothing in here is pulled into the weight of a visit that never reaches this
-// section (STYLE_GUIDE.md → Assets). Between them canada-map.svg and
-// flag-bc.svg are 226 KB — about a fifth of everything the site preloads — for
-// two images only this page ever shows.
+// `about/` is a subdirectory on purpose: App.jsx's site-wide preload globs
+// `./assets/*.{…}` with a single `*`, which doesn't match across a `/`, so
+// nothing in here adds weight to a visit that never reaches this section.
+// canada-map.svg and flag-bc.svg are 226 KB between them, which would add
+// about a quarter to the 856 KB the site preloads, for two images only this
+// page shows.
 //
 // Neither needs the warming that `books/` does: both are `alt="" aria-hidden`
-// decoration, so there is no alt text to flash while they load. The headshot
-// stays at the top level precisely because it DOES carry real alt text.
+// decoration, so there's no alt text to flash while they load. The headshot
+// stays at the top level because it does carry real alt text.
 import headshot from "../../assets/noah-headshot.webp";
 import flagCanada from "../../assets/flag-canada.svg";
 import flagBc from "../../assets/about/flag-bc.svg";
@@ -29,18 +29,17 @@ const ID_FIELDS = [
   { label: "Residence / Résidence", value: "Ottawa, ON" },
 ];
 
-// Decorative — a nod to the games (easter egg), not a real MRZ. Both lines are
-// the same length so the per-character columns line up.
+// Decorative: a nod to the games, not a real MRZ. Both lines are the same
+// length so the per-character columns line up.
 const MRZ = [
   "P<CANPARK<NGUYEN<<NOAH<<<<<<<<<<<<<<<<<<<<<<",
   "HK<CELESTE<BALATRO<<<<<<<<<<<<<<<<<<<<<<<<<<",
 ];
 
-// Shorter variant for below `md` — the full 44-char strip needs ~317px at
-// text-xs against a 244px cell (STYLE_GUIDE.md → Mobile composition). Same
-// spirit, same prefixes, just padded to a shorter shared length so the
-// per-character columns still line up. Padded rather than hand-counted so the
-// two lines can never drift out of sync.
+// Shorter variant for below `md`: the full 44-character strip needs about
+// 317px at text-xs, and the cell is 244px. Same prefixes, padded to a shorter
+// shared length so the per-character columns still line up. Padded rather than
+// hand-counted, so the two lines can't drift out of sync.
 const MRZ_SHORT_LEN = 28;
 const MRZ_SHORT = [
   "P<CANPARK<NGUYEN<<".padEnd(MRZ_SHORT_LEN, "<"),
@@ -181,8 +180,7 @@ function Passport({ onNavigate }) {
 
   // Touch-swipe over the passport card. Only start/end deltas are used (no
   // touchmove, no preventDefault), so native vertical scroll is never
-  // intercepted — a swipe that's more vertical than horizontal is simply
-  // ignored rather than special-cased away from scrolling.
+  // intercepted: a swipe that's more vertical than horizontal is ignored.
   const onTouchStart = (e) => {
     const t = e.touches[0];
     touchStart.current = { x: t.clientX, y: t.clientY };
@@ -203,10 +201,9 @@ function Passport({ onNavigate }) {
   // out of `go` itself so clicking the prev/next Chevron buttons (which also
   // call `go`) doesn't yank focus away from the Chevron.
   const onKeyDown = (e) => {
-    // Home/End are part of the APG tablist pattern and were missing, so the
-    // only way to the first or last chapter was to arrow through the others.
-    // preventDefault stops Home/End scrolling the page out from under the
-    // strip, and stops the arrows scrolling it sideways.
+    // Home and End jump to the first and last chapters, as the APG tablist
+    // pattern expects. preventDefault stops Home/End scrolling the page out
+    // from under the strip, and stops the arrows scrolling it sideways.
     const MOVES = {
       ArrowRight: i + 1,
       ArrowLeft: i - 1,
@@ -221,11 +218,9 @@ function Passport({ onNavigate }) {
   };
 
   return (
-    // Level at every width. It was `md:rotate-[-0.4deg]`, but the passport is
-    // the most text-dense object on the site and it already straightened below
-    // md for that reason — a tilt makes the eye re-find the left edge on every
-    // line, which costs nothing over two lines and compounds over twenty
-    // (STYLE_GUIDE.md → Handcrafted layer → Slight rotation).
+    // Level at every width. The passport is the most text-dense object on the
+    // site, and a tilt makes the eye re-find the left edge on every line, which
+    // costs nothing over two lines and compounds over twenty.
     <div>
       <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <Panel as="div" className="shadow-sticker md:h-168 md:grid-rows-2">
@@ -277,22 +272,20 @@ function Passport({ onNavigate }) {
                   className="float-left mb-2 mr-4 h-28 w-28 shrink-0 border-2 border-ink object-cover md:float-none md:mb-0 md:mr-0"
                 />
                 {/* Below `md` this must stay `display: block`, not a one-column
-                    grid — a grid container doesn't flow around a float, it just
-                    narrows and stays rectangular, which recreates the same
-                    14-character column this is meant to fix (STYLE_GUIDE.md →
-                    Mobile composition). Block flow's line boxes are what let
-                    text wrap around the floated photo. */}
+                    grid. A grid container doesn't flow around a float: it
+                    narrows and stays rectangular, leaving a 14-character column
+                    beside the photo. Block flow's line boxes are what let text
+                    wrap around the floated photo. */}
                 <dl className="block md:flex-1 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-2">
                   {ID_FIELDS.map((f, n) => (
                     <div
                       key={f.label}
                       /* Only the first two fields ride beside the floated photo.
                          Everything from index 2 (Nationality) clears it, so a
-                         field can never straddle the float — half its label
-                         beside the photo and half wrapped underneath, which is
-                         what unconstrained flow produced at some widths. Two is
-                         the count that fits the photo's 112px band at 320px;
-                         clearing makes the boundary deterministic instead of
+                         field can never straddle the float, with half its
+                         label beside the photo and half wrapped underneath.
+                         Two is the count that fits the photo's 112px band at
+                         320px, and clearing fixes the boundary instead of
                          letting it drift with the viewport. */
                       className={`mb-2 md:mb-0 ${n >= 2 ? "clear-left md:clear-none" : ""}`}
                     >

@@ -2,16 +2,16 @@ import Eyebrow from "../ui/Eyebrow";
 import ProjectLinks from "../ui/ProjectLinks";
 
 // Statmon's own favicon is a Poké Ball on a rounded dark tile with a purple
-// flame gradient — both a rounded rectangle and a gradient, so neither can come
-// across (STYLE_GUIDE.md → Shape & surface, Gradients). The ball itself is a
-// CIRCLE, though, and small round non-rectangular accents are explicitly allowed
-// in the handcrafted layer. So the mark is redrawn here in flat ink linework
-// rather than imported: tile dropped, gradient dropped, ball kept.
+// flame gradient. The site has no rounded rectangles, and the banner wordmark
+// is its only gradient, so neither can come across. The ball itself is a
+// circle, though, and small round accents belong to the handcrafted layer. So
+// the mark is redrawn here in flat ink linework rather than imported: tile
+// dropped, gradient dropped, ball kept.
 //
-// It is also why Statmon's cover carries no screenshot: its social image is a
-// centred Poké Ball above the wordmark above the tagline — the same three things
-// in the same order as the cover itself, so pasting it in would have printed the
-// cover's own contents twice. That cover IS the image, redrawn in paper.
+// It's also why the cover doesn't reuse Statmon's social image: that image is a
+// centred Poké Ball above the wordmark above the tagline, the same three things
+// in the same order as the cover, so it would print the cover's contents twice.
+//
 // One size for every mark, so a new book can't quietly draw its device larger.
 const DEVICE = "h-16 w-16 shrink-0 md:h-20 md:w-20";
 
@@ -44,7 +44,7 @@ function PokeballDevice() {
 // Inbox's mark, redrawn on the same terms as the Poké Ball above: their favicon
 // is three rectangles on a rounded brand-dark tile, so the tile goes (rounded
 // rectangles are out) and the brand orange becomes a palette accent, but the
-// composition — including both columns ending on the same line — is preserved.
+// composition stays, including both columns ending on the same line.
 function InboxDevice() {
   return (
     <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
@@ -67,8 +67,8 @@ function InboxDevice() {
 // with a faceted tip, a front ridge, and a V at the base. Its bands become
 // palette colours (rose, paper, blue, violet), chosen to stand out against the
 // rose-soft cover. The right face is shaded with a watermark-strength wash of
-// ink, which is what turns it from a flat badge into a stone. A first draft
-// was narrower with a straight base, and read as a pencil.
+// ink, which is what turns it from a flat badge into a stone. Narrower, or
+// with a straight base, it reads as a pencil.
 function CrystalDevice() {
   return (
     <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
@@ -124,7 +124,7 @@ function ArrowRight() {
   );
 }
 
-// A closed book is ONE page wide and the same height as the pages inside it, so
+// A closed book is one page wide and the same height as the pages inside it, so
 // the cover is `md:w-1/2` against the open spread's full width, and both are
 // `md:h-[30rem]`. Opening therefore unfolds the object rightward at a constant
 // height instead of changing both dimensions at once. Below md the spread is
@@ -134,21 +134,20 @@ function Book({ project, onOpen, openRef }) {
   const Device = DEVICES[project.mark];
 
   return (
-    // Level at every width and centred on the column. No tilt: this is the most
-    // text-dense object in the section, and the reason the guide already
-    // straightens the Welcome letter, Devlog and the passport applies here too
-    // (STYLE_GUIDE.md → Handcrafted layer → Slight rotation).
+    // Level at every width. No tilt: this is the most text-dense object in the
+    // section, and like the Welcome letter, Devlog, and the passport, a tilt
+    // would make the eye re-find the left edge on every line.
     //
     // The hover lift lives on this wrapper, not on the cover boards inside it.
-    // On the boards it moved the cover alone and left the page block and shadow
-    // behind — the cover peeling off its own pages. `has-[button:hover]` keeps
-    // it scoped to the open button, so hovering a link lifts that link alone.
-    // No margin utilities and no `mx-auto`: the cover sits in a bento row now
-    // (Creations.jsx) and the row's `justify-between` places it. Centring it
-    // here is what used to leave the section as one narrow column, and it also
-    // meant opening expanded 184px in BOTH directions, so the guide's
-    // "unfolds rightward" mechanic never actually happened. Left in a row, it
-    // does.
+    // On the boards it would move the cover alone and leave the page block and
+    // shadow behind, the cover peeling off its own pages. `has-[button:hover]`
+    // keeps it scoped to the open button, so hovering a link lifts that link
+    // alone.
+    //
+    // No margin utilities and no `mx-auto`: the cover sits in a bento row
+    // (Creations.jsx), and the row's `justify-between` places it. Centred here,
+    // it would open by expanding in both directions instead of unfolding
+    // rightward.
     <div className="relative transition-transform has-[button:hover]:-translate-y-0.5 has-[button:focus-visible]:-translate-y-0.5 md:w-1/2">
       {/* The page block, offset down-right so the closed book reads as a thick
           object rather than a card. It carries the shadow-sticker for the whole
@@ -173,24 +172,22 @@ function Book({ project, onOpen, openRef }) {
         <div className="relative flex h-full flex-col pl-5">
           {/* The whole cover is the control, which is what a book is: you open it
               by touching it anywhere rather than by hunting for a region.
-              Overlaying only the mark, title and blurb left just 39% of the cover
-              clickable, with dead bands on all four sides and a dead strip
-              between the cue and the links. Measured, not guessed.
+              Overlaying only the mark, title, and blurb would leave 39% of the
+              cover clickable, with dead bands on all four sides.
 
-              FIRST in the DOM so it is the first control a keyboard user reaches
-              inside the cover: opening the book is the primary action, and the
-              two outbound links are secondary. Putting it last made the tab order
-              read Live site, Source, then Open.
+              First in the DOM, so it's the first control a keyboard user
+              reaches inside the cover: opening the book is the primary action,
+              and the two outbound links are secondary.
 
-              It still paints UNDER the cover's contents, which is why they stay
+              It still paints under the cover's contents, which is why they stay
               crisp. The content is `pointer-events-none` so clicks fall through
               to this button, and only the links opt back in. That also keeps the
               hover lift honest: hovering the title lifts the whole book, and
               hovering a link lifts the link alone.
 
-              `inset-0` resolves against this parent's PADDING box, so the overlay
-              reaches over the spine as well, which is right — the spine is part
-              of the book. */}
+              `inset-0` resolves against this parent's padding box, so the
+              overlay reaches over the spine as well, which is right: the spine
+              is part of the book. */}
           <button
             ref={openRef}
             type="button"
@@ -199,23 +196,23 @@ function Book({ project, onOpen, openRef }) {
             className="absolute inset-0"
           />
 
-          {/* The blind-stamped rule frame an old cloth binding carries. It is
-              stamped on the COVER BOARD only, so it has to stop at the spine.
+          {/* The blind-stamped rule frame an old cloth binding carries. It's
+              stamped on the cover board only, so it has to stop at the spine.
               `inset-2` doesn't do that on its own: an absolute element resolves
-              against its containing block's padding box, so this parent's `pl-5`
-              — which clears the spine for the content — does nothing for it, and
-              the frame's left edge landed on the dark spine. `left-7` is the
-              spine's `w-5` plus the same 8px inset the other three sides use. */}
+              against its containing block's padding box, so this parent's
+              `pl-5`, which clears the spine for the content, does nothing for
+              it. `left-7` is the spine's `w-5` plus the same 8px inset the
+              other three sides use. */}
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-y-2 left-7 right-2 border border-ink"
             style={{ opacity: "var(--opacity-accent-line)" }}
           />
 
-          {/* Mark, title, blurb and links are one centred cluster rather than a
-              content block pushed up and links pinned down — the two halves
-              being separately placed left a void through the middle of the
-              cover. Only the imprint sits apart, at the foot. */}
+          {/* Mark, title, blurb, and links are one centred cluster rather than
+              a content block pushed up and links pinned down, which would leave
+              a void through the middle of the cover. Only the imprint sits
+              apart, at the foot. */}
           <div className="pointer-events-none relative flex flex-1 flex-col items-center justify-center gap-4 p-4 md:p-6">
             <div className="relative flex flex-col items-center gap-3 text-center">
               <Device />
@@ -237,11 +234,11 @@ function Book({ project, onOpen, openRef }) {
               </p>
             </div>
 
-            {/* Still a SIBLING of the overlay rather than its child: a
-                <button> may only contain phrasing content, so the two <a>s can
-                never live inside one. The opt-in to pointer events is scoped to
-                the chips themselves inside ProjectLinks, so the note beneath
-                them does not punch a dead strip through the cover. */}
+            {/* A sibling of the overlay rather than its child: a <button> can't
+                contain interactive content, so the two <a>s can never live
+                inside one. The opt-in to pointer events is scoped to the chips
+                themselves inside ProjectLinks, so the note beneath them doesn't
+                punch a dead strip through the cover. */}
             <div className="w-full">
               <ProjectLinks
                 liveUrl={project.liveUrl}

@@ -6,10 +6,10 @@ import ProjectLinks from "../ui/ProjectLinks";
 import TextLink from "../ui/TextLink";
 import Chevron from "../ui/Chevron";
 
-// Page-turn controls live in the outer bottom corners — where a thumb turns a
-// page — and carry no border or fill of their own, so the book's furniture stays
-// quieter than the page. 44px below md drops to 32px at md, both clear of the
-// 24px floor under Accessibility → Touch targets.
+// Page-turn controls live in the outer bottom corners, where a thumb turns a
+// page, and carry no border or fill of their own, so the book's furniture stays
+// quieter than the page. 44px below md drops to 32px at md, both clear of
+// WCAG 2.2's 24px minimum target size.
 function NavButton({ dir, onClick, disabled, label }) {
   return (
     <button
@@ -57,9 +57,8 @@ function PageBody({ page, project, titleId }) {
     return (
       <div>
         {/* The label is the <dt> and the number the <dd>, with `order` putting
-            the number first visually. It used to be an sr-only <dt> plus a
-            visible <p> holding the same words, which read the label out twice
-            and left the pairing implicit. */}
+            the number first visually, so the label is read once and the
+            pairing is in the markup. */}
         <dl className="flex flex-col gap-3">
           {page.items.map((s) => (
             <div
@@ -103,9 +102,9 @@ function PageBody({ page, project, titleId }) {
 
         {/* The links repeat here from the cover on purpose. A reader who has
             just finished the book is the one most likely to want them, and by
-            then the cover is no longer in front of them — without this they
-            would have to close the book to reach a link. The back of a book is
-            where production details belong anyway. */}
+            then the cover is no longer in front of them, so without this
+            they'd have to close the book to reach a link. The back of a book
+            is where production details belong anyway. */}
         <Eyebrow as="p" className="mt-6">
           Where to find it
         </Eyebrow>
@@ -154,7 +153,7 @@ function PageBody({ page, project, titleId }) {
 
 // One page: a head at the top, body in the middle, and a foot carrying the folio
 // with its page-turn control in the outer corner. The body is the only part that
-// scrolls, and only at md — see the height note on the spread below.
+// scrolls, and only at md: see the height note on the spread below.
 //
 // `head` and the nav slots are passed in rather than derived here because the
 // two pages follow the print convention and carry different things: the verso
@@ -163,10 +162,10 @@ function Page({ page, project, titleId, head, folio, navLeft, navRight }) {
   const bodyRef = useRef(null);
   const [scrollable, setScrollable] = useState(false);
 
-  // A region that scrolls must be reachable by keyboard (WCAG 2.1.1) — Devlog
-  // and the passport panel both carry `tabIndex={0}` for exactly this, and this
-  // one did not. It is measured rather than assumed, so the tab stop only
-  // exists on a page that actually overflows: copy is written to a page budget,
+  // A region that scrolls must be reachable by keyboard (WCAG 2.1.1), which is
+  // why Devlog and the passport panel carry `tabIndex={0}`. Here it's measured
+  // rather than assumed, so the tab stop only exists on a page that actually
+  // overflows: copy is written to a page budget,
   // so most pages never scroll, and a permanent stop on every page would add
   // two dead stops per spread. Re-measured on resize and after the webfont
   // swaps in, since both change where the text ends.
@@ -183,9 +182,9 @@ function Page({ page, project, titleId, head, folio, navLeft, navRight }) {
 
   return (
     <div className="relative flex h-full w-full flex-col p-4 md:p-6">
-      {/* The rule belongs to the head, so a title page — which carries neither a
-          running head nor a chapter, as in print — gets neither, rather than a
-          rule ruling nothing off. */}
+      {/* The rule belongs to the head. A title page carries neither a running
+          head nor a chapter, as in print, so it gets no rule either, rather
+          than one ruling nothing off. */}
       {head && (
         <>
           {head}
@@ -226,9 +225,9 @@ function BookSpread({ project, onClose }) {
   const go = (n) => setI(Math.max(0, Math.min(spreads.length - 1, n)));
 
   // The book has just replaced the cover the user activated, so focus has to
-  // follow it or it is left on a button that no longer exists. Same move
-  // Statmon itself makes on route change (its D-038). The target is the
-  // <article> so the scroll it triggers lands on the top of the book.
+  // follow it or it's left on a button that no longer exists. Statmon does the
+  // same when you change tools. The target is the <article> so the scroll it
+  // triggers lands on the top of the book.
   useEffect(() => {
     articleRef.current?.focus();
   }, []);
@@ -251,17 +250,17 @@ function BookSpread({ project, onClose }) {
   };
 
   // The first thing you see when the book opens is page 1. That puts odd
-  // numbers on the LEFT, inverting the print convention — deliberately: this
-  // book's title page is already on the verso rather than the recto, so it was
-  // never a faithful opening, and "I opened the book and it started on page 2"
-  // is a worse thing to explain than a broken pedantry.
+  // numbers on the left, inverting the print convention on purpose: the title
+  // page is on the verso rather than the recto, so it was never a faithful
+  // opening, and a book that starts on page 2 is harder to explain than a
+  // broken convention.
   const versoFolio = i * 2 + 1;
   const versoIsTitle = spread.verso.kind === "title";
 
-  // Verso runs the book's title, recto its chapter — the print convention, and
-  // it also keeps the outline at exactly one h3 and one h4 per spread. On the
-  // first spread the verso IS the title page, so its h3 lives in the page body
-  // instead and the head slot stays empty.
+  // Verso runs the book's title and recto its chapter, the print convention,
+  // which also keeps the outline at exactly one h3 and one h4 per spread. On
+  // the first spread the verso is the title page, so its h3 lives in the page
+  // body instead and the head slot stays empty.
   const versoHead = versoIsTitle ? null : (
     <Eyebrow id={titleId} className="shrink-0 truncate">
       {project.title}
@@ -288,22 +287,21 @@ function BookSpread({ project, onClose }) {
           className="shadow-sticker pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
         />
 
-        {/* The bookmark ribbon closes the book — the thing you actually reach
-            for when you put one down. It sits BEHIND the pages and pokes out of
-            the top, the way a bookmark actually sits in a book, which is why the
-            article carries `mt-6` to clear the intro card above.
+        {/* The bookmark ribbon closes the book: it's the thing you reach for
+            when you put one down. It sits behind the pages and pokes out of the
+            top, the way a bookmark sits in a book, which is why the article
+            carries `mt-6` to clear the intro card above.
 
-            Being behind means the visible 32px IS the hit area — a clip-path
+            Being behind means the visible 32px is the hit area: a clip-path
             clips hit testing, and the covered part is unreachable. That clears
-            the 24px floor under Accessibility → Touch targets, but not the 44px
-            the nav and footer badges take; closing also has a swipe-free escape
-            in simply scrolling past, so the smaller target is accepted here.
+            WCAG 2.2's 24px minimum, but not the 44px the nav and footer badges
+            take. Nothing is lost by leaving a book open, since you can scroll
+            past it, so the smaller target is accepted here.
 
-            It takes orchid-SOFT rather than the full orchid the decorative
-            version used: ink on full orchid measures ~3.3:1 and fails AA, and
-            this one has text on it. Its accessible name goes beyond the visible
-            "Close", which is ambiguous read out alongside the page-turn
-            controls. */}
+            It's orchid-soft rather than full orchid, because ink on full orchid
+            measures 3.26:1 and fails AA, and this has text on it. Its
+            accessible name goes beyond the visible "Close", which is ambiguous
+            read out alongside the page-turn controls. */}
         <button
           type="button"
           onClick={onClose}
@@ -319,20 +317,17 @@ function BookSpread({ project, onClose }) {
           onTouchEnd={onTouchEnd}
         >
           {/* Panel's 2px ink seam is the gutter. md:grid-cols-2 makes it a
-              VERTICAL spine — the passport uses the same primitive with
+              vertical spine, while the passport uses the same primitive with
               md:grid-rows-2, a horizontal fold, so the two objects don't read
               as the same thing.
 
               Fixed height at md because a book doesn't resize when you turn a
-              page, and the closed cover matches it; auto below md, where a fixed
-              height would force a scroll region inside a scrolling page and
-              leave the reader unable to predict which one moves.
+              page, and the closed cover matches it. Auto below md, where a
+              fixed height would force a scroll region inside a scrolling page
+              and leave the reader unable to predict which one moves.
 
-              The cells carry `min-h-0` because a grid item defaults to
-              `min-height: auto` and so refuses to shrink below its content.
-              Without it an over-long page did not scroll — it grew the cell
-              past the panel's fixed height and spilled outside the book's
-              border. This is the guard; copy is still written to fit. */}
+              Cell's `min-h-0` lets an over-long page scroll inside the book
+              rather than grow past its border. Copy is still written to fit. */}
           <Panel as="div" className="md:h-120 md:grid-cols-2">
             <Cell bg="bg-paper" padding="p-0" className="min-h-0">
               <Page
@@ -372,9 +367,8 @@ function BookSpread({ project, onClose }) {
         </div>
       </div>
 
-      {/* Announces the folios actually printed on the pages, not the spread
-          index — "Page 1 of 5" alongside pages numbered 1 and 2 was two
-          different counts for the same thing. */}
+      {/* Announces the folios printed on the pages, not the spread index, so
+          the spoken count matches the numbers a sighted reader sees. */}
       <p aria-live="polite" className="sr-only">
         {`Pages ${versoFolio} and ${versoFolio + 1} of ${spreads.length * 2}. ${spread.chapter}.`}
       </p>

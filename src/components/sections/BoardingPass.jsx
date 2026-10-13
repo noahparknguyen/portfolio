@@ -5,17 +5,17 @@ import Eyebrow from "../ui/Eyebrow";
 // section reads as one travel wallet rather than a passport followed by a
 // generic timeline.
 //
-// IT OBEYS REAL BOARDING-PASS ANATOMY, the same way Weather obeys a postcard's
-// (STYLE_GUIDE.md → Composition may vary): a carrier band across the top,
-// passenger / seat / class / departure fields, and a perforated stub that
-// carries the flight number and the barcode. The job maps onto it without
-// stretching: the employer is the carrier, the role is the seat, the start and
-// end months are departure and arrival, and the old acronym badge is now the
-// flight number.
+// It follows real boarding-pass anatomy, the way Weather follows a postcard's:
+// a carrier band across the top, passenger, seat, class, and departure
+// fields, and a perforated stub that carries the flight number and the
+// barcode. The job maps onto it without stretching: the employer is the
+// carrier, the role is the seat, the start and end months are departure and
+// arrival, and the employer's acronym and the year make the flight number.
 //
-// LEVEL AT EVERY WIDTH. Each pass carries a paragraph, and anything holding
-// sustained running text stays at 0° (Handcrafted layer → Slight rotation).
-// The character lives in the stub, the barcode and the standby stamp instead.
+// Level at every width. Each pass carries a paragraph, and anything holding
+// running text stays at 0°, since a tilt makes the eye re-find the left edge
+// on every line. The character lives in the stub, the barcode, and the
+// standby stamp instead.
 
 const PASSENGER = "PARK-NGUYEN/NOAH";
 
@@ -34,8 +34,8 @@ function Field({ label, className = "", children }) {
 
 // Decorative only. Bar and gap widths come from the flight code, so each pass
 // gets its own pattern and the pattern never changes between renders. Bars
-// are solid rects, not a repeating gradient, because the wordmark is the only
-// gradient the site allows (Shape & surface → Gradients).
+// are solid rects, not a repeating gradient, because the wordmark is the
+// site's only gradient.
 function Barcode({ seed, className = "" }) {
   const codes = [...seed].map((c) => c.charCodeAt(0));
   const bars = [];
@@ -70,8 +70,8 @@ function Barcode({ seed, className = "" }) {
 // leading border: dashed, on the left from `md` up and on top below it, where
 // the stub drops underneath the way a phone boarding pass stacks.
 //
-// The flight number is printed once, on the stub, where it is the biggest
-// thing. Repeating it in the body cost a whole row of fields on a phone.
+// The flight number is printed once, on the stub, where it's the biggest
+// thing. Repeating it in the body would cost a whole row of fields on a phone.
 // Below `md` the grid is two columns, so Seat and Class share a row; from `md`
 // it is four, and the six fields fit in two rows.
 function Pass({
@@ -157,12 +157,12 @@ export function BoardingPass({ carrier, flight, ...rest }) {
   );
 }
 
-// The entry for what comes next. Dashed border on warm paper is the site's
-// "blank form" (Handcrafted layer → paper), every field a standby passenger
-// would not have yet is printed as TBA, and there is no barcode because no
-// pass has been issued. The STANDBY stamp is a rubber stamp struck onto the
-// stub, so like Steam's empty-state stamp it is crooked on purpose and opts
-// out of the tilt cap with `data-tilt-exempt`.
+// The entry for what comes next. A dashed border on warm paper is the site's
+// "blank form", every field a standby passenger wouldn't have yet is printed
+// as TBA, and there's no barcode because no pass has been issued. The STANDBY
+// stamp is a rubber stamp struck onto the stub, so like Steam's empty-state
+// stamp it's crooked on purpose and opts out of the tilt cap with
+// `data-tilt-exempt`.
 export function StandbyPass({ remarks }) {
   return (
     <Pass

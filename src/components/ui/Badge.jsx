@@ -2,14 +2,10 @@ import SimpleIcon from "./SimpleIcon";
 import Eyebrow from "./Eyebrow";
 import NewTabHint from "./NewTabHint";
 
-// Hover lifts rather than shifting fill. The previous `hover:bg-<accent>` moved
-// each badge from its soft tint onto the FULL accent while the label stayed
-// `ink` — which failed AA on two of the four (violet ~3.8:1, orchid ~3.3:1;
-// neither line qualifies as large text). It also contradicted the golden rule in
-// STYLE_GUIDE.md → Color: bright accents live in fills/borders/underlines, and
-// it's the *soft* tints that are specified to carry `ink` text on top. The lift
-// is the site's established handcrafted hover cue (tech stamps, Links post-its),
-// so this is also more consistent than what it replaces.
+// Hover lifts the badge rather than changing its fill. Its `ink` label fails AA
+// on the full violet and orchid accents (3.85:1 and 3.26:1, and neither line is
+// large text), so a badge stays on its soft tint. The lift is also the hover
+// cue the tech stamps and the Links post-its use.
 function Badge({ href, icon, top, bottom, tint = "bg-rose-soft" }) {
   return (
     <a

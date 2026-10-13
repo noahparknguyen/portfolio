@@ -1,10 +1,6 @@
 #!/usr/bin/env node
-// Regenerates the README screenshot from the built site.
-//
-// It exists because the old one was a 2.4 MB, 2560px PNG displayed at 680px,
-// hand-captured at some forgotten point and steadily drifting out of date as
-// the site changed. A screenshot nobody can reproduce is a screenshot that goes
-// stale; this makes it one command.
+// Regenerates the README screenshot from the built site. A screenshot nobody
+// can reproduce goes stale as the site changes, so this makes it one command.
 //
 // Run after `npm run build`:  node scripts/shoot-docs.mjs
 
@@ -17,15 +13,14 @@ const BASE = `http://localhost:${PORT}`;
 const OUT = "docs/home.webp";
 
 // Captured at the design width with a 1.5x pixel ratio. The README displays it
-// at 680px, so 1536 device pixels is still well over 2x there — 2x capture gave
-// 2048px and 454 KB for no visible gain, and the original hand-made PNG was
-// 2560px and 2.4 MB.
+// at 680px, so 1536 device pixels is still well over 2x there. A 2x capture is
+// 2048px and 454 KB for no visible gain.
 const WIDTH = 1024;
 const SCALE = 1.5;
 
 // A framed shot of the top of the page, NOT `fullPage`. The home page is 1670px
 // tall at this width, which at the 680px the README displays it comes out over a
-// thousand pixels long — and a full-page capture resizes the viewport, so the
+// thousand pixels long, and a full-page capture resizes the viewport, so the
 // fixed sky layer stops covering and the bottom turns into flat colour.
 //
 // 940px cuts in the gap between rows two and three (row 2 ends at 925, row 3

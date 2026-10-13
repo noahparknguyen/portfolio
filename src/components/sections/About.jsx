@@ -118,8 +118,9 @@ function DeansList() {
 
 // Card stock with a double rule, which is what reads as "certificate" at a
 // glance: the outer PinnedCard border, a gap of white, then an inner rule.
-// The Algonquin crest sits where a certificate's seal would, in the round
-// bezel its brand-colour exception requires (Color → the Algonquin crest).
+// The Algonquin crest sits where a certificate's seal would. It keeps its own
+// brand green, since the college's brand guidelines forbid recolouring it, so
+// it stays small and inside its round bezel.
 function Diploma() {
   return (
     <div className="relative">
@@ -216,9 +217,8 @@ function Achievements() {
 
 function About({ onNavigate }) {
   return (
-    // Named like every other section. Home and About were the last two
-    // rendering as a bare <div>, so their region was the only one an assistive
-    // tech user could not identify or jump to by name.
+    // Named like every other section, so an assistive tech user can identify
+    // the region and jump to it by name.
     <section aria-labelledby="about-heading" className="flex flex-col gap-8">
       <Passport onNavigate={onNavigate} />
       <WorkHistory />

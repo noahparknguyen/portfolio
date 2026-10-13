@@ -1,5 +1,6 @@
-// The one text-color class an <Eyebrow> is allowed to carry. Never pass a
-// competing color through `className` — see STYLE_GUIDE.md → Primitives.
+// The one text-colour class an <Eyebrow> is allowed to carry. Never pass a
+// competing colour through `className`: which of two text-colour utilities
+// wins depends on Tailwind's source order, not on the class list.
 const TONE = {
   label: "text-label",
   ink: "text-ink",
@@ -16,11 +17,9 @@ function Eyebrow({
   ...rest
 }) {
   return (
-    // A typo'd tone used to interpolate the literal string "undefined" into
-    // the class list, which is not a class, so the element silently inherited
-    // whatever colour its parent had. Falling back to the documented default
-    // keeps it on-palette and keeps the failure visible in review rather than
-    // invisible in the browser.
+    // An unknown tone falls back to the default. Otherwise the string
+    // "undefined" lands in the class list and the element silently inherits
+    // its parent's colour.
     <Tag
       className={`eyebrow ${TONE[tone] ?? TONE[DEFAULT_TONE]} ${className}`}
       {...rest}

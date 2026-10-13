@@ -18,11 +18,9 @@ function SpotifyWidget() {
     <div>
       {/* The heading is skeletoned while loading rather than rendered.
           `heading` falls back to "Nothing playing" whenever `track` is null,
-          and `track` is null during the very first fetch too — so the widget
-          spent its whole load asserting that nothing was playing, next to a
-          skeleton body that said it did not know yet. That is the exact
-          "label and value disagree" failure the guide closes on. Steam and
-          Weather already skeleton their values here; this matches them. */}
+          and `track` is null during the first fetch too, so the label would
+          claim nothing is playing beside a skeleton body that doesn't know
+          yet. Steam and Weather skeleton their values the same way. */}
       <div className="flex items-center justify-between gap-2">
         {loading ? (
           <>
@@ -69,9 +67,8 @@ function SpotifyWidget() {
 // Spotify Content you must clearly attribute the content as being supplied and
 // made available by Spotify, by using the Spotify Marks", and their design
 // guidelines add that metadata "must always link back to the Spotify Service".
-// The widget displayed track name, artist, album and cover art with no Spotify
-// mark anywhere, and linked out only when the API happened to return a track
-// url — so both halves of that were unmet.
+// The widget shows the track name, artist, album, and cover art, so it carries
+// the mark and the link.
 //
 // The link falls back to open.spotify.com so the link-back exists even when the
 // track carries no url of its own. The word "Spotify" sits in `ink` beside the
@@ -106,14 +103,14 @@ function Equalizer() {
   );
 }
 
-// The album art IS the record: cropped to a circle, with groove rings, a rose
-// label and a centre hole, spinning only while a track is playing — and it now
-// sits half-drawn out of its sleeve. The sleeve is the AiAi cameo: a record
-// comes out of a sleeve, so putting the two together is what earns the cameo its
-// place instead of parking it beside the widget as a loose GIF.
+// The album art is the record: cropped to a circle, with groove rings, a rose
+// label, and a centre hole, spinning only while a track is playing, and half
+// drawn out of its sleeve. The sleeve is the AiAi cameo: a record comes out of
+// a sleeve, so putting the two together is what earns the cameo its place
+// instead of parking it beside the widget as a loose GIF.
 //
 // Geometry: the wrapper is 1.58 : 1, and both the disc and the sleeve are
-// `h-full` squares — so each is exactly as wide as the wrapper is tall. The
+// `h-full` squares, so each is exactly as wide as the wrapper is tall. The
 // sleeve sits flush left, the disc flush right, which leaves 58% of the disc
 // showing past the sleeve's edge and hides the rest behind it. The sleeve comes
 // later in the DOM so it paints in front, which is the direction that reads as
@@ -178,7 +175,7 @@ function SleeveRecord({ albumArt, name, spinning }) {
           decoding="async"
           className="block h-full w-full object-cover"
         />
-        {/* The sleeve's opening — the edge the record slides out of. */}
+        {/* The sleeve's opening, the edge the record slides out of. */}
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-1 top-1.5 border-t-2 border-ink"
@@ -196,8 +193,8 @@ function TrackBody({ track }) {
         name={track.name}
         spinning={track.isPlaying}
       />
-      {/* Track, artist and album come from Spotify; their punctuation is not
-          the site's to control (see Devlog.jsx). */}
+      {/* Track, artist, and album come from Spotify, so their punctuation
+          isn't the site's to control (see Devlog.jsx). */}
       <div data-live-text="true" className="min-w-0 flex-1">
         <MarqueeText text={track.name} className="text-sm font-bold text-ink" />
         <MarqueeText text={track.artist} className="text-xs text-gray-600" />

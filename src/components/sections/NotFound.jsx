@@ -4,8 +4,8 @@ import TextLink from "../ui/TextLink";
 import Tape from "../ui/Tape";
 
 // Follows Credits' composition rather than the four hued sections: this page
-// owns no section hue (STYLE_GUIDE.md → Color → Sky accents), so like the
-// Colophon it takes warm `paper`, is taped up rather than pinned, and its <h2>
+// owns no section hue, so like the Colophon it takes warm `paper`, is taped up
+// rather than pinned, and its <h2>
 // skips SectionTitle's single-accent underline because there is no accent to
 // carry. The Home link takes TextLink's neutral `label` treatment for the same
 // reason, matching the footer's Credits link.
@@ -13,13 +13,13 @@ import Tape from "../ui/Tape";
 // The worker serves this path with a real 404 status (worker/index.js), so the
 // status line and the rendered page agree instead of returning a soft 404.
 //
-// THE CARD IS A RETURNED LETTER, and it obeys returned-mail anatomy the way
-// Weather obeys a postcard's: the sender's address in the top-left corner, the
-// address the visitor actually typed as the addressee, and a RETURN TO SENDER
-// stamp struck across it. There is deliberately NO postage stamp: stamp and
-// postmark are Weather's gag (STYLE_GUIDE.md → Composition may vary), and the
-// returned-mail stamp is what says "undeliverable" on its own. Like About's
-// STANDBY stamp it is crooked on purpose and opts out of the tilt cap.
+// The card is a returned letter, and it follows returned-mail anatomy the way
+// Weather follows a postcard's: the sender's address in the top-left corner,
+// the address the visitor typed as the addressee, and a RETURN TO SENDER stamp
+// struck across it. There's deliberately no postage stamp: stamp and postmark
+// are Weather's gag, and the returned-mail stamp says "undeliverable" on its
+// own. Like About's STANDBY stamp, it's crooked on purpose and opts out of the
+// tilt cap.
 function NotFound({ onNavigate }) {
   // Read during render: the site is client-rendered only (createRoot in
   // main.jsx), so `window` always exists here, and reading it fresh keeps the
@@ -39,7 +39,7 @@ function NotFound({ onNavigate }) {
         <Tape className="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-3" />
 
         {/* Decorative envelope front. Everything it says, the heading and
-            paragraphs below say in words, so it is hidden from assistive tech
+            paragraphs below say in words, so it's hidden from assistive tech
             rather than read out as a jumble of mail labels. */}
         <div aria-hidden="true">
           <Eyebrow as="p">Noah Park-Nguyen · noahpn.dev</Eyebrow>

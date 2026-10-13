@@ -23,10 +23,9 @@ function Devlog() {
         <div
           className="devlog-scroll shadow-sticker relative box-border h-36 overflow-y-auto border-2 border-ink bg-paper pl-3"
           style={{
-            // Rules scroll WITH the content. The default (`scroll`) pins the
-            // background to the element, so alignment could only ever hold at
-            // scroll position 0 — the rules drifted off the text as soon as you
-            // moved.
+            // The ruled lines scroll with the content. The default, `scroll`,
+            // pins the background to the element, so the lines would match the
+            // text only at the top and drift off it as soon as you scroll.
             backgroundAttachment: "local",
             backgroundImage:
               "repeating-linear-gradient(to bottom, transparent 0, transparent 11px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 11px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 12px, transparent 12px, transparent 20px)",
@@ -104,9 +103,9 @@ function Devlog() {
                         aria-hidden="true"
                         className="absolute left-0.5 top-1.25 h-3 w-3 border-2 border-ink bg-rose"
                       />
-                      {/* A commit with no url used to render `href="#"`, which
-                          is a real link that scrolls the page to the top. An
-                          entry with nowhere to go is not a link. */}
+                      {/* An entry with nowhere to go isn't a link. `href="#"`
+                          would be a real one that scrolls the page to the
+                          top. */}
                       {commit.url ? (
                         <a
                           href={commit.url}

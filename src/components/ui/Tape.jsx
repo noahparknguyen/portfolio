@@ -1,8 +1,7 @@
-// `data-tilt-exempt` marks this as exempt from the tilt cap that
-// scripts/audit-browser.mjs enforces. The guide requires Tape to be
-// counter-rotated against whatever it tapes — the polaroid sits at +3 and its
-// tape at -6 — and that deliberate mismatch is most of what sells the gesture.
-// Capping it would defeat the rule rather than uphold it.
+// `data-tilt-exempt` exempts this from the tilt cap that
+// scripts/audit-browser.mjs enforces. Tape is counter-rotated against whatever
+// it holds (the polaroid sits at +3 and its tape at -6), and that mismatch is
+// most of what sells the gesture, so capping it would undo the effect.
 function Tape({ className = "" }) {
   return (
     <span

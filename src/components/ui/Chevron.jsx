@@ -1,10 +1,9 @@
 // The nav chevron, shared by About's passport pager and Creations' book pages.
 //
-// `strokeWidth` is a prop rather than a constant because the passport's arrows
-// are the site's one documented deviation from the stroke scale, at `3` —
-// thinning them to `--stroke-bold` visibly weakens them (STYLE_GUIDE.md →
-// Handcrafted layer → Inline SVG stroke-width scale). Everything else takes the
-// token default, so a second copy of that exception can't drift in by accident.
+// `strokeWidth` is a prop because the passport's arrows are the one exception
+// to the stroke scale, at `3`: at `--stroke-bold` they look visibly weaker.
+// Everything else takes the token default, so a second copy of the exception
+// can't creep in by accident.
 function Chevron({
   dir,
   className = "h-4 w-4",

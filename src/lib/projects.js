@@ -2,38 +2,22 @@ import elbaiteBr8kout from "../assets/books/elbaite-br8kout.webp";
 import statmonCompare from "../assets/books/statmon-compare.webp";
 import hubspotReport from "../assets/books/hubspot-report.webp";
 
-// The Creations book stack. One entry per project; each renders as a book lying
-// on the board (Book.jsx) that opens into a two-page spread (BookSpread.jsx).
+// The Creations book stack. One entry per project, and each renders as a book
+// lying on the board (Book.jsx) that opens into a two-page spread
+// (BookSpread.jsx).
 //
-// VOICE — the books are the one place on the site written in Noah's
-// professional register, the same one his project READMEs use: plain, exact,
-// first person, short declarative sentences. They stay personal where the
-// content is personal (why a project exists, what went wrong, what he is proud
-// of), and a technical fact earns its place by being attached to a decision
-// (STYLE_GUIDE.md → The Creations book). The mechanics come from
-// STYLE_GUIDE.md → Voice and are binding: no em-dashes, semicolons, or
-// parentheses in body copy, the serial comma, complete sentences, and Canadian
-// spelling. None of the spoken tics belong here either: no "So" openers, no
-// "I think", no "super" or "just". Read every line aloud before committing it.
-//
-// PAGE BUDGET — a book doesn't resize when you turn a page, so the spread is a
-// FIXED height at md (BookSpread.jsx). Prose pages hold roughly three short
-// paragraphs (~120 words) at the design width. Copy that overruns doesn't break
-// the layout — the page scrolls, same as the passport's chapters — but a
-// scrolling book page reads as an overflow bug, so trim to fit instead.
+// Page budget: a book doesn't resize when you turn a page, so the spread is a
+// fixed height at md (BookSpread.jsx). A prose page holds about three short
+// paragraphs, around 120 words, at the design width. Copy that overruns
+// doesn't break the layout (the page scrolls, like the passport's chapters),
+// but a scrolling book page reads as an overflow bug, so trim it to fit.
 //
 // Page kinds: "title" | "prose" | "stats" | "colophon".
 //
-// There is no "plate" kind any more. Each project screenshot moved OUT of the
-// book and onto the board beside its closed cover (`board` below), where it
-// answers "what does this look like" without anyone opening anything. The freed
-// page took the plate caption as prose plus the facing page opening paragraph,
-// so both pages are redistributed copy rather than new writing.
+// Each project's screenshot sits on the board beside its closed cover
+// (`board` below), where it answers "what does this look like" without anyone
+// opening anything.
 
-// ELBAITE AND ATTRIBUTION. Achroite 1.0 is Noah's own code; the menus, the
-// packages and the release pipeline in 1.1 were built at his direction. So
-// this book says "I" about 1.0 and about decisions, says nothing about how the
-// rest was made either way, and never claims he wrote every line.
 const elbaite = {
   id: "elbaite",
   mark: "crystal",
@@ -172,16 +156,12 @@ const statmon = {
   liveUrl: "https://statmon.noahpn.dev/",
   repoUrl: "https://github.com/noahparknguyen/statmon",
 
-  // The cover wears violet-soft with a full-violet spine — the soft tint and
-  // its own accent read as one bound object, and neither touches the
-  // orchid-soft intro panel above (STYLE_GUIDE.md → Shape & surface).
+  // A violet-soft cover with a full-violet spine, so the tint and its own
+  // accent read as one bound object. Neither matches the orchid-soft intro
+  // panel above it.
   coverTint: "bg-violet-soft",
   spineTint: "bg-violet",
 
-  // Pinned on the board beside the closed cover. It answers the one thing a
-  // cover structurally cannot — what the thing actually looks like — without
-  // making anyone open the book first. This used to be a `plate` page INSIDE
-  // the book; it lives in exactly one place now, so no image appears twice.
   board: {
     src: statmonCompare,
     alt: "The Statmon compare board, with Volcarona and Chandelure side by side and their six base stats lined up between them",
@@ -265,7 +245,7 @@ const statmon = {
           "It worked out well in the end. The palette makes the site look like its own thing, and tying the design to a favourite gives it some sentimental value too.",
         ],
         // The site's handwriting, used the way the footer aside and the tech
-        // stamp notes use it — a scribble in the margin, not body copy.
+        // stamp notes use it: a scribble in the margin, not body copy.
         marginNote: "still the best call I made on this one",
       },
     },
@@ -303,22 +283,18 @@ const hubspot = {
   liveUrl: "https://hubspot-recommendation-tool.onrender.com/",
   repoUrl: "https://github.com/noahparknguyen/hubspot-recommendation-tool",
 
-  // Render's free tier stops the container after ~15 minutes idle and cold
-  // starts take the better part of a minute. Without this note the most
-  // important click on the page looks broken to anyone who lands on it cold.
-  // Rendered by ProjectLinks, so it appears on the cover AND in the colophon,
-  // which is wherever the link itself appears.
+  // Render's free tier stops the container after 15 minutes without traffic,
+  // and Render puts waking it at about a minute (11.4 s in one test). Without
+  // this note the most important click on the page looks broken to anyone who
+  // lands on it cold. ProjectLinks renders it wherever the link appears: on the
+  // cover and in the colophon.
   liveNote: "The demo sleeps when it is idle, so give it a minute to wake up.",
 
   // Blue-soft against Statmon's violet-soft: adjacent covers must not share a
-  // tint (STYLE_GUIDE.md → Shape & surface).
+  // tint.
   coverTint: "bg-blue-soft",
   spineTint: "bg-blue",
 
-  // Pinned on the board beside the closed cover. It answers the one thing a
-  // cover structurally cannot — what the thing actually looks like — without
-  // making anyone open the book first. This used to be a `plate` page INSIDE
-  // the book; it lives in exactly one place now, so no image appears twice.
   board: {
     src: hubspotReport,
     alt: "A row of the generated report, showing a detected technology and its category, a description, and the HubSpot product that could replace it",

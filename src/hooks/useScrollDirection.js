@@ -5,14 +5,14 @@ const THRESHOLD_PX = 8;
 // Hide-on-scroll-down / reveal-on-scroll-up for Header's sticky (mobile) nav
 // bar. Takes a ref to the bar itself so it can stay visible while scrollY is
 // within its own height and force back open when focus lands inside it
-// (WCAG 2.4.11 Focus Not Obscured — a keyboard user must never be able to tab
+// (WCAG 2.4.11 Focus Not Obscured: a keyboard user must never be able to tab
 // into an off-screen control). `enabled` gates the listeners so the masthead
 // Header instance (never hidden, not position:sticky) doesn't pay for them.
 //
 // `enabled` is per-instance, not per-viewport: the sticky instance stays
 // mounted at md+ under `md:hidden`, so its listeners are still attached there.
-// The offsetHeight guard in handleScroll is what actually stops the work — a
-// display:none element measures 0 — which is cheaper and less brittle than a
+// The offsetHeight guard in handleScroll is what stops the work, since a
+// display:none element measures 0. That's cheaper and less brittle than a
 // matchMedia subscription duplicating the breakpoint in JS.
 function useScrollDirection(barRef, enabled = true) {
   const [hidden, setHidden] = useState(false);

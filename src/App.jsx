@@ -43,10 +43,10 @@ function App() {
   const mainRef = useRef(null);
   // Seeded with the section the page loaded on, so the mount pass is already
   // "current" and does nothing. A plain isFirstRender flag flipped inside the
-  // effect body looked equivalent and was not: StrictMode invokes effects twice
-  // in development, the first pass cleared the flag, and the second pass then
-  // stole focus on arrival. Comparing against the value instead is idempotent,
-  // so running the effect any number of times has the same result as once.
+  // effect body isn't equivalent: StrictMode runs effects twice in development,
+  // so the first pass would clear the flag and the second would steal focus on
+  // arrival. Comparing against the value is idempotent, so running the effect
+  // any number of times has the same result as once.
   const lastActive = useRef(active);
 
   useEffect(() => {
@@ -74,16 +74,15 @@ function App() {
 
   return (
     <div className="w-full">
-      {/* Skip link — WCAG 2.4.1 Bypass Blocks (Level A). The banner, the four
-          nav links and the footer badges repeat on every page, and before this
-          the first focusable element on the site was the "Home" nav link, so a
-          keyboard user had no way past the chrome.
+      {/* Skip link, for WCAG 2.4.1 Bypass Blocks (Level A). The banner, the
+          four nav links, and the footer badges repeat on every page, and
+          without this a keyboard user has no way past them.
 
-          It is the first element in the DOM on purpose, ahead of the sticky
-          nav, and `focus:z-60` puts it above that bar's `z-50` — a skip link
-          that renders behind the thing it skips is worse than none. It targets
-          `<main>`, which already carries `tabIndex={-1}` for the route-change
-          focus move, so the anchor actually lands focus there rather than only
+          It's the first element in the DOM on purpose, ahead of the sticky
+          nav, and `focus:z-60` puts it above that bar's `z-50`, because a skip
+          link that renders behind the thing it skips is worse than none. It
+          targets `<main>`, which carries `tabIndex={-1}` for the route-change
+          focus move, so the anchor lands focus there rather than only
           scrolling. Invisible until focused, then a normal pinned object: ink
           border, square corners, `shadow-sticker`, Nav-link type. */}
       <a

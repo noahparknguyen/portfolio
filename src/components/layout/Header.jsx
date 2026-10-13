@@ -5,10 +5,10 @@ import useScrollDirection from "../../hooks/useScrollDirection";
 
 // `sticky` doubles this as the mobile nav bar: pinned to the viewport top,
 // hiding on scroll-down/revealing on scroll-up (see useScrollDirection). The
-// masthead instance renders with `sticky` unset — a normal in-flow nav.
+// masthead instance renders with `sticky` unset, as a normal in-flow nav.
 //
 // The links are real <a href> elements, not buttons. Each section has its own
-// URL now, so the anchor is the honest element: it shows the destination in the
+// URL, so the anchor is the honest element: it shows the destination in the
 // status bar, ctrl/cmd-click opens it in a new tab, and it is exposed to
 // assistive tech as a link rather than as a control with no destination. The
 // click handler intercepts only plain left clicks and hands everything else back

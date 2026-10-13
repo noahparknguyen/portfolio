@@ -1,9 +1,9 @@
 // WMO weather-code interpretation for the Weather postcard.
 //
 // Two separate mappings on purpose: `weatherLabel` is the words the reader sees
-// and `glyphFor` picks the drawing, and they group the codes differently —
-// drizzle and rain read as one picture but not as one word. Extracted from the
-// component so both tables can be checked for coverage by a test.
+// and `glyphFor` picks the drawing, and they group the codes differently:
+// drizzle and rain read as one picture but not as one word. Kept out of the
+// component so a test can check both tables for coverage.
 
 export function weatherLabel(code) {
   if (code === 0) return "clear";
@@ -29,7 +29,7 @@ export function glyphFor(code, isDay) {
 }
 
 // Every glyph name `glyphFor` can return. WeatherGlyph must be able to draw all
-// of them — a name with no matching branch renders an empty <svg>, which is
+// of them: a name with no matching branch renders an empty <svg>, which is
 // invisible in review and obvious to a visitor.
 export const GLYPH_NAMES = [
   "sun",
