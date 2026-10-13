@@ -181,8 +181,7 @@ function Creations() {
       {/* Last, the only place a forward-looking card reads correctly: after
           the projects, "Up next" means what it says. A dashed border over warm
           `paper` is the site's "blank form waiting to be filled in" language,
-          also used by About's standby boarding pass and its blank
-          certificate. */}
+          also used by About's blank certificate. */}
       <PinnedCard
         bg="bg-paper"
         padding="p-6"

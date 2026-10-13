@@ -4,11 +4,11 @@ import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import Rosette from "../ui/Rosette";
 import Passport from "./Passport";
-import { BoardingPass, StandbyPass } from "./BoardingPass";
+import { BoardingPass } from "./BoardingPass";
 
 // One pass per job, oldest first. `band` tints the carrier band and the stub,
 // which are two parts of one object, so they share a hue. Adjacent passes
-// never do, and the standby pass below is on paper, so it can't collide.
+// never do.
 const PASSES = [
   {
     carrier: "FINTRAC",
@@ -59,9 +59,6 @@ function WorkHistory() {
             <BoardingPass {...pass} />
           </li>
         ))}
-        <li>
-          <StandbyPass remarks="I don’t have a start date yet, and it could still be a while before I do. Until then, I’m making sure I stay sharp and don’t lose any of my skills. Wish me luck!" />
-        </li>
       </ol>
     </section>
   );

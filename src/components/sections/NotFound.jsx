@@ -18,8 +18,8 @@ import Tape from "../ui/Tape";
 // the address the visitor typed as the addressee, and a RETURN TO SENDER stamp
 // struck across it. There's deliberately no postage stamp: stamp and postmark
 // are Weather's gag, and the returned-mail stamp says "undeliverable" on its
-// own. Like About's STANDBY stamp, it's crooked on purpose and opts out of the
-// tilt cap.
+// own. Like Steam's empty-state stamp, it's crooked on purpose and opts out of
+// the tilt cap.
 function NotFound({ onNavigate }) {
   // Read during render: the site is client-rendered only (createRoot in
   // main.jsx), so `window` always exists here, and reading it fresh keeps the

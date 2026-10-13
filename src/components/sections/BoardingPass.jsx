@@ -14,8 +14,7 @@ import Eyebrow from "../ui/Eyebrow";
 //
 // Level at every width. Each pass carries a paragraph, and anything holding
 // running text stays at 0°, since a tilt makes the eye re-find the left edge
-// on every line. The character lives in the stub, the barcode, and the
-// standby stamp instead.
+// on every line. The character lives in the stub and the barcode instead.
 
 const PASSENGER = "PARK-NGUYEN/NOAH";
 
@@ -74,32 +73,27 @@ function Barcode({ seed, className = "" }) {
 // thing. Repeating it in the body would cost a whole row of fields on a phone.
 // Below `md` the grid is two columns, so Seat and Class share a row; from `md`
 // it is four, and the six fields fit in two rows.
-function Pass({
-  dashed = false,
-  fill,
-  band,
-  title,
-  kicker,
+export function BoardingPass({
+  carrier,
   flight,
+  band,
   fare,
   seat,
   departs,
   arrives,
   remarks,
-  children,
 }) {
-  const edge = dashed ? "border-dashed" : "";
   return (
-    <article
-      className={`shadow-sticker flex flex-col border-2 border-ink ${edge} ${fill} md:flex-row`}
-    >
+    <article className="shadow-sticker flex flex-col border-2 border-ink bg-white md:flex-row">
       <div className="min-w-0 flex-1">
         <div
-          className={`flex flex-wrap items-baseline justify-between gap-x-4 border-b-2 border-ink ${edge} ${band} px-4 py-2`}
+          className={`flex flex-wrap items-baseline justify-between gap-x-4 border-b-2 border-ink ${band} px-4 py-2`}
         >
-          <p className="font-display text-lg font-semibold text-ink">{title}</p>
+          <p className="font-display text-lg font-semibold text-ink">
+            {carrier}
+          </p>
           <Eyebrow as="p" tone="ink">
-            {kicker}
+            Boarding pass · Carte d’embarquement
           </Eyebrow>
         </div>
         <div className="p-4">
@@ -121,7 +115,7 @@ function Pass({
         </div>
       </div>
       <div
-        className={`relative flex items-end gap-4 border-t-2 border-dashed border-ink ${band} p-4 md:w-44 md:shrink-0 md:flex-col md:items-stretch md:border-l-2 md:border-t-0`}
+        className={`flex items-end gap-4 border-t-2 border-dashed border-ink ${band} p-4 md:w-44 md:shrink-0 md:flex-col md:items-stretch md:border-l-2 md:border-t-0`}
       >
         {/* The stub repeats the date the way a real one does, but only where
             there is room for it: on a phone the stub is one short row. */}
@@ -134,57 +128,11 @@ function Pass({
             {departs}
           </Field>
         </dl>
-        {children}
+        <Barcode
+          seed={flight}
+          className="min-w-0 flex-1 md:mt-auto md:w-full md:flex-none"
+        />
       </div>
     </article>
-  );
-}
-
-export function BoardingPass({ carrier, flight, ...rest }) {
-  return (
-    <Pass
-      fill="bg-white"
-      title={carrier}
-      kicker="Boarding pass · Carte d’embarquement"
-      flight={flight}
-      {...rest}
-    >
-      <Barcode
-        seed={flight}
-        className="min-w-0 flex-1 md:mt-auto md:w-full md:flex-none"
-      />
-    </Pass>
-  );
-}
-
-// The entry for what comes next. A dashed border on warm paper is the site's
-// "blank form", every field a standby passenger wouldn't have yet is printed
-// as TBA, and there's no barcode because no pass has been issued. The STANDBY
-// stamp is a rubber stamp struck onto the stub, so like Steam's empty-state
-// stamp it's crooked on purpose and opts out of the tilt cap with
-// `data-tilt-exempt`.
-export function StandbyPass({ remarks }) {
-  return (
-    <Pass
-      dashed
-      fill="bg-paper"
-      band="bg-paper"
-      title="Pending"
-      kicker="Standby · Attente"
-      flight="???"
-      fare="Standby"
-      seat="TBA"
-      departs="TBA"
-      arrives="TBA"
-      remarks={remarks}
-    >
-      <span
-        data-tilt-exempt="true"
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-4 right-4 -rotate-12 border-2 border-live bg-paper px-2 py-0.5 font-display text-lg font-bold text-ink"
-      >
-        STANDBY
-      </span>
-    </Pass>
   );
 }
