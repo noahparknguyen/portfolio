@@ -5,9 +5,11 @@
 // memory.
 //
 // Serves the production build with `vite preview`, so it audits what actually
-// ships. The /api/* routes are absent there, which is deliberate: the widgets
-// fall back to their empty states, and an empty state is the layout most likely
-// to be wrong and least likely to be looked at.
+// ships, Worker included. In CI the Worker has no API credentials, so the
+// widgets fall back to their empty states, the layout most likely to be wrong
+// and least likely to be looked at. Run locally with `.dev.vars`, the widgets
+// show live data instead, so a local run also checks their filled states,
+// which CI can't.
 
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
