@@ -16,7 +16,7 @@ Thanks for stopping by! This little site right here is my personal take on a
 portfolio website. I've built many portfolios in the past, but none of them were
 really able to capture the exact tone I was looking for. I decided to ditch all
 of the jargon typically aimed at recruiters, and replace it with things that
-actually represented who I am as a person. My experience, projects, and skills
+actually mattered to me. My experience, projects, and skills
 are all still here, they've just taken a back seat to my non-tech hobbies and
 interests. I hope you like it!
 
@@ -38,7 +38,7 @@ Thanks!
 ---
 
 <sub>MIT licensed ([LICENSE](LICENSE)), so the code's free to reuse, but the
-photos, GIFs, and personal bits are mine. Everything the site borrows is
+photos and personal bits are mine, and the GIFs belong to the games they're from. Everything the site borrows is
 credited on the [Colophon](https://noahpn.dev/credits), and the full third-party
 notices, including the ones that are licence obligations rather than
 courtesies, are in [`licenses/NOTICE.md`](licenses/NOTICE.md).</sub>
