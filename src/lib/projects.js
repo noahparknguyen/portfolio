@@ -207,7 +207,7 @@ const statmon = {
         kind: "prose",
         paragraphs: [
           "It’s React, Vite, Tailwind, and plain JavaScript, served from Cloudflare. That’s my standard stack, and I reach for it on almost everything because it’s quick to get moving.",
-          "Statmon never calls an API while you use it. I pull everything from PokéAPI once at build time into a local file, and commit every sprite, piece of artwork, and webfont to the repo.",
+          "Statmon never calls an API while you use it. I pull everything from PokéAPI once, with a script, into a local file, and commit every sprite, piece of artwork, and webfont to the repo.",
           "The live site is nothing but static files. It can’t fall over because someone else’s API is down, and it keeps me well inside PokéAPI’s fair-use rules.",
         ],
       },
