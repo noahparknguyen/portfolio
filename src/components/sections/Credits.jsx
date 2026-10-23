@@ -14,22 +14,22 @@ const GROUPS = [
     accent: "rose",
     items: [
       {
-        text: "Ottawa skyline — ",
+        text: "Ottawa skyline\u00a0— ",
         linkText: "Meli Julianti",
         href: "https://www.kindpng.com/imgv/ixTTbww_ottawa-city-landscape-city-landscape-png-transparent-png/",
       },
       {
-        text: "Pink-sky backdrop — royalty-free, found via ",
+        text: "Pink-sky backdrop\u00a0— royalty-free, found via ",
         linkText: "PixelStalk",
         href: "https://www.pixelstalk.net/desktop-sky-backgrounds/",
       },
       {
-        text: "Home photo — ",
+        text: "Photos\u00a0— ",
         linkText: "Sweet Dreams Photo Studio",
         href: "https://www.sweetdreamsphotostudio.com/",
       },
       {
-        text: "Map & flag SVGs (public domain) — ",
+        text: "Map & flag SVGs (public domain)\u00a0— ",
         linkText: "Wikimedia Commons",
         href: "https://commons.wikimedia.org/",
       },
@@ -44,22 +44,22 @@ const GROUPS = [
     // bindingofisaac.com, which is a merch store.
     items: [
       {
-        text: "Celeste — ",
+        text: "Celeste\u00a0— ",
         linkText: "Extremely OK Games",
         href: "https://exok.com",
       },
       {
-        text: "Hollow Knight — ",
+        text: "Hollow Knight\u00a0— ",
         linkText: "Team Cherry",
         href: "https://www.teamcherry.com.au",
       },
       {
-        text: "Super Monkey Ball — ",
+        text: "Super Monkey Ball\u00a0— ",
         linkText: "SEGA",
         href: "https://www.sega.com",
       },
       {
-        text: "The Binding of Isaac — ",
+        text: "The Binding of Isaac\u00a0— ",
         linkText: "Edmund McMillen",
         href: "https://edmundmcmillen.tumblr.com",
       },
@@ -82,12 +82,12 @@ const GROUPS = [
         ],
       },
       {
-        text: "“The Rise of the Indie Web Movement” — ",
+        text: "“The Rise of the Indie Web Movement”\u00a0— ",
         linkText: "Marighoul",
         href: "https://www.youtube.com/watch?v=Tv223kX0SRg",
       },
       {
-        text: "“the weird world of ‘indie social media’” — ",
+        text: "“the weird world of ‘indie social media’”\u00a0— ",
         // The channel styles itself "Diggon" with a capital D (confirmed in the
         // video's channelName, ownerChannelName and itemprop metadata). It was
         // credited lowercase, which is a factual error in an attribution.
@@ -98,7 +98,7 @@ const GROUPS = [
         // Was the odd one out: a descriptive phrase where its two siblings
         // above carry a quoted title. Now the same shape, pointing at the
         // playlist itself rather than the channel, which is the actual source.
-        text: "“PORTFOLIO ROASTS” — ",
+        text: "“PORTFOLIO ROASTS”\u00a0— ",
         linkText: "Anthony Sistilli",
         href: "https://www.youtube.com/playlist?list=PLQg6GaokU5CwD4sIzFuSJlJLJUqXXo1MK",
       },
@@ -108,18 +108,20 @@ const GROUPS = [
     id: "odds",
     title: "Everything Else",
     accent: "orchid",
-    // Three of these are licence obligations rather than courtesies, and they
-    // live on the site rather than only in licenses/NOTICE.md for that reason:
-    // Font Awesome is CC BY 4.0, Open-Meteo's data is CC BY 4.0, and Spotify's
-    // Developer Policy requires attribution for any content it supplies (that
-    // one is also satisfied by the mark inside the widget itself).
+    // Three of these are licence obligations rather than courtesies, so each is
+    // met on this page itself: Font Awesome and Open-Meteo's data are CC BY
+    // 4.0, which asks for the creator's name and a link to the licence, so each
+    // of those lines carries both; Spotify's Developer Policy requires
+    // attribution for any content it supplies (also satisfied by the mark
+    // inside the widget itself). The page credits other people only: the
+    // site's own notice file and source live in the repo.
     //
     // Folded into this group rather than given a fifth: the four-groups /
     // four-hues mapping is what lets this section work without a SectionTitle.
     items: [
       {
         parts: [
-          { text: "Weather data — " },
+          { text: "Weather data\u00a0— " },
           { linkText: "Open-Meteo", href: "https://open-meteo.com" },
           { text: ", " },
           {
@@ -130,7 +132,7 @@ const GROUPS = [
       },
       {
         parts: [
-          { text: "Live widgets — " },
+          { text: "Live widgets\u00a0— " },
           { linkText: "Spotify", href: "https://www.spotify.com" },
           { text: " & " },
           { linkText: "Steam", href: "https://store.steampowered.com" },
@@ -142,27 +144,24 @@ const GROUPS = [
         href: "https://www.algonquincollege.com/acmarketing/brand-guidelines/",
       },
       {
-        text: "Typefaces — ",
+        text: "Typefaces\u00a0— ",
         linkText: "Google Fonts",
         href: "https://fonts.google.com",
       },
       {
+        // Simple Icons is CC0 and needs no attribution, so the licence link
+        // sits with Font Awesome alone.
         parts: [
-          { text: "Icon glyphs — " },
+          { text: "Icon glyphs\u00a0— " },
           { linkText: "Simple Icons", href: "https://simpleicons.org" },
-          { text: " & " },
+          { text: ", and " },
           { linkText: "Font Awesome", href: "https://fontawesome.com" },
+          { text: " under " },
+          {
+            linkText: "CC BY 4.0",
+            href: "https://creativecommons.org/licenses/by/4.0/",
+          },
         ],
-      },
-      {
-        text: "Every third-party notice — ",
-        linkText: "licenses/NOTICE.md",
-        href: "https://github.com/noahparknguyen/portfolio/blob/main/licenses/NOTICE.md",
-      },
-      {
-        text: "This site’s source — ",
-        linkText: "GitHub",
-        href: "https://github.com/noahparknguyen/portfolio",
       },
     ],
   },
@@ -251,7 +250,7 @@ function Credits() {
           Colophon
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Thank you to everyone who inspired me to make something unique.
+          The people who helped make this possible.
         </p>
 
         <div className="mt-4 border-t-2 border-ink" />
@@ -269,9 +268,12 @@ function Credits() {
             signature, so the row stacks instead and the paragraph takes the
             full column. */}
         <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-4">
+          {/* The emoji is the gesture, not a word, so it's hidden from screen
+              readers, which would otherwise read "index pointing at the
+              viewer" in the middle of the sentence. */}
           <p className="text-sm text-gray-600 md:w-[60%]">
-            Shoutout to everyone who made this little site possible. Thanks for
-            scrolling all the way down here.
+            And thank you <span aria-hidden="true">🫵</span> for checking out my
+            site! Really appreciate it.
           </p>
           <span
             aria-hidden="true"
