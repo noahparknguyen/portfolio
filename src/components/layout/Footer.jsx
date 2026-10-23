@@ -28,7 +28,7 @@ const BADGES = [
   {
     top: "Built with",
     bottom: "Vite",
-    href: "https://vitejs.dev",
+    href: "https://vite.dev",
     icon: siVite,
     tint: "bg-orchid-soft",
   },
@@ -38,6 +38,8 @@ const BADGES = [
 // treatment the copyright line uses: it's a scribble in the margin, not a
 // second line of boilerplate. "bapanada" is a Hollow Knight community in-joke,
 // which is why it sits on Home: the Banner carries the Hollow Knight duo.
+// "pnf-404" is the planet's name in Pikmin, which reads like 404 Page Not
+// Found, so it sits on the 404.
 const FOOTER_NOTE = {
   home: "bapanada",
   about: "whoami",
@@ -47,7 +49,7 @@ const FOOTER_NOTE = {
   // The 404 is a real page with a real URL, so it gets an aside like every
   // other one. Without a key here the footer would render an empty <p>, and
   // the scribble would vanish on the one page a visitor arrives at confused.
-  notfound: "planet pnf",
+  notfound: "pnf-404",
 };
 
 function Footer({ active, onNavigate }) {

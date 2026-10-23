@@ -79,7 +79,7 @@
   /* The opacity scale for decoration, never for text. */
   --opacity-watermark: 0.1; /* faint full-bleed image watermark (maple leaf) */
   --opacity-watermark-strong: 0.3; /* larger, lighter watermark (canada map) */
-  --opacity-accent-line: 0.5; /* decorative corner marks / hairlines */
+  --opacity-accent-line: 0.5; /* decorative hairlines and faded impressions (a book's rule frame, Steam's empty-state stamp) */
   --opacity-groove: 0.3; /* Spotify vinyl groove rings */
 }
 

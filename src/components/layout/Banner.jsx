@@ -3,17 +3,7 @@ import Eyebrow from "../ui/Eyebrow";
 
 function Banner() {
   return (
-    <header className="relative px-4 pb-1 pt-4 text-center md:px-8">
-      <span
-        aria-hidden="true"
-        className="absolute left-2 top-2 h-3 w-3 border-l-2 border-t-2 border-ink"
-        style={{ opacity: "var(--opacity-accent-line)" }}
-      />
-      <span
-        aria-hidden="true"
-        className="absolute right-2 top-2 h-3 w-3 border-r-2 border-t-2 border-ink"
-        style={{ opacity: "var(--opacity-accent-line)" }}
-      />
+    <header className="px-4 pb-1 pt-4 text-center md:px-8">
       <div className="inline-block text-left">
         <Eyebrow as="p">Hey there, I’m</Eyebrow>
         <h1
