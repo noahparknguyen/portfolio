@@ -6,8 +6,16 @@ import NewTabHint from "../ui/NewTabHint";
 function Devlog() {
   const { commits, loading } = useCommits();
 
+  // From md the log fills the height Home's left column leaves it, which is
+  // what keeps the two columns level. Three rules shape that:
+  // - Size containment keeps the twelve commits inside from counting toward
+  //   the column's height, or the box would grow to show every one.
+  // - The height rounds down to 24px plus a whole number of 20px rules, so the
+  //   paper always ends the same distance below its last rule (STYLE_GUIDE →
+  //   Spacing scale). The columns can end up to 19px apart because of it.
+  // - It never drops below its phone height, 144px.
   return (
-    <div>
+    <div className="flex flex-1 flex-col">
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">
           <h3 className="text-xl font-semibold text-ink">
@@ -15,13 +23,13 @@ function Devlog() {
           </h3>
         </LabelTag>
       </div>
-      <div className="relative mt-2">
+      <div className="relative mt-2 flex flex-1 flex-col">
         <span
           aria-hidden="true"
           className="absolute -top-3 right-6 block h-8 w-5 border-2 border-ink bg-orchid [clip-path:polygon(0_0,50%_25%,100%_0,100%_100%,0_100%)]"
         />
         <div
-          className="devlog-scroll shadow-sticker relative box-border h-36 overflow-y-auto border-2 border-ink bg-paper pl-3"
+          className="devlog-scroll shadow-sticker relative box-border h-36 overflow-y-auto md:h-[calc(round(down,100%_-_24px,20px)_+_24px)] md:min-h-36 md:[contain:size] border-2 border-ink bg-paper pl-3"
           style={{
             // The ruled lines scroll with the content. The default, `scroll`,
             // pins the background to the element, so the lines would match the
