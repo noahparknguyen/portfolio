@@ -12,7 +12,7 @@
   --font-display: "Fredoka", var(--font-sans);
   --font-wordmark: "Lilita One", var(--font-display);
   --font-hand:
-    "Caveat", var(--font-display); /* handwriting only: signatures, captions, margin notes, a certificate's name; never body copy */
+    "Caveat", var(--font-display); /* handwriting only: signatures, captions, margin notes, a certificate's name, a now note's answer; never body copy */
 
   /* Cosy sky-pastel aesthetic: a cool light base, with sky-sampled accents */
   --color-ink: #3d3660; /* deep sky-indigo: borders, headings, body text */
