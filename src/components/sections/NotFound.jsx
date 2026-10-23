@@ -1,4 +1,3 @@
-import Eyebrow from "../ui/Eyebrow";
 import PinnedCard from "../ui/PinnedCard";
 import TextLink from "../ui/TextLink";
 import Tape from "../ui/Tape";
@@ -13,13 +12,13 @@ import Tape from "../ui/Tape";
 // The worker serves this path with a real 404 status (worker/index.js), so the
 // status line and the rendered page agree instead of returning a soft 404.
 //
-// The card is a returned letter, and it follows returned-mail anatomy the way
-// Weather follows a postcard's: the sender's address in the top-left corner,
-// the address the visitor typed as the addressee, and a RETURN TO SENDER stamp
-// struck across it. There's deliberately no postage stamp: stamp and postmark
-// are Weather's gag, and the returned-mail stamp says "undeliverable" on its
-// own. Like Steam's empty-state stamp, it's crooked on purpose and opts out of
-// the tilt cap.
+// The card opens with its heading, like every other page's, and the envelope
+// sits under it as the illustration: the address the visitor typed, with a
+// RETURN TO SENDER stamp under it, a returned letter. There's no sender's
+// address (the masthead names the sender, and the typed address already
+// carries the domain) and no postage stamp (stamp and postmark are Weather's
+// gag). Like Steam's empty-state stamp, the stamp is crooked on purpose and
+// opts out of the tilt cap.
 function NotFound({ onNavigate }) {
   // Read during render: the site is client-rendered only (createRoot in
   // main.jsx), so `window` always exists here, and reading it fresh keeps the
@@ -38,31 +37,29 @@ function NotFound({ onNavigate }) {
       >
         <Tape className="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-3" />
 
-        {/* Decorative envelope front. Everything it says, the heading and
-            paragraphs below say in words, so it's hidden from assistive tech
-            rather than read out as a jumble of mail labels. */}
-        <div aria-hidden="true">
-          <Eyebrow as="p">Noah Park-Nguyen · noahpn.dev</Eyebrow>
-          <div className="relative mt-6 flex flex-col items-center">
-            <p className="max-w-full break-all border-b-2 border-ink pb-1 text-center font-mono text-sm text-ink">
-              {address}
-            </p>
-            <span
-              data-tilt-exempt="true"
-              className="pointer-events-none mt-2 -rotate-6 border-2 border-live px-3 py-1 text-center font-display font-bold text-ink"
-            >
-              RETURN TO SENDER
-              <span className="block text-xs">ADDRESS UNKNOWN</span>
-            </span>
-          </div>
-        </div>
-
         <h2
           id="notfound-heading"
-          className="mt-6 text-center text-3xl font-bold text-ink"
+          className="text-center text-3xl font-bold text-ink"
         >
           Nothing here
         </h2>
+
+        {/* Decorative envelope front. Everything it says, the heading and
+            paragraphs say in words, so it's hidden from assistive tech rather
+            than read out as a jumble of mail labels. The address breaks at
+            hyphens and slashes before it splits a word. */}
+        <div aria-hidden="true" className="mt-6 flex flex-col items-center">
+          <p className="max-w-full wrap-break-word border-b-2 border-ink pb-1 text-center font-mono text-sm text-ink">
+            {address}
+          </p>
+          <span
+            data-tilt-exempt="true"
+            className="pointer-events-none mt-2 -rotate-6 border-2 border-live px-3 py-1 text-center font-display font-bold text-ink"
+          >
+            RETURN TO SENDER
+            <span className="block text-xs">ADDRESS UNKNOWN</span>
+          </span>
+        </div>
 
         <p className="mt-4 text-gray-700">
           This page doesn&rsquo;t exist. The link is probably old, or I moved
