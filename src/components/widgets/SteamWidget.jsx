@@ -90,28 +90,13 @@ function GameCard({ game }) {
       </div>
 
       <div className="p-3">
-        <div className="flex items-start justify-between gap-2">
-          {/* The game name comes from Steam (see Devlog.jsx). */}
-          <p
-            data-live-text="true"
-            className="min-w-0 wrap-break-word font-display text-lg font-semibold text-ink"
-          >
-            {game ? game.name : "Nothing lately"}
-          </p>
-          {game?.iconFallback && !useFallback && (
-            <img
-              src={game.iconFallback}
-              alt=""
-              aria-hidden="true"
-              width="32"
-              height="32"
-              onError={(e) => {
-                e.currentTarget.style.visibility = "hidden";
-              }}
-              className="pointer-events-none h-8 w-8 shrink-0 -rotate-2 border-2 border-ink"
-            />
-          )}
-        </div>
+        {/* The game name comes from Steam (see Devlog.jsx). */}
+        <p
+          data-live-text="true"
+          className="wrap-break-word font-display text-lg font-semibold text-ink"
+        >
+          {game ? game.name : "Nothing lately"}
+        </p>
         {/* A real <dl>, so each value's label is tied to it in markup. An
             `aria-label` on a bare <span> wouldn't do: ARIA prohibits naming
             role=generic, so a screen reader may drop the label and the

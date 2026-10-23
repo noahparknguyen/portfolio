@@ -1,7 +1,6 @@
 import noahCandid from "../../assets/noah-candid.webp";
 import PinnedCard from "../ui/PinnedCard";
 import SectionTitle from "../ui/SectionTitle";
-import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import TextLink from "../ui/TextLink";
 import Pin from "../ui/Pin";
@@ -22,11 +21,6 @@ const ROW =
   "flex flex-col gap-5 md:flex-row md:items-center md:justify-between";
 
 function Home() {
-  const monthYear = new Date().toLocaleDateString("en-CA", {
-    month: "long",
-    year: "numeric",
-  });
-
   return (
     <section
       aria-labelledby="home-heading"
@@ -37,12 +31,6 @@ function Home() {
         <div className="min-w-0 md:w-[65%]">
           <PinnedCard bg="bg-paper" padding="p-4 md:p-6" className="relative">
             <Pin className="absolute -top-2 left-1/2 -translate-x-1/2" />
-            <Eyebrow
-              as="p"
-              className="text-right md:absolute md:right-6 md:top-6"
-            >
-              Ottawa · {monthYear}
-            </Eyebrow>
             <SectionTitle accent="rose" id="home-heading">
               Welcome!
             </SectionTitle>

@@ -14,12 +14,7 @@ function SpotifyWidget() {
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-2">
-        <Eyebrow as="p">Top track, last 4 weeks</Eyebrow>
-        <span aria-hidden="true" className="text-sm leading-none text-label">
-          ♪
-        </span>
-      </div>
+      <Eyebrow as="p">Top track, last 4 weeks</Eyebrow>
       <div className="mt-2">
         {loading ? (
           <SkeletonBody />
