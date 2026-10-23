@@ -6,21 +6,16 @@ import Eyebrow from "../ui/Eyebrow";
 // generic timeline.
 //
 // It follows real boarding-pass anatomy, the way Weather follows a postcard's:
-// a carrier band across the top, passenger, seat, class, and departure
-// fields, and a perforated stub that carries the flight number and the
-// barcode. The job maps onto it without stretching: the employer is the
-// carrier, the role is the seat, the start and end months are departure and
-// arrival, and the employer's acronym and the year make the flight number.
+// a carrier band across the top, seat and date fields, and a perforated stub
+// that carries the flight number, the class, and the barcode. The job maps
+// onto it without stretching: the employer is the carrier, the role is the
+// seat, the start and end months are departure and arrival, the kind of
+// placement is the class, and the employer's acronym and the year make the
+// flight number.
 //
 // Level at every width. Each pass carries a paragraph, and anything holding
 // running text stays at 0°, since a tilt makes the eye re-find the left edge
 // on every line. The character lives in the stub and the barcode instead.
-
-const PASSENGER = "PARK-NGUYEN/NOAH";
-
-// A nod to speedrunning, the same kind of easter egg as the passport's MRZ.
-// Every pass carries it, because a boarding group is printed on every pass.
-const GROUP = "ANY%";
 
 function Field({ label, className = "", children }) {
   return (
@@ -69,10 +64,10 @@ function Barcode({ seed, className = "" }) {
 // leading border: dashed, on the left from `md` up and on top below it, where
 // the stub drops underneath the way a phone boarding pass stacks.
 //
-// The flight number is printed once, on the stub, where it's the biggest
-// thing. Repeating it in the body would cost a whole row of fields on a phone.
-// Below `md` the grid is two columns, so Seat and Class share a row; from `md`
-// it is four, and the six fields fit in two rows.
+// Nothing is printed twice: the flight number and the class live on the stub,
+// the dates in the body. Seat spans two columns at every width, so the longest
+// role stays on one line: it gets a row to itself below `md`, with the dates
+// sharing the next, and from `md` all three fields fit one row of four.
 export function BoardingPass({
   carrier,
   flight,
@@ -98,13 +93,9 @@ export function BoardingPass({
         </div>
         <div className="p-4">
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 md:grid-cols-4">
-            <Field label="Passenger" className="col-span-2">
-              {PASSENGER}
-            </Field>
-            <Field label="Seat" className="md:col-span-2">
+            <Field label="Seat" className="col-span-2">
               {seat}
             </Field>
-            <Field label="Class">{fare}</Field>
             <Field label="Departs">{departs}</Field>
             <Field label="Arrives">{arrives}</Field>
           </dl>
@@ -117,16 +108,11 @@ export function BoardingPass({
       <div
         className={`flex items-end gap-4 border-t-2 border-dashed border-ink ${band} p-4 md:w-44 md:shrink-0 md:flex-col md:items-stretch md:border-l-2 md:border-t-0`}
       >
-        {/* The stub repeats the date the way a real one does, but only where
-            there is room for it: on a phone the stub is one short row. */}
         <dl className="flex gap-4 md:flex-col md:gap-2">
           <Field label="Flight">
             <span className="font-mono text-xl">{flight}</span>
           </Field>
-          <Field label="Group">{GROUP}</Field>
-          <Field label="Date" className="hidden md:block">
-            {departs}
-          </Field>
+          <Field label="Class">{fare}</Field>
         </dl>
         <Barcode
           seed={flight}

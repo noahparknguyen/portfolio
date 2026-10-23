@@ -29,22 +29,14 @@ const ID_FIELDS = [
   { label: "Residence / Résidence", value: "Ottawa, ON" },
 ];
 
-// Decorative: a nod to the games, not a real MRZ. Both lines are the same
-// length so the per-character columns line up.
-const MRZ = [
-  "P<CANPARK<NGUYEN<<NOAH<<<<<<<<<<<<<<<<<<<<<<",
-  "HK<CELESTE<BALATRO<<<<<<<<<<<<<<<<<<<<<<<<<<",
-];
-
-// Shorter variant for below `md`: the full 44-character strip needs about
-// 317px at text-xs, and the cell is 244px. Same prefixes, padded to a shorter
-// shared length so the per-character columns still line up. Padded rather than
-// hand-counted, so the two lines can't drift out of sync.
-const MRZ_SHORT_LEN = 28;
-const MRZ_SHORT = [
-  "P<CANPARK<NGUYEN<<".padEnd(MRZ_SHORT_LEN, "<"),
-  "HK<CELESTE<BALATRO<".padEnd(MRZ_SHORT_LEN, "<"),
-];
+// Decorative: the name line of a passport's machine-readable zone, the strip of
+// `<` along the bottom of the photo page. Only the one line: a real second line
+// holds the passport number, birth date and expiry, none of which belongs here.
+// Below `md` the full 44 characters need about 317px at text-xs and the cell
+// is 244px, so phones get the same name padded to a shorter length.
+const MRZ_NAME = "P<CANPARK<NGUYEN<<NOAH";
+const MRZ = MRZ_NAME.padEnd(44, "<");
+const MRZ_SHORT = MRZ_NAME.padEnd(28, "<");
 
 const TABS = [
   { key: "bio", label: "Bio", tint: "bg-rose-soft" },
@@ -235,14 +227,13 @@ function Passport({ onNavigate }) {
                 className="pointer-events-none absolute inset-0 m-auto h-40 w-40"
                 style={{ opacity: "var(--opacity-watermark)" }}
               />
-              <div className="relative flex flex-wrap items-start justify-between gap-3">
-                <SectionTitle accent="violet" id="about-heading">
-                  About Me!
-                </SectionTitle>
-                <span className="mt-1 shrink-0 font-mono text-xs text-label">
-                  TYPE P · CAN
-                </span>
-              </div>
+              <SectionTitle
+                accent="violet"
+                id="about-heading"
+                className="relative"
+              >
+                About Me!
+              </SectionTitle>
               <div className="relative mt-2 flex flex-wrap items-center gap-1.5 font-display font-bold tracking-wide text-ink">
                 <img
                   src={flagCanada}
@@ -299,26 +290,16 @@ function Passport({ onNavigate }) {
                 aria-hidden="true"
                 className="relative clear-both mt-auto border-t-2 border-ink pt-2"
               >
-                {MRZ.map((line) => (
-                  <div
-                    key={line}
-                    className="hidden justify-between font-mono text-xs text-ink md:flex"
-                  >
-                    {[...line].map((ch, idx) => (
-                      <span key={idx}>{ch}</span>
-                    ))}
-                  </div>
-                ))}
-                {MRZ_SHORT.map((line) => (
-                  <div
-                    key={line}
-                    className="flex justify-between font-mono text-xs text-ink md:hidden"
-                  >
-                    {[...line].map((ch, idx) => (
-                      <span key={idx}>{ch}</span>
-                    ))}
-                  </div>
-                ))}
+                <div className="hidden justify-between font-mono text-xs text-ink md:flex">
+                  {[...MRZ].map((ch, n) => (
+                    <span key={n}>{ch}</span>
+                  ))}
+                </div>
+                <div className="flex justify-between font-mono text-xs text-ink md:hidden">
+                  {[...MRZ_SHORT].map((ch, n) => (
+                    <span key={n}>{ch}</span>
+                  ))}
+                </div>
               </div>
             </div>
           </Cell>
