@@ -5,11 +5,12 @@ import Eyebrow from "../ui/Eyebrow";
 import ProjectLinks from "../ui/ProjectLinks";
 import TextLink from "../ui/TextLink";
 import Chevron from "../ui/Chevron";
+import BookDevice from "./BookDevice";
 
 // Page-turn controls live in the outer bottom corners, where a thumb turns a
-// page, and carry no border or fill of their own, so the book's furniture stays
-// quieter than the page. 44px below md drops to 32px at md, both clear of
-// WCAG 2.2's 24px minimum target size.
+// page. They're the same boxed ink arrows as the passport's pager, since they
+// do the same job. 44px below md drops to 32px at md, both clear of WCAG 2.2's
+// 24px minimum target size.
 function NavButton({ dir, onClick, disabled, label }) {
   return (
     <button
@@ -17,9 +18,9 @@ function NavButton({ dir, onClick, disabled, label }) {
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      className="flex h-11 w-11 items-center justify-center text-label transition-colors hover:text-ink disabled:opacity-25 disabled:hover:text-label md:h-8 md:w-8"
+      className="flex h-11 w-11 shrink-0 items-center justify-center border-2 border-ink bg-white text-ink disabled:opacity-40 md:h-8 md:w-8"
     >
-      <Chevron dir={dir} className="h-5 w-5" />
+      <Chevron dir={dir} strokeWidth="3" />
     </button>
   );
 }
@@ -44,8 +45,16 @@ function PageBody({ page, project, titleId }) {
         >
           {project.title}
         </h3>
-        <div aria-hidden="true" className="mx-auto mt-4 h-0.5 w-16 bg-orchid" />
-        <p className="mt-4 text-sm text-gray-700">{project.summary}</p>
+        <div
+          aria-hidden="true"
+          className={`mx-auto mt-4 h-0.5 w-16 ${project.spineTint}`}
+        />
+        {/* The book's mark, where a printed title page carries the
+            publisher's device. The cover's summary isn't repeated here: the
+            reader has just read it. */}
+        <div className="mt-6 flex justify-center">
+          <BookDevice mark={project.mark} size="title" />
+        </div>
         <Eyebrow as="p" className="mt-6">
           {project.imprint}
         </Eyebrow>
@@ -59,7 +68,7 @@ function PageBody({ page, project, titleId }) {
         {/* The label is the <dt> and the number the <dd>, with `order` putting
             the number first visually, so the label is read once and the
             pairing is in the markup. */}
-        <dl className="flex flex-col gap-3">
+        <dl className="flex flex-col gap-2">
           {page.items.map((s) => (
             <div
               key={s.label}
@@ -86,16 +95,18 @@ function PageBody({ page, project, titleId }) {
         <Eyebrow as="p" id={`${titleId}-stack`}>
           Printed with
         </Eyebrow>
+        {/* Set as a line of type, the way a printed colophon lists what made
+            the book. The separators are drawn, not read. */}
         <ul
           aria-labelledby={`${titleId}-stack`}
-          className="mt-2 flex flex-wrap gap-2"
+          className="mt-2 flex flex-wrap text-sm text-gray-700"
         >
-          {page.stack.map((tool) => (
-            <li
-              key={tool}
-              className="border border-ink bg-white px-2 py-0.5 text-sm text-ink"
-            >
+          {page.stack.map((tool, n) => (
+            <li key={tool}>
               {tool}
+              {n < page.stack.length - 1 && (
+                <span aria-hidden="true">{"\u00a0·\u00a0"}</span>
+              )}
             </li>
           ))}
         </ul>
@@ -232,6 +243,25 @@ function BookSpread({ project, onClose }) {
     articleRef.current?.focus();
   }, []);
 
+  // On a phone the two pages stack, so "Next" sits at the foot of the second
+  // one, and a turn leaves the reader below the start of the new first page.
+  // After a turn, bring the top of the book back into view, but only when it
+  // has scrolled out of sight (under the scroll margin that clears the sticky
+  // nav), so a turn with the whole book on screen doesn't move the page.
+  // Tracked by spread rather than by a first-render flag, so React's
+  // development double run of effects can't count as a turn.
+  const shownSpread = useRef(i);
+  useEffect(() => {
+    if (shownSpread.current === i) return;
+    shownSpread.current = i;
+    const el = articleRef.current;
+    if (!el) return;
+    const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    if (el.getBoundingClientRect().top < margin) {
+      el.scrollIntoView({ block: "start" });
+    }
+  }, [i]);
+
   // Start/end deltas only, no touchmove and no preventDefault, so a mostly
   // vertical swipe is ignored rather than stolen from the page scroll.
   const onTouchStart = (e) => {
@@ -281,38 +311,41 @@ function BookSpread({ project, onClose }) {
       className="mt-6 scroll-mt-16 md:scroll-mt-4"
     >
       <div className="relative mx-auto">
-        {/* The page block, matching the closed book's. */}
+        {/* The page block, matching the closed book's: its 4px offset is the
+            book's depth, so it carries no shadow of its own. */}
         <span
           aria-hidden="true"
-          className="shadow-sticker pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
+          className="pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
         />
 
         {/* The bookmark ribbon closes the book: it's the thing you reach for
-            when you put one down. It sits behind the pages and pokes out of the
-            top, the way a bookmark sits in a book, which is why the article
-            carries `mt-6` to clear the intro card above.
+            when you put one down. It lies between the pages, the way a
+            bookmark sits in a book: over the cover's case (`z-10`), under the
+            pages (`z-20` on the panel), and poking out of the top, which is why
+            the article carries `mt-6` to clear the intro card above.
 
-            Being behind means the visible 32px is the hit area: a clip-path
-            clips hit testing, and the covered part is unreachable. That clears
-            WCAG 2.2's 24px minimum, but not the 44px the nav and footer badges
-            take. Nothing is lost by leaving a book open, since you can scroll
-            past it, so the smaller target is accepted here.
+            The hit area is the part not under the pages: a clip-path clips hit
+            testing, so 46px down its edges and 32px down the middle, where the
+            notch is cut. That clears WCAG 2.2's 24px minimum.
 
-            It's orchid-soft rather than full orchid, because ink on full orchid
-            measures 3.26:1 and fails AA, and this has text on it. Its
-            accessible name goes beyond the visible "Close", which is ambiguous
-            read out alongside the page-turn controls. */}
+            It takes the cover's own soft tint, so the ribbon matches its book,
+            and ink on every soft tint passes AA. Its accessible name goes
+            beyond the visible "Close", which is ambiguous read out alongside
+            the page-turn controls. */}
         <button
           type="button"
           onClick={onClose}
           aria-label={`Close the ${project.title} book`}
-          className="eyebrow absolute -top-8 right-8 border-2 border-ink bg-orchid-soft px-3 pb-2 pt-3.5 text-ink transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 [clip-path:polygon(0_0,50%_25%,100%_0,100%_100%,0_100%)]"
+          className={`eyebrow absolute -top-8 right-8 z-10 h-13.5 border-2 border-ink ${project.coverTint} px-3 pt-4 text-ink transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5 [clip-path:polygon(0_0,50%_25%,100%_0,100%_100%,0_100%)]`}
         >
           Close
         </button>
 
+        {/* The cover's case, showing 12px around the pages the way a
+            hardcover's case shows around its pages when it lies open. It's the
+            book's own colour, so an open book still says which book it is. */}
         <div
-          className="relative"
+          className={`relative border-2 border-ink ${project.coverTint} p-3`}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
@@ -322,13 +355,15 @@ function BookSpread({ project, onClose }) {
               as the same thing.
 
               Fixed height at md because a book doesn't resize when you turn a
-              page, and the closed cover matches it. Auto below md, where a
-              fixed height would force a scroll region inside a scrolling page
-              and leave the reader unable to predict which one moves.
+              page. 452px of pages, inside the case's 12px and its 2px border,
+              makes the open book exactly the closed cover's 480px. Auto below
+              md, where a fixed height would force a scroll region inside a
+              scrolling page and leave the reader unable to predict which one
+              moves.
 
               Cell's `min-h-0` lets an over-long page scroll inside the book
               rather than grow past its border. Copy is still written to fit. */}
-          <Panel as="div" className="md:h-120 md:grid-cols-2">
+          <Panel as="div" className="relative z-20 md:h-113 md:grid-cols-2">
             <Cell bg="bg-paper" padding="p-0" className="min-h-0">
               <Page
                 page={spread.verso}

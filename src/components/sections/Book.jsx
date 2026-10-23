@@ -1,135 +1,6 @@
 import Eyebrow from "../ui/Eyebrow";
 import ProjectLinks from "../ui/ProjectLinks";
-
-// Statmon's own favicon is a Poké Ball on a rounded dark tile with a purple
-// flame gradient. The site has no rounded rectangles, and the banner wordmark
-// is its only gradient, so neither can come across. The ball itself is a
-// circle, though, and small round accents belong to the handcrafted layer. So
-// the mark is redrawn here in flat ink linework rather than imported: tile
-// dropped, gradient dropped, ball kept.
-//
-// It's also why the cover doesn't reuse Statmon's social image: that image is a
-// centred Poké Ball above the wordmark above the tagline, the same three things
-// in the same order as the cover, so it would print the cover's contents twice.
-//
-// One size for every mark, so a new book can't quietly draw its device larger.
-const DEVICE = "h-16 w-16 shrink-0 md:h-20 md:w-20";
-
-function PokeballDevice() {
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
-      <circle cx="24" cy="24" r="18" fill="var(--color-paper)" />
-      <path d="M6 24 A18 18 0 0 1 42 24 Z" fill="var(--color-violet)" />
-      <g
-        stroke="var(--color-ink)"
-        style={{ strokeWidth: "var(--stroke-bold)" }}
-        fill="none"
-        strokeLinecap="round"
-      >
-        <line x1="6" y1="24" x2="42" y2="24" />
-        <circle cx="24" cy="24" r="18" />
-      </g>
-      <circle
-        cx="24"
-        cy="24"
-        r="6"
-        fill="var(--color-on-ink)"
-        stroke="var(--color-ink)"
-        style={{ strokeWidth: "var(--stroke-bold)" }}
-      />
-    </svg>
-  );
-}
-
-// Inbox's mark, redrawn on the same terms as the Poké Ball above: their favicon
-// is three rectangles on a rounded brand-dark tile, so the tile goes (rounded
-// rectangles are out) and the brand orange becomes a palette accent, but the
-// composition stays, including both columns ending on the same line.
-function InboxDevice() {
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
-      <g
-        stroke="var(--color-ink)"
-        style={{ strokeWidth: "var(--stroke-bold)" }}
-      >
-        <rect x="10" y="10" width="11" height="11" fill="var(--color-blue)" />
-        <rect x="10" y="25" width="11" height="13" fill="var(--color-paper)" />
-        <rect x="26" y="10" width="11" height="28" fill="var(--color-paper)" />
-      </g>
-    </svg>
-  );
-}
-
-// Elbaite's mark is a pixel-art tourmaline crystal in colour bands, pink at
-// the tip down to green at the base. Redrawn on the same terms as the two
-// above: the pixel stepping goes, because a staircase outline is not this
-// grammar, but the silhouette stays: a hexagonal prism seen from the front,
-// with a faceted tip, a front ridge, and a V at the base. Its bands become
-// palette colours (rose, paper, blue, violet), chosen to stand out against the
-// rose-soft cover. The right face is shaded with a watermark-strength wash of
-// ink, which is what turns it from a flat badge into a stone. Narrower, or
-// with a straight base, it reads as a pencil.
-function CrystalDevice() {
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
-      <polygon points="11,14 24,3 37,14" fill="var(--color-rose)" />
-      <rect x="11" y="14" width="26" height="8" fill="var(--color-paper)" />
-      <rect x="11" y="22" width="26" height="8" fill="var(--color-blue)" />
-      <polygon
-        points="11,30 37,30 37,40 24,45 11,40"
-        fill="var(--color-violet)"
-      />
-      <polygon
-        points="24,3 37,14 37,40 24,45"
-        fill="var(--color-ink)"
-        style={{ opacity: "var(--opacity-watermark)" }}
-      />
-      <g
-        stroke="var(--color-ink)"
-        style={{ strokeWidth: "var(--stroke-bold)" }}
-        fill="none"
-        strokeLinejoin="round"
-      >
-        <polygon points="24,3 37,14 37,40 24,45 11,40 11,14" />
-        <line x1="11" y1="14" x2="37" y2="14" />
-        <line x1="24" y1="3" x2="24" y2="45" />
-      </g>
-    </svg>
-  );
-}
-
-// lite-type's mark is "lt" in JetBrains Mono over a progress line, just over
-// half filled, on a rounded tile. Redrawn on the same terms as the others: the
-// tile goes, the pill-shaped line gets square ends, and the fill takes the
-// cover's orchid. The letters are the logo's own outlines, scaled into this
-// 48-unit frame and lined up with the bar's ends.
-function LiteTypeDevice() {
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className={DEVICE}>
-      <path
-        fill="var(--color-ink)"
-        transform="translate(1.08 0.97) scale(0.18)"
-        d="M98.08 158.5Q86.89 158.5 80.2 151.98Q73.53 145.46 73.53 134.72L73.53 59.09L44.38 59.09L44.38 46.5L87.34 46.5L87.34 134.72Q87.34 139.95 90.24 142.94Q93.17 145.91 98.08 145.91L124.16 145.91L124.16 158.5L98.08 158.5ZM186.3 158.5Q175.87 158.5 169.57 152.43Q163.29 146.37 163.29 136.25L163.29 86.7L139.05 86.7L139.05 74.12L163.29 74.12L163.29 50.34L177.1 50.34L177.1 74.12L211.62 74.12L211.62 86.7L177.1 86.7L177.1 136.25Q177.1 140.54 179.61 143.23Q182.15 145.91 186.3 145.91L210.85 145.91L210.85 158.5L186.3 158.5Z"
-      />
-      <g
-        stroke="var(--color-ink)"
-        style={{ strokeWidth: "var(--stroke-bold)" }}
-      >
-        <rect x="9" y="34" width="30" height="6" fill="var(--color-paper)" />
-        <rect x="9" y="34" width="16.5" height="6" fill="var(--color-orchid)" />
-      </g>
-    </svg>
-  );
-}
-
-// Each book names its mark in the data; the drawing lives here, because
-// `src/lib/projects.js` stays data and holds no JSX.
-const DEVICES = {
-  pokeball: PokeballDevice,
-  inbox: InboxDevice,
-  crystal: CrystalDevice,
-  lt: LiteTypeDevice,
-};
+import BookDevice from "./BookDevice";
 
 function ArrowRight() {
   return (
@@ -155,13 +26,12 @@ function ArrowRight() {
 // height instead of changing both dimensions at once. Below md the spread is
 // already a single column, so the cover matches it at full width and takes its
 // natural height (the passport's reason: no fixed heights on a phone).
-function Book({ project, onOpen, openRef }) {
-  const Device = DEVICES[project.mark];
-
+function Book({ project, onOpen, openRef, rotate }) {
   return (
-    // Level at every width. No tilt: this is the most text-dense object in the
-    // section, and like the Welcome letter, Devlog, and the passport, a tilt
-    // would make the eye re-find the left edge on every line.
+    // A closed book lies on the board a little crooked, like everything else
+    // pinned there (`rotate`, alternating from Creations.jsx). The cover holds
+    // a centred blurb of a few lines, not running text, so the tilt costs no
+    // reading; opening the book straightens it, like picking it up.
     //
     // The hover lift lives on this wrapper, not on the cover boards inside it.
     // On the boards it would move the cover alone and leave the page block and
@@ -173,13 +43,16 @@ function Book({ project, onOpen, openRef }) {
     // (Creations.jsx), and the row's `justify-between` places it. Centred here,
     // it would open by expanding in both directions instead of unfolding
     // rightward.
-    <div className="relative transition-transform has-[button:hover]:-translate-y-0.5 has-[button:focus-visible]:-translate-y-0.5 md:w-1/2">
+    <div
+      className={`relative transition-transform has-[button:hover]:-translate-y-0.5 has-[button:focus-visible]:-translate-y-0.5 md:w-1/2 ${rotate}`}
+    >
       {/* The page block, offset down-right so the closed book reads as a thick
-          object rather than a card. It carries the shadow-sticker for the whole
-          book, being the lowest layer. */}
+          object rather than a card. Its 4px offset is the book's depth, the
+          same 4px every pinned object's shadow reaches, so it carries no shadow
+          of its own. */}
       <span
         aria-hidden="true"
-        className="shadow-sticker pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
+        className="pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
       />
 
       <div
@@ -188,13 +61,13 @@ function Book({ project, onOpen, openRef }) {
         {/* Spine, with its head and tail bands. */}
         <span
           aria-hidden="true"
-          className={`absolute inset-y-0 left-0 w-5 border-r-2 border-ink ${project.spineTint}`}
+          className={`absolute inset-y-0 left-0 w-3 border-r-2 border-ink ${project.spineTint}`}
         >
           <span className="absolute inset-x-0 top-1.5 h-2 border-y-2 border-ink bg-primary" />
           <span className="absolute inset-x-0 bottom-1.5 h-2 border-y-2 border-ink bg-primary" />
         </span>
 
-        <div className="relative flex h-full flex-col pl-5">
+        <div className="relative flex h-full flex-col pl-3">
           {/* The whole cover is the control, which is what a book is: you open it
               by touching it anywhere rather than by hunting for a region.
               Overlaying only the mark, title, and blurb would leave 39% of the
@@ -225,12 +98,12 @@ function Book({ project, onOpen, openRef }) {
               stamped on the cover board only, so it has to stop at the spine.
               `inset-2` doesn't do that on its own: an absolute element resolves
               against its containing block's padding box, so this parent's
-              `pl-5`, which clears the spine for the content, does nothing for
-              it. `left-7` is the spine's `w-5` plus the same 8px inset the
+              `pl-3`, which clears the spine for the content, does nothing for
+              it. `left-5` is the spine's `w-3` plus the same 8px inset the
               other three sides use. */}
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-2 left-7 right-2 border border-ink"
+            className="pointer-events-none absolute inset-y-2 left-5 right-2 border border-ink"
             style={{ opacity: "var(--opacity-accent-line)" }}
           />
 
@@ -240,7 +113,7 @@ function Book({ project, onOpen, openRef }) {
               apart, at the foot. */}
           <div className="pointer-events-none relative flex flex-1 flex-col items-center justify-center gap-4 p-4 md:p-6">
             <div className="relative flex flex-col items-center gap-3 text-center">
-              <Device />
+              <BookDevice mark={project.mark} />
               <div>
                 <h3 className="font-display text-xl font-semibold leading-tight text-ink">
                   {project.title}

@@ -26,7 +26,7 @@ const BOOK_ASSETS = import.meta.glob(
 // The stamps read their numbers straight out of the book's own stats page, so
 // the board and the book can't drift apart. A stat appears here only if it
 // carries a short `stamp` label, and the rest stay inside.
-function ProjectEvidence({ project }) {
+function ProjectEvidence({ project, rotate }) {
   const stats =
     project.spreads
       .flatMap((spread) => [spread.verso, spread.recto])
@@ -37,11 +37,12 @@ function ProjectEvidence({ project }) {
     <div className="flex flex-col gap-4 md:w-[44%]">
       {/* Taped up like Home's polaroid. The tape is counter-rotated against the
           card, which is what sells it as placed by hand rather than printed
-          on. The card itself stays within the 1.5 degree cap that applies to
-          anything wider than a compact card. */}
+          on. The card leans the opposite way to its book (`rotate`), within
+          the 1.5 degree cap that applies to anything wider than a compact
+          card. */}
       <figure className="relative">
         <Tape className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 -rotate-3" />
-        <PinnedCard padding="p-2" rotate="rotate-[1.5deg]">
+        <PinnedCard padding="p-2" rotate={rotate}>
           <img
             src={project.board.src}
             alt={project.board.alt}
@@ -166,12 +167,16 @@ function Creations() {
               >
                 <Book
                   project={project}
+                  rotate={i % 2 === 0 ? "-rotate-[1deg]" : "rotate-[1deg]"}
                   onOpen={() => setOpenId(project.id)}
                   openRef={(el) => {
                     coverRefs.current[project.id] = el;
                   }}
                 />
-                <ProjectEvidence project={project} />
+                <ProjectEvidence
+                  project={project}
+                  rotate={i % 2 === 0 ? "rotate-[1.5deg]" : "-rotate-[1.5deg]"}
+                />
               </div>
             )}
           </li>

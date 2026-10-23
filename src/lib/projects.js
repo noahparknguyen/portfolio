@@ -119,7 +119,7 @@ const elbaite = {
           "The Game Boy is the reason this project exists. What I really want is to play the Pokémon games I grew up with on my own emulator, and those cartridges will decide what Verdelite has to support first.",
           "CHIP-8 was the warm-up. It covered the parts every emulator shares: reading and running instructions, keeping time, taking input, and drawing a screen sixty times a second.",
         ],
-        marginNote: "a whole machine, small enough to finish",
+        marginNote: "green, like the original Game Boy’s screen",
       },
     },
     {
