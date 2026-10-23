@@ -17,12 +17,15 @@ const PLEATS = Array.from({ length: 32 }, (_, n) => {
 
 // `fill` is a token reference ("var(--color-rose-soft)"), not a class, because
 // it paints SVG shapes. `label` sits in an HTML overlay rather than an SVG
-// <text>, so it uses the site's own type scale and font stack.
-function Rosette({ fill, label, size = "md", className = "" }) {
-  const box = size === "sm" ? "w-14" : "w-20";
-  const type = size === "sm" ? "text-sm" : "text-lg";
+// <text>, so it uses the site's own type scale and font stack, and it can be
+// two lines (the honours rosette's "3.8" over "GPA"). Two sizes: `sm` for the
+// six Dean's List ribbons, and `md` for the diploma's honours rosette, which
+// stays the bigger one.
+function Rosette({ fill, label, size = "sm" }) {
+  const box = size === "md" ? "w-18" : "w-14";
+  const type = size === "md" ? "text-base" : "text-sm";
   return (
-    <span aria-hidden="true" className={`relative block ${box} ${className}`}>
+    <span aria-hidden="true" className={`relative block ${box}`}>
       <svg viewBox="0 0 80 128" className="block w-full">
         <g
           fill={fill}
@@ -44,10 +47,10 @@ function Rosette({ fill, label, size = "md", className = "" }) {
         />
       </svg>
       {/* The disc is centred 40 units down an 80-unit-wide drawing, so a
-          square the width of the ribbon puts the label exactly on it at any
-          size. */}
+          square the width of the ribbon puts the label exactly on it at
+          either size. */}
       <span
-        className={`absolute inset-x-0 top-0 flex aspect-square items-center justify-center font-display ${type} font-bold text-ink`}
+        className={`absolute inset-x-0 top-0 flex aspect-square flex-col items-center justify-center font-display ${type} font-bold leading-none text-ink`}
       >
         {label}
       </span>

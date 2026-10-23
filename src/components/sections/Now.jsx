@@ -1,6 +1,7 @@
 import PinnedCard from "../ui/PinnedCard";
 import SectionTitle from "../ui/SectionTitle";
 import Eyebrow from "../ui/Eyebrow";
+import DateStamp from "../ui/DateStamp";
 import TextLink from "../ui/TextLink";
 import Pin from "../ui/Pin";
 
@@ -128,12 +129,7 @@ function Now() {
               of a document. Stays `mt-4` below md, where the card is its
               natural height and there's no slack to distribute. */}
           <div className="mt-4 flex justify-end md:mt-auto">
-            <div className="rotate-2 border-2 border-dashed border-label px-3 py-1 text-center">
-              <Eyebrow as="p">Last updated</Eyebrow>
-              <Eyebrow as="p" tone="ink">
-                {LAST_UPDATED}
-              </Eyebrow>
-            </div>
+            <DateStamp label="Last updated" date={LAST_UPDATED} />
           </div>
         </PinnedCard>
 

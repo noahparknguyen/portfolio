@@ -3,6 +3,7 @@ import PinnedCard from "../ui/PinnedCard";
 import Eyebrow from "../ui/Eyebrow";
 import LabelTag from "../ui/LabelTag";
 import Rosette from "../ui/Rosette";
+import DateStamp from "../ui/DateStamp";
 import Passport from "./Passport";
 import { BoardingPass } from "./BoardingPass";
 
@@ -64,135 +65,153 @@ function WorkHistory() {
   );
 }
 
-// One ribbon per term of the program, which Algonquin numbers as levels 01 to
-// 06. The hues are solved against both layouts: a single row of six from `md`
-// up, and two rows of three below it, so ribbons 1 and 3 apart must differ.
-// Opening on the site's canonical rose → violet → blue → orchid order and
-// repeating it satisfies both.
+// One ribbon per term, pinned over the Dean's List certificate's corner as a
+// pile that grew a term at a time: each is drawn over the one before. Two
+// staggered rows of three, spaced so every number stays readable where the
+// pleats overlap. Every ribbon reaches the certificate's blue frame, so the
+// pile uses the other three hues, laid out so no two touching ribbons match.
 const RIBBONS = [
-  { level: "01", fill: "var(--color-rose-soft)", rotate: "-rotate-[2deg]" },
-  { level: "02", fill: "var(--color-violet-soft)", rotate: "rotate-[1.5deg]" },
-  { level: "03", fill: "var(--color-blue-soft)", rotate: "-rotate-[1deg]" },
-  { level: "04", fill: "var(--color-orchid-soft)", rotate: "rotate-[2deg]" },
-  { level: "05", fill: "var(--color-rose-soft)", rotate: "-rotate-[1.5deg]" },
-  { level: "06", fill: "var(--color-violet-soft)", rotate: "rotate-[1deg]" },
+  { hue: "rose", place: "left-0 top-0 -rotate-[3deg]" },
+  { hue: "violet", place: "left-9 top-0 rotate-[2deg]" },
+  { hue: "orchid", place: "left-18 top-0 -rotate-[1deg]" },
+  { hue: "orchid", place: "left-4.5 top-8 rotate-[3deg]" },
+  { hue: "rose", place: "left-13.5 top-8 -rotate-[2deg]" },
+  { hue: "violet", place: "left-22.5 top-8 rotate-[1deg]" },
 ];
 
-// The ribbons are `aria-hidden` decoration, so the placard beneath them has to
-// say everything they show: the award, how many, and when.
-function DeansList() {
-  return (
-    <div className="flex flex-col gap-4">
-      <div aria-hidden="true" className="flex flex-wrap justify-center gap-4">
-        {RIBBONS.map((r) => (
-          <Rosette
-            key={r.level}
-            fill={r.fill}
-            label={r.level}
-            className={r.rotate}
-          />
-        ))}
-      </div>
-      <PinnedCard bg="bg-white" padding="p-4">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-          <p className="font-display text-lg font-semibold text-ink">
-            Dean&rsquo;s List ×6
-          </p>
-          <Eyebrow as="p">Algonquin College · Levels 01 to 06</Eyebrow>
-        </div>
-        <p className="mt-1 text-sm text-gray-600">
-          I made the Dean&rsquo;s List in every one of the program&rsquo;s six
-          terms. I like being able to see my progress, and getting that proof at
-          the end of each term really helped with the stress.
-        </p>
-        <p className="mt-2 text-right font-hand text-label">
-          Unlocked · 2023 – 2026
-        </p>
-      </PinnedCard>
-    </div>
-  );
-}
-
 // Card stock with a double rule, which is what reads as "certificate" at a
-// glance: the outer PinnedCard border, a gap of white, then an inner rule.
-// The Algonquin crest sits where a certificate's seal would. It keeps its own
-// brand green, since the college's brand guidelines forbid recolouring it, so
-// it stays small and inside its round bezel.
-function Diploma() {
-  return (
-    <div className="relative">
-      <PinnedCard
-        bg="bg-white"
-        padding="p-2"
-        rotate="-rotate-[1deg]"
-        className="h-full"
-      >
-        <div className="flex h-full flex-col items-center border-2 border-ink p-4 text-center">
-          <Eyebrow as="p">Algonquin College</Eyebrow>
-          <p className="mt-2 font-display text-xl font-semibold text-ink">
-            Advanced Diploma
-          </p>
-          <p className="mt-1 text-sm text-gray-600">
-            Computer Engineering Technology – Computing Science
-          </p>
-          <p className="mt-2 font-bold text-ink">
-            Graduated with honours and a 3.8 GPA
-          </p>
-          <span className="mt-4 block h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-ink">
-            <img
-              src={algonquinLogo}
-              alt="Algonquin College logo"
-              width="120"
-              height="120"
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
-          </span>
-          <p className="mt-2 font-hand text-label">Unlocked · Apr 2026</p>
-        </div>
-      </PinnedCard>
-      {/* Honours, on the corner. The GPA in its disc is decoration; the
-          sentence above is what states it. The wrapper does the positioning
-          because a Rosette is `relative` itself (its label is placed against
-          it), and a second position class on the same element loses to
-          whichever Tailwind happens to emit later. */}
-      <span className="absolute -top-4 right-4 rotate-[3deg]">
-        <Rosette size="sm" fill="var(--color-violet-soft)" label="3.8" />
-      </span>
-    </div>
-  );
-}
-
-// The next one, not earned yet. A blank certificate in the site's "blank
-// form" grammar: dashed rules on warm paper, and an empty seal where the crest
-// will go.
-function BlankCertificate() {
+// glance: the outer border, a tinted frame, then an inner rule around a white
+// sheet. The frame carries the colour, the way a boarding pass's band and stub
+// do, so the text always sits on white.
+//
+// Both certificates read in the same order: who issued it, what it is, who
+// it's for, one detail, then a date stamp at the foot. The wording is centred
+// in whatever height the sheet has, since the pair shares a row from `md` and
+// the diploma sets its height. `ribbons` hang off the bottom-right corner,
+// over the frame and a little past the card, so the footer only needs room for
+// the stamp. They're children of the tilted card, so they tilt with it.
+function Certificate({ frame, rotate, stamp, ribbons, children }) {
   return (
     <PinnedCard
-      bg="bg-paper"
-      padding="p-2"
-      rotate="rotate-[1deg]"
-      className="border-dashed"
+      bg={frame}
+      padding="p-6"
+      rotate={rotate}
+      className="relative h-full"
     >
-      <div className="flex h-full flex-col items-center justify-center border-2 border-dashed border-ink p-4 text-center">
-        <Eyebrow as="p">Locked</Eyebrow>
-        <p className="mt-2 font-display text-xl font-semibold text-gray-600">
-          Future certification
-        </p>
-        <p className="mt-1 text-sm text-gray-600">
-          Still working on the next one.
-        </p>
-        <span
-          aria-hidden="true"
-          className="mt-4 flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-ink font-display text-xl font-bold text-gray-600"
-        >
-          ?
-        </span>
+      <div className="flex h-full flex-col items-center border-2 border-ink bg-white p-4 text-center text-balance">
+        <div className="my-auto">{children}</div>
+        <div className="flex w-full pt-4">
+          <DateStamp label="Unlocked" date={stamp} />
+        </div>
       </div>
+      {ribbons}
     </PinnedCard>
   );
 }
 
+// The recipient's name, handwritten the way a certificate's name line is.
+function Recipient() {
+  return <p className="mt-2 font-hand text-3xl text-ink">Noah Park-Nguyen</p>;
+}
+
+function CertificateTitle({ children }) {
+  return (
+    <p className="mt-2 font-display text-xl font-semibold text-ink">
+      {children}
+    </p>
+  );
+}
+
+// The ribbons are `aria-hidden` decoration, so the wording has to say
+// everything they show: the award, how many, and when.
+function DeansList() {
+  return (
+    <Certificate
+      frame="bg-blue-soft"
+      rotate="rotate-[1deg]"
+      stamp="2023 – 2026"
+      ribbons={
+        <div className="absolute -bottom-5 -right-2 h-30.5 w-36.5">
+          {RIBBONS.map((r, n) => (
+            <span key={n} className={`absolute ${r.place}`}>
+              <Rosette fill={`var(--color-${r.hue}-soft)`} label={n + 1} />
+            </span>
+          ))}
+        </div>
+      }
+    >
+      <Eyebrow as="p">Algonquin College</Eyebrow>
+      <CertificateTitle>Dean&rsquo;s List</CertificateTitle>
+      <Recipient />
+      <p className="mt-2 text-sm text-gray-600">All six terms of the program</p>
+    </Certificate>
+  );
+}
+
+// Laid out like the real diploma: the crest at the top and HONOURS in the
+// bottom-right corner, with the honours rosette standing in for its seal. The
+// crest keeps its own brand green, since the college's brand guidelines forbid
+// recolouring it, so it stays small and inside its round bezel. Its alt is
+// empty because the college's name is printed right under it.
+//
+// HONOURS hangs with the rosette rather than sitting in the footer row: the
+// stamp, the word and room for the rosette made that row wider than a 320px
+// screen allows, and the whole certificate grew past the edge to fit it.
+// The rosette is the only place the GPA appears, so its wrapper carries it as
+// an image name for screen readers. A wrapper places it because a Rosette is
+// `relative` itself (its label is placed against it), and a second position
+// class on the same element loses to whichever Tailwind happens to emit later.
+function Diploma() {
+  return (
+    <Certificate
+      frame="bg-rose-soft"
+      rotate="-rotate-[1deg]"
+      stamp="Apr 2026"
+      ribbons={
+        <div className="absolute -bottom-5 -right-2 flex items-start gap-2">
+          <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-ink">
+            Honours
+          </p>
+          <span role="img" aria-label="3.8 GPA" className="rotate-[3deg]">
+            <Rosette
+              size="md"
+              fill="var(--color-violet-soft)"
+              label={
+                <>
+                  3.8<span className="mt-0.5 text-xs">GPA</span>
+                </>
+              }
+            />
+          </span>
+        </div>
+      }
+    >
+      <span className="mx-auto block h-14 w-14 overflow-hidden rounded-full border-2 border-ink">
+        <img
+          src={algonquinLogo}
+          alt=""
+          width="120"
+          height="120"
+          decoding="async"
+          className="h-full w-full object-cover"
+        />
+      </span>
+      <Eyebrow as="p" className="mt-2">
+        Algonquin College
+      </Eyebrow>
+      <CertificateTitle>Advanced Diploma</CertificateTitle>
+      <Recipient />
+      <p className="mt-2 text-sm text-gray-600">
+        Computer Engineering Technology – Computing Science
+      </p>
+    </Certificate>
+  );
+}
+
+// Two certificates, oldest first like the boarding passes: side by side from
+// `md`, stacked below it. `pb-5` reserves the 20px the ribbons hang below the
+// last card, so they end above the footer instead of over it. Between stacked
+// cards, the `gap-8` already leaves room.
 function Achievements() {
   return (
     <section aria-labelledby="ach-heading">
@@ -201,12 +220,9 @@ function Achievements() {
           What I&rsquo;ve Achieved
         </h3>
       </LabelTag>
-      <div className="mt-4 flex flex-col gap-8">
+      <div className="mt-4 grid gap-8 pb-5 md:grid-cols-2">
         <DeansList />
-        <div className="grid gap-8 md:grid-cols-2">
-          <Diploma />
-          <BlankCertificate />
-        </div>
+        <Diploma />
       </div>
     </section>
   );

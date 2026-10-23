@@ -276,8 +276,10 @@ const FAMILIES = [
     // Anchored alternatives ($) so `text-lg` isn't mistaken for a colour by the
     // unanchored `sm` / `base` branches, and so size utilities driven by a
     // custom token (text-wordmark-fluid) fall to the size family instead.
+    // Alignment, overflow and wrapping utilities (text-balance among them) are
+    // not colours either.
     test: (c) =>
-      /^text-(?!xs$|sm$|base$|lg$|[a-z0-9]*xl$|wordmark-fluid$|left$|right$|center$|justify$|ellipsis|clip|wrap|nowrap)[a-z]/.test(
+      /^text-(?!xs$|sm$|base$|lg$|[a-z0-9]*xl$|wordmark-fluid$|left$|right$|center$|justify$|ellipsis|clip|wrap|nowrap|balance$)[a-z]/.test(
         c,
       ),
     allow: [
