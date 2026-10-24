@@ -87,7 +87,11 @@ for (const file of files) {
   if (file.endsWith(".css")) continue;
   const src = readFileSync(file, "utf8");
   for (const literal of extractStrings(src)) {
-    for (const tok of literal.split(/[\s${}]+/)) {
+    // Quotes split too: a template literal's `${…}` keeps the quotes of any
+    // string inside it, so `${board ? "py-1" : "py-4"}` would otherwise yield
+    // the tokens `"py-1"` and `"py-4"`, which fail the class pattern below and
+    // were silently never checked.
+    for (const tok of literal.split(/[\s${}"'`]+/)) {
       if (!tok || tok.length > 60) continue;
       // Variant prefixes (`md:`, `hover:`, `focus-visible:`, `group-hover:`,
       // and arbitrary ones like `[@media(hover:hover)]:`) must be allowed
