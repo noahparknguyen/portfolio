@@ -34,10 +34,8 @@ jobs:
       - name: Formatting
         run: npm run format:check
 
-      # Catches two drifts that nothing else can see: docs/index.html's colour
-      # tokens falling out of step with src/index.css, and an exact-version
-      # `allowScripts` pin in package.json going stale, which silently blocks a
-      # dependency's install script and only ever produces an npm warning.
+      # Catches docs/index.html's colour tokens falling out of step with
+      # src/index.css, which nothing else can see.
       - name: Config consistency
         run: npm run check:config
 

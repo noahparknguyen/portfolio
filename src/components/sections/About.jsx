@@ -8,8 +8,7 @@ import Passport from "./Passport";
 import { BoardingPass } from "./BoardingPass";
 
 // One pass per job, oldest first. `band` tints the carrier band and the stub,
-// which are two parts of one object, so they share a hue. Adjacent passes
-// never do.
+// and adjacent passes never share one.
 const PASSES = [
   {
     carrier: "FINTRAC",
@@ -49,10 +48,8 @@ const PASSES = [
 function WorkHistory() {
   return (
     <section aria-labelledby="work-heading">
-      <LabelTag rotate="-rotate-[1deg]">
-        <h3 id="work-heading" className="text-xl font-semibold text-ink">
-          Where I&rsquo;ve Worked
-        </h3>
+      <LabelTag id="work-heading" rotate="-rotate-[1deg]">
+        Where I&rsquo;ve Worked
       </LabelTag>
       <ol className="mt-4 flex flex-col gap-8">
         {PASSES.map((pass) => (
@@ -65,11 +62,9 @@ function WorkHistory() {
   );
 }
 
-// One ribbon per term, pinned over the Dean's List certificate's corner as a
-// pile that grew a term at a time: each is drawn over the one before. Two
-// staggered rows of three, spaced so every number stays readable where the
-// pleats overlap. Every ribbon reaches the certificate's blue frame, so the
-// pile uses the other three hues, laid out so no two touching ribbons match.
+// One ribbon per term, each drawn over the one before. None is blue, since
+// every one touches the certificate's blue frame, and no two touching ribbons
+// match.
 const RIBBONS = [
   { hue: "rose", place: "left-0 top-0 -rotate-[3deg]" },
   { hue: "violet", place: "left-9 top-0 rotate-[2deg]" },
@@ -79,17 +74,9 @@ const RIBBONS = [
   { hue: "violet", place: "left-22.5 top-8 rotate-[1deg]" },
 ];
 
-// Card stock with a double rule, which is what reads as "certificate" at a
-// glance: the outer border, a tinted frame, then an inner rule around a white
-// sheet. The frame carries the colour, the way a boarding pass's band and stub
-// do, so the text always sits on white.
-//
-// Both certificates read in the same order: who issued it, what it is, who
-// it's for, one detail, then a date stamp at the foot. The wording is centred
-// in whatever height the sheet has, since the pair shares a row from `md` and
-// the diploma sets its height. `ribbons` hang off the bottom-right corner,
-// over the frame and a little past the card, so the footer only needs room for
-// the stamp. They're children of the tilted card, so they tilt with it.
+// A tinted frame around a white sheet, so the text always sits on white. The
+// wording centres in whatever height the row gives it, since the diploma sets
+// it. `ribbons` are children of the tilted card, so they tilt with it.
 function Certificate({ frame, rotate, stamp, ribbons, children }) {
   return (
     <PinnedCard
@@ -109,7 +96,6 @@ function Certificate({ frame, rotate, stamp, ribbons, children }) {
   );
 }
 
-// The recipient's name, handwritten the way a certificate's name line is.
 function Recipient() {
   return <p className="mt-2 font-hand text-3xl text-ink">Noah Park-Nguyen</p>;
 }
@@ -148,19 +134,13 @@ function DeansList() {
   );
 }
 
-// Laid out like the real diploma: the crest at the top and HONOURS in the
-// bottom-right corner, with the honours rosette standing in for its seal. The
-// crest keeps its own brand green, since the college's brand guidelines forbid
-// recolouring it, so it stays small and inside its round bezel. Its alt is
-// empty because the college's name is printed right under it.
-//
-// HONOURS hangs with the rosette rather than sitting in the footer row: the
-// stamp, the word and room for the rosette made that row wider than a 320px
-// screen allows, and the whole certificate grew past the edge to fit it.
-// The rosette is the only place the GPA appears, so its wrapper carries it as
-// an image name for screen readers. A wrapper places it because a Rosette is
-// `relative` itself (its label is placed against it), and a second position
-// class on the same element loses to whichever Tailwind happens to emit later.
+// The crest keeps its brand green, since the college's guidelines forbid
+// recolouring it. Its alt is empty because the college's name is printed under
+// it. HONOURS hangs beside the rosette because the footer row can't fit it at
+// 320px. The rosette is the only place the GPA appears, so its wrapper names it
+// for screen readers. A wrapper places it because a Rosette is `relative`
+// itself, and two position classes on one element resolve by Tailwind's emit
+// order.
 function Diploma() {
   return (
     <Certificate
@@ -208,16 +188,12 @@ function Diploma() {
   );
 }
 
-// Two certificates, oldest first like the boarding passes: side by side from
-// `md`, stacked below it. The ribbons hang 20px below a card, which the 32px
-// between stacked cards and between the last card and the footer both clear.
+// The ribbons hang 20px below a card, which the 32px gaps around it clear.
 function Achievements() {
   return (
     <section aria-labelledby="ach-heading">
-      <LabelTag rotate="rotate-[1deg]">
-        <h3 id="ach-heading" className="text-xl font-semibold text-ink">
-          What I&rsquo;ve Achieved
-        </h3>
+      <LabelTag id="ach-heading" rotate="rotate-[1deg]">
+        What I&rsquo;ve Achieved
       </LabelTag>
       <div className="mt-4 grid gap-8 md:grid-cols-2">
         <DeansList />
@@ -229,8 +205,6 @@ function Achievements() {
 
 function About({ onNavigate }) {
   return (
-    // Named like every other section, so an assistive tech user can identify
-    // the region and jump to it by name.
     <section aria-labelledby="about-heading" className="flex flex-col gap-8">
       <Passport onNavigate={onNavigate} />
       <WorkHistory />

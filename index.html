@@ -13,11 +13,8 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#3D3660" />
 
-    <!-- Fonts are self-hosted, with their rules in the app's own stylesheet.
-         These preloads are the three faces every page's first screen paints:
-         body copy, headings, and the banner's wordmark. They start during the
-         HTML parse, rather than after the stylesheet is parsed. The latin-ext
-         files and the handwriting face load on demand. -->
+    <!-- The three faces every first screen paints, preloaded so they start
+         during the HTML parse. The other fonts load on demand. -->
     <link
       rel="preload"
       as="font"

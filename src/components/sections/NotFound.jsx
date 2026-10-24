@@ -2,27 +2,12 @@ import PinnedCard from "../ui/PinnedCard";
 import TextLink from "../ui/TextLink";
 import Tape from "../ui/Tape";
 
-// Follows Credits' composition rather than the four hued sections: this page
-// owns no section hue, so like the Colophon it takes warm `paper`, is taped up
-// rather than pinned, and its <h2>
-// skips SectionTitle's single-accent underline because there is no accent to
-// carry. The Home link takes TextLink's neutral `label` treatment for the same
-// reason, matching the footer's Credits link.
-//
-// The worker serves this path with a real 404 status (worker/index.js), so the
-// status line and the rendered page agree instead of returning a soft 404.
-//
-// The card opens with its heading, like every other page's, and the envelope
-// sits under it as the illustration: the address the visitor typed, with a
-// RETURN TO SENDER stamp under it, a returned letter. There's no sender's
-// address (the masthead names the sender, and the typed address already
-// carries the domain) and no postage stamp (stamp and postmark are Weather's
-// gag). Like Steam's empty-state stamp, the stamp is crooked on purpose and
-// opts out of the tilt cap.
+// No section hue, so like the Colophon it's paper, taped, and skips
+// SectionTitle's underline. The Worker serves this page with a real 404
+// (worker/index.js).
 function NotFound({ onNavigate }) {
-  // Read during render: the site is client-rendered only (createRoot in
-  // main.jsx), so `window` always exists here, and reading it fresh keeps the
-  // envelope right if the visitor reaches a second unknown path in-app.
+  // The site is client-rendered only, so `window` exists here, and reading it
+  // fresh keeps the envelope right on a second unknown path.
   const address = `${window.location.host}${window.location.pathname}`;
 
   return (
@@ -41,10 +26,8 @@ function NotFound({ onNavigate }) {
           Nothing here
         </h2>
 
-        {/* Decorative envelope front. Everything it says, the heading and
-            paragraphs say in words, so it's hidden from assistive tech rather
-            than read out as a jumble of mail labels. The address breaks at
-            hyphens and slashes before it splits a word. */}
+        {/* Hidden from assistive tech, since the text says it all in words.
+            The stamp is crooked on purpose and exempt from the tilt cap. */}
         <div aria-hidden="true" className="mt-6 flex flex-col items-center">
           <p className="max-w-full wrap-break-word border-b-2 border-ink pb-1 text-center font-mono text-sm text-ink">
             {address}

@@ -5,16 +5,13 @@ import {
   normalizePath,
 } from "../src/lib/routes";
 
-// The app's real pages, from the same table the client renders from. Sharing it
-// is the point: a path the worker calls valid and the app calls unknown (or the
-// reverse) would serve a 200 for a "Nothing here" page, or a 404 for a page that
-// renders fine. One list, imported by both.
+// The app's pages, from the table the client renders from, so the Worker never
+// serves a 200 for a page the app calls unknown, or a 404 for one it renders.
 const APP_PATHS = new Set(KNOWN_PATHS);
 
 function json(body, status = 200, extraHeaders = {}) {
-  // Default to no-store so transient error responses (502/500/405) are never
-  // cached. Success handlers pass their own Cache-Control in extraHeaders,
-  // which overrides this default.
+  // no-store by default, so an error is never cached. A success passes its own
+  // Cache-Control.
   return new Response(JSON.stringify(body), {
     status,
     headers: {
@@ -58,9 +55,9 @@ async function getSpotifyAccessToken(clientId, clientSecret, refreshToken) {
   return spotifyToken.value;
 }
 
-// The top track of roughly the last four weeks, Spotify's short-term range,
-// rather than what's playing now: it shows what I listen to without showing
-// when. Needs the refresh token to carry the `user-top-read` scope.
+// The top track of about the last four weeks rather than what's playing now:
+// it shows what I listen to without showing when. Needs the `user-top-read`
+// scope on the refresh token.
 async function handleSpotify(env) {
   const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } =
     env;
@@ -219,13 +216,10 @@ async function handleCommits(env) {
   });
 }
 
-// Content Security Policy. script-src stays 'self' because Vite emits external,
-// hashed module scripts (no inline JS), and Cloudflare Web Analytics is
-// disabled (no injected beacon or inline script). style-src needs no
-// 'unsafe-inline': React sets its `style` props through the CSSOM, which CSP
-// doesn't govern, and Vite ships the CSS as a file. The fonts are self-hosted,
-// so they're 'self' too. img-src is broad because the live widgets pull album
-// and game art from third-party CDNs.
+// script-src stays 'self': Vite emits hashed module scripts with no inline JS,
+// and Cloudflare Web Analytics is off, so nothing injects one. style-src needs
+// no 'unsafe-inline', since React sets `style` props through the CSSOM, which
+// CSP doesn't govern. img-src is broad for the widgets' album and game art.
 const CSP = [
   "default-src 'self'",
   "script-src 'self'",
@@ -240,25 +234,16 @@ const CSP = [
   "upgrade-insecure-requests",
 ].join("; ");
 
-// True only under `vite dev` (the @cloudflare/vite-plugin dev worker); replaced
-// with `false` at build time for the deployed worker.
+// True only under `vite dev`. The build replaces it with `false`.
 const DEV = import.meta.env.DEV;
 
-// Applied to every response. Because assets.run_worker_first (wrangler.jsonc)
-// runs the Worker ahead of static-asset serving, this is the one source of the
-// site's security headers, for static assets and /api/* routes alike. There's
-// deliberately no public/_headers file, since anything it set would be
-// overwritten here anyway. HSTS isn't set here: it's managed in the Cloudflare
-// dashboard (SSL/TLS -> Edge Certificates -> HSTS), so it can be ramped up
-// safely.
+// Applied to every response. `run_worker_first` (wrangler.jsonc) runs the
+// Worker ahead of the static assets, which makes this the site's one source of
+// security headers. HSTS is set in the Cloudflare dashboard instead.
 function withSecurityHeaders(response) {
   const res = new Response(response.body, response);
-  // In dev, Vite serves HTML with inline scripts (React Fast Refresh preamble,
-  // HMR client) and talks to an HMR WebSocket, all of which this production CSP
-  // ('script-src self', 'connect-src self') would block, breaking the dev page.
-  // The strict headers are a production concern only (the prod build emits
-  // external, hashed scripts and no inline JS), so skip them entirely under dev.
-  // The delete is a defensive no-op in case any upstream layer set a CSP.
+  // Vite's dev page needs inline scripts and an HMR WebSocket, which this CSP
+  // blocks, so dev gets none of these headers, even one set upstream.
   if (DEV) {
     res.headers.delete("Content-Security-Policy");
     return res;
@@ -276,11 +261,10 @@ function withSecurityHeaders(response) {
   return res;
 }
 
-// RFC 9116 vulnerability-disclosure contact, pointing at GitHub's private
-// reporting rather than an email address, like the repo's SECURITY.md. Served
-// from the Worker so it works however static-asset dotfile (.well-known)
-// handling behaves. Bump the Expires date before it passes, keeping it within
-// a year, or the file stops being valid.
+// RFC 9116 disclosure contact, pointing at GitHub's private reporting like
+// SECURITY.md does. Served here so dotfile handling can't break .well-known.
+// Move Expires forward before it passes, keeping it within a year, or the file
+// stops being valid.
 const SECURITY_TXT = [
   "Contact: https://github.com/noahparknguyen/portfolio/security/advisories/new",
   "Policy: https://github.com/noahparknguyen/portfolio/security/policy",
@@ -290,10 +274,8 @@ const SECURITY_TXT = [
   "",
 ].join("\n");
 
-// Generated from the same route table the app renders from, so it cannot list a
-// page that does not exist or miss one that does. KNOWN_PATHS already excludes
-// the not-found route. Served from the Worker rather than committed as a static
-// file for that reason: a checked-in sitemap is a second list to keep in step.
+// Built from the app's route table, so it can't list a page that doesn't exist
+// or miss one that does.
 function sitemap() {
   const urls = KNOWN_PATHS.map(
     (path) => `  <url><loc>${SITE}${path}</loc></url>`,
@@ -310,21 +292,16 @@ function sitemap() {
   );
 }
 
-// Files cached for a year. A build file's name carries a hash of its contents,
-// so a changed file is a new name. The vendored fonts keep their names, and
-// change only on a re-vendor, which is rare enough to accept a year's caching.
-// Everything else keeps the assets default, revalidating on each visit.
+// Cached for a year. A build file's name carries a hash of its contents, so a
+// change is a new name. The vendored fonts keep theirs, but change only on a
+// re-vendor. Everything else revalidates on each visit.
 const LONG_LIVED = /^\/(assets|fonts)\//;
 
-// The widget endpoints are cached at the edge with the Cache API, because a
-// Worker's own responses never reach Cloudflare's CDN cache, whatever their
-// Cache-Control says. Without this, every visitor's poll would go straight to
-// Spotify, Steam, GitHub, and Open-Meteo. The cache honours each handler's
-// max-age, and only a 200 is stored, so an outage is never cached.
-//
-// Keyed on the path alone, so a query string can't bypass the cache and spend
-// the upstream rate limits. Skipped under `vite dev`, where a cached answer
-// would hide the change being worked on.
+// A Worker's own responses never reach Cloudflare's CDN cache, whatever their
+// Cache-Control says, so the widget endpoints use the Cache API. Without it,
+// every visitor's poll would go straight to Spotify, Steam, GitHub, and
+// Open-Meteo. Only a 200 is stored, so an outage is never cached. Keyed on the
+// path alone, so a query string can't bypass it and spend the rate limits.
 async function cached(request, ctx, handle) {
   if (DEV) return handle();
   const url = new URL(request.url);
@@ -386,10 +363,10 @@ async function route(request, env, ctx) {
         return asset;
       }
 
-      // A page that doesn't exist gets the shell, so the app renders its own
-      // "Nothing here" section, but with the 404 that's true, so a crawler
-      // doesn't index it as a copy of the home page. Fetched without the
-      // request's conditional headers, because a 304 can't carry a 404.
+      // A page that doesn't exist gets the shell, so the app renders its
+      // "Nothing here" section. The 404 stops a crawler indexing it as a copy
+      // of the home page. Fetched without the conditional headers, because a
+      // 304 can't carry a 404.
       const shell = await env.ASSETS.fetch(new URL("/", request.url));
       return new Response(shell.body, {
         status: 404,
@@ -404,15 +381,14 @@ export default {
     try {
       const url = new URL(request.url);
 
-      // Canonical host: 301 www.* -> apex, preserving path + query. Avoids
-      // duplicate content (both custom domains otherwise serve identical pages)
-      // and consolidates SEO signal on the bare apex used in security.txt.
+      // www redirects to the apex, keeping the path and query, so the two
+      // domains don't serve duplicate pages.
       if (url.hostname.startsWith("www.")) {
         url.hostname = url.hostname.slice(4);
         return withSecurityHeaders(Response.redirect(url.toString(), 301));
       }
 
-      // Only GET/HEAD are ever needed; reject the rest before doing any work.
+      // Only GET and HEAD are ever needed.
       if (request.method !== "GET" && request.method !== "HEAD") {
         return withSecurityHeaders(
           json({ error: "Method not allowed" }, 405, { Allow: "GET, HEAD" }),
@@ -421,12 +397,8 @@ export default {
       const response = await route(request, env, ctx);
       return withSecurityHeaders(response);
     } catch (err) {
-      // Last-resort boundary: the individual handlers already catch their own
-      // upstream failures, so reaching here means an unexpected runtime/logic
-      // error. Log it (surfaced via observability) and return a 500 that still
-      // carries the full security-header set: an error path must never serve a
-      // response without the CSP and framing protections. json() defaults to
-      // no-store, so this response is never cached.
+      // The handlers catch their own upstream failures, so this is a bug. The
+      // 500 still carries the security headers, and json() makes it no-store.
       console.error("Unhandled worker error:", err);
       return withSecurityHeaders(json({ error: "Internal error" }, 500));
     }

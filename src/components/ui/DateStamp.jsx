@@ -1,8 +1,6 @@
 import Eyebrow from "./Eyebrow";
 
-// A dashed rubber date stamp: a small label over the date, struck slightly
-// crooked at the foot of a document. Now's "Last updated" card and About's
-// certificates share it.
+// A dashed date stamp, for Now's intro and About's certificates.
 function DateStamp({ label, date }) {
   return (
     <div className="rotate-2 border-2 border-dashed border-label px-3 py-1 text-center">

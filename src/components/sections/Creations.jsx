@@ -7,25 +7,17 @@ import Tape from "../ui/Tape";
 import Book from "./Book";
 import BookSpread from "./BookSpread";
 
-// Book art lives in `assets/books/`, a subdirectory, on purpose. App.jsx's
-// site-wide preload globs `./assets/*.{…}` with a single `*`, which doesn't
-// match across a `/`, so nothing in here adds to the page weight on a visit
-// that never reaches this section. That brings back the alt-text flash the
-// preload exists to prevent, so the same warming trick runs here instead,
-// once, when Creations first mounts.
+// Book art lives in `assets/books/`, out of reach of App.jsx's single-`*`
+// preload, so a visit that never comes here doesn't download it. It's warmed
+// here instead, when Creations first mounts.
 const BOOK_ASSETS = import.meta.glob(
   "../../assets/books/*.{png,jpg,jpeg,gif,webp,svg}",
   { eager: true, query: "?url", import: "default" },
 );
 
-// The evidence pinned beside a closed cover: what the project looks like, and
-// two or three numbers that say how substantial it is. A closed cover can only
-// carry a name, a mark, a blurb, a year, and two links, so this answers what a
-// scanning visitor most wants to know before anyone opens anything.
-//
-// The stamps read their numbers straight out of the book's own stats page, so
-// the board and the book can't drift apart. A stat appears here only if it
-// carries a short `stamp` label, and the rest stay inside.
+// The screenshot and stamps beside a closed cover. The stamps read the book's
+// own stats page, so the board and the book can't drift apart. Only a stat
+// with a short `stamp` label appears here.
 function ProjectEvidence({ project, rotate }) {
   const stats =
     project.spreads
@@ -35,11 +27,6 @@ function ProjectEvidence({ project, rotate }) {
 
   return (
     <div className="flex flex-col gap-4 md:w-[44%]">
-      {/* Taped up like Home's polaroid. The tape is counter-rotated against the
-          card, which is what sells it as placed by hand rather than printed
-          on. The card leans the opposite way to its book (`rotate`), within
-          the 1.5 degree cap that applies to anything wider than a compact
-          card. */}
       <figure className="relative">
         <Tape className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 -rotate-3" />
         <PinnedCard padding="p-2" rotate={rotate}>
@@ -57,15 +44,7 @@ function ProjectEvidence({ project, rotate }) {
         </PinnedCard>
       </figure>
 
-      {/* Rubber stamps, the same object as Steam's hours-logged chip. Small
-          enough to scatter, so they fill the board rather than adding a second
-          big rectangle. Under 280px wide, so the 3 degree tilt cap applies
-          rather than 1.5.
-
-          The list is named: on its own a screen reader announces "list, 3
-          items" and the figures, with nothing tying them to the project they
-          describe. Sighted readers get that from the stamps beside the
-          cover. */}
+      {/* Named, since "list, 3 items" alone doesn't say which project. */}
       {stamped.length > 0 && (
         <ul
           aria-label={`${project.title} by the numbers`}
@@ -99,11 +78,9 @@ function Creations() {
     });
   }, []);
 
-  // Closing swaps the spread back out for the cover, so the control that was
-  // focused is gone by the time this runs. Focus goes back to the cover the
-  // reader opened, not to the top of the document. The pending id is held in a
-  // ref rather than state: clearing it mustn't cost a second render, and it's
-  // read only after the cover has remounted.
+  // Closing swaps the cover back in, and focus returns to it rather than to the
+  // top of the document. The pending id is a ref, so clearing it costs no
+  // second render.
   useEffect(() => {
     if (openId !== null) return;
     const id = pendingFocus.current;
@@ -139,24 +116,9 @@ function Creations() {
         </p>
       </PinnedCard>
 
-      {/* Each closed book is a bento row, like Home's: the cover at its fixed
-          one-page width and its evidence beside it, hugging the row's edges
-          with sky between.
-
-          Rows alternate, cover left and then cover right, so the stack reads
-          as a zig-zag rather than a column of identical rows.
-
-          `flex-row-reverse` rather than reordered markup, so the DOM order
-          stays cover-then-evidence in both rows. That's the logical reading
-          order either way, and `ProjectEvidence` holds nothing focusable, so
-          the flip can't upset the focus order.
-
-          Opening replaces the whole row with the full-width spread, so the
-          evidence steps aside while you're reading the book, which is exactly
-          when it's redundant. */}
-      {/* 32px between books, the gap for a page of a few large objects. A
-          cover and its evidence keep 20px between them on a phone, since they
-          belong together. */}
+      {/* Rows alternate with `flex-row-reverse` rather than reordered
+          markup, so the DOM reads cover then evidence in both. Opening a book
+          replaces its whole row with the spread. */}
       <ol className="flex flex-col gap-8">
         {PROJECTS.map((project, i) => (
           <li key={project.id}>

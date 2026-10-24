@@ -1,23 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { idForPath, pathForId, routeFor, SITE } from "../lib/routes";
 
-// Keeps the active section and the URL in step, so every page has a real
-// address: it can be linked, bookmarked, opened in a new tab, and walked with
-// the browser's Back button.
-//
-// Deliberately hand-rolled rather than pulling in a router: there are five
-// static routes, no params, no nested layouts and no data loading, so a
-// dependency would cost more than it saves.
+// Keeps the active section and the URL in step, so every page can be linked,
+// bookmarked, and walked with Back. Hand-rolled rather than a router: five
+// static routes, with no params, nesting, or data loading.
 
 function setMeta(selector, attr, value) {
   const el = document.head.querySelector(selector);
   if (el) el.setAttribute(attr, value);
 }
 
-// The head tags in index.html are the ones social crawlers read, since Twitter,
-// Facebook, and LinkedIn don't execute JS, so those stay the site-wide
-// fallback. Updating them here is for the visitor's tab title and for crawlers
-// that do render (Google), which is what makes each route indexable on its own.
+// Social crawlers read index.html's tags without running JS, so those stay the
+// site-wide fallback. These updates serve the tab title and the crawlers that
+// render, like Google's.
 function applyRouteMeta(id) {
   const route = routeFor(id);
   document.title = route.title;
@@ -34,14 +29,8 @@ function useRoute() {
   const [active, setActive] = useState(() =>
     idForPath(window.location.pathname),
   );
-  // Distinguishes a real navigation from the first render, so the initial load
-  // neither scrolls nor steals focus from where the browser put it.
-  const navigated = useRef(false);
-
   useEffect(() => {
-    // Back/forward: the browser owns the URL here, so only mirror it into state.
-    // Scroll position is left to the browser's own restoration, which is why
-    // this path never calls scrollTo.
+    // Back and forward: the browser owns the URL, so only mirror it.
     const onPopState = () => setActive(idForPath(window.location.pathname));
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -53,16 +42,14 @@ function useRoute() {
 
   const navigate = useCallback((id) => {
     const path = pathForId(id);
-    // A 404 keeps whatever URL the visitor actually typed; pushing "/404" over
-    // it would rewrite their address bar and break the Back button's meaning.
+    // A 404 keeps the URL the visitor typed.
     if (id !== "notfound" && path !== window.location.pathname) {
       window.history.pushState({ id }, "", path);
     }
-    navigated.current = true;
     setActive(id);
   }, []);
 
-  return { active, navigate, navigated };
+  return { active, navigate };
 }
 
 export default useRoute;

@@ -2,13 +2,12 @@ import { useEffect, useRef, useState } from "react";
 
 const TIMEOUT_MS = 7000;
 
-// The shared timeout, AbortController, cancel flag, and loading and error state
-// behind useWeather, useSpotify, useSteam, and useCommits, which differ only in
-// path, response key, and whether they poll.
+// Fetches one of the Worker's /api endpoints for a live widget: the response's
+// `key` field, a timeout, and an optional poll. The four widgets differ only in
+// path, key, and whether they poll.
 function useApiResource(path, { key, pollMs } = {}) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const controllerRef = useRef(null);
 
   useEffect(() => {
@@ -18,11 +17,7 @@ function useApiResource(path, { key, pollMs } = {}) {
       controllerRef.current?.abort();
       const controller = new AbortController();
       controllerRef.current = controller;
-      let didTimeout = false;
-      const timeoutId = setTimeout(() => {
-        didTimeout = true;
-        controller.abort();
-      }, TIMEOUT_MS);
+      const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
       try {
         const res = await fetch(path, { signal: controller.signal });
@@ -36,19 +31,10 @@ function useApiResource(path, { key, pollMs } = {}) {
         const body = await res.json();
         if (cancelled) return;
         setData(body[key] ?? null);
-        setError(false);
-      } catch (err) {
-        if (cancelled || (err.name === "AbortError" && !didTimeout)) return;
-        // Keep the last good value instead of blanking the widget. Clearing it
-        // would turn a live temperature into "couldn't get a reading" until
-        // the next poll succeeds, 10 minutes later. A stale value is the
-        // smaller error: the empty state asserts something that's probably
-        // false, where a slightly old reading is only slightly old.
-        //
-        // A successful response carrying null still clears the data, because
-        // that's a real answer: only an unreachable endpoint preserves what was
-        // last true.
-        setError(true);
+      } catch {
+        // Keep the last good value: a slightly old reading is a smaller error
+        // than an empty state. A successful null still clears it, since that's
+        // a real answer.
       } finally {
         clearTimeout(timeoutId);
         if (!cancelled) setLoading(false);
@@ -65,7 +51,7 @@ function useApiResource(path, { key, pollMs } = {}) {
     };
   }, [path, key, pollMs]);
 
-  return { data, loading, error };
+  return { data, loading };
 }
 
 export default useApiResource;

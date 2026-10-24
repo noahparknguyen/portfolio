@@ -1,14 +1,8 @@
-import { useRef, useState } from "react";
-// `about/` is a subdirectory on purpose: App.jsx's site-wide preload globs
-// `./assets/*.{…}` with a single `*`, which doesn't match across a `/`, so
-// nothing in here adds weight to a visit that never reaches this section.
-// canada-map.svg and flag-bc.svg are 226 KB between them, which would add
-// about a quarter to the 856 KB the site preloads, for two images only this
-// page shows.
-//
-// Neither needs the warming that `books/` does: both are `alt="" aria-hidden`
-// decoration, so there's no alt text to flash while they load. The headshot
-// stays at the top level because it does carry real alt text.
+import { useRef } from "react";
+import usePager from "../../hooks/usePager";
+// `about/` is out of reach of App.jsx's single-`*` preload, so its two large
+// SVGs don't load on a visit that never comes here. They're decoration with no
+// alt text to flash, so unlike `books/` they aren't warmed either.
 import headshot from "../../assets/noah-headshot.webp";
 import flagCanada from "../../assets/flag-canada.svg";
 import flagBc from "../../assets/about/flag-bc.svg";
@@ -29,11 +23,9 @@ const ID_FIELDS = [
   { label: "Residence / Résidence", value: "Ottawa, ON" },
 ];
 
-// Decorative: the name line of a passport's machine-readable zone, the strip of
-// `<` along the bottom of the photo page. Only the one line: a real second line
-// holds the passport number, birth date and expiry, none of which belongs here.
-// Below `md` the full 44 characters need about 317px at text-xs and the cell
-// is 244px, so phones get the same name padded to a shorter length.
+// The name line of a passport's machine-readable zone, as decoration. Phones
+// get a shorter padding, since 44 characters need about 317px and the cell is
+// 244px.
 const MRZ_NAME = "P<CANPARK<NGUYEN<<NOAH";
 const MRZ = MRZ_NAME.padEnd(44, "<");
 const MRZ_SHORT = MRZ_NAME.padEnd(28, "<");
@@ -130,7 +122,7 @@ function PassportBio({ active, i, go, onNavigate }) {
           aria-label="Previous page"
           className="flex h-8 w-8 shrink-0 items-center justify-center border-2 border-ink bg-white text-ink disabled:opacity-40"
         >
-          <Chevron dir="left" strokeWidth="3" />
+          <Chevron dir="left" />
         </button>
         <h3 className="flex-1 text-center font-display text-xl font-semibold text-ink">
           {TABS[i].label}
@@ -142,7 +134,7 @@ function PassportBio({ active, i, go, onNavigate }) {
           aria-label="Next page"
           className="flex h-8 w-8 shrink-0 items-center justify-center border-2 border-ink bg-white text-ink disabled:opacity-40"
         >
-          <Chevron dir="right" strokeWidth="3" />
+          <Chevron dir="right" />
         </button>
       </div>
 
@@ -164,38 +156,15 @@ function PassportBio({ active, i, go, onNavigate }) {
 }
 
 function Passport({ onNavigate }) {
-  const [i, setI] = useState(0);
+  const { index: i, go, swipe } = usePager(TABS.length);
   const active = TABS[i].key;
   const tabRefs = useRef([]);
-  const touchStart = useRef(null);
-  const go = (n) => setI(Math.max(0, Math.min(TABS.length - 1, n)));
 
-  // Touch-swipe over the passport card. Only start/end deltas are used (no
-  // touchmove, no preventDefault), so native vertical scroll is never
-  // intercepted: a swipe that's more vertical than horizontal is ignored.
-  const onTouchStart = (e) => {
-    const t = e.touches[0];
-    touchStart.current = { x: t.clientX, y: t.clientY };
-  };
-
-  const onTouchEnd = (e) => {
-    if (!touchStart.current) return;
-    const t = e.changedTouches[0];
-    const dx = t.clientX - touchStart.current.x;
-    const dy = t.clientY - touchStart.current.y;
-    touchStart.current = null;
-    if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) return;
-    go(dx < 0 ? i + 1 : i - 1);
-  };
-
-  // Roving tabindex (WAI-ARIA tablist pattern): arrow keys inside the tablist
-  // must move DOM focus to the newly-active tab, not just update state. Kept
-  // out of `go` itself so clicking the prev/next Chevron buttons (which also
-  // call `go`) doesn't yank focus away from the Chevron.
+  // Arrow keys move focus to the new tab, as the WAI-ARIA tablist pattern
+  // expects. The focus move stays out of `go`, so a chevron keeps its focus.
   const onKeyDown = (e) => {
-    // Home and End jump to the first and last chapters, as the APG tablist
-    // pattern expects. preventDefault stops Home/End scrolling the page out
-    // from under the strip, and stops the arrows scrolling it sideways.
+    // preventDefault stops Home and End scrolling the page, and the arrows
+    // scrolling the strip.
     const MOVES = {
       ArrowRight: i + 1,
       ArrowLeft: i - 1,
@@ -204,17 +173,14 @@ function Passport({ onNavigate }) {
     };
     if (!(e.key in MOVES)) return;
     e.preventDefault();
-    const next = Math.max(0, Math.min(TABS.length - 1, MOVES[e.key]));
-    go(next);
-    tabRefs.current[next]?.focus();
+    tabRefs.current[go(MOVES[e.key])]?.focus();
   };
 
   return (
-    // Level at every width. The passport is the most text-dense object on the
-    // site, and a tilt makes the eye re-find the left edge on every line, which
-    // costs nothing over two lines and compounds over twenty.
+    // Level at every width: on this much text, a tilt makes the eye re-find the
+    // left edge on every line.
     <div>
-      <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div {...swipe}>
         <Panel as="div" className="shadow-sticker md:h-168 md:grid-rows-2">
           <Cell padding="p-4 md:p-6" bg="bg-paper">
             <div className="relative flex h-full flex-col">
@@ -262,22 +228,14 @@ function Passport({ onNavigate }) {
                   decoding="async"
                   className="float-left mb-2 mr-4 h-28 w-28 shrink-0 border-2 border-ink object-cover md:float-none md:mb-0 md:mr-0"
                 />
-                {/* Below `md` this must stay `display: block`, not a one-column
-                    grid. A grid container doesn't flow around a float: it
-                    narrows and stays rectangular, leaving a 14-character column
-                    beside the photo. Block flow's line boxes are what let text
-                    wrap around the floated photo. */}
+                {/* Block below md, since a grid doesn't flow around the
+                    floated photo. */}
                 <dl className="block md:flex-1 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-2">
                   {ID_FIELDS.map((f, n) => (
                     <div
                       key={f.label}
-                      /* Only the first two fields ride beside the floated photo.
-                         Everything from index 2 (Nationality) clears it, so a
-                         field can never straddle the float, with half its
-                         label beside the photo and half wrapped underneath.
-                         Two is the count that fits the photo's 112px band at
-                         320px, and clearing fixes the boundary instead of
-                         letting it drift with the viewport. */
+                      /* Only the first two fields sit beside the photo. The
+                         rest clear it, so none straddles the float. */
                       className={`mb-2 md:mb-0 ${n >= 2 ? "clear-left md:clear-none" : ""}`}
                     >
                       <Eyebrow as="dt">{f.label}</Eyebrow>
@@ -335,7 +293,7 @@ function Passport({ onNavigate }) {
               aria-selected={on}
               aria-controls="about-passport-panel"
               tabIndex={on ? 0 : -1}
-              onClick={() => setI(n)}
+              onClick={() => go(n)}
               className="flex h-11 flex-1 items-start justify-center"
             >
               <span

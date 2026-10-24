@@ -4,34 +4,21 @@ import DateStamp from "../ui/DateStamp";
 import TextLink from "../ui/TextLink";
 import Pin from "../ui/Pin";
 
-// Keep this next to NOW_NOTES and update it whenever the notes change: the two
-// are one edit, not two. It can't be derived, because the last commit date
-// would report a CSS tweak as a content update, which is worse than stale.
+// Update this with NOW_NOTES, as one edit. It can't come from the last commit
+// date, which would count a CSS tweak as news.
 const LAST_UPDATED = "October 2026";
 
-// The intro is a big square sticky note in the middle of a 4 x 4 grid, with
-// twelve small square notes in a ring around it. Below md the intro comes first
-// and the notes follow two across, in the order below.
+// The intro sits in the middle of a 4 x 4 grid with twelve notes around it, so
+// twelve is the most there can be. Below md the intro comes first and the notes
+// follow two across, in this order.
 //
-// The markup keeps the intro first, so screen readers start on its "Now"
-// heading. From md four notes sit above it on screen, which is a different
-// order from the markup, but the notes hold no links, so keyboard focus never
-// jumps: the intro's "now page" link is the only stop in the section.
+// The markup keeps the intro first, so screen readers start on its heading.
+// From md four notes sit above it on screen, but they hold no links, so the
+// focus order is unaffected.
 //
-// Tints are solved, not chosen. The eight notes along the intro's sides touch
-// it, so none of them is blue; the corners don't, so they can be. Touching
-// notes differ in both layouts: around the ring from md, and the rows and
-// columns of the two-across grid below it.
-//
-// Each card is a question you'd ask a friend in passing, answered in a few
-// words, so a monthly update is one edit per card plus LAST_UPDATED. Twelve is
-// the ceiling: a now page is "what you'd tell a friend you hadn't seen in a
-// year" (nownownow.com/about), focus and priorities rather than an inventory.
-//
-// Each prompt is specific to its own answer. Interchangeable ones like "What
-// am I focused on?" restate the premise of the whole page. A prompt ending in a
-// short word keeps it with the word before (\u00a0), so a wrapped question
-// never ends on "on?" or "to?" alone.
+// The notes touching the intro aren't blue, and touching notes never share a
+// tint, in either layout. A prompt ending in a short word joins it to the word
+// before with \u00a0, so a wrapped question never ends on "on?" alone.
 const NOW_NOTES = [
   {
     prompt: "What am I playing?",
@@ -124,13 +111,10 @@ const NOW_NOTES = [
 function Now() {
   return (
     <section aria-labelledby="now-heading">
-      {/* Stretching on both axes keeps a row level when a long answer makes one
-          note taller than square, which only happens at the narrowest phones.
-          Stretched both ways, a box ignores its aspect ratio and takes its
-          cell; stretched on one, it would widen to stay square and overflow. */}
+      {/* Stretched both ways, a note keeps its row level when a long answer
+          makes it taller than square. Stretched one way, it would widen to
+          stay square and overflow. */}
       <div className="grid grid-cols-2 items-stretch justify-items-stretch gap-5 md:grid-cols-4">
-        {/* The intro's body is the small size so it fits a square; it's a
-            sticky note like the others now. */}
         <PinnedCard
           bg="bg-blue-soft"
           padding="p-4 md:p-6"
@@ -155,18 +139,13 @@ function Now() {
             forget that I have a whole catalogue of other interests to fall back
             on. This page is how I&rsquo;m going to keep track of it all.
           </p>
-          {/* At the foot of the note, the way a date is stamped at the bottom
-              of a document. */}
           <div className="mt-auto flex justify-end pt-4">
             <DateStamp label="Last updated" date={LAST_UPDATED} />
           </div>
         </PinnedCard>
 
         {/* The question sits at the same spot on every note, so a row reads
-            level however many lines each takes. The answer is handwritten,
-            the way a sticky note gets filled in, and centred in the space
-            below; print against handwriting is the hierarchy, so nothing
-            needs to be bold. */}
+            level however many lines each takes. */}
         {NOW_NOTES.map((note) => (
           <PinnedCard
             key={note.prompt}

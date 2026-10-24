@@ -1,38 +1,15 @@
 #!/usr/bin/env node
-// The checks that only a real browser can answer: horizontal overflow, computed
-// colour contrast, and image scaling. None of them is visible to ESLint,
-// Prettier, or a unit test, so they run in CI rather than living in someone's
-// memory.
-//
-// Serves the production build with `vite preview`, so it audits what actually
-// ships, Worker included. In CI the Worker has no API credentials, so the
-// widgets fall back to their empty states, the layout most likely to be wrong
-// and least likely to be looked at. Run locally with `.dev.vars`, the widgets
-// show live data instead, so a local run also checks their filled states,
-// which CI can't.
+// The checks only a real browser can answer: overflow, computed contrast, image
+// scaling, tilt, and straight quotes, run against the production build. In CI
+// the Worker has no API credentials, so the widgets show their empty states. A
+// local run with `.dev.vars` checks their filled ones.
 
-import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
 import puppeteer from "puppeteer-core";
+import { findChrome, startPreview } from "./preview.mjs";
 
 const PORT = 4173;
-const BASE = `http://localhost:${PORT}`;
 const PATHS = ["/", "/about", "/now", "/creations", "/credits", "/nope-404"];
 const WIDTHS = [320, 375, 768, 1024];
-
-function findChrome() {
-  const candidates = [
-    process.env.CHROME_PATH,
-    "/usr/bin/google-chrome",
-    "/usr/bin/google-chrome-stable",
-    "/usr/bin/chromium",
-    "/usr/bin/chromium-browser",
-  ].filter(Boolean);
-  for (const c of candidates) {
-    if (existsSync(c)) return c;
-  }
-  return null;
-}
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const problems = [];
@@ -93,20 +70,12 @@ const CONTRAST_SCAN = () => {
   return { scanned, failures: out };
 };
 
-// Tilt caps: <= ~3 deg, and <= ~1.5 deg on anything wider than a compact card.
-// The width threshold is what makes this checkable: a fixed angle's visible
-// skew grows with width, so the same 2 deg that reads as charm on an 80px
-// stamp reads as a mistake on a
-// 296px panel. 280px is "wider than a compact card": at 320px every panel in
-// the column clears it, which is exactly the case the cap exists for.
-//
-// Tailwind v4 emits the standalone `rotate` property, NOT a transform matrix.
-// Reading `transform` here returns "none" for every tilted object on the site
-// and reports a clean sweep over nothing.
+// Tilt caps: 3 degrees, and 1.5 on anything wider than 280px, since a fixed
+// angle's skew grows with width. Tailwind v4 emits the `rotate` property, not a
+// transform, so reading `transform` would find nothing to check.
 const ROTATION_SCAN = () => {
-  // `className` is an SVGAnimatedString on SVG elements, not a string, so it
-  // has no .trim(). getAttribute("class") reads safely on both. This only
-  // crashed once a widget was in its empty state, which is the CI condition.
+  // `className` is an SVGAnimatedString on SVG elements, so read the
+  // attribute instead.
   const describe = (el) =>
     (el.innerText || el.getAttribute("class") || el.tagName || "")
       .trim()
@@ -137,18 +106,13 @@ const ROTATION_SCAN = () => {
   return { scanned, failures: out };
 };
 
-// Straight apostrophes and quotes in RENDERED copy. Every one on the site is
-// typographic, and the usual way one creeps back in is a string edited with a
-// tool that types U+0027 instead of U+2019.
-// Source-level greps cannot separate copy from code comments; the rendered page
-// can, because comments never render.
+// Straight apostrophes and quotes in rendered copy, where code comments can't
+// set the check off.
 const TYPOGRAPHY_SCAN = () => {
   const main = document.querySelector("main");
   if (!main) return [];
-  // Live third-party strings are excluded: commit messages, track and artist
-  // names, game titles. Their punctuation is not the site's to control, and
-  // failing a build over an apostrophe in someone else's data is noise. This
-  // only shows up when the API has credentials, so CI never saw it.
+  // Live third-party strings are skipped, since their punctuation isn't the
+  // site's to control.
   const clone = main.cloneNode(true);
   clone.querySelectorAll("[data-live-text]").forEach((n) => n.remove());
   const text = clone.textContent;
@@ -177,67 +141,7 @@ const IMAGE_SCAN = () =>
 
 // --- run --------------------------------------------------------------------
 const chrome = findChrome();
-if (!chrome) {
-  console.error("  ✗ no Chrome binary found; set CHROME_PATH");
-  process.exit(1);
-}
-
-// Refuse to run against a server this script did not start.
-//
-// `server.kill()` does not reliably take down the whole `npx vite preview`
-// process tree, so an interrupted run can leave an orphan holding the port. The
-// next run's own preview then fails to bind, the audit connects to the orphan
-// instead, which serves a stale dist whose hashed assets no longer exist, and
-// every page comes up blank. The sanity floors at the end would catch that,
-// but not walking into it is better.
-try {
-  const stale = await fetch(BASE, { signal: AbortSignal.timeout(2000) });
-  if (stale.ok) {
-    console.error(
-      `  ✗ something is already serving ${BASE}. This audit must start its own\n` +
-        `    preview so it is auditing the current build. Stop that process and re-run.`,
-    );
-    process.exit(1);
-  }
-} catch {
-  // Nothing there, which is what we want.
-}
-
-// `detached` puts the child in its own process group so the whole tree can be
-// signalled, rather than just the `npx` shim.
-const server = spawn(
-  "npx",
-  ["vite", "preview", "--port", String(PORT), "--strictPort"],
-  { stdio: "ignore", detached: true },
-);
-const stopServer = () => {
-  try {
-    process.kill(-server.pid, "SIGKILL");
-  } catch {
-    server.kill("SIGKILL");
-  }
-};
-process.on("exit", stopServer);
-process.on("SIGINT", () => {
-  stopServer();
-  process.exit(130);
-});
-
-let up = false;
-for (let i = 0; i < 60 && !up; i++) {
-  await wait(500);
-  try {
-    const res = await fetch(BASE);
-    up = res.ok;
-  } catch {
-    /* not yet */
-  }
-}
-if (!up) {
-  console.error("  ✗ vite preview did not come up");
-  stopServer();
-  process.exit(1);
-}
+const { base: BASE, stop: stopServer } = await startPreview(PORT);
 
 const browser = await puppeteer.launch({
   executablePath: chrome,
@@ -254,10 +158,8 @@ for (const width of WIDTHS) {
   for (const path of PATHS) {
     const page = await browser.newPage();
     await page.setViewport({ width, height: 1200 });
-    // `load`, not `networkidle2`. This page runs live widgets that poll, so
-    // "the network went quiet" isn't a state it reliably reaches, least of all
-    // in CI, where the API has no credentials. `load` waits for the images,
-    // CSS, and fonts these checks measure, and nothing else.
+    // `load`, not network idle, which the polling widgets never reliably
+    // reach.
     await page.goto(`${BASE}${path}`, { waitUntil: "load" });
     await page.evaluateHandle("document.fonts.ready");
     await wait(400);
@@ -307,11 +209,8 @@ for (const width of WIDTHS) {
 await browser.close();
 stopServer();
 
-// A check that can pass while measuring nothing is worse than no check at all.
-// If every page comes up blank (out of memory, or a stale server), the
-// overflow check still "passes" on an empty document, having scanned 0 text
-// elements and 0 images. These floors turn that silent success into a loud
-// failure.
+// Floors, so a run where every page came up blank fails instead of passing on
+// empty documents.
 if (contrastChecks < 100) {
   problems.push(
     `only ${contrastChecks} text elements were scanned across ${PATHS.length} pages — ` +

@@ -1,20 +1,14 @@
-// Display formatters for the live widgets.
-//
-// These live here rather than inside their components so a test can reach them
-// as the pure functions they are.
+// Display formatters for the live widgets, kept pure so tests can reach them.
 
-// Steam playtime. Zero is its own answer, not "<1h", which would read as "a
-// little, but under an hour" for a game that wasn't played. It's the ordinary
-// value for `playtime_2weeks` on any game not touched this fortnight, so it's
-// the common path rather than an edge case.
+// Steam playtime. Zero is its own answer, not "<1h", and the usual one for
+// `playtime_2weeks`.
 export function formatHours(hours) {
   if (hours <= 0) return "0h";
   if (hours < 1) return "<1h";
   return `${Math.round(hours)}h`;
 }
 
-// Devlog commit timestamps. `now` is injectable so a test can pin the clock
-// without reaching for fake timers; production never passes it.
+// Devlog commit timestamps. `now` is there so a test can pin the clock.
 export function relativeTime(dateStr, now = Date.now()) {
   const date = new Date(dateStr);
   const diffSec = Math.round((now - date.getTime()) / 1000);

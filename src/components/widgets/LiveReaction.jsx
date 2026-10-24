@@ -4,23 +4,17 @@ import Eyebrow from "../ui/Eyebrow";
 function LiveReaction() {
   return (
     <div>
-      {/* `tracking-widest` overrides the Overline role's `tracking-wide` on
-          purpose: wide-letterspaced uppercase micro-type is the broadcast-chyron
-          convention this widget imitates. The weight stays the role's
-          `semibold`. */}
+      {/* `tracking-widest` on purpose, like a broadcast chyron. */}
       <Eyebrow
         as="p"
         tone="on-ink"
         className="bg-ink py-1 text-center tracking-widest"
       >
-        {/* The strawberry is a Celeste reference and purely decorative, so it's
-            aria-hidden: the label announces "Live Reaction", not "Live
-            strawberry Reaction". */}
+        {/* The strawberry is decoration, so it isn't read out. */}
         Live <span aria-hidden="true">🍓</span> Reaction
       </Eyebrow>
       <div className="relative">
-        {/* No border here: this sits in a `bg-ink` card, so an ink border on an
-            ink fill is invisible. The frame you see is the card's own fill. */}
+        {/* No border: the frame is the ink card's own fill. */}
         <img
           src={celeste}
           alt="Madeline from Celeste, mid-reaction"

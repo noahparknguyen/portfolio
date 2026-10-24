@@ -2,10 +2,8 @@ import SimpleIcon from "./SimpleIcon";
 import Eyebrow from "./Eyebrow";
 import NewTabHint from "./NewTabHint";
 
-// Hover lifts the badge rather than changing its fill. Its `ink` label fails AA
-// on the full violet and orchid accents (3.85:1 and 3.26:1, and neither line is
-// large text), so a badge stays on its soft tint. The lift is also the hover
-// cue the tech stamps and the Links post-its use.
+// Hover lifts the badge rather than changing its fill, since its `ink` label
+// fails AA on the full violet and orchid accents (3.85:1 and 3.26:1).
 function Badge({ href, icon, top, bottom, tint = "bg-rose-soft" }) {
   return (
     <a

@@ -4,15 +4,9 @@ import LabelTag from "../ui/LabelTag";
 import SimpleIcon from "../ui/SimpleIcon";
 import NewTabHint from "../ui/NewTabHint";
 
-// Real brand marks where one exists, and a drawn glyph where none does, the
-// same rule TechStack and the footer Badges follow. GitHub comes from
-// simple-icons. LinkedIn isn't in simple-icons (removed at the rights holder's
-// request), so it comes from react-icons, as Java and Steam do elsewhere on the
-// site.
-//
-// `FaLinkedinIn` (the bare "in" letterform), not `FaLinkedin` (the filled
-// rounded-square badge), because every shape on the site has square corners.
-// Both marks are boxless silhouettes, so they sit together cleanly.
+// LinkedIn's mark was removed from simple-icons at the rights holder's request,
+// so it comes from react-icons. `FaLinkedinIn` is the bare letterform, since
+// the badge version has rounded corners and the site has none.
 function GithubGlyph() {
   return <SimpleIcon icon={siGithub} className="h-4 w-4 shrink-0 text-ink" />;
 }
@@ -23,8 +17,7 @@ function LinkedinGlyph() {
   );
 }
 
-// Email has no brand mark to borrow, so it gets a drawn glyph. At 16px it's in
-// the stroke scale's 16-40px bracket, so it takes --stroke-regular.
+// Email has no brand mark, so it gets a drawn glyph.
 function EnvelopeGlyph() {
   return (
     <svg
@@ -45,18 +38,8 @@ function EnvelopeGlyph() {
   );
 }
 
-// Three index cards from a card file. What makes them read as index cards
-// rather than three tinted rectangles is real index-card anatomy: a rule
-// under the heading line, a faint blue rule under each line of writing, and
-// a tab along the top edge, staggered left, centre and right the way a card
-// file's dividers are so every tab stays visible. Pastel index cards are a
-// real product, so the cards keep the section tints rather than going white.
-// The heading rule is ink, not an index card's usual red, which looks out of
-// place against the rest of the board's ink linework.
-//
-// The tab carries the glyph. It is drawn with three borders and no bottom
-// one, and sits 2px down over the card's top border in the card's own tint,
-// which is what joins it to the card instead of stacking a box on top.
+// Each card's tab has no bottom border and sits 2px down over the card's top
+// border, in the card's tint, which joins the two.
 const LINKS = [
   {
     label: "GitHub",
@@ -91,15 +74,10 @@ function Links() {
   return (
     <div className="flex flex-col gap-8">
       <div className="text-center">
-        <LabelTag rotate="rotate-[1deg]">
-          <h3 className="text-xl font-semibold text-ink">Get in touch</h3>
-        </LabelTag>
+        <LabelTag rotate="rotate-[1deg]">Get in touch</LabelTag>
       </div>
-      {/* `gap-8` here and on the wrapper, rather than the usual 4: each tab
-          stands 18px above its card, so 32px between boxes shows as 14px
-          between a tab and whatever is above it, the label or the card before.
-          That's the same rhythm all the way down, and close to the 12px every
-          other heading on the board sits above its object. */}
+      {/* `gap-8`, since each tab stands 18px above its card: 32px between
+          boxes shows as 14px above a tab. */}
       <div className="flex flex-col gap-8">
         {LINKS.map(({ label, href, handle, rotate, tint, tab, Glyph }) => {
           const external = !href.startsWith("mailto:");

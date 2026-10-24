@@ -20,36 +20,20 @@ function ArrowRight() {
   );
 }
 
-// A closed book is one page wide and the same height as the pages inside it, so
-// the cover is `md:w-1/2` against the open spread's full width, and both are
-// `md:h-[30rem]`. Opening therefore unfolds the object rightward at a constant
-// height instead of changing both dimensions at once. Below md the spread is
-// already a single column, so the cover matches it at full width and takes its
-// natural height (the passport's reason: no fixed heights on a phone).
+// A closed book is one page wide and as tall as its pages, so opening it
+// unfolds rightward at a constant height. Below md the cover takes the spread's
+// full width and its natural height.
 function Book({ project, onOpen, openRef, rotate }) {
   return (
-    // A closed book lies on the board a little crooked, like everything else
-    // pinned there (`rotate`, alternating from Creations.jsx). The cover holds
-    // a centred blurb of a few lines, not running text, so the tilt costs no
-    // reading; opening the book straightens it, like picking it up.
-    //
-    // The hover lift lives on this wrapper, not on the cover boards inside it.
-    // On the boards it would move the cover alone and leave the page block and
-    // shadow behind, the cover peeling off its own pages. `has-[button:hover]`
-    // keeps it scoped to the open button, so hovering a link lifts that link
-    // alone.
-    //
-    // No margin utilities and no `mx-auto`: the cover sits in a bento row
-    // (Creations.jsx), and the row's `justify-between` places it. Centred here,
-    // it would open by expanding in both directions instead of unfolding
-    // rightward.
+    // The hover lift is on this wrapper, so the page block lifts with the
+    // cover. `has-[button:hover]` scopes it to the open button, so hovering a
+    // link lifts the link alone. No margins: the row in Creations.jsx places
+    // the cover, and centring it here would make it open in both directions.
     <div
       className={`relative transition-transform has-[button:hover]:-translate-y-0.5 has-[button:focus-visible]:-translate-y-0.5 md:w-1/2 ${rotate}`}
     >
-      {/* The page block, offset down-right so the closed book reads as a thick
-          object rather than a card. Its 4px offset is the book's depth, the
-          same 4px every pinned object's shadow reaches, so it carries no shadow
-          of its own. */}
+      {/* The page block. Its 4px offset is the book's depth, so it has no
+          shadow. */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 translate-x-1 translate-y-1 border-2 border-ink bg-paper"
@@ -68,24 +52,11 @@ function Book({ project, onOpen, openRef, rotate }) {
         </span>
 
         <div className="relative flex h-full flex-col pl-3">
-          {/* The whole cover is the control, which is what a book is: you open it
-              by touching it anywhere rather than by hunting for a region.
-              Overlaying only the mark, title, and blurb would leave 39% of the
-              cover clickable, with dead bands on all four sides.
-
-              First in the DOM, so it's the first control a keyboard user
-              reaches inside the cover: opening the book is the primary action,
-              and the two outbound links are secondary.
-
-              It still paints under the cover's contents, which is why they stay
-              crisp. The content is `pointer-events-none` so clicks fall through
-              to this button, and only the links opt back in. That also keeps the
-              hover lift honest: hovering the title lifts the whole book, and
-              hovering a link lifts the link alone.
-
-              `inset-0` resolves against this parent's padding box, so the
-              overlay reaches over the spine as well, which is right: the spine
-              is part of the book. */}
+          {/* The whole cover is the control, so the book opens wherever you
+              touch it. First in the DOM, so it's the first stop inside the
+              cover. It paints under the contents, which are
+              `pointer-events-none` so clicks fall through to it, and only the
+              links opt back in. `inset-0` reaches over the spine too. */}
           <button
             ref={openRef}
             type="button"
@@ -94,23 +65,15 @@ function Book({ project, onOpen, openRef, rotate }) {
             className="absolute inset-0"
           />
 
-          {/* The blind-stamped rule frame an old cloth binding carries. It's
-              stamped on the cover board only, so it has to stop at the spine.
-              `inset-2` doesn't do that on its own: an absolute element resolves
-              against its containing block's padding box, so this parent's
-              `pl-3`, which clears the spine for the content, does nothing for
-              it. `left-5` is the spine's `w-3` plus the same 8px inset the
-              other three sides use. */}
+          {/* The rule frame stops at the spine. An absolute element ignores
+              the parent's `pl-3`, so `left-5` is the spine's `w-3` plus the
+              8px inset the other sides use. */}
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-y-2 left-5 right-2 border border-ink"
             style={{ opacity: "var(--opacity-accent-line)" }}
           />
 
-          {/* Mark, title, blurb, and links are one centred cluster rather than
-              a content block pushed up and links pinned down, which would leave
-              a void through the middle of the cover. Only the imprint sits
-              apart, at the foot. */}
           <div className="pointer-events-none relative flex flex-1 flex-col items-center justify-center gap-4 p-4 md:p-6">
             <div className="relative flex flex-col items-center gap-3 text-center">
               <BookDevice mark={project.mark} />
@@ -121,22 +84,17 @@ function Book({ project, onOpen, openRef, rotate }) {
                 <p className="mt-2 text-sm text-gray-700">{project.summary}</p>
               </div>
 
-              {/* Nothing about a cover says "this one is a button", and the lift
-                  only shows once you're already hovering it. The site's own
-                  annotation voice does the job: handwriting reads as a note
-                  pointing at the object rather than as a third control
-                  competing with the two links below. */}
+              {/* Nothing about a cover says it opens, so a handwritten note
+                  does, without reading as a third control. */}
               <p className="flex items-center gap-1 font-hand text-xl leading-none text-ink">
                 read more
                 <ArrowRight />
               </p>
             </div>
 
-            {/* A sibling of the overlay rather than its child: a <button> can't
-                contain interactive content, so the two <a>s can never live
-                inside one. The opt-in to pointer events is scoped to the chips
-                themselves inside ProjectLinks, so the note beneath them doesn't
-                punch a dead strip through the cover. */}
+            {/* A sibling of the overlay, since a <button> can't contain links.
+                Only the chips take pointer events back, so the note under them
+                still opens the book. */}
             <div className="w-full">
               <ProjectLinks
                 liveUrl={project.liveUrl}

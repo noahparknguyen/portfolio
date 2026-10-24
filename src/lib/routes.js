@@ -1,18 +1,9 @@
-// Single source of truth for every addressable page: its path, its section id,
-// its nav identity, and the per-route metadata the document head carries.
+// Every page: its path, section id, nav entry, and head metadata. The nav is
+// derived from this list, so a route can't gain a nav link by accident.
 //
-// The nav is derived from this list (NAV_ROUTES) rather than kept as a second
-// one, so the two can't drift: a route can never exist without a path or gain
-// a nav link by accident.
-//
-// `accent` is the section's owned hue. Routes with no owned hue (Credits, the
-// not-found page) carry `null`: Credits spreads all four across its group
-// headers instead, and the 404 owns nothing.
-//
-// `board` marks a page made of many small pinned pieces (Home, Now), which
-// packs them 20px apart. Every other page is a few large objects read one at a
-// time, 32px apart. App.jsx sets each page's distance from the masthead and
-// footer from it, and the sections use the same two gaps inside.
+// `accent` is the section's hue, null for Credits and the 404, which own none.
+// `board` marks a page of many small pieces (Home, Now), packed 20px apart
+// rather than 32px. App.jsx sets the page's edges from it.
 
 const SITE = "https://noahpn.dev";
 
@@ -90,11 +81,11 @@ const BY_PATH = new Map(
   ROUTES.filter((r) => r.id !== "notfound").map((r) => [r.path, r]),
 );
 
-// Paths the worker and the app both treat as real pages. Anything else is a 404
-// in BOTH places, so the status line and the rendered page always agree.
+// Paths the Worker and the app both treat as pages. Anything else is a 404 in
+// both, so the status and the rendered page agree.
 export const KNOWN_PATHS = [...BY_PATH.keys()];
 
-// "/about/" and "/about" are the same page; "" can't happen but is cheap to guard.
+// "/about/" and "/about" are the same page.
 export function normalizePath(pathname) {
   if (!pathname || pathname === "/") return "/";
   return pathname.replace(/\/+$/, "") || "/";
@@ -108,8 +99,8 @@ export function routeFor(id) {
   return BY_ID.get(id) ?? BY_ID.get("notfound");
 }
 
-// The not-found route has a path only so it has a canonical URL to name; it is
-// never pushed, because the URL the visitor typed is the one they should keep.
+// The not-found route has a path only so it has a canonical URL. It's never
+// pushed, since the visitor keeps the URL they typed.
 export function pathForId(id) {
   return routeFor(id).path;
 }
@@ -117,10 +108,9 @@ export function pathForId(id) {
 export { SITE };
 export default ROUTES;
 
-// A plain left click is ours to handle; anything with a modifier key or a
-// non-primary button belongs to the browser, so ctrl/cmd-click still opens a
-// section in a new tab and middle-click still opens a background tab. Shared by
-// Header's nav and TextLink so the two can't diverge on what counts as "plain".
+// A plain left click is the app's to handle. One with a modifier key or another
+// button belongs to the browser, so ctrl-click and middle-click still open a
+// new tab.
 export function isPlainClick(event) {
   return (
     !event.defaultPrevented &&
@@ -132,19 +122,10 @@ export function isPlainClick(event) {
   );
 }
 
-// Is this request for a page or for a file? The Worker asks only once no asset
-// matched: a missing page gets the app's shell with a real 404, and a missing
-// file gets a plain 404.
-//
-// Two signals, in order, because neither is enough alone:
-//
-//   1. `Sec-Fetch-Dest`, which the browser sets and is authoritative. Vite's
-//      dev modules, such as `/@vite/client`, have no extension, so the
-//      extension alone would take them for pages.
-//   2. When the header is absent, as it is from most crawlers, the file
-//      extension. A path ending in an extension is a file, and anything else
-//      is a page, so a crawler still gets a real 404 for a page that doesn't
-//      exist.
+// Is this missing path a page or a file? `Sec-Fetch-Dest` decides when the
+// browser sends it, since Vite's dev modules like `/@vite/client` have no
+// extension. Most crawlers don't send it, so then a path with an extension is a
+// file and anything else is a page.
 export function isPageRequest(secFetchDest, pathname) {
   if (secFetchDest) return secFetchDest === "document";
   return !/\.[a-zA-Z0-9]+$/.test(pathname);

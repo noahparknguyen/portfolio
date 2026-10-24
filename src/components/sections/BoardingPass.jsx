@@ -1,21 +1,9 @@
 import Eyebrow from "../ui/Eyebrow";
 
-// About's work history, one boarding pass per job. The passport above it is
-// the page's identity document, and these are the trips it went on, so the
-// section reads as one travel wallet rather than a passport followed by a
-// generic timeline.
-//
-// It follows real boarding-pass anatomy, the way Weather follows a postcard's:
-// a carrier band across the top, seat and date fields, and a perforated stub
-// that carries the flight number, the class, and the barcode. The job maps
-// onto it without stretching: the employer is the carrier, the role is the
-// seat, the start and end months are departure and arrival, the kind of
-// placement is the class, and the employer's acronym and the year make the
-// flight number.
-//
-// Level at every width. Each pass carries a paragraph, and anything holding
-// running text stays at 0°, since a tilt makes the eye re-find the left edge
-// on every line. The character lives in the stub and the barcode instead.
+// One boarding pass per job. The employer is the carrier, the role the seat,
+// the months departure and arrival, the placement the class, and the acronym
+// and year the flight number. Level at every width, since each holds a
+// paragraph.
 
 function Field({ label, className = "", children }) {
   return (
@@ -26,10 +14,9 @@ function Field({ label, className = "", children }) {
   );
 }
 
-// Decorative only. Bar and gap widths come from the flight code, so each pass
-// gets its own pattern and the pattern never changes between renders. Bars
-// are solid rects, not a repeating gradient, because the wordmark is the
-// site's only gradient.
+// Bar widths come from the flight code, so each pass gets its own pattern and
+// keeps it between renders. Solid rects, since the wordmark is the site's only
+// gradient.
 function Barcode({ seed, className = "" }) {
   const codes = [...seed].map((c) => c.charCodeAt(0));
   const bars = [];
@@ -60,14 +47,9 @@ function Barcode({ seed, className = "" }) {
   );
 }
 
-// One outline around the body and the stub. The perforation is the stub's
-// leading border: dashed, on the left from `md` up and on top below it, where
-// the stub drops underneath the way a phone boarding pass stacks.
-//
-// Nothing is printed twice: the flight number and the class live on the stub,
-// the dates in the body. Seat spans two columns at every width, so the longest
-// role stays on one line: it gets a row to itself below `md`, with the dates
-// sharing the next, and from `md` all three fields fit one row of four.
+// The perforation is the stub's leading border: on the left from md, and on
+// top below it, where the stub drops underneath. Seat spans two columns at
+// every width, so the longest role stays on one line.
 export function BoardingPass({
   carrier,
   flight,

@@ -1,14 +1,8 @@
 import celesteSeal from "../../assets/celeste-seal.webp";
 
-// The sticker that seals the Welcome letter shut, not postage. The letter
-// carries no postage, so the stamp and postmark stay Weather's gag alone.
-//
-// What makes it read as a seal is what it lacks: no denomination, no
-// perforated edge, no cancelling postmark. Weather's stamp has all three.
-// Don't add any of them here.
-//
-// Not called `Stamp`, because that word already means the tech stamps, Steam's
-// hours-logged rubber stamp, and Steam's red Last-2-Weeks chip.
+// The sticker sealing the Welcome letter, not postage, so it has no
+// denomination, perforation, or postmark: those belong to Weather's stamp. Not
+// called `Stamp`, a word the site already uses three ways.
 function Seal({ className = "" }) {
   return (
     <img

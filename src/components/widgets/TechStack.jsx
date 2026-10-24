@@ -16,20 +16,10 @@ function JavaIcon() {
   return <FaJava aria-hidden="true" className="mx-auto h-7 w-7 text-ink" />;
 }
 
-// The strip is things I build with. Editors and IDEs (VS Code, IntelliJ) are
-// where I sit, not stack, so they have no stamp here and live in the passport's
-// Workflow prose instead (Passport.jsx → CHAPTERS.workflow).
-//
-// The tint order is solved, not chosen. The strip wraps to 3 columns at 320px,
-// 4 at 375px, and a single row of 8 at md and up, so two stamps touch whenever
-// they sit 1, 3, or 4 apart in this array, and touching stamps must differ at
-// every width. The run opens rose, violet, blue, orchid, the site's canonical
-// hue order, and the rest is placed so every pair 1, 3, or 4 apart differs.
-// Isaac's stamp counts even though it's decorative, because the eye doesn't
-// know that.
-//
-// If you reorder or add a stamp, re-check distances 1, 3, and 4, not just
-// neighbours in this list.
+// Touching stamps never share a tint, at any width. The strip wraps 3 across
+// at 320px, 4 at 375px, and 8 in a row from md, so stamps 1, 3, or 4 apart here
+// touch, Isaac's included. Re-check all three distances after reordering or
+// adding one.
 const TECH_ITEMS = [
   {
     key: "java",
@@ -96,11 +86,8 @@ const TECH_ITEMS = [
   },
 ];
 
-// The annotation is a named class rather than a 20-utility Tailwind string,
-// because it needs a compound `(hover: hover) and (min-width: 768px)` query, and
-// repeating that arbitrary variant on every declaration would be unreadable.
-// `.devlog-scroll` is a named class for the same reason. See src/index.css for
-// why it's gated on hover capability rather than width.
+// The note is a named class in index.css, since it needs a compound hover and
+// width query.
 function TechBadge({ item }) {
   const noteId = `tech-note-${item.key}`;
   const Glyph = item.Glyph;
@@ -130,8 +117,8 @@ function TechBadge({ item }) {
   );
 }
 
-// Decorative easter-egg cameo, not a tool: kept out of TECH_ITEMS and fully
-// aria-hidden, so it never reaches the accessibility tree.
+// A cameo, not a tool, so it's outside TECH_ITEMS and hidden from assistive
+// tech.
 function IsaacStamp() {
   return (
     <div className="group relative" aria-hidden="true">
@@ -154,9 +141,7 @@ function TechStack() {
   return (
     <div className="flex flex-col gap-3">
       <div className="text-center">
-        <LabelTag rotate="rotate-[1deg]">
-          <h3 className="text-xl font-semibold text-ink">My current toolset</h3>
-        </LabelTag>
+        <LabelTag rotate="rotate-[1deg]">My current toolset</LabelTag>
       </div>
       <div className="tech-strip flex flex-wrap justify-center gap-2">
         {TECH_ITEMS.map((item) => (

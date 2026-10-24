@@ -1,9 +1,6 @@
-// WMO weather-code interpretation for the Weather postcard.
-//
-// Two separate mappings on purpose: `weatherLabel` is the words the reader sees
-// and `glyphFor` picks the drawing, and they group the codes differently:
-// drizzle and rain read as one picture but not as one word. Kept out of the
-// component so a test can check both tables for coverage.
+// WMO weather codes for the Weather postcard. Words and drawings are separate
+// maps because they group codes differently: drizzle and rain share a picture
+// but not a word.
 
 export function weatherLabel(code) {
   if (code === 0) return "clear";

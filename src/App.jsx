@@ -21,19 +21,16 @@ const SECTIONS = {
   notfound: NotFound,
 };
 
-// Section images are ESM-imported and only fetched when their section first
-// mounts, which flashes alt text on first visit. Warm the browser cache for
-// every asset on mount so later section switches paint instantly.
+// A section's images load only when it first mounts, which flashes alt text.
+// Every top-level asset is warmed on mount, so later sections paint at once.
 const ASSET_URLS = import.meta.glob("./assets/*.{png,jpg,jpeg,gif,webp,svg}", {
   eager: true,
   query: "?url",
   import: "default",
 });
 
-// The browser's own scroll restoration assumes a document swap. With pushState
-// the DOM is replaced under a URL change it never sees, so its guess lands the
-// reader at an arbitrary offset in content that isn't the content they left.
-// Taking it manual makes the behaviour below the only behaviour.
+// The browser's scroll restoration assumes a document swap, so after pushState
+// it lands at an arbitrary offset. Manual leaves the effect below in charge.
 if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
   window.history.scrollRestoration = "manual";
 }
@@ -42,12 +39,9 @@ function App() {
   const { active, navigate } = useRoute();
   const ActiveSection = SECTIONS[active] ?? NotFound;
   const mainRef = useRef(null);
-  // Seeded with the section the page loaded on, so the mount pass is already
-  // "current" and does nothing. A plain isFirstRender flag flipped inside the
-  // effect body isn't equivalent: StrictMode runs effects twice in development,
-  // so the first pass would clear the flag and the second would steal focus on
-  // arrival. Comparing against the value is idempotent, so running the effect
-  // any number of times has the same result as once.
+  // Seeded with the first section, so the mount pass does nothing. Comparing
+  // values stays right when StrictMode runs effects twice, where a first-render
+  // flag would steal focus on arrival.
   const lastActive = useRef(active);
 
   useEffect(() => {
@@ -57,15 +51,9 @@ function App() {
     });
   }, []);
 
-  // A section swap replaces the whole page's content under a URL change, so it
-  // has to behave like a page load: start at the top, and put focus at the head
-  // of the new content. Without the focus move a screen-reader or keyboard user
-  // stays parked wherever they were in a DOM that no longer exists, and the next
-  // Tab resumes from the document start with no announcement that anything
-  // changed. Same move BookSpread makes when a book replaces its cover.
-  //
-  // Skipped on arrival: the browser has already placed focus and scroll, and
-  // stealing either on first paint is its own bug.
+  // A section swap behaves like a page load: back to the top, with focus on the
+  // new content. Otherwise a keyboard user is left in a DOM that no longer
+  // exists. Skipped on arrival, where the browser has already placed both.
   useEffect(() => {
     if (lastActive.current === active) return;
     lastActive.current = active;
@@ -75,17 +63,9 @@ function App() {
 
   return (
     <div className="w-full">
-      {/* Skip link, for WCAG 2.4.1 Bypass Blocks (Level A). The banner, the
-          four nav links, and the footer badges repeat on every page, and
-          without this a keyboard user has no way past them.
-
-          It's the first element in the DOM on purpose, ahead of the sticky
-          nav, and `focus:z-60` puts it above that bar's `z-50`, because a skip
-          link that renders behind the thing it skips is worse than none. It
-          targets `<main>`, which carries `tabIndex={-1}` for the route-change
-          focus move, so the anchor lands focus there rather than only
-          scrolling. Invisible until focused, then a normal pinned object: ink
-          border, square corners, `shadow-sticker`, Nav-link type. */}
+      {/* The skip link (WCAG 2.4.1). First in the DOM, and `focus:z-60`
+          puts it above the sticky nav's `z-50`. <main>'s `tabIndex={-1}` lets
+          it move focus, not just scroll. */}
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-60 focus:border-2 focus:border-ink focus:bg-primary-soft focus:px-3 focus:py-2 focus:font-display focus:text-lg focus:font-semibold focus:text-ink focus:shadow-sticker"
@@ -93,11 +73,8 @@ function App() {
         Skip to content
       </a>
 
-      {/* Fixed viewport-covering layer rather than a background-attachment
-          wrapper: under the sticky nav's moving compositing layer, a
-          background-attachment: fixed element repaints incorrectly in Blink,
-          leaving the sky visibly tearing as the bar slides. A separate fixed
-          layer composites independently and is immune to it. */}
+      {/* A fixed layer rather than `background-attachment: fixed`, which
+          Blink repaints wrongly under the sliding nav, tearing the sky. */}
       <div
         aria-hidden="true"
         className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
@@ -120,17 +97,12 @@ function App() {
           />
         </div>
 
-        {/* tabIndex={-1} makes this a programmatic focus target for the route
-            change above. It is not in the tab order.
-
-            `w-full` matters: `mx-auto` stops a flex item stretching, so
-            without it `main` sizes to its content, and one long unbroken line,
-            such as a track title held on one line for its marquee, widens the
-            page past a phone's screen.
-
-            Its padding plus the column's 16px gap puts every page's content
-            20px from the masthead and footer on a board page and 32px on the
-            rest (`board` in routes.js), so no section pads itself. */}
+        {/* tabIndex={-1} makes it a focus target for the route change,
+            outside the tab order. `w-full` because `mx-auto` stops a flex item
+            stretching, and one long line, like a marquee's track title, would
+            widen the page past a phone's screen. The padding sets every page's
+            distance from the masthead and footer (`board` in routes.js), so no
+            section pads itself. */}
         <main
           id="main"
           ref={mainRef}

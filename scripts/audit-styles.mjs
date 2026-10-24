@@ -1,12 +1,8 @@
 #!/usr/bin/env node
-// Enumerates every Tailwind utility used in src/ and groups it by the property
-// it controls, so a one-off value cannot hide among hundreds of consistent ones.
-//
-// The site keeps a small vocabulary: a handful of type sizes and weights, a
-// cell-padding scale, a named spacing rhythm, and a closed colour palette. Each
-// family below carries its allowlist, and anything outside it is reported with
-// the files that use it, so it either gets fixed or gets added here as a
-// deliberate exception.
+// Lists every Tailwind utility in src/ by the property it controls, so a
+// one-off value can't hide among hundreds of consistent ones. Anything outside
+// its family's allowlist is reported with the files that use it, to be fixed or
+// added here with a reason.
 //
 // Usage: node scripts/audit-styles.mjs [--verbose]
 
@@ -25,22 +21,10 @@ function walk(dir, out = []) {
   return out;
 }
 
-// Pull class-ish tokens out of every string literal.
-//
-// This walks the source character by character rather than stripping comments
-// with a regex. Two things in this codebase defeat the regex approach:
-//
-//   - An apostrophe in prose ("it's the most text-dense object") opens a
-//     phantom string that runs to the next apostrophe, harvesting the words
-//     between as class names.
-//   - `import.meta.glob("./assets/*.{png,...}")` contains `/*` inside a string.
-//     A block-comment stripper treats that as a comment opener and eats
-//     everything to the next `*/`, which in App.jsx swallows every className
-//     on the masthead and footer bands.
-//
-// A scanner that knows whether it is inside a string, a line comment or a block
-// comment gets both right, and is the only way to be sure the audit sees the
-// whole file.
+// Returns every string literal. It scans character by character rather than
+// stripping comments with a regex. Two things here defeat a regex: an
+// apostrophe in a comment opens a phantom string, and App.jsx's
+// `import.meta.glob("./assets/*.{…}")` holds a comment opener inside a string.
 function extractStrings(src) {
   const out = [];
   let i = 0;
@@ -87,17 +71,12 @@ for (const file of files) {
   if (file.endsWith(".css")) continue;
   const src = readFileSync(file, "utf8");
   for (const literal of extractStrings(src)) {
-    // Quotes split too: a template literal's `${…}` keeps the quotes of any
-    // string inside it, so `${board ? "py-1" : "py-4"}` would otherwise yield
-    // the tokens `"py-1"` and `"py-4"`, which fail the class pattern below and
-    // were silently never checked.
+    // Quotes split too: a template literal's `${…}` keeps the quotes of the
+    // strings inside it, and `"py-4"` would fail the class pattern below.
     for (const tok of literal.split(/[\s${}"'`]+/)) {
       if (!tok || tok.length > 60) continue;
-      // Variant prefixes (`md:`, `hover:`, `focus-visible:`, `group-hover:`,
-      // and arbitrary ones like `[@media(hover:hover)]:`) must be allowed
-      // through here, not just tolerated by strip() later. Requiring the token
-      // to start with a bare utility name would reject every `md:`-prefixed
-      // class and hide the entire responsive tier from this audit.
+      // Variant prefixes (`md:`, `group-hover:`, `[@media(hover:hover)]:`)
+      // have to pass here, or every responsive class would go unchecked.
       if (
         !/^(?:[a-z0-9@[\]()<>=:.,%-]+:)*-?[a-z][a-z0-9]*(-[a-z0-9./[\]()#%,:_-]+)*$/i.test(
           tok,
@@ -116,10 +95,8 @@ for (const file of files) {
   }
 }
 
-// Strip responsive / state prefixes down to the base utility. The leading "-"
-// is deliberately KEPT: `-mx-4` (cancelling a parent's padding to full-bleed a
-// child) is a different thing from `mx-4` (indenting one), and collapsing them
-// let three negative margins pass as positive ones already on the allowlist.
+// Strips variant prefixes. The leading "-" stays, since `-mx-4` cancels a
+// parent's padding and `mx-4` indents: different values, checked apart.
 const strip = (c) => c.replace(/^(?:[a-z-]+:)+/i, "");
 
 const FAMILIES = [
@@ -137,7 +114,7 @@ const FAMILIES = [
       "text-5xl",
       "text-wordmark-fluid",
     ],
-    note: "seven roles, text-2xl for handwriting, wordmark-fluid per deviation 1",
+    note: "seven roles, text-2xl for handwriting, and the fluid wordmark",
   },
   {
     name: "Font weight",
@@ -194,30 +171,21 @@ const FAMILIES = [
       "pb-1.5",
       "pt-3.5",
       "px-6",
-      // Accent-underline hug: a `border-b-2` sitting tight under its label.
-      // `pb-1` under a Title (SectionTitle), `pb-0.5` under the smaller
-      // labels: the nav link and the Colophon's group headers.
+      // An underline hugging a small label: the nav link and the Colophon's
+      // group headers.
       "pb-0.5",
-      // Compact masthead: the banner is deliberately asymmetric, with pt-4
-      // over pb-1 trimming the top.
+      // The masthead's asymmetric padding, pt-4 over pb-1.
       "pt-4",
-      // The masthead band's desktop inset is wider than the footer's px-6, and
-      // that is deliberate: the banner's content is a centred cluster flanked
-      // by two `flex-1` hairlines, so the extra inset shortens those rules and
-      // they read as flanking the mark rather than spanning the whole band.
-      // The footer is a space-between row, where the inset is a content margin.
+      // The masthead's wider desktop inset, which shortens the hairlines
+      // flanking the mark.
       "px-8",
-      // An 8px indent on the passport's handwritten signature so it does not
-      // start flush against the cell edge. Optical placement of handwriting.
+      // Indents the passport's handwritten signature off the cell edge.
       "pl-2",
-      // Page edges, set once on <main> in App.jsx: with the column's 16px gap,
-      // `py-1` puts a board page's content 20px from the masthead and footer
-      // and `py-4` puts every other page's 32px, the same two gaps the pieces
-      // use between them.
+      // <main>'s edges in App.jsx. With the column's 16px gap, a board page
+      // sits 20px from the masthead and footer (py-1) and the others 32px.
       "py-4",
-      // Skip-link chip padding. `px-3 py-1` (LabelTag's chip padding) would
-      // render it ~40px tall, under the 44px floor this control is held to as
-      // primary navigation; `py-2` clears it at 48px.
+      // The skip link: `py-1` would make it about 40px tall, under the 44px
+      // it's held to as primary navigation.
       "py-2",
     ],
     note: "cell scale + documented per-widget and per-role exceptions",
@@ -244,7 +212,7 @@ const FAMILIES = [
     name: "Margin-top rhythm",
     test: (c) => /^-?mt-[0-9.]+$/.test(c),
     allow: ["mt-0.5", "mt-1", "mt-2", "mt-4", "mt-5", "mt-6"],
-    note: "mt-3 is retired",
+    note: "no mt-3",
   },
   {
     name: "Other margins",
@@ -257,36 +225,27 @@ const FAMILIES = [
       "mr-4",
       "-mx-3",
       "my-0",
-      // Banner optical alignment. A 2px hairline, two 6px dots and the duo
-      // image have to sit on one optical baseline, and none of their boxes
-      // agree. These are the nudges that align them, not content spacing.
+      // Optical nudges that put the masthead's hairlines, dots, and duo on
+      // one baseline.
       "mb-1",
       "mb-0.5",
       "-mb-0.5",
-      // Pin's highlight: places a 4px dot inside a 16px circle. Positioning a
-      // decorative sub-element, not spacing between content.
+      // Places Pin's highlight dot inside its circle.
       "ml-0.5",
-      // Full-bleed inside a padded card: these cancel the Weather postcard's
-      // own `p-4` so the skyline runs edge to edge, paired with
-      // `w-[calc(100%+2rem)]`. The negative margin IS the idiom.
+      // Cancel the Weather postcard's `p-4`, so the skyline runs edge to edge.
       "-mx-4",
       "-mb-4",
-      // Weather's glyph, pulled left to sit optically centred against the
-      // temperature rather than box-centred.
+      // Weather's glyph, pulled left to look centred against the temperature.
       "-ml-6",
-      // A reset, not a spacing value: cancels `mx-auto` once the desktop tier
-      // takes over and the column stops being centred on a narrow cap.
+      // Cancels `mx-auto` once the desktop tier stops centring the column.
       "mx-0",
     ],
     note: "content rhythm, plus optical nudges for decorative sub-elements",
   },
   {
     name: "Text colour",
-    // Anchored alternatives ($) so `text-lg` isn't mistaken for a colour by the
-    // unanchored `sm` / `base` branches, and so size utilities driven by a
-    // custom token (text-wordmark-fluid) fall to the size family instead.
-    // Alignment, overflow and wrapping utilities (text-balance among them) are
-    // not colours either.
+    // Anchored, so sizes like `text-lg` and `text-wordmark-fluid` fall to the
+    // size family. Alignment and wrapping utilities aren't colours either.
     test: (c) =>
       /^text-(?!xs$|sm$|base$|lg$|[a-z0-9]*xl$|wordmark-fluid$|left$|right$|center$|justify$|ellipsis|clip|wrap|nowrap|balance$)[a-z]/.test(
         c,

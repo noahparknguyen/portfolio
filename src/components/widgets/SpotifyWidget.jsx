@@ -1,16 +1,17 @@
 import { siSpotify } from "simple-icons";
 import aiaiAnim from "../../assets/monkey-ball-aiai.gif";
-import useSpotify from "../../hooks/useSpotify";
+import useApiResource from "../../hooks/useApiResource";
 import MarqueeText from "../ui/MarqueeText";
 import Eyebrow from "../ui/Eyebrow";
 import SimpleIcon from "../ui/SimpleIcon";
 import NewTabHint from "../ui/NewTabHint";
 
-// The top track of the last four weeks, not what's playing now, so the widget
-// says what I listen to without saying when (worker/index.js). The label is
-// the same whatever loads, so it never needs a skeleton.
+// The top track of the last four weeks (worker/index.js). The label is the
+// same whatever loads, so it needs no skeleton.
 function SpotifyWidget() {
-  const { track, loading } = useSpotify();
+  const { data: track, loading } = useApiResource("/api/spotify", {
+    key: "track",
+  });
 
   return (
     <div>
@@ -29,16 +30,10 @@ function SpotifyWidget() {
   );
 }
 
-// REQUIRED, not decorative. Spotify's Developer Policy: "If you display any
-// Spotify Content you must clearly attribute the content as being supplied and
-// made available by Spotify, by using the Spotify Marks", and their design
-// guidelines add that metadata "must always link back to the Spotify Service".
-// The widget shows the track name, artist, album, and cover art, so it carries
-// the mark and the link.
-//
-// The link falls back to open.spotify.com so the link-back exists even when the
-// track carries no url of its own. The word "Spotify" sits in `ink` beside the
-// mark, so the meaning never rests on the green alone.
+// Required, not decorative: Spotify's terms say content it supplies must carry
+// the Spotify mark and link back to Spotify. The link falls back to
+// open.spotify.com when the track has no url, and the word sits beside the mark
+// so the meaning doesn't rest on the green.
 function SpotifyAttribution({ url }) {
   return (
     <a
@@ -54,19 +49,10 @@ function SpotifyAttribution({ url }) {
   );
 }
 
-// The album art is the record: cropped to a circle, with groove rings, a rose
-// label, and a centre hole, and half drawn out of its sleeve. It stays still,
-// since a spinning record would say something is playing now. The sleeve is
-// the AiAi cameo: a record comes out of a sleeve, so putting the two together
-// is what earns the cameo its place instead of parking it beside the widget as
-// a loose GIF.
-//
-// Geometry: the wrapper is 1.58 : 1, and both the disc and the sleeve are
-// `h-full` squares, so each is exactly as wide as the wrapper is tall. The
-// sleeve sits flush left, the disc flush right, which leaves 58% of the disc
-// showing past the sleeve's edge and hides the rest behind it. The sleeve comes
-// later in the DOM so it paints in front, which is the direction that reads as
-// "being pulled out" rather than "resting on top".
+// The album art as a record half out of its sleeve, the AiAi cameo. It doesn't
+// spin, since that would say something is playing now. Both are `h-full`
+// squares in a 1.58 : 1 wrapper, so 58% of the disc shows. The sleeve comes
+// later in the DOM, so it paints in front.
 function SleeveRecord({ albumArt, name }) {
   return (
     <div className="relative aspect-[1.58/1] w-[46%] shrink-0">
@@ -144,8 +130,7 @@ function TrackBody({ track }) {
   const content = (
     <div className="flex items-center gap-3">
       <SleeveRecord albumArt={track.albumArt} name={track.name} />
-      {/* Track, artist, and album come from Spotify, so their punctuation
-          isn't the site's to control (see Devlog.jsx). */}
+      {/* From Spotify, so the quote audit skips them. */}
       <div data-live-text="true" className="min-w-0 flex-1">
         <MarqueeText text={track.name} className="text-sm font-bold text-ink" />
         <MarqueeText text={track.artist} className="text-xs text-gray-600" />

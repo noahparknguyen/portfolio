@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { KNOWN_PATHS, SITE } from "../src/lib/routes";
 
-// The Worker runs here against stand-ins for its three outside dependencies:
-// the static assets, the edge cache, and the upstream APIs. Each test loads a
-// fresh copy, because the module keeps a Spotify token between requests, and
-// with DEV off, because DEV is read once at load and the deployed Worker is a
-// production build.
+// The Worker runs here against stand-ins for the static assets, the edge
+// cache, and the upstream APIs. Each test loads a fresh copy, since the module
+// keeps a Spotify token between requests. DEV is off, as in the deployed
+// Worker, and it's read once at load.
 
 const SHELL = "<!doctype html><title>shell</title>";
 const FILES = {

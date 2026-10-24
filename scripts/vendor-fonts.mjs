@@ -4,10 +4,6 @@
  * writes the matching `@font-face` rules to `src/fonts.css`, which
  * `src/index.css` imports.
  *
- * Self-hosted, the site makes no font request to anyone else, and the rules
- * ship in the stylesheet the page already downloads, so the font files start a
- * round trip earlier than they would behind Google's CSS.
- *
  * All four are variable fonts, so Google serves one file per family and
  * character subset, whatever the weight. Each file is downloaded once, and
  * every weight's rule points at it.
@@ -76,8 +72,7 @@ if (!cssRes.ok) throw new Error(`Google Fonts CSS: ${cssRes.status}`);
 const css = await cssRes.text();
 
 // The stylesheet is a flat list of `/* subset */` comments, each followed by one
-// @font-face. Parsed rather than rewritten in place, so the output is our own
-// file with our own paths, not an edited copy of theirs.
+// @font-face.
 const blocks = [
   ...css.matchAll(/\/\*\s*([\w-]+)\s*\*\/\s*(@font-face\s*\{[^}]*\})/g),
 ];

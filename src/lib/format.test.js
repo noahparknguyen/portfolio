@@ -2,9 +2,8 @@ import { describe, it, expect } from "vitest";
 import { formatHours, relativeTime } from "./format";
 
 describe("formatHours", () => {
-  // REGRESSION: this returned "<1h" for zero, which reads as "a little, but
-  // under an hour" for a game that was not played at all. `playtime_2weeks` is
-  // 0 for any game untouched this fortnight, so it was the common path.
+  // "<1h" would say a game was played a little. Zero is also the usual value
+  // for `playtime_2weeks`.
   it("reports zero as zero, not as a small amount", () => {
     expect(formatHours(0)).toBe("0h");
   });

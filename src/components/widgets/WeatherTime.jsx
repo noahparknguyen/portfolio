@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import ottawaSkyline from "../../assets/ottawa-skyline.webp";
 import mapleLeaf from "../../assets/maple-leaf.svg";
-import useWeather from "../../hooks/useWeather";
+import useApiResource from "../../hooks/useApiResource";
 import { weatherLabel, glyphFor } from "../../lib/weather";
 
 const TIMEZONE = "America/Toronto";
+const REFRESH_MS = 600000;
 
-// Shared cloud silhouettes: every condition below composes from one of these
-// two spines, positioned per condition, so the clouds can't drift apart into
+// Every condition composes from these two clouds, so they can't drift into
 // slightly different copies.
 const BIG_CLOUD_TAIL =
   "a6.5 6.5 0 0 1 0-13 8.5 8.5 0 0 1 16 2 5.5 5.5 0 0 1 1 11H13Z";
@@ -189,11 +189,13 @@ function Postmark({ clock, dayPeriod }) {
 
 function WeatherTime() {
   const [now, setNow] = useState(() => new Date());
-  const { weather, loading } = useWeather();
+  const { data: weather, loading } = useApiResource("/api/weather", {
+    key: "weather",
+    pollMs: REFRESH_MS,
+  });
 
-  // The clock only renders h:mm, so ticking every second would re-render this
-  // whole widget, weather SVG included, 59 extra times a minute for an
-  // identical DOM. It aligns to the minute boundary, then ticks once a minute.
+  // The clock shows h:mm, so it ticks once a minute from the minute boundary
+  // rather than re-rendering every second.
   useEffect(() => {
     let intervalId;
     const timeoutId = setTimeout(
@@ -221,18 +223,12 @@ function WeatherTime() {
   const dayPeriod = (
     timeParts.find((p) => p.type === "dayPeriod")?.value ?? ""
   ).toUpperCase();
-  // `!weather`, not `error || !weather`: the hook keeps the last good reading
-  // through a failed poll, so the postcard only goes blank when there has never
-  // been a reading to show (see useApiResource).
+  // The hook keeps the last good reading through a failed poll, so the postcard
+  // only goes blank when there has never been a reading to show.
   const empty = !loading && !weather;
 
   return (
     <div>
-      {/* Real postcard anatomy: message on the left, postage in the top-right
-          corner, and the postmark cancelling the stamp by overlapping it. The
-          stamp carries the country and a design, never the mailing city, which
-          belongs to the postmark. That's why the maple leaf lives inside it and
-          the caption reads CANADA. */}
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
           {loading ? (
@@ -261,11 +257,8 @@ function WeatherTime() {
 
         <div className="flex shrink-0 items-center">
           <div className="border-2 border-dashed border-ink bg-white p-2 text-center">
-            {/* A placeholder of the glyph's exact size while loading. Without
-                it the dashed stamp holds only its caption, then grows by the
-                glyph's 40px when the fetch lands, shifting the postmark and the
-                skyline below it. `empty` is `!loading && !weather`, so once
-                loading is false one of the two branches always renders. */}
+            {/* The glyph's size while loading, so the stamp doesn't grow
+                40px when the fetch lands. */}
             {loading ? (
               <div
                 aria-hidden="true"
@@ -292,10 +285,8 @@ function WeatherTime() {
           <Postmark clock={clock} dayPeriod={dayPeriod} />
         </div>
       </div>
-      {/* Full-bleed skyline. The negative margins are tied to the wrapper's
-          `p-4` in Home.jsx. Weather's card keeps `p-4` at every width, unlike
-          the `p-4 md:p-6` the text cards use, so these stay correct. If that
-          padding changes, these values must change with it. */}
+      {/* The negative margins cancel the card's `p-4` in Home.jsx, so they
+          change with it. */}
       <img
         src={ottawaSkyline}
         alt=""

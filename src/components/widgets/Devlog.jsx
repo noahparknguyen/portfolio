@@ -1,27 +1,22 @@
-import useCommits from "../../hooks/useCommits";
+import useApiResource from "../../hooks/useApiResource";
 import { relativeTime } from "../../lib/format";
 import LabelTag from "../ui/LabelTag";
 import NewTabHint from "../ui/NewTabHint";
 
 function Devlog() {
-  const { commits, loading } = useCommits();
+  const { data, loading } = useApiResource("/api/commits", {
+    key: "commits",
+  });
+  const commits = data ?? [];
 
-  // From md the log fills the height Home's left column leaves it, which is
-  // what keeps the two columns level. Three rules shape that:
-  // - Size containment keeps the twelve commits inside from counting toward
-  //   the column's height, or the box would grow to show every one.
-  // - The height rounds down to 24px plus a whole number of 20px rules, so the
-  //   paper always ends the same distance below its last rule (STYLE_GUIDE →
-  //   Spacing scale). The columns can end up to 19px apart because of it.
-  // - It never drops below its phone height, 144px.
+  // From md the log fills the height Home's left column leaves it, which keeps
+  // the columns level. Size containment stops its commits counting toward that
+  // height. The height rounds down to whole 20px rules, so the columns can end
+  // up to 19px apart, and never drops below the phone's 144px.
   return (
     <div className="flex flex-1 flex-col gap-3">
       <div className="text-center">
-        <LabelTag rotate="rotate-[1deg]">
-          <h3 className="text-xl font-semibold text-ink">
-            Most recent updates
-          </h3>
-        </LabelTag>
+        <LabelTag rotate="rotate-[1deg]">Most recent updates</LabelTag>
       </div>
       <div className="relative flex flex-1 flex-col">
         <span
@@ -31,9 +26,7 @@ function Devlog() {
         <div
           className="devlog-scroll shadow-sticker relative box-border h-36 overflow-y-auto md:h-[calc(round(down,100%_-_24px,20px)_+_24px)] md:min-h-36 md:[contain:size] border-2 border-ink bg-paper pl-3"
           style={{
-            // The ruled lines scroll with the content. The default, `scroll`,
-            // pins the background to the element, so the lines would match the
-            // text only at the top and drift off it as soon as you scroll.
+            // `local`, so the ruled lines scroll with the text.
             backgroundAttachment: "local",
             backgroundImage:
               "repeating-linear-gradient(to bottom, transparent 0, transparent 11px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 11px, color-mix(in srgb, var(--color-kraft) 25%, transparent) 12px, transparent 12px, transparent 20px)",
@@ -41,8 +34,7 @@ function Devlog() {
           tabIndex={0}
           role="region"
           aria-label="Recent commits"
-          // Commit messages come from GitHub, so their punctuation is not the
-          // site's to control. Excluded from the typography audit.
+          // From GitHub, so the quote audit skips it.
           data-live-text="true"
         >
           {loading ? (
@@ -101,8 +93,8 @@ function Devlog() {
                     </>
                   );
                   return (
-                    // The index only breaks a tie between two commits that share
-                    // a message AND have no url; url alone is unique in practice.
+                    // The index only breaks a tie between two commits with the
+                    // same message and no url.
                     <li
                       key={commit.url ?? `${commit.message}-${n}`}
                       className="relative flex"

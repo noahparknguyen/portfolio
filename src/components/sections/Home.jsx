@@ -14,23 +14,14 @@ import TechStack from "../widgets/TechStack";
 import Links from "../widgets/Links";
 import Devlog from "../widgets/Devlog";
 
-// A scrapbook page rather than a grid. Two columns of pinned cut-outs, each a
-// little narrower than its column and flush with the page's outer edge, so the
-// outer edges stay straight against the masthead and footer while the seam down
-// the middle wanders. Every gap is 20px (`gap-5`): the variety lives in the
-// pieces' widths and tilts, never in the spacing. The columns split 3 : 2.
+// Two columns split 3 : 2. Each piece is a little narrower than its column and
+// flush with the outer edge, so the outer edges stay straight while the seam
+// down the middle wanders.
 //
-// The letter and the photo are a pair on top, not the heads of the two columns,
-// so the markup reads in the same order as the screen at every width. On a
-// phone the photo follows the letter and the rest stacks in reading order.
-// The letter is wider than the left column (64% of the row, 471px), which keeps
-// its body to eight lines, and the polaroid fills the rest, landing within a
-// few pixels of the letter's height. It also puts this seam off the columns'.
-// Starting the columns at the top would have meant reshuffling them with
-// `order` on phones, where focus would skip "Get in touch" and come back to it.
-//
-// The devlog takes whatever height balances the two columns (Devlog.jsx), so a
-// long game name or a new track can't leave one column hanging short.
+// The letter and the photo are a pair on top rather than the heads of the
+// columns, so the markup reads in screen order at every width. Reordering the
+// columns on phones instead would make focus skip around. The devlog takes
+// whatever height balances the columns (Devlog.jsx).
 function Home() {
   return (
     <section aria-labelledby="home-heading" className="flex flex-col gap-5">
@@ -62,10 +53,8 @@ function Home() {
             <p className="mt-2 text-gray-700">
               I had a lot of fun making it, and I hope that comes through.
             </p>
-            {/* The whole sign-off is aria-hidden and mirrored by the sr-only
-                line below: ":)" reads badly aloud, but hiding only the
-                signature would leave a screen reader hearing "Best," with no
-                name. */}
+            {/* Hidden and mirrored by the sr-only line below, since ":)"
+                reads badly aloud and "Best," alone has no name. */}
             <p className="mt-4 text-right leading-tight" aria-hidden="true">
               <span className="italic text-label">Best,</span>
               <br />
@@ -83,9 +72,6 @@ function Home() {
             rotate="rotate-3"
             className="relative md:w-[92%]"
           >
-            {/* Counter-rotated against the card's +3°: tape applied at the
-                photo's exact angle reads as printed-on, not taped-on. The
-                mismatch is what sells the hand-placed look. */}
             <Tape className="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-6" />
             <img
               src={noahCandid}
@@ -125,9 +111,7 @@ function Home() {
           <div className="flex min-w-0 flex-col gap-3 md:w-[90%]">
             <div className="text-center">
               <LabelTag rotate="rotate-[1deg]">
-                <h3 className="text-xl font-semibold text-ink">
-                  What I&rsquo;ve been listening to
-                </h3>
+                What I&rsquo;ve been listening to
               </LabelTag>
             </div>
             <div>

@@ -34,21 +34,16 @@ const BADGES = [
   },
 ];
 
-// A small aside per page, in the site's handwriting rather than the fine-print
-// treatment the copyright line uses: it's a scribble in the margin, not a
-// second line of boilerplate. "bapanada" is a Hollow Knight community in-joke,
-// which is why it sits on Home: the Banner carries the Hollow Knight duo.
-// "pnf-404" is the planet's name in Pikmin, which reads like 404 Page Not
-// Found, so it sits on the 404.
+// Each page's aside. "bapanada" is a Hollow Knight in-joke, so it sits on Home
+// under the masthead's Hollow Knight duo. "pnf-404" is a Pikmin planet that
+// reads like Page Not Found.
 const FOOTER_NOTE = {
   home: "bapanada",
   about: "whoami",
   now: "hey now",
   creations: "i'm a chuckster",
   credits: "looks inside",
-  // The 404 is a real page with a real URL, so it gets an aside like every
-  // other one. Without a key here the footer would render an empty <p>, and
-  // the scribble would vanish on the one page a visitor arrives at confused.
+  // Without a key, the footer would render an empty <p>.
   notfound: "pnf-404",
 };
 

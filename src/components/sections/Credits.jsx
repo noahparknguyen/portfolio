@@ -4,9 +4,9 @@ import TextLink from "../ui/TextLink";
 import Tape from "../ui/Tape";
 import { borderAccent } from "../../lib/accents";
 
-// Four groups, one owned hue each. That one-to-one mapping is what lets this
-// section work without a SectionTitle (see the note by the <h2> below), so
-// don't add a fifth group: fold new entries into an existing one instead.
+// Four groups, one hue each, which is what lets this section go without a
+// SectionTitle. Fold a new entry into an existing group rather than adding a
+// fifth.
 const GROUPS = [
   {
     id: "art",
@@ -39,9 +39,8 @@ const GROUPS = [
     id: "games",
     title: "Game Assets",
     accent: "violet",
-    // Each rights holder links to its own official site, so this group looks
-    // like the other three. Edmund McMillen links to his personal site, not
-    // bindingofisaac.com, which is a merch store.
+    // Each rights holder links to its official site. Edmund McMillen's is his
+    // personal one, since bindingofisaac.com is a merch store.
     items: [
       {
         text: "Celeste\u00a0— ",
@@ -88,16 +87,12 @@ const GROUPS = [
       },
       {
         text: "“the weird world of ‘indie social media’”\u00a0— ",
-        // The channel styles itself "Diggon" with a capital D (confirmed in the
-        // video's channelName, ownerChannelName and itemprop metadata). It was
-        // credited lowercase, which is a factual error in an attribution.
+        // The channel styles itself "Diggon", with a capital D.
         linkText: "Diggon",
         href: "https://www.youtube.com/watch?v=Htccpx-zAy8",
       },
       {
-        // Was the odd one out: a descriptive phrase where its two siblings
-        // above carry a quoted title. Now the same shape, pointing at the
-        // playlist itself rather than the channel, which is the actual source.
+        // Links the playlist, the actual source, rather than the channel.
         text: "“PORTFOLIO ROASTS”\u00a0— ",
         linkText: "Anthony Sistilli",
         href: "https://www.youtube.com/playlist?list=PLQg6GaokU5CwD4sIzFuSJlJLJUqXXo1MK",
@@ -108,16 +103,9 @@ const GROUPS = [
     id: "odds",
     title: "Everything Else",
     accent: "orchid",
-    // Three of these are licence obligations rather than courtesies, so each is
-    // met on this page itself: Font Awesome and Open-Meteo's data are CC BY
-    // 4.0, which asks for the creator's name and a link to the licence, so each
-    // of those lines carries both; Spotify's Developer Policy requires
-    // attribution for any content it supplies (also satisfied by the mark
-    // inside the widget itself). The page credits other people only: the
-    // site's own notice file and source live in the repo.
-    //
-    // Folded into this group rather than given a fifth: the four-groups /
-    // four-hues mapping is what lets this section work without a SectionTitle.
+    // Three of these are licence obligations. Open-Meteo's data and Font
+    // Awesome are CC BY 4.0, which asks for a name and a link to the licence,
+    // and Spotify's Developer Policy requires attribution.
     items: [
       {
         parts: [
@@ -205,9 +193,8 @@ function CreditGroup({ group }) {
       </Eyebrow>
       <ul className="mt-2 flex flex-col gap-1">
         {group.items.map((item, i) => (
-          // Index key: this list is static and never reorders. A key derived
-          // from the item's shape comes out `undefined` for any `parts` entry
-          // that begins with plain text.
+          // Index key: the list never reorders, and a key from the item's
+          // shape is `undefined` for a `parts` entry that starts with text.
           <CreditItem
             key={`${group.id}-${i}`}
             item={item}
@@ -222,10 +209,8 @@ function CreditGroup({ group }) {
 function Credits() {
   return (
     <section aria-labelledby="credits-heading" className="flex justify-center">
-      {/* Keeps bg-paper rather than taking a section hue like Now and Creations
-          do: Credits is the one section with no owned hue (its four group
-          headers carry all four instead), and it's taped up rather than pinned,
-          so warm stationery is the right fill here. */}
+      {/* Paper rather than a section hue: Credits owns none, and its group
+          headers carry all four. */}
       <PinnedCard
         bg="bg-paper"
         padding="p-4 md:p-6"
@@ -233,13 +218,8 @@ function Credits() {
       >
         <Tape className="absolute -top-3 left-1/2 -translate-x-1/2 rotate-3" />
 
-        {/* Credits has no single owned hue, so unlike every other section
-            this skips SectionTitle's single-accent underline. The four hues
-            live on the group headers below instead.
-
-            The heading says "Colophon" while the footer link says "Credits" on
-            purpose: "Credits" is the plain-language door, since not everyone
-            knows the word, and "Colophon" is the reveal behind it. */}
+        {/* "Colophon" here and "Credits" in the footer on purpose: not
+            everyone knows the word, so the link uses the plain one. */}
         <h2
           id="credits-heading"
           className="text-center text-3xl font-bold text-ink"
@@ -260,14 +240,10 @@ function Credits() {
 
         <div className="mt-6 border-t-2 border-ink" />
 
-        {/* The `w-[60%]` sign-off split is a desktop layout width. Below md it
-            would leave the sentence ~19 characters a line beside the ~85px
-            signature, so the row stacks instead and the paragraph takes the
-            full column. */}
+        {/* Stacks below md, where the 60% split would leave the sentence
+            about 19 characters a line. */}
         <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-4">
-          {/* The emoji is the gesture, not a word, so it's hidden from screen
-              readers, which would otherwise read "index pointing at the
-              viewer" in the middle of the sentence. */}
+          {/* The emoji is a gesture, not a word, so screen readers skip it. */}
           <p className="text-sm text-gray-600 md:w-[60%]">
             And thank you <span aria-hidden="true">🫵</span> for checking out my
             site! Really appreciate it.

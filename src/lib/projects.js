@@ -3,21 +3,13 @@ import statmonCompare from "../assets/books/statmon-compare.webp";
 import hubspotReport from "../assets/books/hubspot-report.webp";
 import liteTypeCode from "../assets/books/lite-type-code.webp";
 
-// The Creations book stack. One entry per project, and each renders as a book
-// lying on the board (Book.jsx) that opens into a two-page spread
-// (BookSpread.jsx).
+// One book per project: a closed cover (Book.jsx) that opens into two-page
+// spreads (BookSpread.jsx). Page kinds: "title" | "prose" | "stats" |
+// "colophon".
 //
-// Page budget: a book doesn't resize when you turn a page, so the spread is a
-// fixed height at md (BookSpread.jsx). A prose page holds about three short
-// paragraphs, around 120 words, at the design width. Copy that overruns
-// doesn't break the layout (the page scrolls, like the passport's chapters),
-// but a scrolling book page reads as an overflow bug, so trim it to fit.
-//
-// Page kinds: "title" | "prose" | "stats" | "colophon".
-//
-// Each project's screenshot sits on the board beside its closed cover
-// (`board` below), where it answers "what does this look like" without anyone
-// opening anything.
+// A prose page holds about three short paragraphs, around 120 words, at the
+// design width. Longer copy scrolls inside the page, which reads as a bug, so
+// trim it to fit.
 
 const elbaite = {
   id: "elbaite",
@@ -157,9 +149,7 @@ const statmon = {
   liveUrl: "https://statmon.noahpn.dev/",
   repoUrl: "https://github.com/noahparknguyen/statmon",
 
-  // A violet-soft cover with a full-violet spine, so the tint and its own
-  // accent read as one bound object. Neither matches the orchid-soft intro
-  // panel above it.
+  // Unlike the orchid-soft intro panel above it.
   coverTint: "bg-violet-soft",
   spineTint: "bg-violet",
 
@@ -245,8 +235,6 @@ const statmon = {
           "That’s what ended up shaping the look. Once the tools worked, they handed me the style on their own. Chandelure, one of my two favourite Pokémon, has some really nice purples that sit well on a dark background, so I leaned on colour and left the gradients alone.",
           "It worked out well in the end. The palette makes the site look like its own thing, and tying the design to a favourite gives it some sentimental value too.",
         ],
-        // The site's handwriting, used the way the footer aside and the tech
-        // stamp notes use it: a scribble in the margin, not body copy.
         marginNote: "still the best call I made on this one",
       },
     },
@@ -285,10 +273,8 @@ const hubspot = {
   repoUrl: "https://github.com/noahparknguyen/hubspot-recommendation-tool",
 
   // Render's free tier stops the container after 15 minutes without traffic,
-  // and Render puts waking it at about a minute (11.4 s in one test). Without
-  // this note the most important click on the page looks broken to anyone who
-  // lands on it cold. ProjectLinks renders it wherever the link appears: on the
-  // cover and in the colophon.
+  // and waking it can take up to a minute, which would look broken without
+  // this note. ProjectLinks shows it wherever the link appears.
   liveNote: "The demo sleeps when it is idle, so give it a minute to wake up.",
 
   // Blue-soft against Statmon's violet-soft: adjacent covers must not share a
