@@ -13,10 +13,35 @@ const OUT = "docs/home.webp";
 const WIDTH = 1024;
 const SCALE = 1.5;
 
-// The top of the page rather than `fullPage`, which resizes the viewport so the
-// fixed sky stops covering the bottom. The height should end in a gap between
-// rows, so nothing is cut in half.
-const HEIGHT = 940;
+// The masthead and the board, ending in the gap above the toolset strip. Not
+// `fullPage`, which resizes the viewport so the fixed sky stops covering the
+// bottom. The gap is measured on each run, since live data changes the board's
+// height. Edges come from every visible descendant, since tilted pieces
+// overhang their boxes, plus the 4px shadow. A descendant is clipped to any
+// ancestor that hides overflow, like the Devlog's scroll box.
+function boardGap() {
+  const parts = [
+    ...document.querySelector('[aria-labelledby="home-heading"]').children,
+  ];
+  const toolset = parts.pop();
+  const shown = (n) => {
+    const r = n.getBoundingClientRect();
+    if (r.width <= 1 || r.height <= 1) return null;
+    let { top, bottom } = r;
+    for (let a = n.parentElement; a; a = a.parentElement) {
+      if (getComputedStyle(a).overflowY === "visible") continue;
+      const c = a.getBoundingClientRect();
+      top = Math.max(top, c.top);
+      bottom = Math.min(bottom, c.bottom);
+    }
+    return bottom > top ? { top, bottom } : null;
+  };
+  const boxes = (els) =>
+    els.flatMap((el) => [el, ...el.querySelectorAll("*")]).map(shown);
+  const end = Math.max(...boxes(parts).map((r) => r?.bottom ?? -Infinity));
+  const start = Math.min(...boxes([toolset]).map((r) => r?.top ?? Infinity));
+  return { end: end + 4 + window.scrollY, start: start + window.scrollY };
+}
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -47,19 +72,25 @@ const browser = await puppeteer.launch({
   args: ["--no-sandbox", "--disable-gpu", "--force-color-profile=srgb"],
 });
 const page = await browser.newPage();
-await page.setViewport({
-  width: WIDTH,
-  height: HEIGHT,
-  deviceScaleFactor: SCALE,
-});
+await page.setViewport({ width: WIDTH, height: 900, deviceScaleFactor: SCALE });
 await page.goto(BASE, { waitUntil: "load" });
 await page.evaluateHandle("document.fonts.ready");
-// The GIF cameos animate, so a beat lets them settle on a representative frame.
+// The GIF cameos animate, so a beat lets them settle on a representative frame,
+// and the widgets' data arrive.
 await wait(2500);
+
+const gap = await page.evaluate(boardGap);
+if (gap.start <= gap.end) {
+  console.error("  ✗ no gap between the board and the toolset strip to cut in");
+  process.exit(1);
+}
+const height = Math.round((gap.start + gap.end) / 2);
+await page.setViewport({ width: WIDTH, height, deviceScaleFactor: SCALE });
+await wait(500);
 
 await page.screenshot({ path: OUT, type: "webp", quality: 85 });
 await browser.close();
 stopServer();
 
 const kb = (statSync(OUT).size / 1024).toFixed(0);
-console.log(`  wrote ${OUT} — ${kb} KB, ${WIDTH}x${HEIGHT} at ${SCALE}x`);
+console.log(`  wrote ${OUT} — ${kb} KB, ${WIDTH}x${height} at ${SCALE}x`);
