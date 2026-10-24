@@ -26,10 +26,7 @@ function NotFound({ onNavigate }) {
   const address = `${window.location.host}${window.location.pathname}`;
 
   return (
-    <section
-      aria-labelledby="notfound-heading"
-      className="flex justify-center py-8"
-    >
+    <section aria-labelledby="notfound-heading" className="flex justify-center">
       <PinnedCard
         bg="bg-paper"
         padding="p-4 md:p-6"

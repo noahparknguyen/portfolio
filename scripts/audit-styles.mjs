@@ -210,6 +210,11 @@ const FAMILIES = [
       // An 8px indent on the passport's handwritten signature so it does not
       // start flush against the cell edge. Optical placement of handwriting.
       "pl-2",
+      // Page edges, set once on <main> in App.jsx: with the column's 16px gap,
+      // `py-1` puts a board page's content 20px from the masthead and footer
+      // and `py-4` puts every other page's 32px, the same two gaps the pieces
+      // use between them.
+      "py-4",
       // Skip-link chip padding. `px-3 py-1` (LabelTag's chip padding) would
       // render it ~40px tall, under the 44px floor this control is held to as
       // primary navigation; `py-2` clears it at 48px.

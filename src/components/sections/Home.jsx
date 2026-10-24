@@ -33,10 +33,7 @@ import Devlog from "../widgets/Devlog";
 // long game name or a new track can't leave one column hanging short.
 function Home() {
   return (
-    <section
-      aria-labelledby="home-heading"
-      className="flex flex-col gap-5 py-3"
-    >
+    <section aria-labelledby="home-heading" className="flex flex-col gap-5">
       <div className="flex flex-col gap-5 md:flex-row md:items-end">
         <div className="min-w-0 md:w-[64%] md:shrink-0">
           <PinnedCard bg="bg-paper" padding="p-4 md:p-6" className="relative">
@@ -125,7 +122,7 @@ function Home() {
 
           {/* The heading and the card are one piece, since the AiAi cameo
               lives inside the card as the record's sleeve (SpotifyWidget.jsx). */}
-          <div className="min-w-0 md:w-[90%]">
+          <div className="flex min-w-0 flex-col gap-3 md:w-[90%]">
             <div className="text-center">
               <LabelTag rotate="rotate-[1deg]">
                 <h3 className="text-xl font-semibold text-ink">
@@ -133,7 +130,7 @@ function Home() {
                 </h3>
               </LabelTag>
             </div>
-            <div className="mt-2">
+            <div>
               <PinnedCard
                 bg="bg-blue-soft"
                 padding="p-3"

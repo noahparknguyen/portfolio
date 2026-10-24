@@ -54,7 +54,7 @@ function WorkHistory() {
           Where I&rsquo;ve Worked
         </h3>
       </LabelTag>
-      <ol className="mt-4 flex flex-col gap-5">
+      <ol className="mt-4 flex flex-col gap-8">
         {PASSES.map((pass) => (
           <li key={pass.flight}>
             <BoardingPass {...pass} />
@@ -209,9 +209,8 @@ function Diploma() {
 }
 
 // Two certificates, oldest first like the boarding passes: side by side from
-// `md`, stacked below it. `pb-5` reserves the 20px the ribbons hang below the
-// last card, so they end above the footer instead of over it. Between stacked
-// cards, the `gap-8` already leaves room.
+// `md`, stacked below it. The ribbons hang 20px below a card, which the 32px
+// between stacked cards and between the last card and the footer both clear.
 function Achievements() {
   return (
     <section aria-labelledby="ach-heading">
@@ -220,7 +219,7 @@ function Achievements() {
           What I&rsquo;ve Achieved
         </h3>
       </LabelTag>
-      <div className="mt-4 grid gap-8 pb-5 md:grid-cols-2">
+      <div className="mt-4 grid gap-8 md:grid-cols-2">
         <DeansList />
         <Diploma />
       </div>

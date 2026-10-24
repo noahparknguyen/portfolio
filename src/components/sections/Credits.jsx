@@ -221,10 +221,7 @@ function CreditGroup({ group }) {
 
 function Credits() {
   return (
-    <section
-      aria-labelledby="credits-heading"
-      className="flex justify-center py-8"
-    >
+    <section aria-labelledby="credits-heading" className="flex justify-center">
       {/* Keeps bg-paper rather than taking a section hue like Now and Creations
           do: Credits is the one section with no owned hue (its four group
           headers carry all four instead), and it's taped up rather than pinned,

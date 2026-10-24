@@ -152,13 +152,13 @@ function IsaacStamp() {
 
 function TechStack() {
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">
           <h3 className="text-xl font-semibold text-ink">My current toolset</h3>
         </LabelTag>
       </div>
-      <div className="tech-strip mt-2 flex flex-wrap justify-center gap-2">
+      <div className="tech-strip flex flex-wrap justify-center gap-2">
         {TECH_ITEMS.map((item) => (
           <TechBadge key={item.key} item={item} />
         ))}

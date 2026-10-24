@@ -8,6 +8,11 @@
 // `accent` is the section's owned hue. Routes with no owned hue (Credits, the
 // not-found page) carry `null`: Credits spreads all four across its group
 // headers instead, and the 404 owns nothing.
+//
+// `board` marks a page made of many small pinned pieces (Home, Now), which
+// packs them 20px apart. Every other page is a few large objects read one at a
+// time, 32px apart. App.jsx sets each page's distance from the masthead and
+// footer from it, and the sections use the same two gaps inside.
 
 const SITE = "https://noahpn.dev";
 
@@ -20,6 +25,7 @@ const ROUTES = [
     path: "/",
     label: "Home",
     accent: "rose",
+    board: true,
     nav: true,
     title: "Noah Park-Nguyen · Full-Stack Developer",
     description: BASE_DESCRIPTION,
@@ -39,6 +45,7 @@ const ROUTES = [
     path: "/now",
     label: "Now",
     accent: "blue",
+    board: true,
     nav: true,
     title: "Now · Noah Park-Nguyen",
     description:
@@ -62,7 +69,7 @@ const ROUTES = [
     nav: false,
     title: "Colophon · Noah Park-Nguyen",
     description:
-      "Thank you to everyone who inspired me to make something unique. Art, game assets, inspirations and the rest.",
+      "The people who helped make this possible. Art, game assets, inspirations, and the rest.",
   },
   {
     id: "notfound",

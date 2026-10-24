@@ -89,16 +89,18 @@ const LINKS = [
 
 function Links() {
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">
           <h3 className="text-xl font-semibold text-ink">Get in touch</h3>
         </LabelTag>
       </div>
-      {/* `mt-6` and `gap-8` rather than the usual 4: each tab stands 18px
-          above its card, and anything tighter lets a tab touch the label or
-          the card above it. */}
-      <div className="mt-6 flex flex-col gap-8">
+      {/* `gap-8` here and on the wrapper, rather than the usual 4: each tab
+          stands 18px above its card, so 32px between boxes shows as 14px
+          between a tab and whatever is above it, the label or the card before.
+          That's the same rhythm all the way down, and close to the 12px every
+          other heading on the board sits above its object. */}
+      <div className="flex flex-col gap-8">
         {LINKS.map(({ label, href, handle, rotate, tint, tab, Glyph }) => {
           const external = !href.startsWith("mailto:");
           return (

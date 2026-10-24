@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import pinksky from "./assets/bg-pinksky.jpg";
 import useRoute from "./hooks/useRoute";
+import { routeFor } from "./lib/routes";
 import Banner from "./components/layout/Banner";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -125,12 +126,18 @@ function App() {
             `w-full` matters: `mx-auto` stops a flex item stretching, so
             without it `main` sizes to its content, and one long unbroken line,
             such as a track title held on one line for its marquee, widens the
-            page past a phone's screen. */}
+            page past a phone's screen.
+
+            Its padding plus the column's 16px gap puts every page's content
+            20px from the masthead and footer on a board page and 32px on the
+            rest (`board` in routes.js), so no section pads itself. */}
         <main
           id="main"
           ref={mainRef}
           tabIndex={-1}
-          className="mx-auto w-full max-w-md flex-1 focus:outline-none md:mx-0 md:max-w-none"
+          className={`mx-auto w-full max-w-md flex-1 focus:outline-none md:mx-0 md:max-w-none ${
+            routeFor(active).board ? "py-1" : "py-4"
+          }`}
         >
           <ActiveSection onNavigate={navigate} />
         </main>

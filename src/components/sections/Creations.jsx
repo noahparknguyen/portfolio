@@ -120,7 +120,7 @@ function Creations() {
   return (
     <section
       aria-labelledby="creations-heading"
-      className="flex flex-col gap-5"
+      className="flex flex-col gap-8"
     >
       <PinnedCard
         bg="bg-orchid-soft"
@@ -154,7 +154,10 @@ function Creations() {
           Opening replaces the whole row with the full-width spread, so the
           evidence steps aside while you're reading the book, which is exactly
           when it's redundant. */}
-      <ol className="flex flex-col gap-5">
+      {/* 32px between books, the gap for a page of a few large objects. A
+          cover and its evidence keep 20px between them on a phone, since they
+          belong together. */}
+      <ol className="flex flex-col gap-8">
         {PROJECTS.map((project, i) => (
           <li key={project.id}>
             {openId === project.id ? (

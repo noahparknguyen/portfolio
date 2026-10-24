@@ -11,7 +11,7 @@ function SteamWidget() {
   const empty = !loading && !game;
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <div className="text-center">
         <LabelTag rotate="-rotate-[1deg]">
           <h3 className="text-xl font-semibold text-ink">
@@ -19,7 +19,7 @@ function SteamWidget() {
           </h3>
         </LabelTag>
       </div>
-      <PinnedCard padding="p-0" rotate="rotate-[1deg]" className="mt-2">
+      <PinnedCard padding="p-0" rotate="rotate-[1deg]">
         {loading ? (
           <div
             className="aspect-460/215 w-full animate-pulse border-b-2 border-ink bg-primary-soft"

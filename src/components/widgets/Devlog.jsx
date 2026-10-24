@@ -15,7 +15,7 @@ function Devlog() {
   //   Spacing scale). The columns can end up to 19px apart because of it.
   // - It never drops below its phone height, 144px.
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col gap-3">
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">
           <h3 className="text-xl font-semibold text-ink">
@@ -23,7 +23,7 @@ function Devlog() {
           </h3>
         </LabelTag>
       </div>
-      <div className="relative mt-2 flex flex-1 flex-col">
+      <div className="relative flex flex-1 flex-col">
         <span
           aria-hidden="true"
           className="absolute -top-3 right-6 block h-8 w-5 border-2 border-ink bg-orchid [clip-path:polygon(0_0,50%_25%,100%_0,100%_100%,0_100%)]"
