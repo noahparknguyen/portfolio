@@ -39,7 +39,8 @@ function EnvelopeGlyph() {
 }
 
 // Each card's tab has no bottom border and sits 2px down over the card's top
-// border, in the card's tint, which joins the two.
+// border, in the card's tint, which joins the two. The rule under the handle
+// takes the card's own hue, so every line on a card matches it.
 const LINKS = [
   {
     label: "GitHub",
@@ -47,6 +48,7 @@ const LINKS = [
     handle: "@noahparknguyen",
     rotate: "-rotate-[1.5deg]",
     tint: "bg-blue-soft",
+    rule: "border-blue",
     tab: "left-3",
     Glyph: GithubGlyph,
   },
@@ -56,6 +58,7 @@ const LINKS = [
     handle: "in/noahparknguyen",
     rotate: "rotate-1",
     tint: "bg-rose-soft",
+    rule: "border-rose",
     tab: "left-1/2 -translate-x-1/2",
     Glyph: LinkedinGlyph,
   },
@@ -65,6 +68,7 @@ const LINKS = [
     handle: "noahparknguyen@gmail.com",
     rotate: "-rotate-1",
     tint: "bg-violet-soft",
+    rule: "border-violet",
     tab: "right-3",
     Glyph: EnvelopeGlyph,
   },
@@ -79,32 +83,36 @@ function Links() {
       {/* `gap-8`, since each tab stands 18px above its card: 32px between
           boxes shows as 14px above a tab. */}
       <div className="flex flex-col gap-8">
-        {LINKS.map(({ label, href, handle, rotate, tint, tab, Glyph }) => {
-          const external = !href.startsWith("mailto:");
-          return (
-            <a
-              key={label}
-              href={href}
-              target={external ? "_blank" : undefined}
-              rel={external ? "noreferrer" : undefined}
-              className={`shadow-sticker relative block ${rotate} border-2 border-ink ${tint} p-3 transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5`}
-            >
-              <span
-                aria-hidden="true"
-                className={`absolute bottom-[calc(100%-2px)] ${tab} flex h-5 w-10 items-center justify-center border-l-2 border-r-2 border-t-2 border-ink ${tint}`}
+        {LINKS.map(
+          ({ label, href, handle, rotate, tint, rule, tab, Glyph }) => {
+            const external = !href.startsWith("mailto:");
+            return (
+              <a
+                key={label}
+                href={href}
+                target={external ? "_blank" : undefined}
+                rel={external ? "noreferrer" : undefined}
+                className={`shadow-sticker relative block ${rotate} border-2 border-ink ${tint} p-3 transition-transform hover:-translate-y-0.5 focus-visible:-translate-y-0.5`}
               >
-                <Glyph />
-              </span>
-              <div className="border-b-2 border-ink pb-1 font-display text-lg font-bold leading-tight text-ink">
-                {label}
-              </div>
-              <div className="mt-1 truncate border-b border-blue pb-0.5 text-xs text-gray-600">
-                {handle}
-              </div>
-              {external && <NewTabHint />}
-            </a>
-          );
-        })}
+                <span
+                  aria-hidden="true"
+                  className={`absolute bottom-[calc(100%-2px)] ${tab} flex h-5 w-10 items-center justify-center border-l-2 border-r-2 border-t-2 border-ink ${tint}`}
+                >
+                  <Glyph />
+                </span>
+                <div className="border-b-2 border-ink pb-1 font-display text-lg font-bold leading-tight text-ink">
+                  {label}
+                </div>
+                <div
+                  className={`mt-1 truncate border-b ${rule} pb-0.5 text-xs text-gray-600`}
+                >
+                  {handle}
+                </div>
+                {external && <NewTabHint />}
+              </a>
+            );
+          },
+        )}
       </div>
     </div>
   );
