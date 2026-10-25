@@ -103,9 +103,9 @@ const GROUPS = [
     id: "odds",
     title: "Everything Else",
     accent: "orchid",
-    // Three of these are licence obligations. Open-Meteo's data and Font
-    // Awesome are CC BY 4.0, which asks for a name and a link to the licence,
-    // and Spotify's Developer Policy requires attribution.
+    // Three of these are licence obligations. Open-Meteo's data, Font Awesome,
+    // and Codicons are CC BY 4.0, which asks for a name and a link to the
+    // licence, and Spotify's Developer Policy requires attribution.
     items: [
       {
         parts: [
@@ -138,13 +138,18 @@ const GROUPS = [
       },
       {
         // Simple Icons is CC0 and needs no attribution, so the licence link
-        // sits with Font Awesome alone.
+        // covers the other two alone.
         parts: [
           { text: "Icon glyphs\u00a0— " },
           { linkText: "Simple Icons", href: "https://simpleicons.org" },
-          { text: ", and " },
+          { text: ", " },
           { linkText: "Font Awesome", href: "https://fontawesome.com" },
-          { text: " under " },
+          { text: ", and " },
+          {
+            linkText: "Codicons",
+            href: "https://github.com/microsoft/vscode-codicons",
+          },
+          { text: ", the last two under " },
           {
             linkText: "CC BY 4.0",
             href: "https://creativecommons.org/licenses/by/4.0/",

@@ -179,6 +179,19 @@
     opacity: 1;
   }
 
+  /* Notes show only from md, where the strip is two rows of 8. At 768px a
+     centred note on a row's first stamp starts off-screen, so each row's end
+     notes hang inward. */
+  .tech-strip > .group:nth-child(8n + 1) > .tech-note {
+    left: 0;
+    transform: none;
+  }
+  .tech-strip > .group:nth-child(8n) > .tech-note {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
   /* Room for a note under the last row, only where one can appear. */
   .tech-strip {
     padding-bottom: calc(var(--spacing) * 7);
