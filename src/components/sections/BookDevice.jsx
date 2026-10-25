@@ -6,7 +6,7 @@ const SIZES = {
   title: "h-24 w-24 shrink-0",
 };
 
-// Statmon's Poké Ball, without the rounded tile and gradient of its favicon.
+// Statmon's Poké Ball, in ink linework.
 function PokeballDevice({ className }) {
   return (
     <svg viewBox="0 0 48 48" aria-hidden="true" className={className}>
@@ -33,18 +33,25 @@ function PokeballDevice({ className }) {
   );
 }
 
-// Inbox's three rectangles, without the rounded tile. Both columns end on the
-// same line.
+// Inbox's x, the two chevrons of the x in its logo (and its own favicon),
+// traced from the HubSpot tool's images/logo.svg. The orange half takes the
+// book's spine blue, and the left half is drawn over it, as in the logo.
 function InboxDevice({ className }) {
   return (
     <svg viewBox="0 0 48 48" aria-hidden="true" className={className}>
       <g
         stroke="var(--color-ink)"
         style={{ strokeWidth: "var(--stroke-bold)" }}
+        strokeLinejoin="round"
       >
-        <rect x="10" y="10" width="11" height="11" fill="var(--color-blue)" />
-        <rect x="10" y="25" width="11" height="13" fill="var(--color-paper)" />
-        <rect x="26" y="10" width="11" height="28" fill="var(--color-paper)" />
+        <polygon
+          points="25.2,31 19.3,22.7 24.2,15.9 28.4,10 37.8,10 28.3,23.3 39,38 30.2,38"
+          fill="var(--color-blue)"
+        />
+        <polygon
+          points="22.8,31 28.7,22.7 23.8,15.9 19.5,10 10.2,10 19.7,23.3 9,38 17.8,38"
+          fill="var(--color-paper)"
+        />
       </g>
     </svg>
   );
