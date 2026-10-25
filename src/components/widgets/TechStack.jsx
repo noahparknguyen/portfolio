@@ -1,7 +1,9 @@
 import {
+  siSpringboot,
+  siPostgresql,
+  siNodedotjs,
   siReact,
   siTailwindcss,
-  siNodedotjs,
   siPython,
   siFigma,
   siObsidian,
@@ -16,10 +18,14 @@ function JavaIcon() {
   return <FaJava aria-hidden="true" className="mx-auto h-7 w-7 text-ink" />;
 }
 
-// Touching stamps never share a tint, at any width. The strip wraps 3 across
-// at 320px, 4 at 375px, and 8 in a row from md, so stamps 1, 3, or 4 apart here
-// touch, Isaac's included. Re-check all three distances after reordering or
-// adding one.
+// The first six are the GitHub profile's stack row, in its order.
+//
+// Touching stamps never share a tint, at any width. Capped at five across, the
+// strip takes three layouts: 3 across on the narrowest phones, 4 on wider
+// ones, and two rows of 5 from 456px. Rows are centred, so a short last row
+// sits under the middle of the row above. The tints are solved against all
+// three layouts at once, Isaac's included: re-check every layout after
+// reordering or adding a stamp.
 const TECH_ITEMS = [
   {
     key: "java",
@@ -31,22 +37,22 @@ const TECH_ITEMS = [
     note: "My first and main language",
   },
   {
-    key: "react",
-    label: "React",
-    icon: siReact,
-    href: "https://react.dev",
+    key: "spring-boot",
+    label: "Spring Boot",
+    icon: siSpringboot,
+    href: "https://spring.io/projects/spring-boot",
     rotate: "rotate-[2deg]",
-    tint: "bg-violet-soft",
-    note: "How I made the site",
+    tint: "bg-orchid-soft",
+    note: "My go-to backend framework",
   },
   {
-    key: "tailwind",
-    label: "Tailwind",
-    icon: siTailwindcss,
-    href: "https://tailwindcss.com",
+    key: "postgresql",
+    label: "PostgreSQL",
+    icon: siPostgresql,
+    href: "https://www.postgresql.org",
     rotate: "rotate-[-2deg]",
-    tint: "bg-blue-soft",
-    note: "How I styled the site",
+    tint: "bg-violet-soft",
+    note: "My DBMS of choice",
   },
   {
     key: "node",
@@ -58,12 +64,30 @@ const TECH_ITEMS = [
     note: "My main scripting language",
   },
   {
+    key: "react",
+    label: "React",
+    icon: siReact,
+    href: "https://react.dev",
+    rotate: "rotate-[-3deg]",
+    tint: "bg-violet-soft",
+    note: "How I made the site",
+  },
+  {
+    key: "tailwind",
+    label: "Tailwind",
+    icon: siTailwindcss,
+    href: "https://tailwindcss.com",
+    rotate: "rotate-[2deg]",
+    tint: "bg-blue-soft",
+    note: "How I styled the site",
+  },
+  {
     key: "python",
     label: "Python",
     icon: siPython,
     href: "https://www.python.org",
-    rotate: "rotate-[-3deg]",
-    tint: "bg-blue-soft",
+    rotate: "rotate-[-2deg]",
+    tint: "bg-rose-soft",
     note: "Learning",
   },
   {
@@ -71,8 +95,8 @@ const TECH_ITEMS = [
     label: "Figma",
     icon: siFigma,
     href: "https://www.figma.com",
-    rotate: "rotate-[2deg]",
-    tint: "bg-orchid-soft",
+    rotate: "rotate-[3deg]",
+    tint: "bg-blue-soft",
     note: "Also learning",
   },
   {
@@ -80,7 +104,7 @@ const TECH_ITEMS = [
     label: "Obsidian",
     icon: siObsidian,
     href: "https://obsidian.md",
-    rotate: "rotate-[-2deg]",
+    rotate: "rotate-[-3deg]",
     tint: "bg-violet-soft",
     note: "My primary notes app",
   },
@@ -105,7 +129,9 @@ function TechBadge({ item }) {
         ) : (
           <SimpleIcon icon={item.icon} className="mx-auto h-7 w-7 text-ink" />
         )}
-        <span className="mt-1 block text-xs font-bold text-ink">
+        {/* Spring Boot and PostgreSQL are wider than the space inside the
+            padding, so a label may use the padding's width rather than wrap. */}
+        <span className="-mx-2 mt-1 block whitespace-nowrap text-xs font-bold text-ink">
           {item.label}
         </span>
         <NewTabHint />
@@ -122,7 +148,7 @@ function TechBadge({ item }) {
 function IsaacStamp() {
   return (
     <div className="group relative" aria-hidden="true">
-      <div className="shadow-sticker block w-20 rotate-3 border-2 border-ink bg-rose-soft p-2 text-center transition-transform hover:-translate-y-1">
+      <div className="shadow-sticker block w-20 rotate-2 border-2 border-ink bg-orchid-soft p-2 text-center transition-transform hover:-translate-y-1">
         <img
           src={tboiThumbsUp}
           alt=""
@@ -143,7 +169,7 @@ function TechStack() {
       <div className="text-center">
         <LabelTag rotate="rotate-[1deg]">My current toolset</LabelTag>
       </div>
-      <div className="tech-strip flex flex-wrap justify-center gap-2">
+      <div className="tech-strip mx-auto flex max-w-md flex-wrap justify-center gap-2">
         {TECH_ITEMS.map((item) => (
           <TechBadge key={item.key} item={item} />
         ))}

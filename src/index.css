@@ -179,19 +179,7 @@
     opacity: 1;
   }
 
-  /* The end stamps' notes hang inward, since at 768px a centred note on the
-     first stamp starts off-screen. */
-  .tech-strip > .group:first-child > .tech-note {
-    left: 0;
-    transform: none;
-  }
-  .tech-strip > .group:last-child > .tech-note {
-    left: auto;
-    right: 0;
-    transform: none;
-  }
-
-  /* Room for a note under the row, only where one can appear. */
+  /* Room for a note under the last row, only where one can appear. */
   .tech-strip {
     padding-bottom: calc(var(--spacing) * 7);
   }

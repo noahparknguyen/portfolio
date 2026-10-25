@@ -237,6 +237,9 @@ const FAMILIES = [
       "-mb-4",
       // Weather's glyph, pulled left to look centred against the temperature.
       "-ml-6",
+      // Cancels a tech stamp's `p-2`, so Spring Boot and PostgreSQL fit on
+      // one line.
+      "-mx-2",
       // Cancels `mx-auto` once the desktop tier stops centring the column.
       "mx-0",
     ],
