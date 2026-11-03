@@ -27,9 +27,9 @@ export async function startPreview(port) {
   const base = `http://localhost:${port}`;
 
   // Refuse a server this script didn't start. Killing the child doesn't
-  // reliably take down the whole `npx vite preview` tree, so an interrupted run
-  // can leave an orphan holding the port. The next run would then talk to the
-  // orphan, whose stale build loads blank pages.
+  // reliably take down the whole `pnpm exec vite preview` tree, so an
+  // interrupted run can leave an orphan holding the port. The next run would
+  // then talk to the orphan, whose stale build loads blank pages.
   try {
     const stale = await fetch(base, { signal: AbortSignal.timeout(2000) });
     if (stale.ok) {
@@ -44,10 +44,10 @@ export async function startPreview(port) {
   }
 
   // `detached` puts the child in its own process group, so `stop` can signal
-  // the whole tree rather than just the `npx` shim.
+  // the whole tree rather than just pnpm.
   const server = spawn(
-    "npx",
-    ["vite", "preview", "--port", String(port), "--strictPort"],
+    "pnpm",
+    ["exec", "vite", "preview", "--port", String(port), "--strictPort"],
     { stdio: "ignore", detached: true },
   );
   const stop = () => {

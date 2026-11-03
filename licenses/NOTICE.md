@@ -13,7 +13,7 @@ site's Colophon, not only here.
 
 Redistributed in this repository. All four are under the **SIL Open Font
 License 1.1**, which is an **obligation**: the licence has to travel with the
-fonts. They're vendored into `public/fonts/` by `npm run vendor:fonts`, which
+fonts. They're vendored into `public/fonts/` by `pnpm run vendor:fonts`, which
 fetches each family's licence from the `google/fonts` repository into this
 folder at the same time, so a re-vendor can't drop them.
 

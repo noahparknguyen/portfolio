@@ -6,6 +6,14 @@
   "engines": {
     "node": ">=24"
   },
+  "packageManager": "pnpm@12.16.1",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.0.0",
+      "onFail": "download"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -23,7 +31,7 @@
     "audit:browser": "node scripts/audit-browser.mjs",
     "shoot:docs": "node scripts/shoot-docs.mjs",
     "vendor:fonts": "node scripts/vendor-fonts.mjs",
-    "check": "npm run lint && npm run format:check && npm run check:config && npm run check:icons && npm run audit:styles && npm run test:run && npm run build && npm run audit:browser"
+    "check": "pnpm run lint && pnpm run format:check && pnpm run check:config && pnpm run check:icons && pnpm run audit:styles && pnpm run test:run && pnpm run build && pnpm run audit:browser"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
