@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Regenerates the README screenshot. Run after `npm run build`.
+// Regenerates the README screenshot. Run after `pnpm run build`.
 
 import { execSync } from "node:child_process";
 import { statSync } from "node:fs";

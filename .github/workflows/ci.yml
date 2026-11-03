@@ -1,4 +1,4 @@
-# Runs the same seven checks as `npm run check`, so none of them depends on
+# Runs the same seven checks as `pnpm run check`, so none of them depends on
 # someone remembering to run it locally.
 name: CI
 
@@ -18,40 +18,41 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      # Installs the pnpm named by `packageManager` in package.json and the Node
+      # named by `devEngines.runtime`, then runs `pnpm install`. With
+      # `require-lockfile`, a missing pnpm-lock.yaml fails the job rather than
+      # being quietly created, so the lockfile is what gets tested.
+      - uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
         with:
-          node-version: 24
-          cache: npm
-
-      # `npm ci` rather than `npm install`, so the lockfile is what gets tested.
-      - run: npm ci
+          cache: true
+          require-lockfile: true
 
       # Ordered cheapest-first, so an obvious failure reports in seconds rather
       # than after the browser pass.
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Formatting
-        run: npm run format:check
+        run: pnpm run format:check
 
       # Catches docs/index.html's colour tokens falling out of step with
       # src/index.css, which nothing else can see.
       - name: Config consistency
-        run: npm run check:config
+        run: pnpm run check:config
 
       # Opens every favicon file, which nothing else does: a broken one only
       # shows in a tab, a search result, or on a home screen.
       - name: Icons
-        run: npm run check:icons
+        run: pnpm run check:icons
 
       - name: Style allowlist
-        run: npm run audit:styles
+        run: pnpm run audit:styles
 
       - name: Unit tests
-        run: npm run test:run
+        run: pnpm run test:run
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       # Needs dist/ from the step above, and Chrome, which the runner image
       # ships. The script finds a binary itself rather than this pinning a path
@@ -60,4 +61,4 @@ jobs:
       # route at 320, 375, 768, and 1024: the kind of bug that's invisible to
       # every check above it.
       - name: Browser audit
-        run: npm run audit:browser
+        run: pnpm run audit:browser

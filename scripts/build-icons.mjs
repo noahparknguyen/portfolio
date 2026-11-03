@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Draws every raster icon from public/favicon.svg. That file is <Pin> from
 // src/components/ui/Pin.jsx as an SVG: the same 16px disc, 2px ink ring, and
-// 4px paper highlight. Run this after changing the SVG, then `npm run
+// 4px paper highlight. Run this after changing the SVG, then `pnpm run
 // check:icons`.
 //
 // Chrome draws them, since a browser is what draws the SVG in a tab. Each file

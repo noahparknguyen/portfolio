@@ -9,7 +9,7 @@
 // - Every raster is the size it claims, and its drawing is centred and fills
 //   the square. The apple-touch icon has no transparent pixels.
 //
-// `npm run build:icons` redraws the rasters from the SVG.
+// `pnpm run build:icons` redraws the rasters from the SVG.
 
 import { existsSync, readFileSync } from "node:fs";
 import { inflateSync } from "node:zlib";
