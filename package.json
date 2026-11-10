@@ -1,0 +1,17 @@
+{
+    "name": "portfolio",
+    "private": true,
+    "scripts": {
+        "dev": "pnpm run \"/^dev:/\"",
+        "dev:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+        "dev:serve": "browser-sync start --server src --files src --no-open",
+        "build": "tailwindcss -i ./src/input.css -o ./src/output.css --minify"
+    },
+    "dependencies": {
+        "@tailwindcss/cli": "^4.3.5",
+        "tailwindcss": "^4.3.5"
+    },
+    "devDependencies": {
+        "browser-sync": "^3.0.4"
+    }
+}
