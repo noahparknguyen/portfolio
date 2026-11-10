@@ -2,6 +2,14 @@
     "name": "portfolio",
     "compatibility_date": "2026-11-10",
     "assets": {
-        "directory": "./src"
-    }
+        "directory": "./src",
+    },
+    "routes": [
+        {
+            "pattern": "noahpn.dev",
+            "custom_domain": true,
+        },
+    ],
+    "workers_dev": false,
+    "preview_urls": false,
 }
