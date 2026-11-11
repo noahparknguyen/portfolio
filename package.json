@@ -3,12 +3,14 @@
     "private": true,
     "scripts": {
         "dev": "pnpm run \"/^dev:/\"",
+        "dev:blog": "node scripts/build-blog.mjs --watch",
         "dev:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
         "dev:serve": "browser-sync start --server src --files src --no-open --no-notify",
-        "build": "tailwindcss -i ./src/input.css -o ./src/output.css --minify"
+        "build": "node scripts/build-blog.mjs && tailwindcss -i ./src/input.css -o ./src/output.css --minify"
     },
     "dependencies": {
         "@tailwindcss/cli": "^4.3.5",
+        "marked": "^18.2.0",
         "tailwindcss": "^4.3.5"
     },
     "devDependencies": {
