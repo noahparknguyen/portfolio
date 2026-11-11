@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "pnpm run \"/^dev:/\"",
         "dev:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
-        "dev:serve": "browser-sync start --server src --files src --no-open",
+        "dev:serve": "browser-sync start --server src --files src --no-open --no-notify",
         "build": "tailwindcss -i ./src/input.css -o ./src/output.css --minify"
     },
     "dependencies": {
