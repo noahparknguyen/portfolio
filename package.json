@@ -4,9 +4,9 @@
     "scripts": {
         "dev": "pnpm run \"/^dev:/\"",
         "dev:blog": "node scripts/build-blog.mjs --watch",
-        "dev:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+        "dev:css": "tailwindcss -i ./src/assets/css/input.css -o ./src/assets/css/output.css --watch",
         "dev:serve": "browser-sync start --server src --files src --no-open --no-notify",
-        "build": "node scripts/build-blog.mjs && tailwindcss -i ./src/input.css -o ./src/output.css --minify"
+        "build": "node scripts/build-blog.mjs && tailwindcss -i ./src/assets/css/input.css -o ./src/assets/css/output.css --minify"
     },
     "dependencies": {
         "@tailwindcss/cli": "^4.3.5",

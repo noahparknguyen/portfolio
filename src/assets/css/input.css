@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "iAWriterDuoS";
+    src: url("/assets/fonts/iAWriterDuoS-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "iAWriterDuoS";
+    src: url("/assets/fonts/iAWriterDuoS-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "iAWriterDuoS";
+    src: url("/assets/fonts/iAWriterDuoS-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "iAWriterDuoS";
+    src: url("/assets/fonts/iAWriterDuoS-BoldItalic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@theme {
+    --font-sans: "iAWriterDuoS", ui-monospace, monospace;
+    --font-mono: "iAWriterDuoS", ui-monospace, monospace;
+}
+
+@layer base {
+    html {
+        @apply bg-amber-50 text-stone-950;
+    }
+    body {
+        @apply mx-auto p-5 max-w-3xl space-y-10;
+    }
+    nav {
+        @apply flex justify-around;
+    }
+    main {
+        @apply space-y-10;
+    }
+    h1 {
+        @apply font-bold text-3xl mb-3;
+    }
+    h2 {
+        @apply font-semibold text-xl mb-3;
+    }
+    a {
+        @apply rgb(32, 94, 166);
+    }
+}
