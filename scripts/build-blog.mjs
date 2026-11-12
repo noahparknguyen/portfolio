@@ -33,12 +33,12 @@ function slugify(name) {
 // works at any folder depth.
 function layout(title, content) {
     return `<!doctype html>
-<html lang="en-US">
+<html lang="en-CA">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <title>${title}</title>
-        <link href="/output.css" rel="stylesheet" />
+        <link href="/assets/css/output.css" rel="stylesheet" />
     </head>
     <body>
 ${content}
