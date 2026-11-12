@@ -35,11 +35,18 @@
 @theme {
     --font-sans: "iAWriterDuoS", ui-monospace, monospace;
     --font-mono: "iAWriterDuoS", ui-monospace, monospace;
+
+    --color-bg: light-dark(oklch(98.7% 0.022 95.3), oklch(15.5% 0.006 95.3));
+    --color-text: light-dark(oklch(21% 0.008 95.3), oklch(96.5% 0.016 95.3));
+    --color-muted: light-dark(oklch(48% 0.018 95.3), oklch(72% 0.016 95.3));
+    --color-link: light-dark(oklch(46% 0.13 282), oklch(75% 0.13 282));
+    --color-heading: light-dark(oklch(40% 0.115 316), oklch(76% 0.115 316));
 }
 
 @layer base {
     html {
-        @apply bg-amber-50 text-stone-950;
+        color-scheme: light dark;
+        @apply bg-bg text-text leading-loose;
     }
     body {
         @apply mx-auto p-5 max-w-3xl space-y-10;
@@ -51,12 +58,24 @@
         @apply space-y-10;
     }
     h1 {
-        @apply font-bold text-3xl mb-3;
+        @apply text-heading font-bold text-3xl mb-3;
     }
     h2 {
-        @apply font-semibold text-xl mb-3;
+        @apply text-heading font-bold text-xl mb-3;
+    }
+    nav a {
+        @apply text-text no-underline;
     }
     a {
-        @apply rgb(32, 94, 166);
+        @apply text-link underline;
+    }
+    small {
+        @apply text-muted text-base;
+    }
+    main ul {
+        @apply list-disc pl-5;
+    }
+    main li {
+        @apply pl-3;
     }
 }
