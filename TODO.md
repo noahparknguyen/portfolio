@@ -1,7 +1,15 @@
 # To do
 
-- [ ] Dark mode: CSS-only toggle, with `assets/js/theme.js` to remember the choice
+- [x] Dark mode: script-driven toggle in the footer, with `assets/js/theme.js` to remember the choice
+- [ ] Dark mode: decide what visitors without JavaScript see (the toggle flips its icon but not the theme)
+- [ ] Footer: the links run together below about 370px wide, because the list is capped at 50% of the footer
+- [ ] Now, colophon and blog: load `assets/js/theme.js` in the head so a saved theme carries across pages
 - [ ] Colophon: credits and notes, styled later
+    - [ ] Credit Derek Sivers for inspiration: the now page and the text styling
+    - [ ] Credit Steph Ango for inspiration: Flexoki
+    - [ ] Credit the font: iA Writer Duo by iA
+    - [ ] Credit the Kirby GIF: Kirby 64 by Nintendo
+    - [ ] Credit the sun and moon icons: Solar Icon Set by 480 Design, CC BY 4.0. Required by the licence: name 480 Design, link the licence and say they were recoloured
 - [ ] Blog format
 - [ ] Header and footer on the other pages: now, colophon and the blog layout
 - [x] Link styles, the same everywhere
