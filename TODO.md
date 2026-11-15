@@ -14,7 +14,7 @@
 - [ ] Header and footer on the other pages: now, colophon and the blog layout
 - [x] Link styles, the same everywhere
 - [x] List markers and text styles: bold, italics, muted dates
-- [ ] Now page: add an `h1` and its own `<title>`, and make the nownownow URL a link
+- [x] Now page: add an `h1` and its own `<title>`, and make the nownownow URL a link
 - [ ] Now and home pages, in this order:
     - [ ] Now page headings: projects, learning, hobbies, a word for the TV, movies and games, personal goals
     - [ ] Write the now page under the new headings
