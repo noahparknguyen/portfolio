@@ -37,7 +37,7 @@ function layout(title, content) {
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <title>${title}</title>
+        <title>${title} – noah park-nguyen</title>
         <link href="/assets/css/output.css" rel="stylesheet" />
     </head>
     <body>
@@ -122,7 +122,7 @@ ${post.body}
 ${links}
         </ul>`;
 
-    writeFileSync(`${blogDir}/index.html`, layout("Blog", list));
+    writeFileSync(`${blogDir}/index.html`, layout("blog", list));
     console.log(`Built ${posts.length} blog posts`);
 }
 
