@@ -36,6 +36,18 @@
     --font-sans: "iAWriterDuoS", ui-monospace, monospace;
     --font-mono: "iAWriterDuoS", ui-monospace, monospace;
 
+    /* the kirby page's tiles drift one tile up and left, then repeat. the
+       offset must match the tile size set on that page. */
+    --animate-bg-drift: bg-drift 3s linear infinite;
+    @keyframes bg-drift {
+        from {
+            background-position: 0 0;
+        }
+        to {
+            background-position: -202px -225px;
+        }
+    }
+
     --color-bg: light-dark(oklch(98.7% 0.022 95.3), oklch(15.5% 0.006 95.3));
     --color-text: light-dark(oklch(21% 0.008 95.3), oklch(96.5% 0.016 95.3));
     --color-muted: light-dark(oklch(48% 0.018 95.3), oklch(72% 0.016 95.3));
@@ -83,5 +95,11 @@
     }
     main li {
         @apply pl-3;
+    }
+    main p + p {
+        @apply mt-3;
+    }
+    main li + li {
+        @apply mt-3;
     }
 }
