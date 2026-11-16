@@ -1,18 +1,19 @@
 # To do
 
 - [x] Dark mode: script-driven toggle in the footer, with `assets/js/theme.js` to remember the choice
-- [ ] Dark mode: decide what visitors without JavaScript see (the toggle flips its icon but not the theme)
+- [x] Dark mode: decide what visitors without JavaScript see (they follow their system theme, and `noscript:hidden` hides the toggle)
 - [x] Footer: the links run together below about 370px wide, because the list is capped at 50% of the footer
-- [ ] Colophon and blog: load `assets/js/theme.js` in the head so a saved theme carries across pages
-- [ ] Colophon: credits and notes, styled later
-    - [ ] Credit Derek Sivers for inspiration: the now page and the text styling
-    - [ ] Credit Steph Ango for inspiration: Flexoki
-    - [ ] Credit the font: iA Writer Duo by iA
-    - [ ] Credit the Kirby GIF: Kirby 64 by Nintendo
-    - [ ] Credit the Madeline GIF on the now page: Celeste by Maddy Makes Games
-    - [ ] Credit the sun and moon icons: Solar Icon Set by 480 Design, CC BY 4.0. Required by the licence: name 480 Design, link the licence and say they were recoloured
+- [ ] Blog layout: load `assets/js/theme.js` in the head so a saved theme carries across pages
+- [x] Colophon: credits and notes, styled later
+    - [x] Credit Derek Sivers for inspiration: the now page and the text styling
+    - [x] Credit Steph Ango for inspiration: Flexoki
+    - [x] Credit the font: iA Writer Duo by iA
+    - [x] Credit the Kirby GIF: Kirby 64 by Nintendo
+    - [x] Credit the Madeline GIF on the now page: Celeste by Maddy Makes Games
+    - [x] Credit the Isaac image on the colophon: The Binding of Isaac by Edmund McMillen
+    - [x] Credit the sun and moon icons: Solar Icon Set by 480 Design, CC BY 4.0. Required by the licence: name 480 Design, link the licence and say they were recoloured
 - [ ] Blog format
-- [ ] Header and footer on the other pages: colophon and the blog layout
+- [ ] Header and footer on the blog layout, with `noscript:hidden` on the toggle
 - [x] Kirby page: a hidden line for screen readers describing the tiled Kirby (a heading and a link home aren't required at AA)
 - [x] Link styles, the same everywhere
 - [x] List markers and text styles: bold, italics, muted dates

@@ -5,9 +5,190 @@
         <meta name="viewport" content="width=device-width" />
         <title>colophon – noah park-nguyen</title>
         <link href="/assets/css/output.css" rel="stylesheet" />
+        <script src="/assets/js/theme.js"></script>
     </head>
     <body>
-        <h1>Colophon</h1>
-        <p>WIP</p>
+        <header>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/now/">Now</a>
+                <a href="/blog/">Blog</a>
+                <a href="/colophon/" aria-current="page">Colophon</a>
+            </nav>
+        </header>
+        <main>
+            <div
+                class="flex flex-col items-center justify-center gap-10 sm:flex-row"
+            >
+                <img
+                    src="/assets/images/isaac-thumbs-up.webp"
+                    alt="Isaac from The Binding of Isaac giving a big thumbs up"
+                    width="237"
+                    height="248"
+                    class="w-30"
+                />
+                <hgroup class="text-center sm:text-left">
+                    <h1>Roll call</h1>
+                    <p>Giving credit where credit is due</p>
+                </hgroup>
+            </div>
+            <hr />
+            <section>
+                <h2>Licences</h2>
+                <ul>
+                    <li>
+                        <a
+                            href="https://github.com/iaolo/iA-Fonts"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >iA Writer Duo</a
+                        >
+                        by iA, licensed under the
+                        <a
+                            href="https://openfontlicense.org/open-font-license-official-text/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >SIL Open Font License 1.1</a
+                        >.
+                    </li>
+                    <li>
+                        <a
+                            href="https://www.figma.com/community/file/1166831539721848736"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Solar Icon Set</a
+                        >
+                        by 480 Design, licensed under
+                        <a
+                            href="https://creativecommons.org/licenses/by/4.0/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >CC BY 4.0</a
+                        >. The sun and moon icons were recoloured and resized.
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Attributions</h2>
+                <p>
+                    All animated GIFs featured on this website remain the
+                    intellectual property of their respective copyright holders,
+                    including Nintendo/HAL Laboratory (<cite>Kirby 64: The
+                    Crystal Shards</cite>), Maddy Makes Games
+                    (<cite>Celeste</cite>), and Edmund McMillen (<cite>The
+                    Binding of Isaac</cite>). All media is used strictly for
+                    non-commercial tribute.
+                </p>
+            </section>
+            <section>
+                <h2>Inspirations</h2>
+                <ul>
+                    <li>
+                        Shoutout to
+                        <a
+                            href="https://sive.rs/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Derek Sivers</a
+                        >
+                        for creating
+                        <a
+                            href="https://nownownow.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >nownownow.com</a
+                        >
+                        and for influencing me to go for a more simple plain
+                        HTML website.
+                    </li>
+                    <li>
+                        Thanks to
+                        <a
+                            href="https://stephango.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Steph Ango</a
+                        >
+                        for his
+                        <a
+                            href="https://stephango.com/flexoki"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Flexoki</a
+                        >
+                        colour scheme, which was the jumping-off point for my
+                        site's style.
+                    </li>
+                    <li>
+                        And shoutout to <em>you</em>, for taking the time to
+                        visit my little site.
+                    </li>
+                </ul>
+            </section>
+        </main>
+
+        <hr />
+
+        <footer class="flex items-center justify-between">
+            <ul role="list" class="flex gap-5 text-sm">
+                <li>
+                    <a href="mailto:noahparknguyen@gmail.com">Gmail</a>
+                </li>
+                <li>
+                    <a
+                        href="https://github.com/noahparknguyen"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >GitHub</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="https://www.linkedin.com/in/noahparknguyen"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >LinkedIn</a
+                    >
+                </li>
+            </ul>
+            <label
+                class="inline-flex cursor-pointer items-center select-none has-focus-visible:outline-2 has-focus-visible:outline-offset-2 noscript:hidden"
+            >
+                <input
+                    type="checkbox"
+                    id="theme-toggle"
+                    role="switch"
+                    aria-label="Dark mode"
+                    class="peer sr-only"
+                />
+                <!-- Sun and moon from the Solar Icon Set (Bold) by 480 Design, CC BY 4.0. Copies of src/assets/images/sun.svg and moon.svg. -->
+                <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    class="size-6 peer-checked:hidden"
+                >
+                    <path
+                        d="M18 12C18 15.3137 15.3137 18 12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12 1.25C12.4142 1.25 12.75 1.58579 12.75 2V3C12.75 3.41421 12.4142 3.75 12 3.75C11.5858 3.75 11.25 3.41421 11.25 3V2C11.25 1.58579 11.5858 1.25 12 1.25ZM4.39861 4.39861C4.6915 4.10572 5.16638 4.10572 5.45927 4.39861L5.85211 4.79145C6.145 5.08434 6.145 5.55921 5.85211 5.85211C5.55921 6.145 5.08434 6.145 4.79145 5.85211L4.39861 5.45927C4.10572 5.16638 4.10572 4.6915 4.39861 4.39861ZM19.6011 4.39887C19.894 4.69176 19.894 5.16664 19.6011 5.45953L19.2083 5.85237C18.9154 6.14526 18.4405 6.14526 18.1476 5.85237C17.8547 5.55947 17.8547 5.0846 18.1476 4.79171L18.5405 4.39887C18.8334 4.10598 19.3082 4.10598 19.6011 4.39887ZM1.25 12C1.25 11.5858 1.58579 11.25 2 11.25H3C3.41421 11.25 3.75 11.5858 3.75 12C3.75 12.4142 3.41421 12.75 3 12.75H2C1.58579 12.75 1.25 12.4142 1.25 12ZM20.25 12C20.25 11.5858 20.5858 11.25 21 11.25H22C22.4142 11.25 22.75 11.5858 22.75 12C22.75 12.4142 22.4142 12.75 22 12.75H21C20.5858 12.75 20.25 12.4142 20.25 12ZM18.1476 18.1476C18.4405 17.8547 18.9154 17.8547 19.2083 18.1476L19.6011 18.5405C19.894 18.8334 19.894 19.3082 19.6011 19.6011C19.3082 19.894 18.8334 19.894 18.5405 19.6011L18.1476 19.2083C17.8547 18.9154 17.8547 18.4405 18.1476 18.1476ZM5.85211 18.1479C6.145 18.4408 6.145 18.9157 5.85211 19.2086L5.45927 19.6014C5.16638 19.8943 4.6915 19.8943 4.39861 19.6014C4.10572 19.3085 4.10572 18.8336 4.39861 18.5407L4.79145 18.1479C5.08434 17.855 5.55921 17.855 5.85211 18.1479ZM12 20.25C12.4142 20.25 12.75 20.5858 12.75 21V22C12.75 22.4142 12.4142 22.75 12 22.75C11.5858 22.75 11.25 22.4142 11.25 22V21C11.25 20.5858 11.5858 20.25 12 20.25Z"
+                        fill="currentColor"
+                    />
+                </svg>
+                <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    class="hidden size-6 peer-checked:block"
+                >
+                    <path
+                        d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        fill="currentColor"
+                    />
+                </svg>
+            </label>
+        </footer>
     </body>
 </html>
