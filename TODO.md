@@ -13,7 +13,7 @@
     - [ ] Credit the sun and moon icons: Solar Icon Set by 480 Design, CC BY 4.0. Required by the licence: name 480 Design, link the licence and say they were recoloured
 - [ ] Blog format
 - [ ] Header and footer on the other pages: colophon and the blog layout
-- [ ] Kirby page: add a heading and a link home, so the page isn't empty for screen readers and keyboard users
+- [x] Kirby page: a hidden line for screen readers describing the tiled Kirby (a heading and a link home aren't required at AA)
 - [x] Link styles, the same everywhere
 - [x] List markers and text styles: bold, italics, muted dates
 - [x] Now page: add an `h1` and its own `<title>`, and make the nownownow URL a link
