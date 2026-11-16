@@ -56,9 +56,18 @@
 }
 
 @layer base {
+    /* text is written in normal case and shown lowercase, so screen readers,
+       reader views and copy and paste still get proper capitals. */
     html {
         color-scheme: light dark;
-        @apply bg-bg text-text leading-loose;
+        @apply bg-bg text-text leading-loose lowercase;
+    }
+    /* code keeps its case. */
+    code,
+    pre,
+    kbd,
+    samp {
+        @apply normal-case;
     }
     html[data-theme="light"] {
         color-scheme: light;

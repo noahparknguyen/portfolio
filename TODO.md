@@ -3,28 +3,30 @@
 - [x] Dark mode: script-driven toggle in the footer, with `assets/js/theme.js` to remember the choice
 - [ ] Dark mode: decide what visitors without JavaScript see (the toggle flips its icon but not the theme)
 - [x] Footer: the links run together below about 370px wide, because the list is capped at 50% of the footer
-- [ ] Now, colophon and blog: load `assets/js/theme.js` in the head so a saved theme carries across pages
+- [ ] Colophon and blog: load `assets/js/theme.js` in the head so a saved theme carries across pages
 - [ ] Colophon: credits and notes, styled later
     - [ ] Credit Derek Sivers for inspiration: the now page and the text styling
     - [ ] Credit Steph Ango for inspiration: Flexoki
     - [ ] Credit the font: iA Writer Duo by iA
     - [ ] Credit the Kirby GIF: Kirby 64 by Nintendo
+    - [ ] Credit the Madeline GIF on the now page: Celeste by Maddy Makes Games
     - [ ] Credit the sun and moon icons: Solar Icon Set by 480 Design, CC BY 4.0. Required by the licence: name 480 Design, link the licence and say they were recoloured
 - [ ] Blog format
-- [ ] Header and footer on the other pages: now, colophon and the blog layout
+- [ ] Header and footer on the other pages: colophon and the blog layout
+- [ ] Kirby page: add a heading and a link home, so the page isn't empty for screen readers and keyboard users
 - [x] Link styles, the same everywhere
 - [x] List markers and text styles: bold, italics, muted dates
 - [x] Now page: add an `h1` and its own `<title>`, and make the nownownow URL a link
-- [ ] Now and home pages, in this order:
-    - [ ] Now page headings: projects, learning, hobbies, a word for the TV, movies and games, personal goals
-    - [ ] Write the now page under the new headings
-    - [ ] Check that no fun fact overlaps the now page, including shared themes like roguelites
-    - [ ] Rewrite the tl;dr as a quick summary and bio of the whole site, not in page order
-    - [ ] Structure and semantics pass on both pages: the now page's `<title>`, and "updated" as a date line, not a heading
-    - [ ] Style pass on both pages, then commit
+- [x] Now and home pages, in this order:
+    - [x] Now page headings: building, learning, consuming, living
+    - [x] Write the now page under the new headings
+    - [x] Check that no fun fact overlaps the now page, including shared themes like roguelites
+    - [x] Rewrite the tl;dr as a quick summary and bio of the whole site, not in page order
+    - [x] Structure and semantics pass on both pages: the now page's `<title>`, and "updated" as a date line, not a heading
+    - [x] Style pass on both pages, then commit
 - [ ] Normal case: rewrite the pages' text in normal case and show it lowercase with CSS `text-transform`
-    - [ ] Add the CSS rule, with an exception for anything that must keep its case (like code)
-    - [ ] Convert the home, now, colophon and kirby pages, and the blog layout
+    - [x] Add the CSS rule, with an exception for anything that must keep its case (like code)
+    - [x] Convert the home, now, colophon and kirby pages, and the blog layout
     - [ ] Test with a screen reader in Chrome and Firefox, since Chrome may pass the lowercase text through anyway
 - [x] Colour palette: our own OKLCH colours in `@theme`, starting from the background and text
 - [x] Home page: rewrite projects, work and education as casual one-line descriptions instead of comma lists
