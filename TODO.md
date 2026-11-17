@@ -1,5 +1,7 @@
 # To do
 
+## Core
+
 - [x] Dark mode: script-driven toggle in the footer, with `assets/js/theme.js` to remember the choice
 - [x] Dark mode: decide what visitors without JavaScript see (they follow their system theme, and `noscript:hidden` hides the toggle)
 - [x] Footer: the links run together below about 370px wide, because the list is capped at 50% of the footer
@@ -25,13 +27,23 @@
     - [x] Rewrite the tl;dr as a quick summary and bio of the whole site, not in page order
     - [x] Structure and semantics pass on both pages: the now page's `<title>`, and "updated" as a date line, not a heading
     - [x] Style pass on both pages, then commit
-- [ ] Normal case: rewrite the pages' text in normal case and show it lowercase with CSS `text-transform`
+- [x] Normal case: rewrite the pages' text in normal case and show it lowercase with CSS `text-transform`
     - [x] Add the CSS rule, with an exception for anything that must keep its case (like code)
     - [x] Convert the home, now, colophon and kirby pages, and the blog layout
-    - [ ] Test with a screen reader in Edge (standing in for Chrome) and Firefox, since Chromium may pass the lowercase text through anyway
+    - [x] Test with a screen reader in Edge (standing in for Chrome) and Firefox, since Chromium may pass the lowercase text through anyway
 - [x] Colour palette: our own OKLCH colours in `@theme`, starting from the background and text
 - [x] Home page: rewrite projects, work and education as casual one-line descriptions instead of comma lists
 - [x] Home page: add a short section on interests and hobbies, the lasting ones (what's current stays on the now page)
 - [x] Home page: add a short section on my tech stack
 - [x] Home page: rewrite the tl;dr so it sums up the sections below it
 - [x] Home page: link the references I make, like schools and speedrun.com
+
+## Next phase
+
+Additions now that the site is live.
+
+- [ ] www: redirect `www.noahpn.dev` to `noahpn.dev` with a Single Redirect rule, plus a proxied `www` DNS record; decide whether the record lives in `wrangler.jsonc` or the dashboard
+- [ ] 404 page: write `src/404.html` from the home page shell and set `"not_found_handling": "404-page"` in `wrangler.jsonc`
+- [ ] Favicon: pick an icon and add it to every page and the blog layout, so tabs show it and `/favicon.ico` stops returning 404
+- [ ] Meta description: a `<meta name="description">` in my words on each page and in the blog layout, so search results show my summary instead of picking their own snippet
+- [ ] Now page: reword the walking item under Living, where "try" comes up three times in a row ("trying", "try", "try and")
