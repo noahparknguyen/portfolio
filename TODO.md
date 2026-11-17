@@ -3,7 +3,7 @@
 - [x] Dark mode: script-driven toggle in the footer, with `assets/js/theme.js` to remember the choice
 - [x] Dark mode: decide what visitors without JavaScript see (they follow their system theme, and `noscript:hidden` hides the toggle)
 - [x] Footer: the links run together below about 370px wide, because the list is capped at 50% of the footer
-- [ ] Blog layout: load `assets/js/theme.js` in the head so a saved theme carries across pages
+- [x] Blog layout: load `assets/js/theme.js` in the head so a saved theme carries across pages
 - [x] Colophon: credits and notes, styled later
     - [x] Credit Derek Sivers for inspiration: the now page and the text styling
     - [x] Credit Steph Ango for inspiration: Flexoki
@@ -12,8 +12,8 @@
     - [x] Credit the Madeline GIF on the now page: Celeste by Maddy Makes Games
     - [x] Credit the Isaac image on the colophon: The Binding of Isaac by Edmund McMillen
     - [x] Credit the sun and moon icons: Solar Icon Set by 480 Design, CC BY 4.0. Required by the licence: name 480 Design, link the licence and say they were recoloured
-- [ ] Blog format
-- [ ] Header and footer on the blog layout, with `noscript:hidden` on the toggle
+- [ ] Blog format: built; the list page hero's Hornet image still needs its alt text (in `scripts/build-blog.mjs`)
+- [x] Header and footer on the blog layout, with `noscript:hidden` on the toggle
 - [x] Kirby page: a hidden line for screen readers describing the tiled Kirby (a heading and a link home aren't required at AA)
 - [x] Link styles, the same everywhere
 - [x] List markers and text styles: bold, italics, muted dates
@@ -31,7 +31,6 @@
     - [ ] Test with a screen reader in Chrome and Firefox, since Chrome may pass the lowercase text through anyway
 - [x] Colour palette: our own OKLCH colours in `@theme`, starting from the background and text
 - [x] Home page: rewrite projects, work and education as casual one-line descriptions instead of comma lists
-- [ ] Home page: add a short section on where I've lived, keeping places general
 - [x] Home page: add a short section on interests and hobbies, the lasting ones (what's current stays on the now page)
 - [x] Home page: add a short section on my tech stack
 - [x] Home page: rewrite the tl;dr so it sums up the sections below it

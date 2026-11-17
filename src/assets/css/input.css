@@ -60,7 +60,7 @@
        reader views and copy and paste still get proper capitals. */
     html {
         color-scheme: light dark;
-        @apply bg-bg text-text leading-loose lowercase;
+        @apply bg-bg text-text leading-normal lowercase;
     }
     /* code keeps its case. */
     code,
@@ -85,10 +85,10 @@
         @apply space-y-10;
     }
     h1 {
-        @apply text-heading font-bold text-3xl mb-3;
+        @apply text-heading font-bold text-3xl mb-2;
     }
     h2 {
-        @apply text-heading font-bold text-xl mb-3;
+        @apply text-heading font-bold text-xl mb-5;
     }
     nav a {
         @apply text-text no-underline;
@@ -102,13 +102,36 @@
     main ul {
         @apply list-disc pl-5;
     }
+    main ol {
+        @apply list-decimal pl-5;
+    }
     main li {
         @apply pl-3;
     }
     main p + p {
-        @apply mt-3;
+        @apply mt-5;
     }
     main li + li {
-        @apply mt-3;
+        @apply mt-5;
+    }
+    /* a heading's subtitle lines stay close together, the same small gap as
+       between the heading and its first line. */
+    hgroup p + p {
+        @apply mt-2;
+    }
+    /* blog posts: the title and date sit apart from the body like a page's
+       hero, and headings inside a post break it into sections. */
+    article {
+        @apply space-y-5;
+    }
+    article header {
+        @apply mb-10;
+    }
+    article h2 {
+        @apply mt-10;
+    }
+    /* long code lines scroll instead of widening the page. */
+    pre {
+        @apply overflow-x-auto;
     }
 }
