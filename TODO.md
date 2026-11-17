@@ -12,7 +12,7 @@
     - [x] Credit the Madeline GIF on the now page: Celeste by Maddy Makes Games
     - [x] Credit the Isaac image on the colophon: The Binding of Isaac by Edmund McMillen
     - [x] Credit the sun and moon icons: Solar Icon Set by 480 Design, CC BY 4.0. Required by the licence: name 480 Design, link the licence and say they were recoloured
-- [ ] Blog format: built; the list page hero's Hornet image still needs its alt text (in `scripts/build-blog.mjs`)
+- [x] Blog format: the list page with its Hornet hero, and the post layout
 - [x] Header and footer on the blog layout, with `noscript:hidden` on the toggle
 - [x] Kirby page: a hidden line for screen readers describing the tiled Kirby (a heading and a link home aren't required at AA)
 - [x] Link styles, the same everywhere
@@ -28,11 +28,10 @@
 - [ ] Normal case: rewrite the pages' text in normal case and show it lowercase with CSS `text-transform`
     - [x] Add the CSS rule, with an exception for anything that must keep its case (like code)
     - [x] Convert the home, now, colophon and kirby pages, and the blog layout
-    - [ ] Test with a screen reader in Chrome and Firefox, since Chrome may pass the lowercase text through anyway
+    - [ ] Test with a screen reader in Edge (standing in for Chrome) and Firefox, since Chromium may pass the lowercase text through anyway
 - [x] Colour palette: our own OKLCH colours in `@theme`, starting from the background and text
 - [x] Home page: rewrite projects, work and education as casual one-line descriptions instead of comma lists
 - [x] Home page: add a short section on interests and hobbies, the lasting ones (what's current stays on the now page)
 - [x] Home page: add a short section on my tech stack
 - [x] Home page: rewrite the tl;dr so it sums up the sections below it
 - [x] Home page: link the references I make, like schools and speedrun.com
-- [ ] Home page: link the latest blog post and the full post list, once the blog format is done

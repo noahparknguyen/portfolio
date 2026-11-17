@@ -201,7 +201,9 @@ function build() {
         mkdirSync(`${blogDir}/${post.slug}`, { recursive: true });
         writeFileSync(
             `${blogDir}/${post.slug}/index.html`,
-            layout(post.title, article),
+            // The tab title is lowercase like the other pages, since CSS
+            // can't reach it.
+            layout(post.title.toLowerCase(), article),
         );
     }
 
