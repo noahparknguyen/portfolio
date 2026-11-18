@@ -49,7 +49,8 @@ Additions now that the site is live.
     - [x] Meta description: a `<meta name="description">` in my words on each page, so search results show my summary instead of picking their own snippet. Blog posts get theirs from a `description:` line in front matter, and the blog list gets its own in `build-blog.mjs`. The 404 page doesn't need one
     - [x] OG image: a 1200×630 image for link previews, with `og:title`, `og:type`, `og:url`, `og:image`, `og:image:alt` and `og:description` on each page and in the blog layout. These need full `https://` URLs, not `/` paths
     - [x] X previews: check whether `twitter:card` is needed for the large image, since X falls back to the `og:` tags for the rest (it is: `summary_large_image`, plus `twitter:image:alt`)
-- [ ] Now page: reword the walking item under Living, where "try" comes up three times in a row ("trying", "try", "try and")
+- [x] Now page: reword the walking item under Living, where "try" comes up three times in a row ("trying", "try", "try and")
+- [x] Repeated words: a pass over every page for words repeated close together. Fixed "play/played", "helps/helps", "think/thinking" and the two fun facts starting "I love"; the rest are deliberate
 - [ ] Colophon: a section on the build process, which its meta description already mentions
 - [ ] GitHub repo: make it reflect me and my style
     - [ ] README: I write it. Pick from GitHub's usual sections (what it is, why it exists, how to run it, who made it), and leave out contributing and support, since it's a solo project
