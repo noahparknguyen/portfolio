@@ -16,8 +16,8 @@ const blogDir = "src/blog";
 const listDescription =
     "a space to talk about the tech world, personal interests, and the occasional hot take.";
 
-// The OG image's alt text, the same on every page. The hand-written pages
-// have their own copy in their heads.
+// The OG image's alt text, the same on every page and used for both the OG
+// and X tags. The hand-written pages have their own copy in their heads.
 const ogImageAlt =
     '"npn" logo centered on a background split diagonally between dark mode on the top left and light mode on the bottom right.';
 
@@ -73,6 +73,8 @@ function layout({ title, description, path, type, content, current }) {
                 <meta property="og:image:width" content="1200" />
                 <meta property="og:image:height" content="630" />
                 <meta property="og:image:alt" content="${escapeHtml(ogImageAlt)}" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image:alt" content="${escapeHtml(ogImageAlt)}" />
                 <link href="/assets/css/output.css" rel="stylesheet" />
                 <link rel="icon" href="/favicon.ico" sizes="32x32" />
                 <link rel="icon" href="/icon.svg" type="image/svg+xml" />

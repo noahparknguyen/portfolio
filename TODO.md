@@ -47,7 +47,7 @@ Additions now that the site is live.
 - [ ] SEO: a few nice-to-haves, kept simple. Skipping meta keywords, a sitemap, canonical links and a web app manifest
     - [x] Favicon: pick an icon and add it to every page and the blog layout, so tabs show it and `/favicon.ico` stops returning 404. Three files: a 32×32 `favicon.ico` at the root, an `icon.svg`, and a 180×180 `apple-touch-icon.png`
     - [x] Meta description: a `<meta name="description">` in my words on each page, so search results show my summary instead of picking their own snippet. Blog posts get theirs from a `description:` line in front matter, and the blog list gets its own in `build-blog.mjs`. The 404 page doesn't need one
-    - [ ] OG image: a 1200×630 image for link previews, with `og:title`, `og:type`, `og:url`, `og:image`, `og:image:alt` and `og:description` on each page and in the blog layout. These need full `https://` URLs, not `/` paths
+    - [x] OG image: a 1200×630 image for link previews, with `og:title`, `og:type`, `og:url`, `og:image`, `og:image:alt` and `og:description` on each page and in the blog layout. These need full `https://` URLs, not `/` paths
     - [ ] X previews: check whether `twitter:card` is needed for the large image, since X falls back to the `og:` tags for the rest
 - [ ] Now page: reword the walking item under Living, where "try" comes up three times in a row ("trying", "try", "try and")
 - [ ] Colophon: a section on the build process, which its meta description already mentions
