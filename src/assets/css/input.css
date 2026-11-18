@@ -76,7 +76,7 @@
         color-scheme: dark;
     }
     body {
-        @apply mx-auto p-5 max-w-3xl space-y-10;
+        @apply mx-auto p-5 max-w-3xl gap-10 grid grid-rows-[auto_1fr_auto_auto] min-h-svh;
     }
     nav {
         @apply flex justify-around;
