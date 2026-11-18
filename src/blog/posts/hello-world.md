@@ -1,4 +1,7 @@
---- date: 2026-11-16 ---
+---
+date: 2026-11-16
+description: A quick intro post to set the scene for what's to come.
+---
 
 # Hello, World!
 

@@ -10,13 +10,21 @@ import { basename } from "node:path";
 
 const postsDir = "src/blog/posts";
 const blogDir = "src/blog";
+
+// The blog list has no Markdown file, so its search result summary lives
+// here. Lowercase, like the other pages' descriptions.
+const listDescription =
+    "a space to talk about the tech world, personal interests, and the occasional hot take.";
 const watching = process.argv.includes("--watch");
 
+// Also escapes double quotes, so the text is safe inside an attribute like
+// content="…" as well as between tags.
 function escapeHtml(text) {
     return text
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
 }
 
 function slugify(name) {
@@ -36,8 +44,9 @@ const postDate = (date) =>
 
 // Every page shares this shell, copied from the home page like the other
 // pages: the same head, nav and footer. Paths start with "/" so they work at
-// any folder depth. `current` is the nav link to mark as the page you're on.
-function layout(title, content, current) {
+// any folder depth. `description` is the page's search result summary, and
+// `current` is the nav link to mark as the page you're on.
+function layout(title, description, content, current) {
     const link = (href, label) =>
         `<a href="${href}"${href === current ? ' aria-current="page"' : ""}>${label}</a>`;
 
@@ -48,6 +57,7 @@ function layout(title, content, current) {
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width" />
                 <title>${title} – noah park-nguyen</title>
+                <meta name="description" content="${description}" />
                 <link href="/assets/css/output.css" rel="stylesheet" />
                 <link rel="icon" href="/favicon.ico" sizes="32x32" />
                 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -151,6 +161,13 @@ function readPost(path) {
     if (!date) {
         throw new Error(`${path}: needs "date: YYYY-MM-DD" in front matter`);
     }
+    // The description runs to the end of its own line.
+    const description = frontMatter.match(/^\s*description:\s*(.+?)\s*$/m)?.[1];
+    if (!description) {
+        throw new Error(
+            `${path}: needs "description: ..." on its own line in front matter`,
+        );
+    }
 
     // The first "# " heading is the title. It comes out of the body because
     // the page prints it above the date.
@@ -168,6 +185,7 @@ function readPost(path) {
         path,
         date,
         title: escapeHtml(title),
+        description: escapeHtml(description),
         // The URL comes from the file name, so editing a title never
         // breaks a link.
         slug: slugify(basename(path, ".md")),
@@ -204,9 +222,13 @@ function build() {
         mkdirSync(`${blogDir}/${post.slug}`, { recursive: true });
         writeFileSync(
             `${blogDir}/${post.slug}/index.html`,
-            // The tab title is lowercase like the other pages, since CSS
-            // can't reach it.
-            layout(post.title.toLowerCase(), article),
+            // The tab title and description are lowercase like the other
+            // pages, since CSS can't reach them.
+            layout(
+                post.title.toLowerCase(),
+                post.description.toLowerCase(),
+                article,
+            ),
         );
     }
 
@@ -241,7 +263,13 @@ function build() {
         </ul>
     `;
 
-    writeFileSync(`${blogDir}/index.html`, layout("blog", list, "/blog/"));
+    if (!listDescription) {
+        throw new Error("build-blog.mjs: the blog list needs a description");
+    }
+    writeFileSync(
+        `${blogDir}/index.html`,
+        layout("blog", escapeHtml(listDescription), list, "/blog/"),
+    );
     console.log(`Built ${posts.length} blog posts`);
 }
 
