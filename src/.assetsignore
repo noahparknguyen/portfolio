@@ -1,3 +1,4 @@
 .assetsignore
 blog/posts/*.md
 input.css
+og/

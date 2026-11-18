@@ -15,6 +15,12 @@ const blogDir = "src/blog";
 // here. Lowercase, like the other pages' descriptions.
 const listDescription =
     "a space to talk about the tech world, personal interests, and the occasional hot take.";
+
+// The OG image's alt text, the same on every page. The hand-written pages
+// have their own copy in their heads.
+const ogImageAlt =
+    '"npn" logo centered on a background split diagonally between dark mode on the top left and light mode on the bottom right.';
+
 const watching = process.argv.includes("--watch");
 
 // Also escapes double quotes, so the text is safe inside an attribute like
@@ -44,9 +50,10 @@ const postDate = (date) =>
 
 // Every page shares this shell, copied from the home page like the other
 // pages: the same head, nav and footer. Paths start with "/" so they work at
-// any folder depth. `description` is the page's search result summary, and
-// `current` is the nav link to mark as the page you're on.
-function layout(title, description, content, current) {
+// any folder depth. `description` is the page's search result summary,
+// `path` and `type` fill in the link preview (OG) tags, and `current` is the
+// nav link to mark as the page you're on.
+function layout({ title, description, path, type, content, current }) {
     const link = (href, label) =>
         `<a href="${href}"${href === current ? ' aria-current="page"' : ""}>${label}</a>`;
 
@@ -58,6 +65,14 @@ function layout(title, description, content, current) {
                 <meta name="viewport" content="width=device-width" />
                 <title>${title} – noah park-nguyen</title>
                 <meta name="description" content="${description}" />
+                <meta property="og:type" content="${type}" />
+                <meta property="og:url" content="https://noahpn.dev${path}" />
+                <meta property="og:title" content="${title} – noah park-nguyen" />
+                <meta property="og:description" content="${description}" />
+                <meta property="og:image" content="https://noahpn.dev/assets/images/og.png" />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+                <meta property="og:image:alt" content="${escapeHtml(ogImageAlt)}" />
                 <link href="/assets/css/output.css" rel="stylesheet" />
                 <link rel="icon" href="/favicon.ico" sizes="32x32" />
                 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -224,11 +239,13 @@ function build() {
             `${blogDir}/${post.slug}/index.html`,
             // The tab title and description are lowercase like the other
             // pages, since CSS can't reach them.
-            layout(
-                post.title.toLowerCase(),
-                post.description.toLowerCase(),
-                article,
-            ),
+            layout({
+                title: post.title.toLowerCase(),
+                description: post.description.toLowerCase(),
+                path: `/blog/${post.slug}/`,
+                type: "article",
+                content: article,
+            }),
         );
     }
 
@@ -268,7 +285,14 @@ function build() {
     }
     writeFileSync(
         `${blogDir}/index.html`,
-        layout("blog", escapeHtml(listDescription), list, "/blog/"),
+        layout({
+            title: "blog",
+            description: escapeHtml(listDescription),
+            path: "/blog/",
+            type: "website",
+            content: list,
+            current: "/blog/",
+        }),
     );
     console.log(`Built ${posts.length} blog posts`);
 }
