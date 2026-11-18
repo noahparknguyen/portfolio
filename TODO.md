@@ -43,7 +43,7 @@
 Additions now that the site is live.
 
 - [x] www: redirect `www.noahpn.dev` to `noahpn.dev` with a Single Redirect rule, plus a proxied `www` DNS record; decide whether the record lives in `wrangler.jsonc` or the dashboard (the dashboard, as `AAAA 100::`, since the rule can't live in the file)
-- [ ] 404 page: write `src/404.html` from the home page shell and set `"not_found_handling": "404-page"` in `wrangler.jsonc`
+- [x] 404 page: write `src/404.html` from the home page shell and set `"not_found_handling": "404-page"` in `wrangler.jsonc`
 - [ ] SEO: a few nice-to-haves, kept simple. Skipping meta keywords, a sitemap, canonical links and a web app manifest
     - [ ] Favicon: pick an icon and add it to every page and the blog layout, so tabs show it and `/favicon.ico` stops returning 404. Three files: a 32×32 `favicon.ico` at the root, an `icon.svg`, and a 180×180 `apple-touch-icon.png`
     - [ ] Meta description: a `<meta name="description">` in my words on each page and in the blog layout, so search results show my summary instead of picking their own snippet
