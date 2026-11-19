@@ -52,10 +52,10 @@ Additions now that the site is live.
 - [x] Now page: reword the walking item under Living, where "try" comes up three times in a row ("trying", "try", "try and")
 - [x] Repeated words: a pass over every page for words repeated close together. Fixed "play/played", "helps/helps", "think/thinking" and the two fun facts starting "I love"; the rest are deliberate
 - [ ] Colophon: a section on the build process, which its meta description already mentions
-- [ ] GitHub repo: make it reflect me and my style
-    - [ ] README: I write it, short and personal like the site. What it is with a link to the site, a plain note on reuse (there's no licence), and a pointer to the colophon for credits. No setup instructions
-    - [ ] About: a description, topics and the website link, and untick Releases, Packages and Deployments
-    - [ ] Settings, Features: turn off what a solo repo doesn't need: pull requests, issues, wikis and projects
+- [x] GitHub repo: make it reflect me and my style
+    - [x] README: I write it, short and personal like the site. What it is with a link to the site, a plain note on reuse (there's no licence), and a pointer to the colophon for credits. No setup instructions
+    - [x] About: a description, topics and the website link, and untick Releases, Packages and Deployments
+    - [x] Settings, Features: turn off what a solo repo doesn't need: pull requests, issues, wikis and projects
     - [x] Licence: decide whether to add one. Without one, nobody may reuse the code, though GitHub still lets people view and fork it. A licence would cover only my own work, not the font or the game images (decided: no licence, with a plain-words note in the README instead)
 - [ ] New pages: link each one from the page text, like the Kirby link, instead of adding it to the nav or footer
     - [ ] /uses: everything I use day to day, linked from the Toolkit section
