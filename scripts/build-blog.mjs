@@ -216,7 +216,7 @@ function build() {
 
         const article = `
             <article>
-                <header>
+                <header class="text-center sm:text-left">
                     <h1>${post.title}</h1>
                     <p>${postDate(post.date)}</p>
                 </header>
