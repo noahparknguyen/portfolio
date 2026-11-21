@@ -66,5 +66,5 @@ Additions now that the site is live.
 - [ ] Style redo: bold, italics, colours and fonts in place of most links, each used sparingly
     - [ ] Links: keep only the ones that give the reader something (credits, my profiles, my own pages)
     - [ ] Bold and italics: `<b>` for key words, `<strong>` for important things, `<cite>` for titles
-    - [ ] Word colours: my own palette colours for words with a theme (an orange for Ubuntu, a red for Canada), each a light and dark pair that passes 4.5:1
-    - [ ] Tone fonts: `<i>` with a class for each tone (fancy, sarcastic), self-hosted fonts credited in the colophon
+    - [ ] Word colours: my own palette colours for words with a theme (an orange for Ubuntu, a red for Canada), each a light and dark pair that passes 4.5:1. Red, orange, yellow, green, cyan and pink are in the palette (no blue or purple); still to pick which words get them, one style per word
+    - [x] Tone fonts: `<i>` with a class for each tone (fancy, sarcastic), self-hosted fonts credited in the colophon (decided: no font changes)

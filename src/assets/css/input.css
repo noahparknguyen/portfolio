@@ -52,7 +52,16 @@
     --color-text: light-dark(oklch(21% 0.008 95.3), oklch(96.5% 0.016 95.3));
     --color-muted: light-dark(oklch(48% 0.018 95.3), oklch(72% 0.016 95.3));
     --color-link: light-dark(oklch(46% 0.13 282), oklch(75% 0.13 282));
-    --color-heading: light-dark(oklch(40% 0.115 316), oklch(76% 0.115 316));
+    --color-heading: light-dark(oklch(56% 0.16 316), oklch(76% 0.115 316));
+    /* word colours, for words with a theme (like Canada or Ubuntu). each one
+       passes 4.5:1 in both modes and stays clearly apart from the others. no
+       blue (it reads as a link) and no purple (the heading colour covers it). */
+    --color-red: light-dark(oklch(50% 0.16 25), oklch(72% 0.115 25));
+    --color-orange: light-dark(oklch(56% 0.155 45), oklch(80% 0.12 45));
+    --color-yellow: light-dark(oklch(56% 0.114 85), oklch(82% 0.12 85));
+    --color-green: light-dark(oklch(54% 0.16 145), oklch(78% 0.115 145));
+    --color-cyan: light-dark(oklch(54.5% 0.093 205), oklch(78% 0.115 205));
+    --color-pink: light-dark(oklch(56% 0.16 350), oklch(78% 0.115 350));
 }
 
 @layer base {
