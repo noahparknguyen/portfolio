@@ -114,6 +114,12 @@
     a {
         @apply text-link underline;
     }
+    /* links that open a new tab get a small arrow. screen readers hear
+       "opens in new tab" instead of the arrow's name. the non-breaking space
+       keeps the arrow on the same line as the link text. */
+    a[target="_blank"]::after {
+        content: "\00a0↗" / " (opens in new tab)";
+    }
     small {
         @apply text-muted text-base;
     }
