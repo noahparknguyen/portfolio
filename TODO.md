@@ -58,7 +58,7 @@ Additions now that the site is live.
     - [x] Settings, Features: turn off what a solo repo doesn't need: pull requests, issues, wikis and projects
     - [x] Licence: decide whether to add one. Without one, nobody may reuse the code, though GitHub still lets people view and fork it. A licence would cover only my own work, not the font or the game images (decided: no licence, with a plain-words note in the README instead)
 - [ ] New pages: link each one from the page text, like the Kirby link, instead of adding it to the nav or footer
-    - [ ] /uses: everything I use day to day, linked from the Toolkit section
+    - [ ] /uses: everything I use day to day, linked from the Toolkit section. The hardware list still needs the monitor's model (sticker on the back)
     - [ ] /ai: how I use AI, linked from the Toolkit section
     - [ ] /style: my style guide, linked from the colophon's Flexoki line
     - [ ] Colophon: credit slashpages.net by Robb Knight, where the idea for these pages came from

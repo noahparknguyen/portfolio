@@ -90,6 +90,15 @@
     h2 {
         @apply text-heading font-bold text-xl mb-5;
     }
+    /* a group label inside a section: bold like a lead-in, spaced from its
+       list like an h2, and as far from the list above it as one list item is
+       from the next. */
+    h3 {
+        @apply font-bold mb-5;
+    }
+    ul + h3 {
+        @apply mt-5;
+    }
     nav a {
         @apply text-text no-underline;
     }
