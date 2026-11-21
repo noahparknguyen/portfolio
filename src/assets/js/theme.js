@@ -32,7 +32,6 @@ function applyTheme(theme) {
 // this file loads in the <head> without defer, so this runs before the page is drawn and a saved theme never flashes.
 applyTheme(getStoredTheme() ?? systemTheme());
 
-// the checkbox is in the footer, so wire it up once the page has loaded.
 document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.getElementById("theme-toggle");
     if (!toggle) return;
@@ -44,14 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
         applyTheme(next);
 
         if (next === systemTheme()) {
-            clearStoredTheme(); // matches system → stop overriding
+            clearStoredTheme();
         } else {
-            setStoredTheme(next); // diverges → remember it
+            setStoredTheme(next);
         }
     });
 });
 
-// keep following the os, but only while there's no override.
 mq.addEventListener("change", () => {
     if (getStoredTheme() === null) applyTheme(systemTheme());
 });

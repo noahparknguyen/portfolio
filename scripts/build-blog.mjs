@@ -11,8 +11,6 @@ import { basename } from "node:path";
 const postsDir = "src/blog/posts";
 const blogDir = "src/blog";
 
-// The blog list has no Markdown file, so its search result summary lives
-// here. Lowercase, like the other pages' descriptions.
 const listDescription =
     "a space to talk about the tech world, personal interests, and the occasional hot take.";
 
@@ -43,16 +41,9 @@ function slugify(name) {
     );
 }
 
-// A post's date, written the same way everywhere on the blog: muted and in
-// parentheses, like the dates on the other pages.
 const postDate = (date) =>
     `<small>(<time datetime="${date}">${date}</time>)</small>`;
 
-// Every page shares this shell, copied from the home page like the other
-// pages: the same head, nav and footer. Paths start with "/" so they work at
-// any folder depth. `description` is the page's search result summary,
-// `path` and `type` fill in the link preview (OG) tags, and `current` is the
-// nav link to mark as the page you're on.
 function layout({ title, description, path, type, content, current }) {
     const link = (href, label) =>
         `<a href="${href}"${href === current ? ' aria-current="page"' : ""}>${label}</a>`;
@@ -170,7 +161,6 @@ const footer = `
 function readPost(path) {
     const text = readFileSync(path, "utf-8").replace(/^[​‌‍‎‏﻿]/, "");
 
-    // Front matter is everything between the first two "---".
     const end = text.indexOf("---", 3);
     const frontMatter =
         text.startsWith("---") && end !== -1 ? text.slice(3, end) : "";
@@ -178,7 +168,6 @@ function readPost(path) {
     if (!date) {
         throw new Error(`${path}: needs "date: YYYY-MM-DD" in front matter`);
     }
-    // The description runs to the end of its own line.
     const description = frontMatter.match(/^\s*description:\s*(.+?)\s*$/m)?.[1];
     if (!description) {
         throw new Error(
@@ -225,7 +214,6 @@ function build() {
         }
         slugs.set(post.slug, post.path);
 
-        // A post: the title, its date underneath, then the body.
         const article = `
             <article>
                 <header>
@@ -251,14 +239,11 @@ function build() {
         );
     }
 
-    // One post as "(date) title", used for the list and the newest post.
     const line = (post) =>
         `${postDate(post.date)} <a href="/blog/${post.slug}/">${post.title}</a>`;
 
     const links = posts.map((post) => `<li>${line(post)}</li>`).join("\n");
 
-    // The list page: the same hero as the other pages, with the newest post
-    // as the subtitle, then one line per post.
     const latest = posts[0] ? `<p>${line(posts[0])}</p>` : "";
     const list = `
         <div

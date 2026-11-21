@@ -63,8 +63,8 @@ Additions now that the site is live.
     - [ ] /style: my style guide, linked from the colophon's Flexoki line
     - [ ] Colophon: credit slashpages.net by Robb Knight, where the idea for these pages came from
 - [x] External links: mark them so they stand apart from links to my own pages, and tell screen readers they open in a new tab (an ↗ after every new-tab link, read as "opens in new tab")
-- [ ] Style redo: bold, italics, colours and fonts in place of most links, each used sparingly
+- [x] Style redo: bold, italics, colours and fonts in place of most links, each used sparingly
     - [x] Links: keep only the ones that give the reader something (credits, my profiles, my own pages, plus DND, FINTRAC, Algonquin and my program, which readers may not know)
-    - [ ] Bold and italics: `<b>` for key words, `<strong>` for important things, `<cite>` for titles
-    - [ ] Word colours: my own palette colours for words with a theme (an orange for Ubuntu, a red for Canada), each a light and dark pair that passes 4.5:1. Red, orange, yellow, green, cyan and pink are in the palette (no blue or purple); still to pick which words get them, one style per word
+    - [x] Bold and italics: `<b>` for key words, `<strong>` for important things, `<cite>` for titles
+    - [x] Word colours: my own palette colours for words with a theme (an orange for Ubuntu, a red for Canada), each a light and dark pair that passes 4.5:1. Red, orange, yellow, green, blue and pink are in the palette (cyan is the link colour; purple is the heading colour); still to apply them to words with a common colour (colour can sit on top of bold, italics and links)
     - [x] Tone fonts: `<i>` with a class for each tone (fancy, sarcastic), self-hosted fonts credited in the colophon (decided: no font changes)
